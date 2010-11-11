@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{f41897af-b863-40cf-b6a3-958f5cec5ae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="GA">
+      <UniqueIdentifier>{0c5c629b-8171-4565-ad55-d0604fa59302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Protoss">
+      <UniqueIdentifier>{169b0e8a-51d7-4324-b373-5ddae9d1932c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Zerg">
+      <UniqueIdentifier>{6de7efcf-db8a-4a0c-8c72-4bcf2bde4416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{7510b8b5-f919-4066-b9e9-b80751c1c326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSimulation">
+      <UniqueIdentifier>{e705004a-9756-479f-8cc7-c1acfc2372fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{bea74804-3069-4fde-8423-4a1c736e1958}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="SCBuildOrderGUI.reg" />
+    <None Include="UserImages.bmp">
+      <Filter>GUI\Resource Files</Filter>
+    </None>
+    <None Include="res\SCBuildOrderGUI.rc2">
+      <Filter>GUI\Resource Files</Filter>
+    </None>
+    <None Include="res\SCBuildOrderGUIDoc.ico">
+      <Filter>GUI\Resource Files</Filter>
+    </None>
+    <None Include="res\SCBuildOrderGUI.ico">
+      <Filter>GUI\Resource Files</Filter>
+    </None>
+    <None Include="res\Toolbar.bmp">
+      <Filter>GUI\Resource Files</Filter>
+    </None>
+    <None Include="res\Toolbar256.bmp">
+      <Filter>GUI\Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ChildFrm.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SCBuildOrderGUIView.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SCBuildOrderGUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SCBuildOrderGUIDoc.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="FastString.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="FastRand.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Fitness.h">
+      <Filter>GameSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="GAConfiguration.h">
+      <Filter>GA</Filter>
+    </ClInclude>
+    <ClInclude Include="GAChromosome.h">
+      <Filter>GA</Filter>
+    </ClInclude>
+    <ClInclude Include="GAPopulation.h">
+      <Filter>GA</Filter>
+    </ClInclude>
+    <ClInclude Include="GAOperator.h">
+      <Filter>GA</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCalcs.h">
+      <Filter>GameSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="HashFunction.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Hashtable.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryPoolManager.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryPool.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtossState.h">
+      <Filter>Protoss</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtossCommand.h">
+      <Filter>Protoss</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtossEvent.h">
+      <Filter>Protoss</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ZergState.h">
+      <Filter>Zerg</Filter>
+    </ClInclude>
+    <ClInclude Include="ZergCommand.h">
+      <Filter>Zerg</Filter>
+    </ClInclude>
+    <ClInclude Include="ZergEvent.h">
+      <Filter>Zerg</Filter>
+    </ClInclude>
+    <ClInclude Include="Village.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Lock.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Alphabet.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SCBuildOrderGUIView.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildFrm.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SCBuildOrderGUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SCBuildOrderGUIDoc.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="FastRand.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="FastString.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Fitness.cpp">
+      <Filter>GameSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="GAChromosome.cpp">
+      <Filter>GA</Filter>
+    </ClCompile>
+    <ClCompile Include="GAConfiguration.cpp">
+      <Filter>GA</Filter>
+    </ClCompile>
+    <ClCompile Include="GAOperator.cpp">
+      <Filter>GA</Filter>
+    </ClCompile>
+    <ClCompile Include="GAPopulation.cpp">
+      <Filter>GA</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCalcs.cpp">
+      <Filter>GameSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="HashFunction.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Hashtable.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="LinkedList.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryPool.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryPoolManager.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtossCommand.cpp">
+      <Filter>Protoss</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtossState.cpp">
+      <Filter>Protoss</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ZergCommand.cpp">
+      <Filter>Zerg</Filter>
+    </ClCompile>
+    <ClCompile Include="ZergState.cpp">
+      <Filter>Zerg</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Alphabet.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SCBuildOrderGUI.rc">
+      <Filter>GUI\Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
