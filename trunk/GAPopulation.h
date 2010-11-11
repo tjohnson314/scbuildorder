@@ -1,0 +1,262 @@
+#pragma once
+#include "stdafx.h"
+#include "Vector.h"
+
+#include "GAConfiguration.h"
+#include "GAChromosome.h"
+
+template<typename TGene, typename TFitness>
+class CGAPopulation
+{
+public:
+	CGAPopulation(const CGAConfiguration<TGene, TFitness> &config, size_t maxPopulation);
+	~CGAPopulation();
+
+	void Initialise(size_t initialPopulation, size_t minSize, size_t maxSize);
+
+	bool AddChromosome(const CVector<TGene> &value);
+
+	const CGAConfiguration<TGene, TFitness> &config() const { return m_config; }
+	unsigned long long gameCount() const { return m_gameCount; }
+
+	const CVector<TGene> GetBestChromosome() const;
+	bool IsSatisfied() const { return m_config.SatisfiesTarget(GetBestChromosome()); }
+
+	void Sort() { Sort(m_population); }
+	bool Evolve();
+	void Clear() { ClearPopulation(m_population); memset(m_population, 0, m_maxPopulation * sizeof(CGAChromosome<TGene> *)); m_populationCount = 0; m_stagnationCount = 0; }
+
+	void Print(size_t maxCount = 0);
+
+	size_t StagnationCount() const { return m_stagnationCount; }
+	size_t PopulationCount() const { return m_populationCount; }
+	size_t MaxPopulation() const { return m_maxPopulation; }
+
+protected:
+	void Sort(CGAChromosome<TGene> **population);
+	void ClearPopulation(CGAChromosome<TGene> **population);
+
+	CMemoryPool m_populationMemPool;
+
+	const CGAConfiguration<TGene, TFitness> &m_config;
+
+	size_t m_maxPopulation;
+	size_t m_populationCount;
+	size_t m_stagnationCount;
+	unsigned long long m_gameCount;
+
+	CGAChromosome<TGene> **m_population;
+};
+
+template<typename TGene, typename TFitness>
+CGAPopulation<TGene, TFitness>::CGAPopulation(const CGAConfiguration<TGene, TFitness> &config, size_t maxPopulation)
+: m_config(config), m_maxPopulation(maxPopulation < 20 ? 20 : maxPopulation), m_populationMemPool(maxPopulation * sizeof(CGAChromosome<TGene> *)), m_stagnationCount(0), m_gameCount(0)
+{
+	m_populationCount = 0;
+	m_population = (CGAChromosome<TGene> **)m_populationMemPool.Alloc();
+	memset(m_population, 0, m_maxPopulation * sizeof(CGAChromosome<TGene> *));
+}
+
+template<typename TGene, typename TFitness>
+CGAPopulation<TGene, TFitness>::~CGAPopulation()
+{
+	ClearPopulation(m_population);
+	m_populationMemPool.Free(m_population);
+}
+
+template<typename TGene, typename TFitness>
+void CGAPopulation<TGene, TFitness>::Initialise(size_t initialPopulation, size_t minSize, size_t maxSize)
+{
+	minSize = min(minSize, maxSize);
+	for(size_t j=0; j < initialPopulation; j++)
+	{
+		CVector<TGene> junk;
+		size_t size = (((maxSize - minSize) * rand_sse()) / RAND_MAX) + minSize;
+		for(size_t k=0; k < size; k++)
+			junk.push_back(m_config.GetRandomGene());
+
+		AddChromosome(junk);
+	}
+
+	Sort(m_population);
+}
+
+template<typename TGene, typename TFitness>
+void CGAPopulation<TGene, TFitness>::ClearPopulation(CGAChromosome<TGene> **population)
+{
+	for(size_t i=0; i < m_maxPopulation; i++)
+		if(population[i])
+			delete population[i];
+}
+
+template<typename TGene, typename TFitness>
+bool CGAPopulation<TGene, TFitness>::AddChromosome(const CVector<TGene> &value)
+{
+	if(m_populationCount >= m_maxPopulation)
+		return false;
+
+	CGAChromosome<TGene> **ptrEmpty = m_population;
+	while(*ptrEmpty != 0)
+		ptrEmpty++;
+	*ptrEmpty = new CGAChromosome<TGene>(value);
+	(*ptrEmpty)->SetFitness(m_config.CalculateFitness(value));
+	m_populationCount++;
+
+	return true;
+}
+
+template<typename TGene, typename TFitness>
+bool CGAPopulation<TGene, TFitness>::Evolve()
+{
+	double currentBestFitness = m_population[0]->GetFitness();
+
+	CGAChromosome<TGene> **newPopulation = (CGAChromosome<TGene> **)m_populationMemPool.Alloc();
+	memset(newPopulation, 0, m_maxPopulation * sizeof(CGAChromosome<TGene> *));
+
+	size_t newPopulationCount = m_maxPopulation / 8; // Save room for elitism performed later
+
+	double totalFitness = 0;
+	for(size_t i=0; i < m_maxPopulation; i++)
+	{
+		if(m_population[i] != 0)
+			totalFitness += m_population[i]->GetFitness();
+	}
+
+	while(newPopulationCount < m_maxPopulation && newPopulationCount < m_populationCount * 2)
+	{
+		// Breeding
+		CGAChromosome<TGene> *parentA, *parentB;
+
+		double chosenFitness = (totalFitness * rand_sse()) / RAND_MAX;
+		double curFitness = 0;
+		for(size_t i=0; i < m_maxPopulation; i++)
+		{
+			if(m_population[i] != 0)
+			{
+				curFitness += m_population[i]->GetFitness();
+	
+				if(curFitness >= chosenFitness)
+				{
+					parentA = m_population[i];
+					break;
+				}
+			}
+		}
+
+		chosenFitness = (totalFitness * rand_sse()) / RAND_MAX;
+		curFitness = 0;
+		for(size_t i=0; i < m_maxPopulation; i++)
+		{
+			if(m_population[i] != 0)
+			{
+				curFitness += m_population[i]->GetFitness();
+	
+				if(curFitness >= chosenFitness)
+				{
+					parentB = m_population[i];
+					break;
+				}
+			}
+		}
+
+		double crossover = (double)rand_sse() / (double)RAND_MAX;
+		newPopulation[newPopulationCount++] = parentA->Breed(parentB, crossover);
+		if(newPopulationCount < m_maxPopulation)
+			newPopulation[newPopulationCount++] = parentB->Breed(parentA, crossover);
+	}
+
+	// Mutation
+	for(size_t i = m_maxPopulation/8; i < newPopulationCount; i++)
+	{
+		for(size_t j=0; j < m_config.GetOperatorCount(); j++)
+		{
+			m_config.GetOperator(j)->Execute(newPopulation[i]);
+		}
+	}
+
+	// Set Fitness
+	for(size_t i=m_maxPopulation/8; i < newPopulationCount; i++)
+	{
+		m_gameCount++;
+		newPopulation[i]->SetFitness(m_config.CalculateFitness(newPopulation[i]->GetValue()));
+	}
+
+	// Elitism
+	size_t tempIndex = 0;
+	for(size_t i=0; i < m_maxPopulation && tempIndex < m_maxPopulation/8; i++)
+	{
+		if(m_population[i])
+		{
+			newPopulation[tempIndex++] = m_population[i];
+			m_population[i] = 0;
+		}
+	}
+
+	// Sort
+	Sort(newPopulation);
+
+	// Remove duplicates
+	size_t curIndex = 0;
+	for(size_t i=0; i < newPopulationCount; i++)
+	{
+		while(!newPopulation[i] && i < newPopulationCount)
+			i++;
+
+		if(i >= newPopulationCount)
+			break;
+
+		while(i < newPopulationCount - 1 && newPopulation[i+1] && newPopulation[i]->GetValue() == newPopulation[i+1]->GetValue())
+		{
+			delete newPopulation[i];
+			newPopulation[i] = 0;
+			i++;
+		}
+
+		if(curIndex != i)
+		{
+			newPopulation[curIndex++] = newPopulation[i];
+			newPopulation[i] = 0;
+		}
+		else
+			curIndex++;
+	}
+
+	m_populationCount = curIndex;
+
+	ClearPopulation(m_population);
+	m_populationMemPool.Free(m_population);
+	m_population = newPopulation;
+
+	if(currentBestFitness >= m_population[0]->GetFitness())
+		m_stagnationCount++;
+	else
+		m_stagnationCount = 0;
+	
+	return true;
+}
+
+template<typename TGene, typename TFitness>
+void CGAPopulation<TGene, TFitness>::Sort(CGAChromosome<TGene> **population)
+{
+	qsort(population, m_maxPopulation, sizeof(CGAChromosome<TGene> *), CompareChromosome<TGene>);
+}
+
+template<typename TGene, typename TFitness>
+void CGAPopulation<TGene, TFitness>::Print(size_t maxCount /* = 0 */)
+{
+	cout << "Population count: " << m_populationCount << endl;
+	for(size_t i=0; i < m_maxPopulation && i < maxCount; i++)
+		if(m_population[i])
+		{
+			cout << "Chromosome " << i << ": ";
+			m_population[i]->Print();
+		}
+
+	cout << "";
+}
+
+template<typename TGene, typename TFitness>
+const CVector<TGene> CGAPopulation<TGene, TFitness>::GetBestChromosome() const
+{
+	return m_population[0]->GetValue();
+}
