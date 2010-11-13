@@ -3,9 +3,14 @@
 
 #pragma once
 
+#include <vector>
+
 #include "SCBuildOrderGUIDoc.h"
 #include "ProtossState.h"
 #include "ZergState.h"
+
+#include "ProtossStateDlg.h"
+#include "SettingsDlg.h"
 
 class CSCBuildOrderGUIView : public CFormView
 {
@@ -15,7 +20,7 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	enum { IDD = IDD_PROTOSS_FORMVIEW };
+	enum { IDD = IDD_DOCUMENT_FORMVIEW };
 	CSCBuildOrderGUIDoc* GetDocument() const;
 
 // Operations
@@ -50,8 +55,6 @@ public:
 	afx_msg void OnBnClickedButtonStart();
 
 protected:
-	CProtossState m_protossState;
-
 	CProtossEngine *m_protossEngine;
 	CZergEngine *m_zergEngine;
 
@@ -59,6 +62,18 @@ protected:
 	UINT m_updateTimer;
 	DWORD m_startTickCount;
 	double m_timeLimit;
+
+	CVector<CProtossStateDlg *> m_waypointDlgs;
+	CSettingsDlg *m_settingsDlg;
+
+	void ResizeControls();
+	void ActivateTabDialogs();
+
+public:
+	afx_msg void OnTcnSelchangeTabPages(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+
+	CFont m_font;
 };
 
 #ifndef _DEBUG  // debug version in SCBuildOrderGUIViewView.cpp

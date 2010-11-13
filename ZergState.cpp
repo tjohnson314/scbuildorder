@@ -194,7 +194,7 @@ void CZergState::operator-=(const CZergState &state)
 	m_broodlordCount -= state.m_broodlordCount;
 }
 
-double CZergState::value()
+double CZergState::value() const
 {
 	double value = 0;
 
@@ -678,11 +678,11 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 		m_creepTumourExpandAvailable++;
 		break;
 
-	case CZergEvent::eBuildingDroneBackToMinerals:
+	case CZergEvent::eDroneStartMiningMinerals:
 		m_dronesOnMinerals++;
 		RecalculateMineralIncomeRate();
 		break;
-	case CZergEvent::eBuildingDroneBackToGas:
+	case CZergEvent::eDroneStartMiningGas:
 		m_dronesOnGas++;
 		RecalculateGasIncomeRate();
 		break;
@@ -725,9 +725,8 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 		break;
 	case CZergEvent::eSpawnDrone:
 		m_droneCount++;
-		m_dronesOnMinerals++;
+		AddEvent(events, CZergEvent(CZergEvent::eDroneStartMiningMinerals, time + 2));
 		m_droneUnderConstruction--;
-		RecalculateMineralIncomeRate();
 		break;
 	case CZergEvent::eSpawnOverlord:
 		m_overlordCount++;
@@ -1307,13 +1306,13 @@ void CZergState::UseDroneForBuilding(double duration, double &time, CLinkedList<
 	// Simulate drone being pulled off the line for a period beforehand
 	if(m_dronesOnMinerals > 0)
 	{
-		AddEvent(events, CZergEvent(CZergEvent::eBuildingDroneBackToMinerals, time + duration));
+		AddEvent(events, CZergEvent(CZergEvent::eDroneStartMiningMinerals, time + duration));
 		m_dronesOnMinerals--;
 		RecalculateMineralIncomeRate();
 	}
 	else if(m_dronesOnGas > 0)
 	{
-		AddEvent(events, CZergEvent(CZergEvent::eBuildingDroneBackToGas, time + duration));
+		AddEvent(events, CZergEvent(CZergEvent::eDroneStartMiningGas, time + duration));
 		m_dronesOnGas--;
 		RecalculateGasIncomeRate();
 	}
