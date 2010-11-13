@@ -32,7 +32,7 @@ public:
 	bool PrepareToExecuteCommand(double &time, double timeLimit, EZergCommand command, CLinkedList<CZergEvent> *&events);
 	bool ExecuteCommand(double &time, double timeLimit, EZergCommand command, CLinkedList<CZergEvent> *&events);
 
-	double value();
+	double value() const;
 
 	void RecalculateSupply();
 	void RecalculateSupplyCap();

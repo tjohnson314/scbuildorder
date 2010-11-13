@@ -110,7 +110,8 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="FastRand.h" />
     <ClInclude Include="FastString.h" />
-    <ClInclude Include="Fitness.h" />
+    <ClInclude Include="FitnessCalc.h" />
+    <ClInclude Include="FitnessValue.h" />
     <ClInclude Include="GAChromosome.h" />
     <ClInclude Include="GAConfiguration.h" />
     <ClInclude Include="GameCalcs.h" />
@@ -126,10 +127,12 @@
     <ClInclude Include="ProtossCommand.h" />
     <ClInclude Include="ProtossEvent.h" />
     <ClInclude Include="ProtossState.h" />
+    <ClInclude Include="ProtossStateDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SCBuildOrderGUI.h" />
     <ClInclude Include="SCBuildOrderGUIDoc.h" />
     <ClInclude Include="SCBuildOrderGUIView.h" />
+    <ClInclude Include="SettingsDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vector.h" />
@@ -143,7 +146,7 @@
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="FastRand.cpp" />
     <ClCompile Include="FastString.cpp" />
-    <ClCompile Include="Fitness.cpp" />
+    <ClCompile Include="FitnessCalc.cpp" />
     <ClCompile Include="GAChromosome.cpp" />
     <ClCompile Include="GAConfiguration.cpp" />
     <ClCompile Include="GameCalcs.cpp" />
@@ -158,9 +161,11 @@
     <ClCompile Include="MemoryPoolManager.cpp" />
     <ClCompile Include="ProtossCommand.cpp" />
     <ClCompile Include="ProtossState.cpp" />
+    <ClCompile Include="ProtossStateDlg.cpp" />
     <ClCompile Include="SCBuildOrderGUI.cpp" />
     <ClCompile Include="SCBuildOrderGUIDoc.cpp" />
     <ClCompile Include="SCBuildOrderGUIView.cpp" />
+    <ClCompile Include="SettingsDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

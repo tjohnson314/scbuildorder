@@ -12,6 +12,9 @@
 #include "SCBuildOrderGUIDoc.h"
 #include "SCBuildOrderGUIView.h"
 
+#include "SettingsDlg.h"
+#include "ProtossStateDlg.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -27,6 +30,8 @@ BEGIN_MESSAGE_MAP(CSCBuildOrderGUIView, CFormView)
 	ON_WM_RBUTTONUP()
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON_STARTSTOP, &CSCBuildOrderGUIView::OnBnClickedButtonStart)
+	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_PAGES, &CSCBuildOrderGUIView::OnTcnSelchangeTabPages)
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -48,21 +53,6 @@ CSCBuildOrderGUIView::~CSCBuildOrderGUIView()
 void CSCBuildOrderGUIView::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
-	DDX_Text(pDX, IDC_EDIT_TIMELIMIT, m_timeLimit);
-	DDX_Text(pDX, IDC_EDIT_PROBECOUNT, m_protossState.m_probeCount);
-	DDX_Text(pDX, IDC_EDIT_ZEALOTCOUNT, m_protossState.m_zealotCount);
-	DDX_Text(pDX, IDC_EDIT_STALKERCOUNT, m_protossState.m_stalkerCount);
-	DDX_Text(pDX, IDC_EDIT_SENTRYCOUNT, m_protossState.m_sentryCount);
-	DDX_Text(pDX, IDC_EDIT_HIGHTEMPLARCOUNT, m_protossState.m_highTemplarCount);
-	DDX_Text(pDX, IDC_EDIT_DARKTEMPLARCOUNT, m_protossState.m_darkTemplarCount);
-	DDX_Text(pDX, IDC_EDIT_WARPPRISMCOUNT, m_protossState.m_warpPrismCount);
-	DDX_Text(pDX, IDC_EDIT_OBSERVERCOUNT, m_protossState.m_observerCount);
-	DDX_Text(pDX, IDC_EDIT_IMMORTALCOUNT, m_protossState.m_immortalCount);
-	DDX_Text(pDX, IDC_EDIT_COLOSSUSCOUNT, m_protossState.m_colossusCount);
-	DDX_Text(pDX, IDC_EDIT_PHOENIXCOUNT, m_protossState.m_phoenixCount);
-	DDX_Text(pDX, IDC_EDIT_VOIDRAYCOUNT, m_protossState.m_voidRayCount);
-	DDX_Text(pDX, IDC_EDIT_CARRIERCOUNT, m_protossState.m_carrierCount);
-	DDX_Text(pDX, IDC_EDIT_MOTHERSHIPCOUNT, m_protossState.m_mothershipCount);
 }
 
 BOOL CSCBuildOrderGUIView::PreCreateWindow(CREATESTRUCT& cs)
@@ -88,7 +78,61 @@ void CSCBuildOrderGUIView::OnDraw(CDC* /*pDC*/)
 void CSCBuildOrderGUIView::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
-	//UpdateData(FALSE);
+
+	for(size_t i=0; i < 5; i++)
+	{
+		if(i == 4)
+			((CTabCtrl *)GetDlgItem(IDC_TAB_PAGES))->InsertItem(i, L"Target");
+		else
+		{
+			CString tabName;
+			tabName.Format(L"Waypoint %d", i + 1);
+			((CTabCtrl *)GetDlgItem(IDC_TAB_PAGES))->InsertItem(i, tabName);
+		}
+
+		CProtossStateDlg *pDlg = new CProtossStateDlg();
+		pDlg->SetWaypointTargetTime((i+1) * 300);
+		pDlg->Create(IDD_DLG_PROTOSSSTATE, this);
+		m_waypointDlgs.push_back(pDlg);
+	}
+
+	((CTabCtrl *)GetDlgItem(IDC_TAB_PAGES))->InsertItem(5, L"Settings");
+	((CTabCtrl *)GetDlgItem(IDC_TAB_PAGES))->SetCurSel(4);
+	m_settingsDlg = new CSettingsDlg();
+	m_settingsDlg->Create(IDD_DLG_SETTINGS, this);
+
+	ActivateTabDialogs();
+
+	//ResizeOutput();
+
+	m_font.CreatePointFont(90, _T("Courier"));
+	GetDlgItem(IDC_EDIT_OUTPUT)->SetFont(&m_font);
+}
+
+void CSCBuildOrderGUIView::ResizeControls()
+{
+	if(!IsWindowVisible())
+		return;
+
+	CRect rectDlgClient, rectDlgWnd, rectWnd;
+	GetClientRect(rectDlgClient);
+	GetWindowRect(rectDlgWnd);
+
+	// Anchor Output to bottom and right
+	CWnd *pWnd = GetDlgItem(IDC_EDIT_OUTPUT);
+	pWnd->GetWindowRect(rectWnd);
+	if(rectDlgWnd.right > rectWnd.left && rectDlgWnd.bottom > rectWnd.top)
+		pWnd->SetWindowPos(NULL, 0, 0, rectDlgClient.right - rectDlgClient.left - (rectWnd.left - rectDlgWnd.left) - 6, rectDlgClient.bottom - rectDlgClient.top - (rectWnd.top - rectDlgWnd.top) - 6, SWP_NOMOVE|SWP_NOZORDER);
+
+	// Anchor tab control to bottom
+	pWnd = GetDlgItem(IDC_TAB_PAGES);
+	pWnd->GetWindowRect(rectWnd);
+	if(rectDlgWnd.right > rectWnd.left && rectDlgWnd.bottom > rectWnd.top)
+		pWnd->SetWindowPos(NULL, 0, 0, rectWnd.right - rectWnd.left, rectDlgClient.bottom - rectDlgClient.top - (rectWnd.top - rectDlgWnd.top) - 6, SWP_NOMOVE|SWP_NOZORDER);
+
+	ActivateTabDialogs();
+
+	GetParentFrame()->RecalcLayout();
 }
 
 void CSCBuildOrderGUIView::OnRButtonUp(UINT /* nFlags */, CPoint point)
@@ -103,7 +147,6 @@ void CSCBuildOrderGUIView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
 #endif
 }
-
 
 // CSCBuildOrderGUIView diagnostics
 
@@ -125,27 +168,42 @@ CSCBuildOrderGUIDoc* CSCBuildOrderGUIView::GetDocument() const // non-debug vers
 }
 #endif //_DEBUG
 
-
 // CSCBuildOrderGUIView message handlers
-
-
 
 void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 {
 	if(!m_bStarted)
 	{
-		m_bStarted = true;
-		GetDlgItem(IDC_BUTTON_STARTSTOP)->SetWindowTextW(L"Stop");
-
 		UpdateData(TRUE);
 
-		m_protossEngine = new CProtossEngine();
-		m_protossEngine->SetTarget(m_protossState, m_timeLimit);
+		m_protossEngine = new CProtossEngine(m_settingsDlg->GetTimeLimit());
+		bool waypointAdded = false;
+		for(size_t i=0; i < m_waypointDlgs.size(); i++)
+		{
+			if(m_waypointDlgs[i]->GetState().value() > 0)
+			{
+				waypointAdded = true;
+				m_protossEngine->AddWaypoint(m_waypointDlgs[i]->GetState(), m_waypointDlgs[i]->GetWaypointTargetTime());
+			}
+		}
+		if(!waypointAdded)
+		{
+			delete m_protossEngine;
+			m_protossEngine = 0;
+			MessageBox(L"No waypoints to be added.  Please enter target details.");
+			return;
+		}
+		m_protossEngine->InitConfiguration(m_settingsDlg->GetMutationRate());
+#ifndef _DEBUG
 		m_protossEngine->AddVillage(200, 100);
 		m_protossEngine->AddVillage(200, 100);
 		m_protossEngine->AddVillage(200, 100);
 		m_protossEngine->AddVillage(200, 100);
 		m_protossEngine->AddVillage(200, 100);
+#endif
+
+		m_bStarted = true;
+		GetDlgItem(IDC_BUTTON_STARTSTOP)->SetWindowTextW(L"Stop");
 
 		m_protossEngine->Start();
 		m_startTickCount = GetTickCount();
@@ -183,4 +241,57 @@ void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 		m_protossEngine->PrintBestGame(strText);
 		GetDlgItem(IDC_EDIT_OUTPUT)->SetWindowTextW(strText);
 	}
+}
+
+void CSCBuildOrderGUIView::ActivateTabDialogs()
+{
+	CTabCtrl *tabCtrl = (CTabCtrl *)GetDlgItem(IDC_TAB_PAGES);
+
+	int nSel = tabCtrl->GetCurSel();
+	CDialog *pCurSelDlg;
+	if(nSel < 5)
+		pCurSelDlg = m_waypointDlgs[nSel];
+	else
+		pCurSelDlg = m_settingsDlg;
+
+	if(pCurSelDlg->m_hWnd)
+		pCurSelDlg->ShowWindow(SW_HIDE);
+
+	CRect rectClient;
+	CRect rectWnd;
+
+	tabCtrl->GetClientRect(rectClient);
+	tabCtrl->AdjustRect(FALSE, rectClient);
+	tabCtrl->GetWindowRect(rectWnd);
+	tabCtrl->GetParent()->ScreenToClient(rectWnd);
+	rectClient.OffsetRect(rectWnd.left, rectWnd.top);
+	for(int nCount=0; nCount < 5; nCount++)
+	{
+		m_waypointDlgs[nCount]->SetWindowPos(&wndTop, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_HIDEWINDOW);
+	}
+	m_settingsDlg->SetWindowPos(&wndTop, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_HIDEWINDOW);
+
+	if(nSel < 5)
+		pCurSelDlg = m_waypointDlgs[nSel];
+	else
+		pCurSelDlg = m_settingsDlg;
+
+	pCurSelDlg->SetWindowPos(&wndTop, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_SHOWWINDOW);
+	pCurSelDlg->ShowWindow(SW_SHOW);
+}
+
+void CSCBuildOrderGUIView::OnTcnSelchangeTabPages(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	CTabCtrl *tabCtrl = (CTabCtrl *)GetDlgItem(IDC_TAB_PAGES);
+	ActivateTabDialogs();
+
+	*pResult = 0;
+}
+
+
+void CSCBuildOrderGUIView::OnSize(UINT nType, int cx, int cy)
+{
+	CFormView::OnSize(nType, cx, cy);
+
+	ResizeControls();
 }

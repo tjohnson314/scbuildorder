@@ -15,7 +15,7 @@
 #include "ZergEvent.h"
 #include "ZergState.h"
 
-#include "Fitness.h"
+#include "FitnessCalc.h"
 
 void PrintUsage()
 {

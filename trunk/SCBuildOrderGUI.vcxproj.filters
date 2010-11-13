@@ -78,9 +78,6 @@
     <ClInclude Include="FastRand.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="Fitness.h">
-      <Filter>GameSimulation</Filter>
-    </ClInclude>
     <ClInclude Include="GAConfiguration.h">
       <Filter>GA</Filter>
     </ClInclude>
@@ -144,6 +141,18 @@
     <ClInclude Include="Alphabet.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="SettingsDlg.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtossStateDlg.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FitnessCalc.h">
+      <Filter>GameSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="FitnessValue.h">
+      <Filter>GameSimulation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SCBuildOrderGUIView.cpp">
@@ -167,9 +176,6 @@
     </ClCompile>
     <ClCompile Include="FastString.cpp">
       <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Fitness.cpp">
-      <Filter>GameSimulation</Filter>
     </ClCompile>
     <ClCompile Include="GAChromosome.cpp">
       <Filter>GA</Filter>
@@ -219,6 +225,15 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Alphabet.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsDlg.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtossStateDlg.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FitnessCalc.cpp">
+      <Filter>GameSimulation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

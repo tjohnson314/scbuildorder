@@ -45,8 +45,8 @@ public:
 
 		, eExtractorTrickFinished
 
-		, eBuildingDroneBackToMinerals
-		, eBuildingDroneBackToGas
+		, eDroneStartMiningMinerals
+		, eDroneStartMiningGas
 
 		// Abilities
 

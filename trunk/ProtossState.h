@@ -9,6 +9,16 @@
 struct CProtossState
 {
 public:
+	class CResourceCost
+	{
+	public:
+		CResourceCost() : m_minerals(0), m_gas(0), m_nexusEnergy(0) {}
+
+		double m_minerals;
+		double m_gas;
+		double m_nexusEnergy;
+	};
+
 	CProtossState();
 	~CProtossState();
 
@@ -18,9 +28,10 @@ public:
 	bool HasBuildingStateRequirements(double time, EProtossCommand command) const;
 	bool HasBuildingRequirements(double time, EProtossCommand command) const;
 
-	static double MineralCost(EProtossCommand command);
-	static double GasCost(EProtossCommand command);
-	static double NexusEnergyCost(EProtossCommand command);
+	bool HasResources(const CResourceCost &cost) const;
+
+	static void GetCost(CResourceCost &cost, EProtossCommand command);
+	void SpendResources(const CResourceCost &cost);
 
 	void operator=(const CProtossState &state);
 	bool operator>=(const CProtossState &state) const;
@@ -28,11 +39,11 @@ public:
 	void intersection(const CProtossState &s1, const CProtossState &s2);
 	void operator-=(const CProtossState &state);
 
-	bool WaitForResources(double &time, double timeLimit, double mineralCost, double gasCost, double nexusEnergyCost, CLinkedList<CProtossEvent> *&events);
+	bool GetResourceWaitTime(const CResourceCost &cost, double &resourceWaitTime) const;
 	bool PrepareToExecuteCommand(double &time, double timeLimit, EProtossCommand command, CLinkedList<CProtossEvent> *&events);
-	bool ExecuteCommand(double &time, double timeLimit, EProtossCommand command, CLinkedList<CProtossEvent> *&events);
+	void ExecuteCommand(double &time, double timeLimit, EProtossCommand command, CLinkedList<CProtossEvent> *&events);
 
-	double value();
+	double value() const;
 
 	void RecalculateSupply();
 	void RecalculateSupplyCap();
@@ -47,6 +58,7 @@ public:
 	void AddEvent(CLinkedList<CProtossEvent> *&events, const CProtossEvent &event);
 
 	void PrintSummary(CString &output) const { output.AppendFormat(L"%4.0fM %4.0fG %3.0fE %3d/%3dS", m_minerals, m_gas, m_nexusEnergy[0], m_supply, m_supplyCap); }
+	void PrintDetails(CString &output) const;
 
 	// Resources
 	double m_minerals;
@@ -101,6 +113,7 @@ public:
 	size_t m_nexusChronoCount;
 	size_t m_gatewayChronoCount;
 	size_t m_warpgateChronoCount;
+	size_t m_forgeChronoCount;
 	size_t m_cyberneticsCoreChronoCount;
 	size_t m_twilightCouncilChronoCount;
 	size_t m_templarArchivesChronoCount;

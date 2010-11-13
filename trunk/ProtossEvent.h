@@ -37,8 +37,8 @@ public:
 		, eChronoStargateEnd
 		, eChronoFleetBeaconEnd
 
-		, eBuildingProbeBackToMinerals
-		, eBuildingProbeBackToGas
+		, eProbeStartMiningMinerals
+		, eProbeStartMiningGas
 
 		// Units
 		, eSpawnProbe

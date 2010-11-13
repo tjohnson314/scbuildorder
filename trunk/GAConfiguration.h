@@ -3,15 +3,15 @@
 #include "GAChromosome.h"
 #include "GAOperator.h"
 
-template<typename TGene, typename TFitness>
+template<typename TGene, typename TFitnessCalc, typename TFitness>
 class CGAConfiguration
 {
 public:
 	class CGAOperator
 	{
 	public:
-		CGAOperator(const CGAConfiguration<TGene, TFitness> &config) : m_config(config) {}
-		virtual bool Execute(CGAChromosome<TGene> *chromosome) const = 0;
+		CGAOperator(const CGAConfiguration<TGene, TFitnessCalc, TFitness> &config) : m_config(config) {}
+		virtual bool Execute(CGAChromosome<TGene, TFitness> *chromosome) const = 0;
 	protected:
 		const CGAConfiguration &m_config;
 	};
@@ -19,53 +19,53 @@ public:
 	class CGAOperatorInsert : public CGAOperator
 	{
 	public:
-		CGAOperatorInsert(const CGAConfiguration<TGene, TFitness> &config) : CGAOperator(config) {}
-		virtual bool Execute(CGAChromosome<TGene> *chromosome) const;
+		CGAOperatorInsert(const CGAConfiguration<TGene, TFitnessCalc, TFitness> &config) : CGAOperator(config) {}
+		virtual bool Execute(CGAChromosome<TGene, TFitness> *chromosome) const;
 	};
 
 	class CGAOperatorDuplicate : public CGAOperator
 	{
 	public:
-		CGAOperatorDuplicate(const CGAConfiguration<TGene, TFitness> &config) : CGAOperator(config) {}
-		virtual bool Execute(CGAChromosome<TGene> *chromosome) const;
+		CGAOperatorDuplicate(const CGAConfiguration<TGene, TFitnessCalc, TFitness> &config) : CGAOperator(config) {}
+		virtual bool Execute(CGAChromosome<TGene, TFitness> *chromosome) const;
 	};
 
 	class CGAOperatorDelete : public CGAOperator
 	{
 	public:
-		CGAOperatorDelete(const CGAConfiguration<TGene, TFitness> &config) : CGAOperator(config) {}
-		virtual bool Execute(CGAChromosome<TGene> *chromosome) const;
+		CGAOperatorDelete(const CGAConfiguration<TGene, TFitnessCalc, TFitness> &config) : CGAOperator(config) {}
+		virtual bool Execute(CGAChromosome<TGene, TFitness> *chromosome) const;
 	};
 
 	class CGAOperatorImmediateSwap : public CGAOperator
 	{
 	public:
-		CGAOperatorImmediateSwap(const CGAConfiguration<TGene, TFitness> &config) : CGAOperator(config) {}
-		virtual bool Execute(CGAChromosome<TGene> *chromosome) const;
+		CGAOperatorImmediateSwap(const CGAConfiguration<TGene, TFitnessCalc, TFitness> &config) : CGAOperator(config) {}
+		virtual bool Execute(CGAChromosome<TGene, TFitness> *chromosome) const;
 	};
 
 	class CGAOperatorRandomSwap : public CGAOperator
 	{
 	public:
-		CGAOperatorRandomSwap(const CGAConfiguration<TGene, TFitness> &config) : CGAOperator(config) {}
-		virtual bool Execute(CGAChromosome<TGene> *chromosome) const;
+		CGAOperatorRandomSwap(const CGAConfiguration<TGene, TFitnessCalc, TFitness> &config) : CGAOperator(config) {}
+		virtual bool Execute(CGAChromosome<TGene, TFitness> *chromosome) const;
 	};
 
 	class CGAOperatorMove : public CGAOperator
 	{
 	public:
-		CGAOperatorMove(const CGAConfiguration<TGene, TFitness> &config) : CGAOperator(config) {}
-		virtual bool Execute(CGAChromosome<TGene> *chromosome) const;
+		CGAOperatorMove(const CGAConfiguration<TGene, TFitnessCalc, TFitness> &config) : CGAOperator(config) {}
+		virtual bool Execute(CGAChromosome<TGene, TFitness> *chromosome) const;
 	};
 
 	class CGAOperatorMutate : public CGAOperator
 	{
 	public:
-		CGAOperatorMutate(const CGAConfiguration<TGene, TFitness> &config) : CGAOperator(config) {}
-		virtual bool Execute(CGAChromosome<TGene> *chromosome) const;
+		CGAOperatorMutate(const CGAConfiguration<TGene, TFitnessCalc, TFitness> &config) : CGAOperator(config) {}
+		virtual bool Execute(CGAChromosome<TGene, TFitness> *chromosome) const;
 	};
 
-	CGAConfiguration(const CVector<TGene> &alphabet, double mutationRate, const TFitness &fitness);
+	CGAConfiguration(const CVector<TGene> &alphabet, double mutationRate, const TFitnessCalc &fitness);
 
 	void AddOperator(CGAOperator *op) { m_operators.push_back(op); }
 
@@ -75,11 +75,11 @@ public:
 	size_t GetOperatorCount() const { return m_operators.size(); }
 	const CGAOperator *GetOperator(size_t index) const { return m_operators[index]; }
 
-	double CalculateFitness(const CVector<TGene> &value) const { return m_fitness.CalculateFitness(value); }
+	TFitness CalculateFitness(const CVector<TGene> &value) const { return m_fitness.CalculateFitness(value); }
 	bool SatisfiesTarget(const CVector<TGene> &value) const { return m_fitness.SatisfiesTarget(value); }
 
 protected:
-	TFitness m_fitness;
+	const TFitnessCalc &m_fitness;
 	CVector<TGene> m_alphabet;
 	short m_mutationCutOff;
 
@@ -88,15 +88,15 @@ protected:
 	mutable CMemoryPoolManager m_memoryManager;
 };
 
-template<typename TGene, typename TFitness>
-CGAConfiguration<TGene, TFitness>::CGAConfiguration(const CVector<TGene> &alphabet, double mutationRate, const TFitness &fitness)
+template<typename TGene, typename TFitnessCalc, typename TFitness>
+CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAConfiguration(const CVector<TGene> &alphabet, double mutationRate, const TFitnessCalc &fitness)
 : m_alphabet(alphabet), m_fitness(fitness)
 {
 	m_mutationCutOff = (short)(RAND_MAX * mutationRate);
 }
 
-template<typename TGene, typename TFitness>
-bool CGAConfiguration<TGene, TFitness>::CGAOperatorInsert::Execute(CGAChromosome<TGene> *chromosome) const
+template<typename TGene, typename TFitnessCalc, typename TFitness>
+bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorInsert::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
 	CVector<TGene> value(chromosome->GetValue());
 	bool hasMutated = false;
@@ -115,8 +115,8 @@ bool CGAConfiguration<TGene, TFitness>::CGAOperatorInsert::Execute(CGAChromosome
 	return true;
 }
 
-template<typename TGene, typename TFitness>
-bool CGAConfiguration<TGene, TFitness>::CGAOperatorDuplicate::Execute(CGAChromosome<TGene> *chromosome) const
+template<typename TGene, typename TFitnessCalc, typename TFitness>
+bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorDuplicate::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
 	CVector<TGene> value(chromosome->GetValue());
 	bool hasMutated = false;
@@ -135,8 +135,8 @@ bool CGAConfiguration<TGene, TFitness>::CGAOperatorDuplicate::Execute(CGAChromos
 	return true;
 }
 
-template<typename TGene, typename TFitness>
-bool CGAConfiguration<TGene, TFitness>::CGAOperatorDelete::Execute(CGAChromosome<TGene> *chromosome) const
+template<typename TGene, typename TFitnessCalc, typename TFitness>
+bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorDelete::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
 	CVector<TGene> value(chromosome->GetValue());
 	bool hasMutated = false;
@@ -155,8 +155,8 @@ bool CGAConfiguration<TGene, TFitness>::CGAOperatorDelete::Execute(CGAChromosome
 	return true;
 }
 
-template<typename TGene, typename TFitness>
-bool CGAConfiguration<TGene, TFitness>::CGAOperatorImmediateSwap::Execute(CGAChromosome<TGene> *chromosome) const
+template<typename TGene, typename TFitnessCalc, typename TFitness>
+bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorImmediateSwap::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
 	CVector<TGene> value(chromosome->GetValue());
 	bool hasMutated = false;
@@ -182,8 +182,8 @@ bool CGAConfiguration<TGene, TFitness>::CGAOperatorImmediateSwap::Execute(CGAChr
 	return true;
 }
 
-template<typename TGene, typename TFitness>
-bool CGAConfiguration<TGene, TFitness>::CGAOperatorRandomSwap::Execute(CGAChromosome<TGene> *chromosome) const
+template<typename TGene, typename TFitnessCalc, typename TFitness>
+bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorRandomSwap::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
 	CVector<TGene> value(chromosome->GetValue());
 	bool hasMutated = false;
@@ -209,8 +209,8 @@ bool CGAConfiguration<TGene, TFitness>::CGAOperatorRandomSwap::Execute(CGAChromo
 	return true;
 }
 
-template<typename TGene, typename TFitness>
-bool CGAConfiguration<TGene, TFitness>::CGAOperatorMove::Execute(CGAChromosome<TGene> *chromosome) const
+template<typename TGene, typename TFitnessCalc, typename TFitness>
+bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorMove::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
 	CVector<TGene> value(chromosome->GetValue());
 	bool hasMutated = false;
@@ -236,8 +236,8 @@ bool CGAConfiguration<TGene, TFitness>::CGAOperatorMove::Execute(CGAChromosome<T
 	return true;
 }
 
-template<typename TGene, typename TFitness>
-bool CGAConfiguration<TGene, TFitness>::CGAOperatorMutate::Execute(CGAChromosome<TGene> *chromosome) const
+template<typename TGene, typename TFitnessCalc, typename TFitness>
+bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorMutate::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
 	CVector<TGene> value(chromosome->GetValue());
 	bool hasMutated = false;

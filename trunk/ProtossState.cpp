@@ -11,7 +11,7 @@ CProtossState::CProtossState()
 , m_nexusCount(0), m_pylonCount(0), m_assimilatorCount(0), m_gatewayCount(0), m_warpgateCount(0), m_forgeCount(0), m_cyberneticsCoreCount(0), m_twilightCouncilCount(0), m_templarArchivesCount(0), m_darkShrineCount(0), m_roboticsFacilityCount(0), m_roboticsBayCount(0), m_stargateCount(0), m_fleetBeaconCount(0)
 , m_nexusUnderConstruction(0), m_assimilatorUnderConstruction(0), m_pylonUnderConstruction(0), m_gatewayUnderConstruction(0), m_warpgateUnderConstruction(0), m_forgeUnderConstruction(0), m_cyberneticsCoreUnderConstruction(0), m_twilightCouncilUnderConstruction(0), m_templarArchivesUnderConstruction(0), m_darkShrineUnderConstruction(0), m_roboticsFacilityUnderConstruction(0), m_roboticsBayUnderConstruction(0), m_stargateUnderConstruction(0), m_fleetBeaconUnderConstruction(0)
 , m_nexusInUse(0), m_gatewayInUse(0), m_warpgateOnCooldown(0), m_forgeInUse(0), m_cyberneticsCoreInUse(0), m_twilightCouncilInUse(0), m_templarArchivesInUse(0), m_darkShrineInUse(0), m_roboticsFacilityInUse(0), m_roboticsBayInUse(0), m_stargateInUse(0), m_fleetBeaconInUse(0)
-, m_nexusChronoCount(0), m_gatewayChronoCount(0), m_warpgateChronoCount(0), m_cyberneticsCoreChronoCount(0), m_twilightCouncilChronoCount(0), m_templarArchivesChronoCount(0), m_darkShrineChronoCount(0), m_roboticsFacilityChronoCount(0), m_roboticsBayChronoCount(0), m_stargateChronoCount(0), m_fleetBeaconChronoCount(0)
+, m_nexusChronoCount(0), m_gatewayChronoCount(0), m_warpgateChronoCount(0), m_forgeChronoCount(0), m_cyberneticsCoreChronoCount(0), m_twilightCouncilChronoCount(0), m_templarArchivesChronoCount(0), m_darkShrineChronoCount(0), m_roboticsFacilityChronoCount(0), m_roboticsBayChronoCount(0), m_stargateChronoCount(0), m_fleetBeaconChronoCount(0)
 , m_nexusChronoAvailable(0), m_gatewayChronoAvailable(0), m_warpgateChronoAvailable(0), m_cyberneticsCoreChronoAvailable(0), m_twilightCouncilChronoAvailable(0), m_templarArchivesChronoAvailable(0), m_darkShrineChronoAvailable(0), m_roboticsFacilityChronoAvailable(0), m_roboticsBayChronoAvailable(0), m_stargateChronoAvailable(0), m_fleetBeaconChronoAvailable(0)
 , m_probeCount(0), m_zealotCount(0), m_stalkerCount(0), m_sentryCount(0), m_highTemplarCount(0), m_darkTemplarCount(0), m_warpPrismCount(0), m_observerCount(0), m_immortalCount(0), m_colossusCount(0), m_phoenixCount(0), m_voidRayCount(0), m_carrierCount(0), m_mothershipCount(0)
 , m_probeUnderConstruction(0), m_zealotUnderConstruction(0), m_stalkerUnderConstruction(0), m_sentryUnderConstruction(0), m_highTemplarUnderConstruction(0), m_darkTemplarUnderConstruction(0), m_warpPrismUnderConstruction(0), m_observerUnderConstruction(0), m_immortalUnderConstruction(0), m_colossusUnderConstruction(0), m_phoenixUnderConstruction(0), m_voidRayUnderConstruction(0), m_carrierUnderConstruction(0), m_mothershipUnderConstruction(0)
@@ -201,7 +201,7 @@ void CProtossState::operator-=(const CProtossState &state)
 	m_mothershipCount -= state.m_mothershipCount;
 }
 
-double CProtossState::value()
+double CProtossState::value() const
 {
 	double value = 0;
 
@@ -213,8 +213,8 @@ double CProtossState::value()
 	value += m_nexusCount * 400;
 	value += m_assimilatorCount * 75;
 	value += m_pylonCount * 100;
-	value += m_gatewayCount * 150;
-	//value += m_warpgateCount * 150;
+	value += (m_gatewayCount - m_warpgateCount) * 150;
+	value += m_warpgateCount * 150;
 	value += m_forgeCount * 150;
 	value += m_cyberneticsCoreCount * 150;
 	value += m_twilightCouncilCount * 350;
@@ -246,112 +246,71 @@ double CProtossState::value()
 	return value;
 }
 
-bool CProtossState::WaitForResources(double &time, double timeLimit, double mineralCost, double gasCost, double nexusEnergyCost, CLinkedList<CProtossEvent> *&events)
+bool CProtossState::GetResourceWaitTime(const CResourceCost &cost, double &resourceWaitTime) const
 {
-	double mineralsRequired = mineralCost - m_minerals;
-	double gasRequired = gasCost - m_gas;
+	double mineralsRequired = cost.m_minerals - m_minerals;
+	double gasRequired = cost.m_gas - m_gas;
 	double maxNexusEnergy = 0;
 	for(size_t i=0; i < 4 && i < m_nexusCount; i++)
 		maxNexusEnergy = max(maxNexusEnergy, m_nexusEnergy[i]);
-	double nexusEnergyRequired = nexusEnergyCost - maxNexusEnergy;
+	double nexusEnergyRequired = cost.m_nexusEnergy - maxNexusEnergy;
 
-	while(mineralsRequired > 0 || gasRequired > 0 || nexusEnergyRequired > 0)
+	double mineralTimeRequired = 0, gasTimeRequired = 0, nexusTimeRequired = 0;
+	if(mineralsRequired > 0)
 	{
-		double mineralTimeRequired = 0, gasTimeRequired = 0, nexusTimeRequired = 0;
-		if(mineralsRequired > 0)
-		{
-			if(m_mineralIncomeRate <= 0)
-			{
-				if(events)
-					mineralTimeRequired = 99999;
-				else
-					return false; // Never going to get enough minerals
-			}
-			else
-				mineralTimeRequired = mineralsRequired / m_mineralIncomeRate;
-		}
-		if(gasRequired > 0)
-		{
-			if(m_gasIncomeRate <= 0)
-			{
-				if(events)
-					gasTimeRequired = 99999;
-				else
-					return false; // Never going to get enough gas
-			}
-			else
-				gasTimeRequired = gasRequired / m_gasIncomeRate;
-		}
+		if(m_mineralIncomeRate <= 0)
+			return false;
+		mineralTimeRequired = mineralsRequired / m_mineralIncomeRate;
+	}
+	if(gasRequired > 0)
+	{
+		if(m_gasIncomeRate <= 0)
+			return false;
+		gasTimeRequired = gasRequired / m_gasIncomeRate;
+	}
+	if(nexusEnergyRequired > 0)
+	{
+		if(m_nexusCount <= 0)
+			return false;
+
 		nexusTimeRequired = nexusEnergyRequired / 0.5625;
+	}
 
-		double timeRequired = max(max(mineralTimeRequired, gasTimeRequired), nexusTimeRequired);
+	resourceWaitTime = max(max(mineralTimeRequired, gasTimeRequired), nexusTimeRequired);
 
-		if(time + timeRequired > timeLimit && (!events || events->GetData().time() > timeLimit))
-			return false;
+	return true;
+}
 
-		if(events && events->GetData().time() < time + timeRequired)
-			ProcessEvent(time, events);
-		else
-			ProgressTime(time, timeRequired);
-
-		mineralsRequired = mineralCost - m_minerals;
-		gasRequired = gasCost - m_gas;
+bool CProtossState::HasResources(const CResourceCost &cost) const
+{
+	if(m_minerals < cost.m_minerals)
+		return false;
+	if(m_gas < cost.m_gas)
+		return false;
+	if(cost.m_nexusEnergy > 0)
+	{
+		double maxNexusEnergy = 0;
 		for(size_t i=0; i < 4 && i < m_nexusCount; i++)
-			maxNexusEnergy = max(maxNexusEnergy, m_nexusEnergy[i]);
-		nexusEnergyRequired = nexusEnergyCost - maxNexusEnergy;
-	}
-
-	return true;
-}
-
-bool CProtossState::PrepareToExecuteCommand(double &time, double timeLimit, EProtossCommand command, CLinkedList<CProtossEvent> *&events)
-{
-	double mineralCost = MineralCost(command), gasCost = GasCost(command), nexusEnergyCost = NexusEnergyCost(command);
-
-	if(!WaitForResources(time, timeLimit, mineralCost, gasCost, nexusEnergyCost, events))
-		return false;
-
-	if(!HasBuildingStateRequirements(time, command))
-	{
-		if(!events)
-			return false;
-
-		while(!HasBuildingStateRequirements(time, command) && events && events->GetData().time() < timeLimit)
 		{
-			ProcessEvent(time, events);
+			if(m_nexusEnergy[i] > maxNexusEnergy)
+			{
+				maxNexusEnergy = m_nexusEnergy[i];
+				if(maxNexusEnergy > cost.m_nexusEnergy)
+					break;
+			}
 		}
-
-		if(!HasBuildingStateRequirements(time, command))
+		if(maxNexusEnergy < cost.m_nexusEnergy)
 			return false;
 	}
 
 	return true;
 }
 
-bool CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossCommand command, CLinkedList<CProtossEvent> *&events)
+void CProtossState::SpendResources(const CResourceCost &cost)
 {
-	double mineralCost = MineralCost(command), gasCost = GasCost(command), nexusEnergyCost = NexusEnergyCost(command);
-
-	if(!WaitForResources(time, timeLimit, mineralCost, gasCost, nexusEnergyCost, events))
-		return false;
-
-	if(!HasBuildingStateRequirements(time, command))
-	{
-		if(!events)
-			return false;
-
-		while(!HasBuildingStateRequirements(time, command) && events && events->GetData().time() < timeLimit)
-		{
-			ProcessEvent(time, events);
-		}
-
-		if(!HasBuildingStateRequirements(time, command))
-			return false;
-	}
-
-	m_minerals -= mineralCost;
-	m_gas -= gasCost;
-	if(nexusEnergyCost > 0)
+	m_minerals -= cost.m_minerals;
+	m_gas -= cost.m_gas;
+	if(cost.m_nexusEnergy > 0)
 	{
 		size_t maxNexusEnergyIndex = 0;
 		double maxNexusEnergy = 0;
@@ -363,9 +322,12 @@ bool CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 				maxNexusEnergy = m_nexusEnergy[i];
 			}
 		}
-		m_nexusEnergy[maxNexusEnergyIndex] -= nexusEnergyCost;
+		m_nexusEnergy[maxNexusEnergyIndex] -= cost.m_nexusEnergy;
 	}
+}
 
+void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossCommand command, CLinkedList<CProtossEvent> *&events)
+{
 	switch(command)
 	{
 	case eProtossCommandBuildNexus:
@@ -381,7 +343,7 @@ bool CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 		RecalculateSupplyCapUnderConstruction();
 		break;
 	case eProtossCommandBuildAssimilator:
-		UseProbeForBuilding(5, time, events);
+		UseProbeForBuilding(4, time, events);
 		AddEvent(events, CProtossEvent(CProtossEvent::eSpawnAssimilator, time + 30));
 		m_assimilatorUnderConstruction++;
 		break;
@@ -686,7 +648,7 @@ bool CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 		m_nexusChronoCount++;
 
 		// Find last Build Probe event and make 20% faster
-		if(events)
+		if(events && m_nexusInUse > m_nexusChronoCount - 1)
 		{
 			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events;
 			if(curEntry->GetData().event() == CProtossEvent::eSpawnProbe
@@ -1008,8 +970,6 @@ bool CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 		RecalculateGasIncomeRate();
 		break;
 	}
-
-	return true;
 }
 
 void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&events)
@@ -1105,21 +1065,22 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 		m_warpgateOnCooldown--;
 		break;
 
-	case CProtossEvent::eBuildingProbeBackToMinerals:
+	case CProtossEvent::eProbeStartMiningMinerals:
 		m_probesOnMinerals++;
+		RecalculateMineralIncomeRate();
 		break;
-	case CProtossEvent::eBuildingProbeBackToGas:
+	case CProtossEvent::eProbeStartMiningGas:
 		m_probesOnGas++;
+		RecalculateGasIncomeRate();
 		break;
 
 	case CProtossEvent::eSpawnChronoProbe:
 		m_nexusChronoAvailable++;
 	case CProtossEvent::eSpawnProbe:
 		m_probeCount++;
-		m_probesOnMinerals++;
+		AddEvent(events, CProtossEvent(CProtossEvent::eProbeStartMiningMinerals, time + 2));
 		m_nexusInUse--;
 		m_probeUnderConstruction--;
-		RecalculateMineralIncomeRate();
 		break;
 	case CProtossEvent::eSpawnChronoZealot:
 		m_gatewayChronoAvailable++;
@@ -1485,13 +1446,23 @@ void CProtossState::AddRequirements()
 
 	if(m_cyberneticsCoreCount == 0
 		&& (m_roboticsFacilityCount > 0 || m_stargateCount > 0 || m_twilightCouncilCount > 0
-			|| m_researchWarpgateCompleted
-			|| m_stalkerCount > 0 || m_sentryCount > 0))
+			|| m_stalkerCount > 0 || m_sentryCount > 0
+			|| m_researchWarpgateCompleted))
 		m_cyberneticsCoreCount++;
 
 	if(m_gatewayCount == 0
 		&& (m_cyberneticsCoreCount > 0 || m_zealotCount > 0))
 		m_gatewayCount++;
+
+	if(m_assimilatorCount == 0
+		&& (m_twilightCouncilCount > 0 || m_roboticsFacilityCount > 0 || m_stargateCount > 0
+			|| m_stalkerCount > 0 || m_sentryCount > 0
+			|| m_researchWarpgateCompleted))
+		m_assimilatorCount++;
+
+	if(m_pylonCount == 0
+		&& (m_gatewayCount > 0))
+		m_pylonCount++;
 }
 
 bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command) const
@@ -1609,6 +1580,7 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 	case eProtossCommandBuildMothership:
 		return 0 < m_nexusCount + m_nexusUnderConstruction
 			&& 0 < m_fleetBeaconCount + m_fleetBeaconUnderConstruction
+			&& 0 == m_mothershipCount + m_mothershipUnderConstruction // Only allowed one
 			&& m_supply + 8 <= m_supplyCapUnderConstruction;
 
 	case eProtossCommandChronoNexus:
@@ -1619,6 +1591,9 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 	case eProtossCommandChronoWarpgate:
 		return 0 < m_nexusCount + m_nexusUnderConstruction
 			&& 0 < m_warpgateCount + m_warpgateUnderConstruction;
+	case eProtossCommandChronoForge:
+		return 0 < m_nexusCount + m_nexusUnderConstruction
+			&& 0 < m_forgeCount + m_forgeUnderConstruction;
 	case eProtossCommandChronoCyberneticsCore:
 		return 0 < m_nexusCount + m_nexusUnderConstruction
 			&& 0 < m_cyberneticsCoreCount + m_cyberneticsCoreUnderConstruction;
@@ -1792,6 +1767,9 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 	case eProtossCommandChronoWarpgate:
 		return 0 < m_nexusCount
 			&& m_warpgateChronoCount < m_warpgateCount;
+	case eProtossCommandChronoForge:
+		return 0 < m_nexusCount + m_nexusUnderConstruction
+			&& m_forgeChronoCount < m_forgeCount;
 	case eProtossCommandChronoCyberneticsCore:
 		return 0 < m_nexusCount
 			&& m_cyberneticsCoreChronoCount < m_cyberneticsCoreCount;
@@ -1834,126 +1812,116 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 	}
 }
 
-double CProtossState::MineralCost(EProtossCommand command)
+void CProtossState::GetCost(CResourceCost &cost, EProtossCommand command)
 {
 	switch(command)
 	{
 	case eProtossCommandBuildNexus:
-		return 400;
+		cost.m_minerals = 400;
+		break;
 	case eProtossCommandBuildPylon:
-		return 100;
+		cost.m_minerals = 100;
+		break;
 	case eProtossCommandBuildAssimilator:
-		return 75;
+		cost.m_minerals = 75;
+		break;
 	case eProtossCommandBuildGateway:
-		return 150;
+		cost.m_minerals = 150;
+		break;
 	case eProtossCommandBuildForge:
-		return 200;
+		cost.m_minerals = 200;
+		break;
 	case eProtossCommandBuildCyberneticsCore:
-		return 150;
+		cost.m_minerals = 150;
+		break;
 	case eProtossCommandBuildTwilightCouncil:
-		return 150;
+		cost.m_minerals = 150;
+		cost.m_gas = 100;
+		break;
 	case eProtossCommandBuildTemplarArchives:
-		return 150;
+		cost.m_minerals = 150;
+		cost.m_gas = 200;
+		break;
 	case eProtossCommandBuildDarkShrine:
-		return 150;
+		cost.m_minerals = 150;
+		cost.m_gas = 250;
+		break;
 	case eProtossCommandBuildRoboticsFacility:
-		return 200;
+		cost.m_minerals = 200;
+		cost.m_gas = 100;
+		break;
 	case eProtossCommandBuildRoboticsBay:
-		return 200;
+		cost.m_minerals = 200;
+		cost.m_gas = 200;
+		break;
 	case eProtossCommandBuildStargate:
-		return 150;
+		cost.m_minerals = 150;
+		cost.m_gas = 150;
+		break;
 	case eProtossCommandBuildFleetBeacon:
-		return 300;
+		cost.m_minerals = 300;
+		cost.m_gas = 200;
+		break;
 
 	case eProtossCommandBuildProbe:
-		return 50;
+		cost.m_minerals = 50;
+		break;
 	case eProtossCommandBuildZealot:
-		return 100;
+		cost.m_minerals = 100;
+		break;
 	case eProtossCommandBuildStalker:
-		return 125;
+		cost.m_minerals = 125;
+		cost.m_gas = 50;
+		break;
 	case eProtossCommandBuildSentry:
-		return 50;
+		cost.m_minerals = 50;
+		cost.m_gas = 100;
+		break;
 	case eProtossCommandBuildHighTemplar:
-		return 50;
+		cost.m_minerals = 50;
+		cost.m_gas = 150;
+		break;
 	case eProtossCommandBuildDarkTemplar:
-		return 50;
+		cost.m_minerals = 50;
+		cost.m_gas = 150;
+		break;
 	case eProtossCommandBuildWarpPrism:
-		return 200;
+		cost.m_minerals = 200;
+		break;
 	case eProtossCommandBuildObserver:
-		return 50;
+		cost.m_minerals = 50;
+		cost.m_gas = 100;
+		break;
 	case eProtossCommandBuildImmortal:
-		return 250;
+		cost.m_minerals = 250;
+		cost.m_gas = 100;
+		break;
 	case eProtossCommandBuildColossus:
-		return 300;
+		cost.m_minerals = 300;
+		cost.m_gas = 200;
+		break;
 	case eProtossCommandBuildPhoenix:
-		return 150;
+		cost.m_minerals = 150;
+		cost.m_gas = 100;
+		break;
 	case eProtossCommandBuildVoidRay:
-		return 250;
+		cost.m_minerals = 250;
+		cost.m_gas = 150;
+		break;
 	case eProtossCommandBuildCarrier:
-		return 350;
+		cost.m_minerals = 350;
+		cost.m_gas = 250;
+		break;
 	case eProtossCommandBuildMothership:
-		return 400;
+		cost.m_minerals = 400;
+		cost.m_gas = 400;
+		break;
 
 	case eProtossCommandResearchWarpgate:
-		return 50;
-	}
+		cost.m_minerals = 50;
+		cost.m_gas = 50;
+		break;
 
-	return 0;
-}
-
-double CProtossState::GasCost(EProtossCommand command)
-{
-	switch(command)
-	{
-	case eProtossCommandBuildTwilightCouncil:
-		return 100;
-	case eProtossCommandBuildTemplarArchives:
-		return 200;
-	case eProtossCommandBuildDarkShrine:
-		return 250;
-	case eProtossCommandBuildRoboticsFacility:
-		return 100;
-	case eProtossCommandBuildRoboticsBay:
-		return 200;
-	case eProtossCommandBuildStargate:
-		return 150;
-	case eProtossCommandBuildFleetBeacon:
-		return 200;
-
-	case eProtossCommandBuildStalker:
-		return 50;
-	case eProtossCommandBuildSentry:
-		return 100;
-	case eProtossCommandBuildHighTemplar:
-		return 150;
-	case eProtossCommandBuildDarkTemplar:
-		return 150;
-	case eProtossCommandBuildObserver:
-		return 100;
-	case eProtossCommandBuildImmortal:
-		return 100;
-	case eProtossCommandBuildColossus:
-		return 200;
-	case eProtossCommandBuildPhoenix:
-		return 100;
-	case eProtossCommandBuildVoidRay:
-		return 150;
-	case eProtossCommandBuildCarrier:
-		return 250;
-	case eProtossCommandBuildMothership:
-		return 400;
-
-	case eProtossCommandResearchWarpgate:
-		return 50;
-	}
-
-	return 0;
-}
-
-double CProtossState::NexusEnergyCost(EProtossCommand command)
-{
-	switch(command)
-	{
 	case eProtossCommandChronoNexus:
 	case eProtossCommandChronoGateway:
 	case eProtossCommandChronoWarpgate:
@@ -1966,10 +1934,9 @@ double CProtossState::NexusEnergyCost(EProtossCommand command)
 	case eProtossCommandChronoRoboticsBay:
 	case eProtossCommandChronoStargate:
 	case eProtossCommandChronoFleetBeacon:
-		return 25;
+		cost.m_nexusEnergy = 25;
+		break;
 	}
-
-	return 0;
 }
 
 void CProtossState::RecalculateSupply()
@@ -2025,13 +1992,13 @@ void CProtossState::UseProbeForBuilding(double duration, double &time, CLinkedLi
 {
 	if(m_probesOnMinerals > 0)
 	{
-		AddEvent(events, CProtossEvent(CProtossEvent::eBuildingProbeBackToMinerals, time + duration));
+		AddEvent(events, CProtossEvent(CProtossEvent::eProbeStartMiningMinerals, time + duration));
 		m_probesOnMinerals--;
 		RecalculateMineralIncomeRate();
 	}
 	else if(m_probesOnGas > 0)
 	{
-		AddEvent(events, CProtossEvent(CProtossEvent::eBuildingProbeBackToGas, time + duration));
+		AddEvent(events, CProtossEvent(CProtossEvent::eProbeStartMiningGas, time + duration));
 		m_probesOnGas--;
 		RecalculateGasIncomeRate();
 	}
@@ -2044,3 +2011,48 @@ void CProtossState::AddEvent(CLinkedList<CProtossEvent> *&events, const CProtoss
 	else
 		events->InsertOrdered<Less<CProtossEvent>>(event);
 }
+
+void CProtossState::PrintDetails(CString &output) const
+{
+	PrintSummary(output);
+
+	output.Append(L"\r\nBuildings: ");
+
+	if(0 < m_nexusCount)			output.AppendFormat(L" %u Nexus", m_nexusCount);
+	if(0 < m_assimilatorCount)		output.AppendFormat(L" %u Assimilator", m_assimilatorCount);
+	if(0 < m_pylonCount)			output.AppendFormat(L" %u Pylon", m_pylonCount);
+	if(0 < m_gatewayCount)			output.AppendFormat(L" %u Gateway", m_gatewayCount - m_warpgateCount);
+	if(0 < m_warpgateCount)			output.AppendFormat(L" %u Warpgate", m_warpgateCount);
+	if(0 < m_cyberneticsCoreCount)	output.AppendFormat(L" %u Cybernetics Core", m_cyberneticsCoreCount);
+	if(0 < m_twilightCouncilCount)	output.AppendFormat(L" %u Twilight Council", m_twilightCouncilCount);
+	if(0 < m_templarArchivesCount)	output.AppendFormat(L" %u Templar Archives", m_templarArchivesCount);
+	if(0 < m_darkShrineCount)		output.AppendFormat(L" %u Dark Shrine", m_darkShrineCount);
+	if(0 < m_roboticsFacilityCount)	output.AppendFormat(L" %u Robotics Facility", m_roboticsFacilityCount);
+	if(0 < m_roboticsBayCount)		output.AppendFormat(L" %u Robotics Bay", m_roboticsBayCount);
+	if(0 < m_stargateCount)			output.AppendFormat(L" %u Stargate", m_stargateCount);
+	if(0 < m_fleetBeaconCount)		output.AppendFormat(L" %u Fleet Beacon", m_fleetBeaconCount);
+
+	output.Append(L"\r\nUnits:     ");
+
+	if(0 < m_probeCount)			output.AppendFormat(L" %u Probe", m_probeCount);
+	if(0 < m_zealotCount)			output.AppendFormat(L" %u Zealot", m_zealotCount);
+	if(0 < m_stalkerCount)			output.AppendFormat(L" %u Stalker", m_stalkerCount);
+	if(0 < m_sentryCount)			output.AppendFormat(L" %u Sentry", m_sentryCount);
+	if(0 < m_highTemplarCount)		output.AppendFormat(L" %u High Templar", m_highTemplarCount);
+	if(0 < m_darkTemplarCount)		output.AppendFormat(L" %u Dark Templar", m_darkTemplarCount);
+	if(0 < m_warpPrismCount)		output.AppendFormat(L" %u Warp Prism", m_warpPrismCount);
+	if(0 < m_observerCount)			output.AppendFormat(L" %u Observer", m_observerCount);
+	if(0 < m_immortalCount)			output.AppendFormat(L" %u Immortal", m_immortalCount);
+	if(0 < m_colossusCount)			output.AppendFormat(L" %u Colossus", m_colossusCount);
+	if(0 < m_phoenixCount)			output.AppendFormat(L" %u Phoenix", m_phoenixCount);
+	if(0 < m_voidRayCount)			output.AppendFormat(L" %u Void Ray", m_voidRayCount);
+	if(0 < m_carrierCount)			output.AppendFormat(L" %u Carrier", m_carrierCount);
+	if(0 < m_mothershipCount)		output.AppendFormat(L" %u Mothership", m_mothershipCount);
+
+	output.Append(L"\r\nUpgrades:  ");
+
+	if(m_researchWarpgateCompleted)	output.Append(L" Warpgate");
+
+	output.Append(L"\r\n");
+}
+

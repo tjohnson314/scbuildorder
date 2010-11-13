@@ -78,7 +78,8 @@ double CGameCalcs::CalculateGasIncomeRate(size_t baseCount, size_t geyserBuildin
 	if (geyserBuildingCount == 0)
 		return 0;
 
-	geyserBuildingCount = mymin(geyserBuildingCount, 2 * mymin(baseCount, (size_t)4));
+	baseCount = mymin(baseCount, (size_t)4);
+	geyserBuildingCount = mymin(geyserBuildingCount, 2 * baseCount);
 	size_t workers = workerCount;
 	size_t geysers[8] = {0};
 
