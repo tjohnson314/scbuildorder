@@ -206,11 +206,11 @@ CFitnessValue CFitnessCalc<TState, TCommand, TEvent>::CalculateFitness(const CVe
 		}
 	}
 
-	if(bSatisfied && !bRanOutOfTime)
+	if(bSatisfied && !bRanOutOfTime && time > 0)
 	{
 		TState extra(state);
 		extra -= intersection;
-		fitness.m_extraValue = extra.value() / m_timeLimit;
+		fitness.m_extraValue = extra.value() / (time * time);
 	}
 
 	while(events)

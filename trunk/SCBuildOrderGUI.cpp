@@ -156,6 +156,8 @@ int CSCBuildOrderGUIApp::ExitInstance()
 	//TODO: handle additional resources you may have added
 	AfxOleTerm(FALSE);
 
+	_CrtDumpMemoryLeaks();
+
 	return CWinAppEx::ExitInstance();
 }
 

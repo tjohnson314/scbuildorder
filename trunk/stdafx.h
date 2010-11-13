@@ -49,6 +49,9 @@ const T &mymin(const T &a, const T &b) { return (a < b) ? a : b; }
 #include "MemoryPoolManager.h"
 #include "Vector.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
 
 #ifdef _UNICODE
