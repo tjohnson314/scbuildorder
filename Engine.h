@@ -5,6 +5,7 @@
 #include "GAConfiguration.h"
 #include "GAPopulation.h"
 #include "Vector.h"
+#include "ThreadPool.h"
 
 template<typename TState, typename TCommand, typename TEvent>
 class CSimulatorEngine
@@ -20,7 +21,8 @@ public:
 	void Start();
 	void Stop();
 
-	static DWORD WINAPI Execute(LPVOID input) { ((CSimulatorEngine<TState, TCommand, TEvent> *)input)->Execute(); return 0; }
+	static void Execute(void *input) { ((CSimulatorEngine<TState, TCommand, TEvent> *)input)->Execute(); }
+	//static DWORD WINAPI Execute(LPVOID input) { ((CSimulatorEngine<TState, TCommand, TEvent> *)input)->Execute(); return 0; }
 	void Execute();
 
 	size_t Evolution() const { return m_evolution; }
@@ -97,6 +99,9 @@ void CSimulatorEngine<TState, TCommand, TEvent>::Start()
 	if(m_bRunning)
 		return;
 
+	m_threadHandle = CThreadPool::Get()->StartThread(CSimulatorEngine<TState, TCommand, TEvent>::Execute, this);
+
+	/*
 	m_threadHandle = CreateThread( 
 			NULL,				// default security attributes
 			0,					// use default stack size  
@@ -106,6 +111,7 @@ void CSimulatorEngine<TState, TCommand, TEvent>::Start()
 			&m_threadId);		// returns the thread identifier 
 
 	SetThreadPriority(m_threadHandle, THREAD_PRIORITY_BELOW_NORMAL);
+	*/
 }
 
 template<typename TState, typename TCommand, typename TEvent>

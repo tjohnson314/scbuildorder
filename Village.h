@@ -22,7 +22,8 @@ public:
 
 	size_t getStagnationLimit() const { return m_stagnationLimit; }
 
-	static DWORD WINAPI Execute(LPVOID input) { ((CVillage<TState, TCommand, TEvent> *)input)->Execute(); return 0; }
+	static void Execute(void *input) { ((CVillage<TState, TCommand, TEvent> *)input)->Execute(); }
+	//static DWORD WINAPI Execute(LPVOID input) { ((CVillage<TState, TCommand, TEvent> *)input)->Execute(); return 0; }
 	void Execute();
 	void Run(); // Only call from static member above
 
@@ -60,6 +61,9 @@ void CVillage<TState, TCommand, TEvent>::Start()
 	if(m_bRunning)
 		return;
 
+	m_threadHandle = CThreadPool::Get()->StartThread(CVillage<TState, TCommand, TEvent>::Execute, this);
+
+	/*
 	m_threadHandle = CreateThread( 
 			NULL,				// default security attributes
 			0,					// use default stack size  
@@ -69,6 +73,7 @@ void CVillage<TState, TCommand, TEvent>::Start()
 			&m_threadId);		// returns the thread identifier 
 
 	SetThreadPriority(m_threadHandle, THREAD_PRIORITY_BELOW_NORMAL);
+	*/
 }
 
 template<typename TState, typename TCommand, typename TEvent>

@@ -28,6 +28,7 @@ public:
 	const T *data() const { return m_data; }
 
 	bool operator==(const CVector<T> &vector) const;
+	bool operator!=(const CVector<T> &vector) const { return !(*this == vector); }
 	bool operator <(const CVector<T> &vector) const;
 
 	void operator =(const CVector<T> &vector);

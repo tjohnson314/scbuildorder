@@ -13,7 +13,7 @@ public:
 
 	~CLock()
 	{
-		while(!ReleaseSemaphore(m_ghSemaphore, 1, 0))
+		if(!ReleaseSemaphore(m_ghSemaphore, 1, 0))
 		{
 			DWORD dwErr = GetLastError();
 			std::cerr << dwErr << std::endl;

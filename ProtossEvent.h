@@ -13,6 +13,7 @@ public:
 		, eSpawnWarpgate
 		, eSpawnChronoWarpgate
 		, eSpawnForge
+		, eSpawnPhotonCannon
 		, eSpawnCyberneticsCore
 		, eSpawnTwilightCouncil
 		, eSpawnTemplarArchives

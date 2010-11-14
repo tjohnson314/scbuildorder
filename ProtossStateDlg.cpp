@@ -30,6 +30,8 @@ void CProtossStateDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_ASSIMILATORCOUNT, m_protossState.m_assimilatorCount);
 	DDX_Text(pDX, IDC_EDIT_GATEWAYCOUNT, m_protossState.m_gatewayCount);
 	DDX_Text(pDX, IDC_EDIT_WARPGATECOUNT, m_protossState.m_warpgateCount);
+	DDX_Text(pDX, IDC_EDIT_FORGECOUNT, m_protossState.m_forgeCount);
+	DDX_Text(pDX, IDC_EDIT_PHOTONCANNONCOUNT, m_protossState.m_photonCannonCount);
 	DDX_Text(pDX, IDC_EDIT_CYBERNETICSCORECOUNT, m_protossState.m_cyberneticsCoreCount);
 	DDX_Text(pDX, IDC_EDIT_TWILIGHTCOUNCILCOUNT, m_protossState.m_twilightCouncilCount);
 	DDX_Text(pDX, IDC_EDIT_TEMPLARARCHIVESCOUNT, m_protossState.m_templarArchivesCount);

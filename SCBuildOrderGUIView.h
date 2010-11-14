@@ -12,6 +12,8 @@
 #include "ProtossStateDlg.h"
 #include "SettingsDlg.h"
 
+#include "NumberFormat.h"
+
 class CSCBuildOrderGUIView : public CFormView
 {
 protected: // create from serialization only
@@ -62,7 +64,11 @@ protected:
 	UINT m_updateTimer;
 	DWORD m_startTickCount;
 	double m_timeLimit;
+	CNumberFormat m_numberFormat;
 
+	void StopEngine();
+
+	CVector<EProtossCommand> m_bestBuildOrder;
 	CVector<CProtossStateDlg *> m_waypointDlgs;
 	CSettingsDlg *m_settingsDlg;
 
