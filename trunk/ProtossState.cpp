@@ -8,8 +8,8 @@
 
 CProtossState::CProtossState()
 : m_minerals(0), m_gas(0)
-, m_nexusCount(0), m_pylonCount(0), m_assimilatorCount(0), m_gatewayCount(0), m_warpgateCount(0), m_forgeCount(0), m_cyberneticsCoreCount(0), m_twilightCouncilCount(0), m_templarArchivesCount(0), m_darkShrineCount(0), m_roboticsFacilityCount(0), m_roboticsBayCount(0), m_stargateCount(0), m_fleetBeaconCount(0)
-, m_nexusUnderConstruction(0), m_assimilatorUnderConstruction(0), m_pylonUnderConstruction(0), m_gatewayUnderConstruction(0), m_warpgateUnderConstruction(0), m_forgeUnderConstruction(0), m_cyberneticsCoreUnderConstruction(0), m_twilightCouncilUnderConstruction(0), m_templarArchivesUnderConstruction(0), m_darkShrineUnderConstruction(0), m_roboticsFacilityUnderConstruction(0), m_roboticsBayUnderConstruction(0), m_stargateUnderConstruction(0), m_fleetBeaconUnderConstruction(0)
+, m_nexusCount(0), m_pylonCount(0), m_assimilatorCount(0), m_gatewayCount(0), m_warpgateCount(0), m_forgeCount(0), m_photonCannonCount(0), m_cyberneticsCoreCount(0), m_twilightCouncilCount(0), m_templarArchivesCount(0), m_darkShrineCount(0), m_roboticsFacilityCount(0), m_roboticsBayCount(0), m_stargateCount(0), m_fleetBeaconCount(0)
+, m_nexusUnderConstruction(0), m_assimilatorUnderConstruction(0), m_pylonUnderConstruction(0), m_gatewayUnderConstruction(0), m_warpgateUnderConstruction(0), m_photonCannonUnderConstruction(0), m_forgeUnderConstruction(0), m_cyberneticsCoreUnderConstruction(0), m_twilightCouncilUnderConstruction(0), m_templarArchivesUnderConstruction(0), m_darkShrineUnderConstruction(0), m_roboticsFacilityUnderConstruction(0), m_roboticsBayUnderConstruction(0), m_stargateUnderConstruction(0), m_fleetBeaconUnderConstruction(0)
 , m_nexusInUse(0), m_gatewayInUse(0), m_warpgateOnCooldown(0), m_forgeInUse(0), m_cyberneticsCoreInUse(0), m_twilightCouncilInUse(0), m_templarArchivesInUse(0), m_darkShrineInUse(0), m_roboticsFacilityInUse(0), m_roboticsBayInUse(0), m_stargateInUse(0), m_fleetBeaconInUse(0)
 , m_nexusChronoCount(0), m_gatewayChronoCount(0), m_warpgateChronoCount(0), m_forgeChronoCount(0), m_cyberneticsCoreChronoCount(0), m_twilightCouncilChronoCount(0), m_templarArchivesChronoCount(0), m_darkShrineChronoCount(0), m_roboticsFacilityChronoCount(0), m_roboticsBayChronoCount(0), m_stargateChronoCount(0), m_fleetBeaconChronoCount(0)
 , m_nexusChronoAvailable(0), m_gatewayChronoAvailable(0), m_warpgateChronoAvailable(0), m_cyberneticsCoreChronoAvailable(0), m_twilightCouncilChronoAvailable(0), m_templarArchivesChronoAvailable(0), m_darkShrineChronoAvailable(0), m_roboticsFacilityChronoAvailable(0), m_roboticsBayChronoAvailable(0), m_stargateChronoAvailable(0), m_fleetBeaconChronoAvailable(0)
@@ -72,6 +72,8 @@ bool CProtossState::operator>=(const CProtossState &state) const
 	if(m_warpgateCount < state.m_warpgateCount)
 		return false;
 	if(m_forgeCount < state.m_forgeCount)
+		return false;
+	if(m_photonCannonCount < state.m_photonCannonCount)
 		return false;
 	if(m_cyberneticsCoreCount < state.m_cyberneticsCoreCount)
 		return false;
@@ -136,6 +138,7 @@ void CProtossState::intersection(const CProtossState &s1, const CProtossState &s
 	m_gatewayCount = mymin(s1.m_gatewayCount, s2.m_gatewayCount);
 	m_warpgateCount = mymin(s1.m_warpgateCount, s2.m_warpgateCount);
 	m_forgeCount = mymin(s1.m_forgeCount, s2.m_forgeCount);
+	m_photonCannonCount = mymin(s1.m_photonCannonCount, s2.m_photonCannonCount);
 	m_cyberneticsCoreCount = mymin(s1.m_cyberneticsCoreCount, s2.m_cyberneticsCoreCount);
 	m_twilightCouncilCount = mymin(s1.m_twilightCouncilCount, s2.m_twilightCouncilCount);
 	m_templarArchivesCount = mymin(s1.m_templarArchivesCount, s2.m_templarArchivesCount);
@@ -176,6 +179,7 @@ void CProtossState::operator-=(const CProtossState &state)
 	m_gatewayCount -= state.m_gatewayCount;
 	m_warpgateCount -= state.m_warpgateCount;
 	m_forgeCount -= state.m_forgeCount;
+	m_photonCannonCount -= state.m_photonCannonCount;
 	m_cyberneticsCoreCount -= state.m_cyberneticsCoreCount;
 	m_twilightCouncilCount -= state.m_twilightCouncilCount;
 	m_templarArchivesCount -= state.m_templarArchivesCount;
@@ -216,6 +220,7 @@ double CProtossState::value() const
 	value += (m_gatewayCount - m_warpgateCount) * 150;
 	value += m_warpgateCount * 150;
 	value += m_forgeCount * 150;
+	value += m_photonCannonCount * 150;
 	value += m_cyberneticsCoreCount * 150;
 	value += m_twilightCouncilCount * 350;
 	value += m_templarArchivesCount * 550;
@@ -230,7 +235,7 @@ double CProtossState::value() const
 	value += m_stalkerCount * 225;
 	value += m_sentryCount * 250;
 	value += m_highTemplarCount * 350;
-	value += m_darkTemplarCount * 350;
+	value += m_darkTemplarCount * 375;
 	value += m_warpPrismCount * 200;
 	value += m_observerCount * 250;
 	value += m_immortalCount * 450;
@@ -367,6 +372,11 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 		UseProbeForBuilding(10, time, events);
 		AddEvent(events, CProtossEvent(CProtossEvent::eSpawnForge, time + 45));
 		m_forgeUnderConstruction++;
+		break;
+	case eProtossCommandBuildPhotonCannon:
+		UseProbeForBuilding(10, time, events);
+		AddEvent(events, CProtossEvent(CProtossEvent::eSpawnPhotonCannon, time + 40));
+		m_photonCannonUnderConstruction++;
 		break;
 	case eProtossCommandBuildCyberneticsCore:
 		UseProbeForBuilding(10, time, events);
@@ -1026,6 +1036,10 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 		m_forgeUnderConstruction--;
 		m_forgeCount++;
 		break;
+	case CProtossEvent::eSpawnPhotonCannon:
+		m_photonCannonUnderConstruction--;
+		m_photonCannonCount++;
+		break;
 	case CProtossEvent::eSpawnCyberneticsCore:
 		m_cyberneticsCoreUnderConstruction--;
 		m_cyberneticsCoreCount++;
@@ -1450,6 +1464,10 @@ void CProtossState::AddRequirements()
 			|| m_researchWarpgateCompleted))
 		m_cyberneticsCoreCount++;
 
+	if(m_forgeCount == 0
+		&& (m_photonCannonCount > 0))
+		m_forgeCount++;
+
 	if(m_gatewayCount == 0
 		&& (m_cyberneticsCoreCount > 0 || m_zealotCount > 0))
 		m_gatewayCount++;
@@ -1485,6 +1503,10 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 			&& 0 < m_pylonCount + m_pylonUnderConstruction;
 	case eProtossCommandBuildForge:
 		return 0 < m_nexusCount + m_nexusUnderConstruction
+			&& 0 < m_pylonCount + m_pylonUnderConstruction
+			&& 0 < m_probesOnMinerals + m_probesOnGas + m_probeUnderConstruction;
+	case eProtossCommandBuildPhotonCannon:
+		return 0 < m_forgeCount + m_forgeUnderConstruction
 			&& 0 < m_pylonCount + m_pylonUnderConstruction
 			&& 0 < m_probesOnMinerals + m_probesOnGas + m_probeUnderConstruction;
 	case eProtossCommandBuildCyberneticsCore:
@@ -1663,6 +1685,10 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 		return 0 < m_nexusCount
 			&& 0 < m_pylonCount
 			&& 0 < m_probesOnMinerals + m_probesOnGas;
+	case eProtossCommandBuildPhotonCannon:
+		return 0 < m_forgeCount
+			&& 0 < m_pylonCount
+			&& 0 < m_probesOnMinerals + m_probesOnGas;
 	case eProtossCommandBuildCyberneticsCore:
 		return 0 < m_gatewayCount
 			&& 0 < m_pylonCount
@@ -1831,6 +1857,9 @@ void CProtossState::GetCost(CResourceCost &cost, EProtossCommand command)
 	case eProtossCommandBuildForge:
 		cost.m_minerals = 200;
 		break;
+	case eProtossCommandBuildPhotonCannon:
+		cost.m_minerals = 150;
+		break;
 	case eProtossCommandBuildCyberneticsCore:
 		cost.m_minerals = 150;
 		break;
@@ -1882,8 +1911,8 @@ void CProtossState::GetCost(CResourceCost &cost, EProtossCommand command)
 		cost.m_gas = 150;
 		break;
 	case eProtossCommandBuildDarkTemplar:
-		cost.m_minerals = 50;
-		cost.m_gas = 150;
+		cost.m_minerals = 125;
+		cost.m_gas = 125;
 		break;
 	case eProtossCommandBuildWarpPrism:
 		cost.m_minerals = 200;
@@ -2021,8 +2050,11 @@ void CProtossState::PrintDetails(CString &output) const
 	if(0 < m_nexusCount)			output.AppendFormat(L" %u Nexus", m_nexusCount);
 	if(0 < m_assimilatorCount)		output.AppendFormat(L" %u Assimilator", m_assimilatorCount);
 	if(0 < m_pylonCount)			output.AppendFormat(L" %u Pylon", m_pylonCount);
-	if(0 < m_gatewayCount)			output.AppendFormat(L" %u Gateway", m_gatewayCount - m_warpgateCount);
+	if(0 < m_gatewayCount - m_warpgateCount)
+									output.AppendFormat(L" %u Gateway", m_gatewayCount - m_warpgateCount);
 	if(0 < m_warpgateCount)			output.AppendFormat(L" %u Warpgate", m_warpgateCount);
+	if(0 < m_forgeCount)			output.AppendFormat(L" %u Forge", m_forgeCount);
+	if(0 < m_photonCannonCount)		output.AppendFormat(L" %u Photon Cannon", m_photonCannonCount);
 	if(0 < m_cyberneticsCoreCount)	output.AppendFormat(L" %u Cybernetics Core", m_cyberneticsCoreCount);
 	if(0 < m_twilightCouncilCount)	output.AppendFormat(L" %u Twilight Council", m_twilightCouncilCount);
 	if(0 < m_templarArchivesCount)	output.AppendFormat(L" %u Templar Archives", m_templarArchivesCount);

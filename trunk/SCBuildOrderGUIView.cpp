@@ -15,6 +15,8 @@
 #include "SettingsDlg.h"
 #include "ProtossStateDlg.h"
 
+#include "NumberFormat.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -43,11 +45,19 @@ CSCBuildOrderGUIView::CSCBuildOrderGUIView()
 	, m_updateTimer(0), m_bStarted(false), m_startTickCount(0), m_timeLimit(1200)
 {
 	// TODO: add construction code here
-
+	m_numberFormat.LoadDefault();
+	m_numberFormat.SetNumDigits(0);
 }
 
 CSCBuildOrderGUIView::~CSCBuildOrderGUIView()
 {
+	if(m_bStarted)
+		StopEngine();
+
+	while(m_waypointDlgs.size() > 0)
+		delete m_waypointDlgs.pop();
+
+	delete m_settingsDlg;
 }
 
 void CSCBuildOrderGUIView::DoDataExchange(CDataExchange* pDX)
@@ -169,6 +179,16 @@ CSCBuildOrderGUIDoc* CSCBuildOrderGUIView::GetDocument() const // non-debug vers
 #endif //_DEBUG
 
 // CSCBuildOrderGUIView message handlers
+void CSCBuildOrderGUIView::StopEngine()
+{
+	KillTimer(m_updateTimer);
+
+	m_protossEngine->Stop();
+	delete m_protossEngine;
+	m_protossEngine = 0;
+
+	m_bStarted = false;
+}
 
 void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 {
@@ -176,6 +196,7 @@ void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 	{
 		UpdateData(TRUE);
 
+		m_bestBuildOrder = CVector<EProtossCommand>();
 		m_protossEngine = new CProtossEngine(m_settingsDlg->GetTimeLimit());
 		bool waypointAdded = false;
 		for(size_t i=0; i < m_waypointDlgs.size(); i++)
@@ -211,13 +232,7 @@ void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 	}
 	else
 	{
-		KillTimer(m_updateTimer);
-
-		m_protossEngine->Stop();
-		delete m_protossEngine;
-		m_protossEngine = 0;
-
-		m_bStarted = false;
+		StopEngine();
 		GetDlgItem(IDC_BUTTON_STARTSTOP)->SetWindowTextW(L"Start");
 	}
 }
@@ -226,20 +241,30 @@ void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 {
 	if(m_protossEngine)
 	{
-		CString strText;
+		CString strText, strText2;
 		strText.Format(L"%u", m_protossEngine->Evolution());
-		GetDlgItem(IDC_EDIT_EVOLUTION)->SetWindowTextW(strText);
+		m_numberFormat.FormatNumberByLocale(strText, strText2);
+		GetDlgItem(IDC_EDIT_EVOLUTION)->SetWindowTextW(strText2);
 		strText.Format(L"%llu", m_protossEngine->GameCount());
-		GetDlgItem(IDC_EDIT_GAMECOUNT)->SetWindowTextW(strText);
+		m_numberFormat.FormatNumberByLocale(strText, strText2);
+		GetDlgItem(IDC_EDIT_GAMECOUNT)->SetWindowTextW(strText2);
 		DWORD timeDiff = GetTickCount() - m_startTickCount;
 		if(0 != timeDiff)
 		{
 			strText.Format(L"%llu", (1000 * m_protossEngine->GameCount()) / timeDiff);
-			GetDlgItem(IDC_EDIT_GAMERATE)->SetWindowTextW(strText);
+			m_numberFormat.FormatNumberByLocale(strText, strText2);
+			GetDlgItem(IDC_EDIT_GAMERATE)->SetWindowTextW(strText2);
 		}
 
-		m_protossEngine->PrintBestGame(strText);
-		GetDlgItem(IDC_EDIT_OUTPUT)->SetWindowTextW(strText);
+		CVector<EProtossCommand> buildOrder;
+		m_protossEngine->GetBestGame(buildOrder);
+
+		if(buildOrder != m_bestBuildOrder)
+		{
+			m_bestBuildOrder = buildOrder;
+			m_protossEngine->PrintBestGame(strText);
+			GetDlgItem(IDC_EDIT_OUTPUT)->SetWindowTextW(strText);
+		}
 	}
 }
 

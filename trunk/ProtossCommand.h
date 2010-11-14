@@ -13,6 +13,7 @@ enum EProtossCommand
 	, eProtossCommandBuildGateway
 	, eProtossCommandConvertGatewayToWarpgate
 	, eProtossCommandBuildForge
+	, eProtossCommandBuildPhotonCannon
 	, eProtossCommandBuildCyberneticsCore
 	, eProtossCommandBuildTwilightCouncil
 	, eProtossCommandBuildTemplarArchives

@@ -72,6 +72,7 @@ public:
 	size_t m_gatewayCount;
 	size_t m_warpgateCount;
 	size_t m_forgeCount;
+	size_t m_photonCannonCount;
 	size_t m_cyberneticsCoreCount;
 	size_t m_twilightCouncilCount;
 	size_t m_templarArchivesCount;
@@ -88,6 +89,7 @@ public:
 	size_t m_gatewayUnderConstruction;
 	size_t m_warpgateUnderConstruction;
 	size_t m_forgeUnderConstruction;
+	size_t m_photonCannonUnderConstruction;
 	size_t m_cyberneticsCoreUnderConstruction;
 	size_t m_twilightCouncilUnderConstruction;
 	size_t m_templarArchivesUnderConstruction;

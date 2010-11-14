@@ -17,6 +17,8 @@ const WCHAR *tostring(EProtossCommand command)
 		return L"Convert Gateway To Warpgate";
 	case eProtossCommandBuildForge:
 		return L"Build Forge";
+	case eProtossCommandBuildPhotonCannon:
+		return L"Build Photon Cannon";
 	case eProtossCommandBuildCyberneticsCore:
 		return L"Build Cybernetics Core";
 	case eProtossCommandBuildTwilightCouncil:

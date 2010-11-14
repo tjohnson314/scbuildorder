@@ -9,6 +9,7 @@ void GetAlphabet(CVector<EProtossCommand> &vecAlphabet)
 	vecAlphabet.push_back(eProtossCommandBuildGateway);
 	vecAlphabet.push_back(eProtossCommandConvertGatewayToWarpgate);
 	vecAlphabet.push_back(eProtossCommandBuildForge);
+	vecAlphabet.push_back(eProtossCommandBuildPhotonCannon);
 	vecAlphabet.push_back(eProtossCommandBuildCyberneticsCore);
 	vecAlphabet.push_back(eProtossCommandBuildTwilightCouncil);
 	vecAlphabet.push_back(eProtossCommandBuildTemplarArchives);
