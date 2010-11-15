@@ -13,8 +13,8 @@ const WCHAR *tostring(EProtossCommand command)
 		return L"Build Assimilator";
 	case eProtossCommandBuildGateway:
 		return L"Build Gateway";
-	case eProtossCommandConvertGatewayToWarpgate:
-		return L"Convert Gateway To Warpgate";
+	case eProtossCommandConvertGatewayToWarpGate:
+		return L"Convert Gateway To WarpGate";
 	case eProtossCommandBuildForge:
 		return L"Build Forge";
 	case eProtossCommandBuildPhotonCannon:
@@ -48,6 +48,12 @@ const WCHAR *tostring(EProtossCommand command)
 		return L"Build High Templar";
 	case eProtossCommandBuildDarkTemplar:
 		return L"Build Dark Templar";
+	case eProtossCommandBuildArchon2HT:
+		return L"Build Archon (2 HTs)";
+	case eProtossCommandBuildArchon1HT1DT:
+		return L"Build Archon (1HT 1DT)";
+	case eProtossCommandBuildArchon2DT:
+		return L"Build Archon (2 DTs)";
 	case eProtossCommandBuildWarpPrism:
 		return L"Build Warp Prism";
 	case eProtossCommandBuildObserver:
@@ -69,8 +75,8 @@ const WCHAR *tostring(EProtossCommand command)
 		return L"Chrono Nexus";
 	case eProtossCommandChronoGateway:
 		return L"Chrono Gateway";
-	case eProtossCommandChronoWarpgate:
-		return L"Chrono Warpgate";
+	case eProtossCommandChronoWarpGate:
+		return L"Chrono WarpGate";
 	case eProtossCommandChronoForge:
 		return L"Chrono Forge";
 	case eProtossCommandChronoCyberneticsCore:
@@ -88,8 +94,58 @@ const WCHAR *tostring(EProtossCommand command)
 	case eProtossCommandChronoFleetBeacon:
 		return L"Chrono Fleet Beacon";
 
-	case eProtossCommandResearchWarpgate:
-		return L"Research Warpgate";
+	case eProtossCommandResearchGroundWeapons1:
+		return L"Research Ground Weapons 1";
+	case eProtossCommandResearchGroundWeapons2:
+		return L"Research Ground Weapons 2";
+	case eProtossCommandResearchGroundWeapons3:
+		return L"Research Ground Weapons 3";
+	case eProtossCommandResearchGroundArmor1:
+		return L"Research Ground Armor 1";
+	case eProtossCommandResearchGroundArmor2:
+		return L"Research Ground Armor 2";
+	case eProtossCommandResearchGroundArmor3:
+		return L"Research Ground Armor 3";
+	case eProtossCommandResearchShields1:
+		return L"Research Shields 1";
+	case eProtossCommandResearchShields2:
+		return L"Research Shields 2";
+	case eProtossCommandResearchShields3:
+		return L"Research Shields 3";
+	case eProtossCommandResearchAirWeapons1:
+		return L"Research Air Weapons 1";
+	case eProtossCommandResearchAirWeapons2:
+		return L"Research Air Weapons 2";
+	case eProtossCommandResearchAirWeapons3:
+		return L"Research Air Weapons 3";
+	case eProtossCommandResearchAirArmor1:
+		return L"Research Air Armor 1";
+	case eProtossCommandResearchAirArmor2:
+		return L"Research Air Armor 2";
+	case eProtossCommandResearchAirArmor3:
+		return L"Research Air Armor 3";
+	case eProtossCommandResearchWarpGateTransformation:
+		return L"Research Warp Gate Transformation";
+	case eProtossCommandResearchHallucination:
+		return L"Research Hallucination";
+	case eProtossCommandResearchCharge:
+		return L"Research Charge";
+	case eProtossCommandResearchBlink:
+		return L"Research Blink";
+	case eProtossCommandResearchPsionicStorm:
+		return L"Research Psionic Storm";
+	case eProtossCommandResearchKhaydarinAmulet:
+		return L"Research Khaydarin Amulet";
+	case eProtossCommandResearchGraviticDrive:
+		return L"Research Gravitic Drive";
+	case eProtossCommandResearchGraviticBoosters:
+		return L"Research Gravitic Boosters";
+	case eProtossCommandResearchExtendedThermalLance:
+		return L"Research Extended Thermal Lance";
+	case eProtossCommandResearchFluxVanes:
+		return L"Research Flux Vanes";
+	case eProtossCommandResearchGravitonCatapult:
+		return L"Research Graviton Catapult";
 
 	case eProtossCommandMoveProbeToGas:
 		return L"Move Probe To Gas";

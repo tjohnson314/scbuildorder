@@ -10,8 +10,8 @@ public:
 		, eSpawnAssimilator
 		, eSpawnPylon
 		, eSpawnGateway
-		, eSpawnWarpgate
-		, eSpawnChronoWarpgate
+		, eSpawnWarpGate
+		, eSpawnChronoWarpGate
 		, eSpawnForge
 		, eSpawnPhotonCannon
 		, eSpawnCyberneticsCore
@@ -23,15 +23,16 @@ public:
 		, eSpawnStargate
 		, eSpawnFleetBeacon
 
-		, eWarpgateOffCooldown
-		, eChronoWarpgateOffCooldown
+		, eWarpGateOffCooldown
+		, eChronoWarpGateOffCooldown
 
 		, eChronoNexusEnd
 		, eChronoGatewayEnd
-		, eChronoWarpgateEnd
+		, eChronoWarpGateEnd
 		, eChronoForgeEnd
 		, eChronoCyberneticsCoreEnd
 		, eChronoTwilightCouncilEnd
+		, eChronoTemplarArchivesEnd
 		, eChronoDarkShrineEnd
 		, eChronoRoboticsFacilityEnd
 		, eChronoRoboticsBayEnd
@@ -48,6 +49,7 @@ public:
 		, eSpawnSentry
 		, eSpawnHighTemplar
 		, eSpawnDarkTemplar
+		, eSpawnArchon
 		, eSpawnWarpPrism
 		, eSpawnObserver
 		, eSpawnImmortal
@@ -72,16 +74,66 @@ public:
 		, eSpawnChronoCarrier
 		, eSpawnChronoMothership
 
-		, eSpawnWarpgateZealot
-		, eSpawnWarpgateStalker
-		, eSpawnWarpgateSentry
-		, eSpawnWarpgateHighTemplar
-		, eSpawnWarpgateDarkTemplar
+		, eSpawnWarpGateZealot
+		, eSpawnWarpGateStalker
+		, eSpawnWarpGateSentry
+		, eSpawnWarpGateHighTemplar
+		, eSpawnWarpGateDarkTemplar
 
 		// Research
-		, eCompleteWarpgateResearch
+		, eResearchGroundWeapons1Complete
+		, eResearchGroundWeapons2Complete
+		, eResearchGroundWeapons3Complete
+		, eResearchGroundArmor1Complete
+		, eResearchGroundArmor2Complete
+		, eResearchGroundArmor3Complete
+		, eResearchShields1Complete
+		, eResearchShields2Complete
+		, eResearchShields3Complete
+		, eResearchAirWeapons1Complete
+		, eResearchAirWeapons2Complete
+		, eResearchAirWeapons3Complete
+		, eResearchAirArmor1Complete
+		, eResearchAirArmor2Complete
+		, eResearchAirArmor3Complete
+		, eResearchWarpGateTransformationComplete
+		, eResearchHallucinationComplete
+		, eResearchChargeComplete
+		, eResearchBlinkComplete
+		, eResearchPsionicStormComplete
+		, eResearchKhaydarinAmuletComplete
+		, eResearchGraviticDriveComplete
+		, eResearchGraviticBoostersComplete
+		, eResearchExtendedThermalLanceComplete
+		, eResearchFluxVanesComplete
+		, eResearchGravitonCatapultComplete
 
-		, eCompleteChronoWarpgateResearch
+		, eResearchChronoGroundWeapons1Complete
+		, eResearchChronoGroundWeapons2Complete
+		, eResearchChronoGroundWeapons3Complete
+		, eResearchChronoGroundArmor1Complete
+		, eResearchChronoGroundArmor2Complete
+		, eResearchChronoGroundArmor3Complete
+		, eResearchChronoShields1Complete
+		, eResearchChronoShields2Complete
+		, eResearchChronoShields3Complete
+		, eResearchChronoAirWeapons1Complete
+		, eResearchChronoAirWeapons2Complete
+		, eResearchChronoAirWeapons3Complete
+		, eResearchChronoAirArmor1Complete
+		, eResearchChronoAirArmor2Complete
+		, eResearchChronoAirArmor3Complete
+		, eResearchChronoWarpGateTransformationComplete
+		, eResearchChronoHallucinationComplete
+		, eResearchChronoChargeComplete
+		, eResearchChronoBlinkComplete
+		, eResearchChronoPsionicStormComplete
+		, eResearchChronoKhaydarinAmuletComplete
+		, eResearchChronoGraviticDriveComplete
+		, eResearchChronoGraviticBoostersComplete
+		, eResearchChronoExtendedThermalLanceComplete
+		, eResearchChronoFluxVanesComplete
+		, eResearchChronoGravitonCatapultComplete
 	};
 
 	CProtossEvent(EEvent event, double time) : m_event(event), m_time(time) {}

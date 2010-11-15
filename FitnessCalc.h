@@ -23,7 +23,7 @@ public:
 
 	void AddWaypoint(const TState &target, double targetTime);
 
-	CFitnessValue CalculateFitness(const CVector<TCommand> &value) const;
+	bool ValidateAndCalculateFitness(CVector<TCommand> &value, CFitnessValue &fitness) const;
 	bool SatisfiesTarget(const CVector<TCommand> &value) const { return false; }
 
 	void PrintGame(CString &output, const CVector<TCommand> &value) const;
@@ -50,10 +50,9 @@ void CFitnessCalc<TState, TCommand, TEvent>::AddWaypoint(const TState &target, d
 }
 
 template <typename TState, typename TCommand, typename TEvent>
-CFitnessValue CFitnessCalc<TState, TCommand, TEvent>::CalculateFitness(const CVector<TCommand> &value) const
+bool CFitnessCalc<TState, TCommand, TEvent>::ValidateAndCalculateFitness(CVector<TCommand> &value, CFitnessValue &fitness) const
 {
 	double time = 2; // Assume it takes 2 secs to start building/mining anything
-	CFitnessValue fitness;
 
 	TState state;
 	CLinkedList<TEvent> *events = 0;
@@ -163,7 +162,7 @@ CFitnessValue CFitnessCalc<TState, TCommand, TEvent>::CalculateFitness(const CVe
 			}
 		}
 
-		if(!bSatisfied && (bRanOutOfTime || cmdIndex >= value.size()))
+		if(!bSatisfied)
 		{
 			while(events)
 			{
@@ -210,8 +209,10 @@ CFitnessValue CFitnessCalc<TState, TCommand, TEvent>::CalculateFitness(const CVe
 	{
 		TState extra(state);
 		extra -= intersection;
-		fitness.m_extraValue = extra.value() / (time * time);
+		fitness.m_extraValue = extra.value();
 	}
+
+	value.truncate(cmdIndex + 1); // No point keeping the build order longer than it needs to be
 
 	while(events)
 	{
@@ -220,7 +221,7 @@ CFitnessValue CFitnessCalc<TState, TCommand, TEvent>::CalculateFitness(const CVe
 		delete event;
 	}
 
-	return fitness;
+	return true;
 }
 
 template <typename TState, typename TCommand, typename TEvent>
@@ -342,7 +343,7 @@ void CFitnessCalc<TState, TCommand, TEvent>::PrintGame(CString &output, const CV
 			}
 		}
 
-		if(!bSatisfied && (bRanOutOfTime || cmdIndex >= value.size()))
+		if(!bSatisfied)
 		{
 			while(events)
 			{

@@ -128,6 +128,7 @@ public:
 	size_t m_nexusChronoAvailable;
 	size_t m_gatewayChronoAvailable;
 	size_t m_warpgateChronoAvailable;
+	size_t m_forgeChronoAvailable;
 	size_t m_cyberneticsCoreChronoAvailable;
 	size_t m_twilightCouncilChronoAvailable;
 	size_t m_templarArchivesChronoAvailable;
@@ -144,6 +145,7 @@ public:
 	size_t m_sentryCount;
 	size_t m_highTemplarCount;
 	size_t m_darkTemplarCount;
+	size_t m_archonCount;
 	size_t m_warpPrismCount;
 	size_t m_observerCount;
 	size_t m_immortalCount;
@@ -159,6 +161,7 @@ public:
 	size_t m_sentryUnderConstruction;
 	size_t m_highTemplarUnderConstruction;
 	size_t m_darkTemplarUnderConstruction;
+	size_t m_archonUnderConstruction;
 	size_t m_warpPrismUnderConstruction;
 	size_t m_observerUnderConstruction;
 	size_t m_immortalUnderConstruction;
@@ -173,9 +176,59 @@ public:
 	size_t m_probesOnGas;
 
 	// Research
-	bool m_researchWarpgateCompleted;
+	bool m_researchGroundWeapons1Completed;
+	bool m_researchGroundWeapons2Completed;
+	bool m_researchGroundWeapons3Completed;
+	bool m_researchGroundArmor1Completed;
+	bool m_researchGroundArmor2Completed;
+	bool m_researchGroundArmor3Completed;
+	bool m_researchShields1Completed;
+	bool m_researchShields2Completed;
+	bool m_researchShields3Completed;
+	bool m_researchAirWeapons1Completed;
+	bool m_researchAirWeapons2Completed;
+	bool m_researchAirWeapons3Completed;
+	bool m_researchAirArmor1Completed;
+	bool m_researchAirArmor2Completed;
+	bool m_researchAirArmor3Completed;
+	bool m_researchWarpGateTransformationCompleted;
+	bool m_researchHallucinationCompleted;
+	bool m_researchChargeCompleted;
+	bool m_researchBlinkCompleted;
+	bool m_researchPsionicStormCompleted;
+	bool m_researchKhaydarinAmuletCompleted;
+	bool m_researchGraviticDriveCompleted;
+	bool m_researchGraviticBoostersCompleted;
+	bool m_researchExtendedThermalLanceCompleted;
+	bool m_researchFluxVanesCompleted;
+	bool m_researchGravitonCatapultCompleted;
 
-	bool m_researchWarpgateUnderConstruction;
+	bool m_researchGroundWeapons1UnderConstruction;
+	bool m_researchGroundWeapons2UnderConstruction;
+	bool m_researchGroundWeapons3UnderConstruction;
+	bool m_researchGroundArmor1UnderConstruction;
+	bool m_researchGroundArmor2UnderConstruction;
+	bool m_researchGroundArmor3UnderConstruction;
+	bool m_researchShields1UnderConstruction;
+	bool m_researchShields2UnderConstruction;
+	bool m_researchShields3UnderConstruction;
+	bool m_researchAirWeapons1UnderConstruction;
+	bool m_researchAirWeapons2UnderConstruction;
+	bool m_researchAirWeapons3UnderConstruction;
+	bool m_researchAirArmor1UnderConstruction;
+	bool m_researchAirArmor2UnderConstruction;
+	bool m_researchAirArmor3UnderConstruction;
+	bool m_researchWarpGateTransformationUnderConstruction;
+	bool m_researchHallucinationUnderConstruction;
+	bool m_researchChargeUnderConstruction;
+	bool m_researchBlinkUnderConstruction;
+	bool m_researchPsionicStormUnderConstruction;
+	bool m_researchKhaydarinAmuletUnderConstruction;
+	bool m_researchGraviticDriveUnderConstruction;
+	bool m_researchGraviticBoostersUnderConstruction;
+	bool m_researchExtendedThermalLanceUnderConstruction;
+	bool m_researchFluxVanesUnderConstruction;
+	bool m_researchGravitonCatapultUnderConstruction;
 
 	// Supply
 	size_t m_supply;

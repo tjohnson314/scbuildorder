@@ -20,6 +20,7 @@ public:
 	double GetWaypointTargetTime() { UpdateData(TRUE); return m_waypointTargetTime; }
 
 protected:
+	void DDX_Check(CDataExchange* pDX, int nIDC, bool &bValue);
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()

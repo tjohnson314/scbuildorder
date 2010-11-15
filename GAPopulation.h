@@ -17,9 +17,12 @@ public:
 	bool AddChromosome(const CVector<TGene> &value);
 
 	const CGAConfiguration<TGene, TFitnessCalc, TFitness> &config() const { return m_config; }
+
+	size_t populationCount() const { return m_populationCount; }
 	unsigned long long gameCount() const { return m_gameCount; }
 
-	const CVector<TGene> GetBestChromosome() const;
+	const TFitness GetBestFitness() const { return m_population[0]->GetFitness(); }
+	const CVector<TGene> GetBestChromosome() const { return m_population[0]->GetValue(); }
 	bool IsSatisfied() const { return m_config.SatisfiesTarget(GetBestChromosome()); }
 
 	void Sort() { Sort(m_population); }
@@ -92,15 +95,21 @@ void CGAPopulation<TGene, TFitnessCalc, TFitness>::ClearPopulation(CGAChromosome
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 bool CGAPopulation<TGene, TFitnessCalc, TFitness>::AddChromosome(const CVector<TGene> &value)
 {
-	if(m_populationCount >= m_maxPopulation)
-		return false;
-
 	CGAChromosome<TGene, TFitness> **ptrEmpty = m_population;
-	while(*ptrEmpty != 0)
-		ptrEmpty++;
+	if(m_populationCount >= m_maxPopulation)
+	{
+		ptrEmpty = &m_population[m_populationCount - 1];
+		delete *ptrEmpty;
+	}
+	else
+	{
+		while(*ptrEmpty != 0)
+			ptrEmpty++;
+		m_populationCount++;
+	}
+
 	*ptrEmpty = new CGAChromosome<TGene, TFitness>(value);
-	(*ptrEmpty)->SetFitness(m_config.CalculateFitness(value));
-	m_populationCount++;
+	m_config.ValidateAndCalculateFitness(*ptrEmpty);
 
 	return true;
 }
@@ -178,7 +187,7 @@ bool CGAPopulation<TGene, TFitnessCalc, TFitness>::Evolve()
 	for(size_t i=m_maxPopulation/8; i < newPopulationCount; i++)
 	{
 		m_gameCount++;
-		newPopulation[i]->SetFitness(m_config.CalculateFitness(newPopulation[i]->GetValue()));
+		m_config.ValidateAndCalculateFitness(newPopulation[i]);
 	}
 
 	// Elitism
@@ -253,10 +262,4 @@ void CGAPopulation<TGene, TFitnessCalc, TFitness>::Print(size_t maxCount /* = 0 
 		}
 
 	cout << "";
-}
-
-template<typename TGene, typename TFitnessCalc, typename TFitness>
-const CVector<TGene> CGAPopulation<TGene, TFitnessCalc, TFitness>::GetBestChromosome() const
-{
-	return m_population[0]->GetValue();
 }

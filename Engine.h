@@ -6,6 +6,8 @@
 #include "GAPopulation.h"
 #include "Vector.h"
 #include "ThreadPool.h"
+#include "FitnessCalc.h"
+#include "FitnessValue.h"
 
 template<typename TState, typename TCommand, typename TEvent>
 class CSimulatorEngine
@@ -22,11 +24,22 @@ public:
 	void Stop();
 
 	static void Execute(void *input) { ((CSimulatorEngine<TState, TCommand, TEvent> *)input)->Execute(); }
-	//static DWORD WINAPI Execute(LPVOID input) { ((CSimulatorEngine<TState, TCommand, TEvent> *)input)->Execute(); return 0; }
 	void Execute();
 
-	size_t Evolution() const { return m_evolution; }
-	unsigned long long GameCount() const { return m_gameCount; }
+	size_t VillagePopulationCount(size_t village) const { return m_villages[village]->populationCount(); }
+	size_t VillageEvolution(size_t village) const { return m_villages[village]->evolution(); }
+	size_t VillageStagnationCount(size_t village) const { return m_villages[village]->stagnationCount(); }
+	unsigned long long VillageGameCount(size_t village) const { return m_villages[village]->gameCount(); }
+	CFitnessValue VillageBestFitness(size_t village) const { return m_villages[village]->bestFitness(); }
+
+	size_t CityPopulationCount() const { if(!m_city) return 0; return m_city->populationCount(); }
+	size_t CityEvolution() const { return m_evolution; }
+	size_t CityStagnationCount() const { if(!m_city) return 0; return m_city->StagnationCount(); }
+	unsigned long long CityGameCount() const { if(!m_city) return 0; return m_city->gameCount(); }
+	CFitnessValue CityBestFitness() const { CLock lock(m_semaphore); return m_bestFitness; }
+
+	size_t StagnationLimit() const { return m_stagnationLimit; }
+
 	void GetBestGame(CVector<TCommand> &game) const { CLock lock(m_semaphore); if(!m_bestGame) return; game = *m_bestGame; }
 
 	void PrintBestGame(CString &output) const;
@@ -41,6 +54,7 @@ protected:
 	CGAPopulation<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue> *m_city;
 
 	CVector<TCommand> *m_bestGame;
+	CFitnessValue m_bestFitness;
 	HANDLE m_semaphore;
 
 	HANDLE m_threadHandle;
@@ -50,13 +64,12 @@ protected:
 	bool m_bContinueRunning;
 
 	size_t m_evolution;
-	unsigned long long m_gameCount;
 
 };
 
 template<typename TState, typename TCommand, typename TEvent>
 CSimulatorEngine<TState, TCommand, TEvent>::CSimulatorEngine(double timeLimit)
-: m_targetFitness(timeLimit), m_config(0), m_city(0), m_bestGame(0), m_threadHandle(0), m_threadId(0), m_stagnationLimit(1000), m_bRunning(false), m_bContinueRunning(true), m_evolution(0), m_gameCount(0)
+: m_targetFitness(timeLimit), m_config(0), m_city(0), m_bestGame(0), m_bestFitness(), m_threadHandle(0), m_threadId(0), m_stagnationLimit(1000), m_bRunning(false), m_bContinueRunning(true), m_evolution(0)
 {
 	m_semaphore = CreateSemaphore(0, 1, 1, 0);
 	GetAlphabet(m_vecAlphabet);
@@ -69,6 +82,7 @@ CSimulatorEngine<TState, TCommand, TEvent>::~CSimulatorEngine()
 		delete m_villages[i];
 
 	delete m_config;
+	delete m_bestGame;
 
 	CloseHandle(m_semaphore);
 	CloseHandle(m_threadHandle);
@@ -100,18 +114,6 @@ void CSimulatorEngine<TState, TCommand, TEvent>::Start()
 		return;
 
 	m_threadHandle = CThreadPool::Get()->StartThread(CSimulatorEngine<TState, TCommand, TEvent>::Execute, this);
-
-	/*
-	m_threadHandle = CreateThread( 
-			NULL,				// default security attributes
-			0,					// use default stack size  
-			CSimulatorEngine<TState, TCommand, TEvent>::Execute,			// thread function name
-			this,				// argument to thread function 
-			0,					// use default creation flags 
-			&m_threadId);		// returns the thread identifier 
-
-	SetThreadPriority(m_threadHandle, THREAD_PRIORITY_BELOW_NORMAL);
-	*/
 }
 
 template<typename TState, typename TCommand, typename TEvent>
@@ -138,7 +140,7 @@ void CSimulatorEngine<TState, TCommand, TEvent>::Execute()
 
 	for(m_evolution=0; m_bContinueRunning; m_evolution++)
 	{
-		m_stagnationLimit = 1000 + m_evolution / 1000;
+		m_stagnationLimit = 1000 + m_evolution;
 
 		if(m_evolution%100 == 0 && 0 != m_evolution)
 		{
@@ -155,16 +157,12 @@ void CSimulatorEngine<TState, TCommand, TEvent>::Execute()
 			}
 		}
 
-		unsigned long long gameCount = m_city->gameCount();
-		for(size_t i=0; i < m_villages.size(); i++)
-			gameCount += m_villages[i]->gameCount();
-		m_gameCount = gameCount; // Update game count in a single atomic operation
-
 		if(m_evolution % 20 == 0) // Every 20 city evolutions update the best game
 		{
 			CLock lock(m_semaphore);
 			delete m_bestGame;
 			m_bestGame = new CVector<TCommand>(m_city->GetBestChromosome());
+			m_bestFitness = m_city->GetBestFitness();
 		}
 
 		m_city->Evolve();

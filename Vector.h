@@ -23,6 +23,8 @@ public:
 	void push(const T &val) { push_back(val); }
 	T &pop() { return m_data[--m_size]; }
 
+	void truncate(size_t size) { if(size >= m_size) return; m_size = size; }
+
 	const T &operator[](size_t index) const { return m_data[index]; }
 	T &operator[](size_t index) { return m_data[index]; }
 	const T *data() const { return m_data; }

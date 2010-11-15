@@ -64,7 +64,9 @@ protected:
 	UINT m_updateTimer;
 	DWORD m_startTickCount;
 	double m_timeLimit;
-	CNumberFormat m_numberFormat;
+
+	CNumberFormat m_numberFormatInt;
+	CNumberFormat m_numberFormatFloat;
 
 	void StopEngine();
 
@@ -74,6 +76,8 @@ protected:
 
 	void ResizeControls();
 	void ActivateTabDialogs();
+
+	void UpdateListBoxEntry(int nItem, size_t population, size_t evolution, size_t stagnationCount, unsigned long long gameCount, double bestFitness, DWORD timeDiff);
 
 public:
 	afx_msg void OnTcnSelchangeTabPages(NMHDR *pNMHDR, LRESULT *pResult);
