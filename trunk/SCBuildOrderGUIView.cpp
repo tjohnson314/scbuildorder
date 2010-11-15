@@ -45,14 +45,19 @@ CSCBuildOrderGUIView::CSCBuildOrderGUIView()
 	, m_updateTimer(0), m_bStarted(false), m_startTickCount(0), m_timeLimit(1200)
 {
 	// TODO: add construction code here
-	m_numberFormat.LoadDefault();
-	m_numberFormat.SetNumDigits(0);
+	m_numberFormatInt.LoadDefault();
+	m_numberFormatInt.SetNumDigits(0);
+
+	m_numberFormatFloat.LoadDefault();
 }
 
 CSCBuildOrderGUIView::~CSCBuildOrderGUIView()
 {
 	if(m_bStarted)
+	{
+		m_updateTimer = 0;
 		StopEngine();
+	}
 
 	while(m_waypointDlgs.size() > 0)
 		delete m_waypointDlgs.pop();
@@ -89,6 +94,7 @@ void CSCBuildOrderGUIView::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
 
+	// Tab control
 	for(size_t i=0; i < 5; i++)
 	{
 		if(i == 4)
@@ -113,8 +119,54 @@ void CSCBuildOrderGUIView::OnInitialUpdate()
 
 	ActivateTabDialogs();
 
-	//ResizeOutput();
+	// Villages list
+	CListCtrl *villageList = (CListCtrl *)GetDlgItem(IDC_LIST_VILLAGEINFO);
 
+	LVCOLUMN lvColumn;
+
+	lvColumn.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
+	lvColumn.fmt = LVCFMT_CENTER;
+	lvColumn.cx = 60;
+	lvColumn.pszText = L"Name";
+	villageList->InsertColumn(0, &lvColumn);
+
+	lvColumn.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
+	lvColumn.fmt = LVCFMT_CENTER;
+	lvColumn.cx = 80;
+	lvColumn.pszText = L"Population";
+	villageList->InsertColumn(1, &lvColumn);
+
+	lvColumn.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
+	lvColumn.fmt = LVCFMT_CENTER;
+	lvColumn.cx = 80;
+	lvColumn.pszText = L"Evolution";
+	villageList->InsertColumn(2, &lvColumn);
+
+	lvColumn.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
+	lvColumn.fmt = LVCFMT_CENTER;
+	lvColumn.cx = 80;
+	lvColumn.pszText = L"Stagnation";
+	villageList->InsertColumn(3, &lvColumn);
+
+	lvColumn.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
+	lvColumn.fmt = LVCFMT_CENTER;
+	lvColumn.cx = 80;
+	lvColumn.pszText = L"Game Count";
+	villageList->InsertColumn(4, &lvColumn);
+
+	lvColumn.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
+	lvColumn.fmt = LVCFMT_CENTER;
+	lvColumn.cx = 80;
+	lvColumn.pszText = L"Game Rate";
+	villageList->InsertColumn(5, &lvColumn);
+
+	lvColumn.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
+	lvColumn.fmt = LVCFMT_CENTER;
+	lvColumn.cx = 80;
+	lvColumn.pszText = L"Best Fitness";
+	villageList->InsertColumn(6, &lvColumn);
+
+	// Output
 	m_font.CreatePointFont(90, _T("Courier"));
 	GetDlgItem(IDC_EDIT_OUTPUT)->SetFont(&m_font);
 }
@@ -128,8 +180,14 @@ void CSCBuildOrderGUIView::ResizeControls()
 	GetClientRect(rectDlgClient);
 	GetWindowRect(rectDlgWnd);
 
+	// Anchor Villages List to right
+	CWnd *pWnd = GetDlgItem(IDC_LIST_VILLAGEINFO);
+	pWnd->GetWindowRect(rectWnd);
+	if(rectDlgWnd.right > rectWnd.left)
+		pWnd->SetWindowPos(NULL, 0, 0, rectDlgClient.right - rectDlgClient.left - (rectWnd.left - rectDlgWnd.left) - 6, rectWnd.bottom - rectWnd.top, SWP_NOMOVE|SWP_NOZORDER);
+
 	// Anchor Output to bottom and right
-	CWnd *pWnd = GetDlgItem(IDC_EDIT_OUTPUT);
+	pWnd = GetDlgItem(IDC_EDIT_OUTPUT);
 	pWnd->GetWindowRect(rectWnd);
 	if(rectDlgWnd.right > rectWnd.left && rectDlgWnd.bottom > rectWnd.top)
 		pWnd->SetWindowPos(NULL, 0, 0, rectDlgClient.right - rectDlgClient.left - (rectWnd.left - rectDlgWnd.left) - 6, rectDlgClient.bottom - rectDlgClient.top - (rectWnd.top - rectDlgWnd.top) - 6, SWP_NOMOVE|SWP_NOZORDER);
@@ -137,7 +195,7 @@ void CSCBuildOrderGUIView::ResizeControls()
 	// Anchor tab control to bottom
 	pWnd = GetDlgItem(IDC_TAB_PAGES);
 	pWnd->GetWindowRect(rectWnd);
-	if(rectDlgWnd.right > rectWnd.left && rectDlgWnd.bottom > rectWnd.top)
+	if(rectDlgWnd.bottom > rectWnd.top)
 		pWnd->SetWindowPos(NULL, 0, 0, rectWnd.right - rectWnd.left, rectDlgClient.bottom - rectDlgClient.top - (rectWnd.top - rectDlgWnd.top) - 6, SWP_NOMOVE|SWP_NOZORDER);
 
 	ActivateTabDialogs();
@@ -181,7 +239,8 @@ CSCBuildOrderGUIDoc* CSCBuildOrderGUIView::GetDocument() const // non-debug vers
 // CSCBuildOrderGUIView message handlers
 void CSCBuildOrderGUIView::StopEngine()
 {
-	KillTimer(m_updateTimer);
+	if(m_updateTimer)
+		KillTimer(m_updateTimer);
 
 	m_protossEngine->Stop();
 	delete m_protossEngine;
@@ -215,13 +274,65 @@ void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 			return;
 		}
 		m_protossEngine->InitConfiguration(m_settingsDlg->GetMutationRate());
-#ifndef _DEBUG
 		m_protossEngine->AddVillage(200, 100);
 		m_protossEngine->AddVillage(200, 100);
 		m_protossEngine->AddVillage(200, 100);
 		m_protossEngine->AddVillage(200, 100);
 		m_protossEngine->AddVillage(200, 100);
-#endif
+
+		CListCtrl *villageList = (CListCtrl *)GetDlgItem(IDC_LIST_VILLAGEINFO);
+		villageList->DeleteAllItems();
+
+		LVITEM lvItem;
+		CString villageName;
+		int nItem;
+		lvItem.mask = LVIF_TEXT;
+		lvItem.iSubItem = 0;
+
+		villageName = L"Overall";
+
+		lvItem.iItem = 0;
+		lvItem.pszText = villageName.GetBuffer();
+		nItem = villageList->InsertItem(&lvItem);
+		villageName.ReleaseBuffer();
+
+		villageList->SetItemText(nItem, 1, L"0");
+		villageList->SetItemText(nItem, 2, L"0");
+		villageList->SetItemText(nItem, 3, L"0");
+		villageList->SetItemText(nItem, 4, L"0");
+		villageList->SetItemText(nItem, 5, L"0");
+		villageList->SetItemText(nItem, 5, L"0");
+
+		villageName = L"City";
+
+		lvItem.iItem = 1;
+		lvItem.pszText = villageName.GetBuffer();
+		nItem = villageList->InsertItem(&lvItem);
+		villageName.ReleaseBuffer();
+
+		villageList->SetItemText(nItem, 1, L"0");
+		villageList->SetItemText(nItem, 2, L"0");
+		villageList->SetItemText(nItem, 3, L"0");
+		villageList->SetItemText(nItem, 4, L"0");
+		villageList->SetItemText(nItem, 5, L"0");
+		villageList->SetItemText(nItem, 5, L"0");
+
+		for(size_t i=0; i < 5; i++)
+		{
+			villageName.Format(L"Village %d", i+1);
+
+			lvItem.iItem = i+2;
+			lvItem.pszText = villageName.GetBuffer();
+			nItem = villageList->InsertItem(&lvItem);
+			villageName.ReleaseBuffer();
+
+			villageList->SetItemText(nItem, 1, L"0");
+			villageList->SetItemText(nItem, 2, L"0");
+			villageList->SetItemText(nItem, 3, L"0");
+			villageList->SetItemText(nItem, 4, L"0");
+			villageList->SetItemText(nItem, 5, L"0");
+			villageList->SetItemText(nItem, 5, L"0");
+		}
 
 		m_bStarted = true;
 		GetDlgItem(IDC_BUTTON_STARTSTOP)->SetWindowTextW(L"Stop");
@@ -237,30 +348,83 @@ void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 	}
 }
 
+void CSCBuildOrderGUIView::UpdateListBoxEntry(int nItem, size_t population, size_t evolution, size_t stagnationCount, unsigned long long gameCount, double bestFitness, DWORD timeDiff)
+{
+	CListCtrl *villageList = (CListCtrl *)GetDlgItem(IDC_LIST_VILLAGEINFO);
+
+	LVITEM lvItem;
+	lvItem.mask = LVIF_TEXT;
+	lvItem.iSubItem = 0;
+
+	CString strText, strText2;
+
+	strText.Format(L"%u", population);
+	m_numberFormatInt.FormatNumberByLocale(strText, strText2);
+	villageList->SetItemText(nItem, 1, strText2);
+
+	strText.Format(L"%u", evolution);
+	m_numberFormatInt.FormatNumberByLocale(strText, strText2);
+	villageList->SetItemText(nItem, 2, strText2);
+
+	strText.Format(L"%u", stagnationCount);
+	m_numberFormatInt.FormatNumberByLocale(strText, strText2);
+	villageList->SetItemText(nItem, 3, strText2);
+
+	strText.Format(L"%llu", gameCount);
+	m_numberFormatInt.FormatNumberByLocale(strText, strText2);
+	villageList->SetItemText(nItem, 4, strText2);
+
+	if(0 != timeDiff)
+	{
+		strText.Format(L"%llu", (1000 * gameCount) / timeDiff);
+		m_numberFormatInt.FormatNumberByLocale(strText, strText2);
+		villageList->SetItemText(nItem, 5, strText2);
+	}
+	else
+		villageList->SetItemText(nItem, 5, 0);
+
+	strText.Format(L"%08.3lf", bestFitness);
+	m_numberFormatFloat.FormatNumberByLocale(strText, strText2);
+	villageList->SetItemText(nItem, 6, strText2);
+}
+
 void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 {
 	if(m_protossEngine)
 	{
-		CString strText, strText2;
-		strText.Format(L"%u", m_protossEngine->Evolution());
-		m_numberFormat.FormatNumberByLocale(strText, strText2);
-		GetDlgItem(IDC_EDIT_EVOLUTION)->SetWindowTextW(strText2);
-		strText.Format(L"%llu", m_protossEngine->GameCount());
-		m_numberFormat.FormatNumberByLocale(strText, strText2);
-		GetDlgItem(IDC_EDIT_GAMECOUNT)->SetWindowTextW(strText2);
 		DWORD timeDiff = GetTickCount() - m_startTickCount;
-		if(0 != timeDiff)
+
+		size_t totalPopulation = m_protossEngine->CityPopulationCount();
+		size_t totalEvolution = m_protossEngine->CityEvolution();
+		size_t totalStagnationCount = m_protossEngine->CityStagnationCount();
+		unsigned long long totalGameCount = m_protossEngine->CityGameCount();
+		double overallBestFitness = m_protossEngine->CityBestFitness();
+
+		UpdateListBoxEntry(1, totalPopulation, totalEvolution, totalStagnationCount, totalGameCount, 1000.0 * overallBestFitness, timeDiff);
+		for(size_t i=0; i < 5; i++)
 		{
-			strText.Format(L"%llu", (1000 * m_protossEngine->GameCount()) / timeDiff);
-			m_numberFormat.FormatNumberByLocale(strText, strText2);
-			GetDlgItem(IDC_EDIT_GAMERATE)->SetWindowTextW(strText2);
+			size_t villagePopulation = m_protossEngine->VillagePopulationCount(i);
+			size_t villageEvolution = m_protossEngine->VillageEvolution(i);
+			size_t villageStagnationCount = m_protossEngine->VillageStagnationCount(i);
+			unsigned long long villageGameCount = m_protossEngine->VillageGameCount(i);
+			double villageBestFitness = m_protossEngine->VillageBestFitness(i);
+
+			UpdateListBoxEntry(i+2, villagePopulation, villageEvolution, villageStagnationCount, villageGameCount, 1000.0 * villageBestFitness, timeDiff);
+
+			totalPopulation += villagePopulation;
+			totalGameCount += villageGameCount;
+			if(villageBestFitness > overallBestFitness)
+				overallBestFitness = villageBestFitness;
 		}
+		totalStagnationCount = m_protossEngine->StagnationLimit();
+		UpdateListBoxEntry(0, totalPopulation, totalEvolution, totalStagnationCount, totalGameCount, 1000.0 * overallBestFitness, timeDiff);
 
 		CVector<EProtossCommand> buildOrder;
 		m_protossEngine->GetBestGame(buildOrder);
 
 		if(buildOrder != m_bestBuildOrder)
 		{
+			CString strText;
 			m_bestBuildOrder = buildOrder;
 			m_protossEngine->PrintBestGame(strText);
 			GetDlgItem(IDC_EDIT_OUTPUT)->SetWindowTextW(strText);

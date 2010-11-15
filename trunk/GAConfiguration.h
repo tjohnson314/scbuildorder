@@ -75,7 +75,7 @@ public:
 	size_t GetOperatorCount() const { return m_operators.size(); }
 	const CGAOperator *GetOperator(size_t index) const { return m_operators[index]; }
 
-	TFitness CalculateFitness(const CVector<TGene> &value) const { return m_fitness.CalculateFitness(value); }
+	bool ValidateAndCalculateFitness(CGAChromosome<TGene, TFitness> *chromosome) const;
 	bool SatisfiesTarget(const CVector<TGene> &value) const { return m_fitness.SatisfiesTarget(value); }
 
 protected:
@@ -94,6 +94,18 @@ CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAConfiguration(const CVector<
 {
 	m_mutationCutOff = (short)(RAND_MAX * mutationRate);
 }
+
+template<typename TGene, typename TFitnessCalc, typename TFitness>
+bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::ValidateAndCalculateFitness(CGAChromosome<TGene, TFitness> *chromosome) const
+{
+	TFitness fitness;
+	if(!m_fitness.ValidateAndCalculateFitness(chromosome->GetValue(), fitness))
+		return false;
+
+	chromosome->SetFitness(fitness);
+	return true;
+}
+
 
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorInsert::Execute(CGAChromosome<TGene, TFitness> *chromosome) const

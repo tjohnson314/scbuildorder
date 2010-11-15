@@ -15,6 +15,7 @@ public:
 	TFitness GetFitness() const { return m_fitness; }
 
 	void SetValue(const CVector<TGene> &value) { m_value = value; }
+	CVector<TGene> &GetValue() { return m_value; }
 	const CVector<TGene> &GetValue() const { return m_value; }
 
 	CGAChromosome<TGene, TFitness> *Clone() const { return new CGAChromosome<TGene, TFitness>(*this); }

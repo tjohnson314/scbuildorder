@@ -2,7 +2,6 @@
 
 class CMemoryPool;
 
-#include <Windows.h>
 #include <vector>
 #include <map>
 
