@@ -71,7 +71,6 @@ BOOL CSCBuildOrderGUIApp::InitInstance()
 
 	CWinAppEx::InitInstance();
 
-
 	// Initialize OLE libraries
 	if (!AfxOleInit())
 	{

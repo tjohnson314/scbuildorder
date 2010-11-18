@@ -69,7 +69,7 @@ public:
 
 	void AddOperator(CGAOperator *op) { m_operators.push_back(op); }
 
-	bool GetMutation() const { return rand_sse() < m_mutationCutOff; }
+	size_t GetMutationCount() const { int r = rand_sse(); if(r < m_mutationCountOneCutOff) return 1; else if(r < m_mutationCountTwoCutOff) return 2; else if(r < m_mutationCountThreeCutOff) return 3; return 0; }
 	const CVector<TGene> &GetAlphabet() const { return m_alphabet; }
 	TGene GetRandomGene() const { return m_alphabet[(rand_sse() * m_alphabet.size()) / (RAND_MAX + 1)]; }
 	size_t GetOperatorCount() const { return m_operators.size(); }
@@ -81,7 +81,10 @@ public:
 protected:
 	const TFitnessCalc &m_fitness;
 	CVector<TGene> m_alphabet;
-	short m_mutationCutOff;
+	short m_mutationCountOneCutOff;
+	short m_mutationCountTwoCutOff;
+	short m_mutationCountThreeCutOff;
+	double m_mutationRate;
 
 	CVector<CGAOperator *> m_operators;
 
@@ -90,9 +93,11 @@ protected:
 
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAConfiguration(const CVector<TGene> &alphabet, double mutationRate, const TFitnessCalc &fitness)
-: m_alphabet(alphabet), m_fitness(fitness)
+: m_alphabet(alphabet), m_fitness(fitness), m_mutationRate(mutationRate)
 {
-	m_mutationCutOff = (short)(RAND_MAX * mutationRate);
+	m_mutationCountOneCutOff = (short)(RAND_MAX * mutationRate);
+	m_mutationCountTwoCutOff = (short)(m_mutationCountOneCutOff + RAND_MAX * 0.1 * mutationRate);
+	m_mutationCountThreeCutOff = (short)(m_mutationCountTwoCutOff + RAND_MAX * 0.01 * mutationRate);
 }
 
 template<typename TGene, typename TFitnessCalc, typename TFitness>
@@ -110,19 +115,17 @@ bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::ValidateAndCalculateFitnes
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorInsert::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
-	CVector<TGene> value(chromosome->GetValue());
-	bool hasMutated = false;
-	for(size_t i=0; i < value.size() + 1; i++)
+	size_t mutationCount = m_config.GetMutationCount();
+	if(mutationCount > 0)
 	{
-		if(m_config.GetMutation())
+		CVector<TGene> value(chromosome->GetValue());
+		for(; mutationCount > 0; mutationCount--)
 		{
+			size_t i = (rand_sse() * (value.size() + 1)) / (RAND_MAX + 1);
 			value.insert(i, m_config.GetRandomGene());
-			hasMutated = true;
 		}
-	}
-
-	if(hasMutated)
 		chromosome->SetValue(value);
+	}
 
 	return true;
 }
@@ -130,19 +133,20 @@ bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorInsert::Execute
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorDuplicate::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
-	CVector<TGene> value(chromosome->GetValue());
-	bool hasMutated = false;
-	for(size_t i=0; i < value.size(); i++)
-	{
-		if(m_config.GetMutation())
-		{
-			value.insert(i, value[i]);
-			hasMutated = true;
-		}
-	}
+	if(0 >= chromosome->GetValue().size())
+		return true;
 
-	if(hasMutated)
+	size_t mutationCount = m_config.GetMutationCount();
+	if(mutationCount > 0)
+	{
+		CVector<TGene> value(chromosome->GetValue());
+		for(; mutationCount > 0; mutationCount--)
+		{
+			size_t i = (rand_sse() * value.size()) / (RAND_MAX + 1);
+			value.insert(i, value[i]);
+		}
 		chromosome->SetValue(value);
+	}
 
 	return true;
 }
@@ -150,19 +154,20 @@ bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorDuplicate::Exec
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorDelete::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
-	CVector<TGene> value(chromosome->GetValue());
-	bool hasMutated = false;
-	for(size_t i=0; i < value.size() && value.size() > 1; i++)
-	{
-		if(m_config.GetMutation())
-		{
-			value.erase(i);
-			hasMutated = true;
-		}
-	}
+	if(1 >= chromosome->GetValue().size())
+		return true;
 
-	if(hasMutated)
+	size_t mutationCount = mymin(m_config.GetMutationCount(), chromosome->GetValue().size() - 1);
+	if(mutationCount > 0)
+	{
+		CVector<TGene> value(chromosome->GetValue());
+		for(; mutationCount > 0; mutationCount--)
+		{
+			size_t i = (rand_sse() * value.size()) / (RAND_MAX + 1);
+			value.erase(i);
+		}
 		chromosome->SetValue(value);
+	}
 
 	return true;
 }
@@ -170,26 +175,24 @@ bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorDelete::Execute
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorImmediateSwap::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
-	CVector<TGene> value(chromosome->GetValue());
-	bool hasMutated = false;
-	for(size_t i=0; i < value.size() - 1; i++)
+	if(1 >= chromosome->GetValue().size())
+		return true;
+
+	size_t mutationCount = m_config.GetMutationCount();
+	if(mutationCount > 0)
 	{
-		if(m_config.GetMutation())
+		CVector<TGene> value(chromosome->GetValue());
+		for(; mutationCount > 0; mutationCount--)
 		{
+			size_t i = (rand_sse() * (value.size() - 1)) / (RAND_MAX + 1);
 			size_t j = i+1;
 
-			if(value[i] != value[j])
-			{
-				TGene gene = value[i];
-				value[i] = value[j];
-				value[j] = gene;
-				hasMutated = true;
-			}
+			TGene gene = value[i];
+			value[i] = value[j];
+			value[j] = gene;
 		}
-	}
-
-	if(hasMutated)
 		chromosome->SetValue(value);
+	}
 
 	return true;
 }
@@ -197,26 +200,24 @@ bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorImmediateSwap::
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorRandomSwap::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
-	CVector<TGene> value(chromosome->GetValue());
-	bool hasMutated = false;
-	for(size_t i=0; i < value.size(); i++)
+	if(1 >= chromosome->GetValue().size())
+		return true;
+
+	size_t mutationCount = m_config.GetMutationCount();
+	if(mutationCount > 0)
 	{
-		if(m_config.GetMutation())
+		CVector<TGene> value(chromosome->GetValue());
+		for(; mutationCount > 0; mutationCount--)
 		{
-			size_t j = rand_sse() % value.size();
+			size_t i = (rand_sse() * value.size()) / (RAND_MAX + 1);
+			size_t j = (rand_sse() * value.size()) / (RAND_MAX + 1);
 
-			if(i != j && value[i] != value[j])
-			{
-				TGene gene = value[i];
-				value[i] = value[j];
-				value[j] = gene;
-				hasMutated = true;
-			}
+			TGene gene = value[i];
+			value[i] = value[j];
+			value[j] = gene;
 		}
-	}
-
-	if(hasMutated)
 		chromosome->SetValue(value);
+	}
 
 	return true;
 }
@@ -224,26 +225,24 @@ bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorRandomSwap::Exe
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorMove::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
-	CVector<TGene> value(chromosome->GetValue());
-	bool hasMutated = false;
-	for(size_t i=0; i < value.size(); i++)
+	if(1 >= chromosome->GetValue().size())
+		return true;
+
+	size_t mutationCount = m_config.GetMutationCount();
+	if(mutationCount > 0)
 	{
-		if(m_config.GetMutation())
+		CVector<TGene> value(chromosome->GetValue());
+		for(; mutationCount > 0; mutationCount--)
 		{
-			size_t j = rand_sse() % value.size();
+			size_t i = (rand_sse() * value.size()) / (RAND_MAX + 1);
+			size_t j = (rand_sse() * (value.size() - 1)) / (RAND_MAX + 1);
 
-			if(i != j)
-			{
-				TGene gene = value[i];
-				value.erase(i);
-				value.insert(j, gene);
-				hasMutated = true;
-			}
+			TGene gene = value[i];
+			value.erase(i);
+			value.insert(j, gene);
 		}
-	}
-
-	if(hasMutated)
 		chromosome->SetValue(value);
+	}
 
 	return true;
 }
@@ -251,19 +250,21 @@ bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorMove::Execute(C
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 bool CGAConfiguration<TGene, TFitnessCalc, TFitness>::CGAOperatorMutate::Execute(CGAChromosome<TGene, TFitness> *chromosome) const
 {
-	CVector<TGene> value(chromosome->GetValue());
-	bool hasMutated = false;
-	for(size_t i=0; i < value.size(); i++)
-	{
-		if(m_config.GetMutation())
-		{
-			value[i] = m_config.GetRandomGene();
-			hasMutated = true;
-		}
-	}
+	if(0 >= chromosome->GetValue().size())
+		return true;
 
-	if(hasMutated)
+	size_t mutationCount = m_config.GetMutationCount();
+	if(mutationCount > 0)
+	{
+		CVector<TGene> value(chromosome->GetValue());
+		for(; mutationCount > 0; mutationCount--)
+		{
+			size_t i = (rand_sse() * value.size()) / (RAND_MAX + 1);
+
+			value[i] = m_config.GetRandomGene();
+		}
 		chromosome->SetValue(value);
+	}
 
 	return true;
 }

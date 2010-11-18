@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ProtossState.h"
+#include "ProtossTarget.h"
 
 // CProtossStateDlg dialog
 
@@ -15,7 +15,7 @@ public:
 // Dialog Data
 	enum { IDD = IDD_DLG_PROTOSSSTATE };
 
-	const CProtossState &GetState() { UpdateData(TRUE); return m_protossState; }
+	const CProtossTarget &GetTarget() { UpdateData(TRUE); return m_protossTarget; }
 	void SetWaypointTargetTime(double time) { m_waypointTargetTime = time; }
 	double GetWaypointTargetTime() { UpdateData(TRUE); return m_waypointTargetTime; }
 
@@ -25,6 +25,6 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 
-	CProtossState m_protossState;
+	CProtossTarget m_protossTarget;
 	double m_waypointTargetTime;
 };

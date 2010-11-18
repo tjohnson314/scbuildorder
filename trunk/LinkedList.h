@@ -36,6 +36,25 @@ public:
 	}
 
 	template <typename Compare>
+	void InsertOrdered(CLinkedList<T> *pEntry)
+	{
+		Compare comp;
+		if(!m_pNext)
+		{
+			m_pNext = pEntry;
+			pEntry->SetNext(NULL);
+		}
+		else
+		{
+			CLinkedList<T> *pNext = this;
+			while(NULL != pNext->GetNext() && comp(pNext->GetNext()->GetData(), pEntry->GetData()))
+				pNext = pNext->GetNext();
+			pEntry->SetNext(pNext->GetNext());
+			pNext->SetNext(pEntry);
+		}
+	}
+
+	template <typename Compare>
 	void ReOrder(CLinkedList<T> *pNode)
 	{
 		Compare comp;

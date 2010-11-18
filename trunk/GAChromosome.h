@@ -35,8 +35,7 @@ CGAChromosome<TGene, TFitness> *CGAChromosome<TGene, TFitness>::Breed(const CGAC
 	size_t crossoverPoint = (size_t)(crossover * spouse->GetValue().size());
 	value.append(spouse->GetValue().data() + crossoverPoint, spouse->GetValue().size() - crossoverPoint);
 
-	CGAChromosome<TGene, TFitness> *child = new CGAChromosome<TGene, TFitness>(value);
-	return child;
+	return new CGAChromosome<TGene, TFitness>(value);
 }
 
 template<typename TGene, typename TFitness>

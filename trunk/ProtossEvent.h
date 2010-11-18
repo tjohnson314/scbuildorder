@@ -5,8 +5,10 @@ class CProtossEvent
 public:
 	enum EEvent
 	{
+		eNone
+
 		// Buildings
-		eSpawnNexus
+		, eSpawnNexus
 		, eSpawnAssimilator
 		, eSpawnPylon
 		, eSpawnGateway
@@ -134,8 +136,13 @@ public:
 		, eResearchChronoExtendedThermalLanceComplete
 		, eResearchChronoFluxVanesComplete
 		, eResearchChronoGravitonCatapultComplete
+
+		, eSendScout
+		, eKillScout
+		, eReturnScout
 	};
 
+	CProtossEvent() : m_event(eNone), m_time(0) {}
 	CProtossEvent(EEvent event, double time) : m_event(event), m_time(time) {}
 
 	void event(EEvent event) { m_event = event; }
@@ -144,6 +151,7 @@ public:
 	double time() const { return m_time; }
 
 	bool operator <(const CProtossEvent &event) const { return m_time < event.time(); }
+	void operator =(const CProtossEvent &event) { m_event = event.event(); m_time = event.time(); }
 
 protected:
 	EEvent m_event;

@@ -23,9 +23,6 @@
     <Filter Include="GameSimulation">
       <UniqueIdentifier>{e705004a-9756-479f-8cc7-c1acfc2372fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine">
-      <UniqueIdentifier>{bea74804-3069-4fde-8423-4a1c736e1958}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -129,17 +126,8 @@
     <ClInclude Include="ZergEvent.h">
       <Filter>Zerg</Filter>
     </ClInclude>
-    <ClInclude Include="Village.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Lock.h">
       <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Alphabet.h">
-      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="SettingsDlg.h">
       <Filter>GUI</Filter>
@@ -158,6 +146,18 @@
     </ClInclude>
     <ClInclude Include="ThreadPool.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtossTarget.h">
+      <Filter>Protoss</Filter>
+    </ClInclude>
+    <ClInclude Include="FastSortedQueue.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Village.h">
+      <Filter>GameSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>GameSimulation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -229,23 +229,20 @@
       <Filter>Zerg</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Alphabet.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="SettingsDlg.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="ProtossStateDlg.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="FitnessCalc.cpp">
-      <Filter>GameSimulation</Filter>
-    </ClCompile>
     <ClCompile Include="NumberFormat.cpp">
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="ThreadPool.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtossTarget.cpp">
+      <Filter>Protoss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
