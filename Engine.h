@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Alphabet.h"
 #include "Village.h"
 #include "GAConfiguration.h"
 #include "GAPopulation.h"
@@ -9,21 +8,23 @@
 #include "FitnessCalc.h"
 #include "FitnessValue.h"
 
-template<typename TState, typename TCommand, typename TEvent>
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
 class CSimulatorEngine
 {
 public:
 	CSimulatorEngine(double timeLimit);
 	~CSimulatorEngine();
 
-	void AddWaypoint(const TState &targetState, double targetTime) { m_targetFitness.AddWaypoint(targetState, targetTime); }
+	void AddWaypoint(const TTarget &target, double targetTime) { m_targetFitness.AddWaypoint(target, targetTime); }
 	void InitConfiguration(double mutationRate);
-	void AddVillage(size_t populationLimit, size_t initialPopulation) { if(!m_config) return; m_villages.push_back(new CVillage<TState, TCommand, TEvent>(*m_config, m_stagnationLimit, populationLimit, initialPopulation)); }
+	void AddVillage(size_t populationLimit, size_t initialPopulation) { if(!m_config) return; m_villages.push_back(new CVillage<TTarget, TState, TCommand, TEvent>(*m_config, m_stagnationLimit, populationLimit, initialPopulation)); }
+	void AddSeed(const CVector<TCommand> &seed) { if(!m_config) return; m_seeds.push_back(new CVector<TCommand>(seed)); }
+	void AddCustomEvent(const TEvent &customEvent) { if(!m_config) return; m_targetFitness.AddCustomEvent(customEvent); }
 
 	void Start();
 	void Stop();
 
-	static void Execute(void *input) { ((CSimulatorEngine<TState, TCommand, TEvent> *)input)->Execute(); }
+	static void Execute(void *input) { ((CSimulatorEngine<TTarget, TState, TCommand, TEvent> *)input)->Execute(); }
 	void Execute();
 
 	size_t VillagePopulationCount(size_t village) const { return m_villages[village]->populationCount(); }
@@ -46,12 +47,14 @@ public:
 
 protected:
 	CVector<TCommand> m_vecAlphabet;
-	CFitnessCalc<TState, TCommand, TEvent> m_targetFitness;
-	CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue> *m_config;
+	CFitnessCalc<TTarget, TState, TCommand, TEvent> m_targetFitness;
+	CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue> *m_config;
+
+	CVector<CVector<TCommand> *> m_seeds;
 
 	size_t m_stagnationLimit;
-	CVector<CVillage<TState, TCommand, TEvent> *> m_villages;
-	CGAPopulation<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue> *m_city;
+	CVector<CVillage<TTarget, TState, TCommand, TEvent> *> m_villages;
+	CGAPopulation<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue> *m_city;
 
 	CVector<TCommand> *m_bestGame;
 	CFitnessValue m_bestFitness;
@@ -67,17 +70,19 @@ protected:
 
 };
 
-template<typename TState, typename TCommand, typename TEvent>
-CSimulatorEngine<TState, TCommand, TEvent>::CSimulatorEngine(double timeLimit)
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+CSimulatorEngine<TTarget, TState, TCommand, TEvent>::CSimulatorEngine(double timeLimit)
 : m_targetFitness(timeLimit), m_config(0), m_city(0), m_bestGame(0), m_bestFitness(), m_threadHandle(0), m_threadId(0), m_stagnationLimit(1000), m_bRunning(false), m_bContinueRunning(true), m_evolution(0)
 {
 	m_semaphore = CreateSemaphore(0, 1, 1, 0);
-	GetAlphabet(m_vecAlphabet);
 }
 
-template<typename TState, typename TCommand, typename TEvent>
-CSimulatorEngine<TState, TCommand, TEvent>::~CSimulatorEngine()
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+CSimulatorEngine<TTarget, TState, TCommand, TEvent>::~CSimulatorEngine()
 {
+	while(m_seeds.size() > 0)
+		delete m_seeds.pop();
+
 	for(size_t i=0; i < m_villages.size(); i++)
 		delete m_villages[i];
 
@@ -88,36 +93,42 @@ CSimulatorEngine<TState, TCommand, TEvent>::~CSimulatorEngine()
 	CloseHandle(m_threadHandle);
 }
 
-template<typename TState, typename TCommand, typename TEvent>
-void CSimulatorEngine<TState, TCommand, TEvent>::InitConfiguration(double mutationRate)
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+void CSimulatorEngine<TTarget, TState, TCommand, TEvent>::InitConfiguration(double mutationRate)
 {
 	if(m_bRunning)
 		return;
+
+	m_targetFitness.BuildAlphabet(m_vecAlphabet);
+
+	while(m_seeds.size() > 0)
+		delete m_seeds.pop();
 
 	delete m_config;
+	m_config = new CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>(m_vecAlphabet, mutationRate, m_targetFitness);
 
-	m_config = new CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue>(m_vecAlphabet, mutationRate, m_targetFitness);
+	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorInsert(*m_config));
+	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorDuplicate(*m_config));
+	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorDelete(*m_config));
+	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorImmediateSwap(*m_config));
+	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorRandomSwap(*m_config));
+	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorMove(*m_config));
+	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorMutate(*m_config));
 
-	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorInsert(*m_config));
-	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorDuplicate(*m_config));
-	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorDelete(*m_config));
-	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorImmediateSwap(*m_config));
-	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorRandomSwap(*m_config));
-	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorMove(*m_config));
-	m_config->AddOperator(new CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue>::CGAOperatorMutate(*m_config));
+	m_targetFitness.ClearCustomEvents();
 }
 
-template<typename TState, typename TCommand, typename TEvent>
-void CSimulatorEngine<TState, TCommand, TEvent>::Start()
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+void CSimulatorEngine<TTarget, TState, TCommand, TEvent>::Start()
 {
 	if(m_bRunning)
 		return;
 
-	m_threadHandle = CThreadPool::Get()->StartThread(CSimulatorEngine<TState, TCommand, TEvent>::Execute, this);
+	m_threadHandle = CThreadPool::Get()->StartThread(CSimulatorEngine<TTarget, TState, TCommand, TEvent>::Execute, this);
 }
 
-template<typename TState, typename TCommand, typename TEvent>
-void CSimulatorEngine<TState, TCommand, TEvent>::Stop()
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+void CSimulatorEngine<TTarget, TState, TCommand, TEvent>::Stop()
 {
 	if(m_bRunning)
 	{
@@ -127,16 +138,21 @@ void CSimulatorEngine<TState, TCommand, TEvent>::Stop()
 	}
 }
 
-template<typename TState, typename TCommand, typename TEvent>
-void CSimulatorEngine<TState, TCommand, TEvent>::Execute()
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+void CSimulatorEngine<TTarget, TState, TCommand, TEvent>::Execute()
 {
 	m_bRunning = true;
 
 	for(size_t i=0; i < m_villages.size(); i++)
 		m_villages[i]->Start();
 
-	m_city = new CGAPopulation<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue>(*m_config, 1000);
+	m_city = new CGAPopulation<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>(*m_config, 1000);
 	m_city->Initialise(200, 4, 8);
+
+	for(size_t i=0; i < m_seeds.size(); i++)
+		m_city->AddChromosome(*m_seeds[i]);
+
+	m_city->Sort();
 
 	for(m_evolution=0; m_bContinueRunning; m_evolution++)
 	{
@@ -184,8 +200,8 @@ void CSimulatorEngine<TState, TCommand, TEvent>::Execute()
 	m_bRunning = false;
 };
 
-template<typename TState, typename TCommand, typename TEvent>
-void CSimulatorEngine<TState, TCommand, TEvent>::PrintBestGame(CString &output) const
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+void CSimulatorEngine<TTarget, TState, TCommand, TEvent>::PrintBestGame(CString &output) const
 {
 	CVector<TCommand> game;
 	GetBestGame(game);

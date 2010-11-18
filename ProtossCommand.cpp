@@ -14,7 +14,7 @@ const WCHAR *tostring(EProtossCommand command)
 	case eProtossCommandBuildGateway:
 		return L"Build Gateway";
 	case eProtossCommandConvertGatewayToWarpGate:
-		return L"Convert Gateway To WarpGate";
+		return L"Convert Gateway To Warp Gate";
 	case eProtossCommandBuildForge:
 		return L"Build Forge";
 	case eProtossCommandBuildPhotonCannon:
@@ -76,7 +76,7 @@ const WCHAR *tostring(EProtossCommand command)
 	case eProtossCommandChronoGateway:
 		return L"Chrono Gateway";
 	case eProtossCommandChronoWarpGate:
-		return L"Chrono WarpGate";
+		return L"Chrono Warp Gate";
 	case eProtossCommandChronoForge:
 		return L"Chrono Forge";
 	case eProtossCommandChronoCyberneticsCore:
@@ -84,7 +84,7 @@ const WCHAR *tostring(EProtossCommand command)
 	case eProtossCommandChronoTwilightCouncil:
 		return L"Chrono Twilight Council";
 	case eProtossCommandChronoTemplarArchives:
-		return L"Chrono Twilight Archives";
+		return L"Chrono Templar Archives";
 	case eProtossCommandChronoRoboticsFacility:
 		return L"Chrono Robotics Facility";
 	case eProtossCommandChronoRoboticsBay:

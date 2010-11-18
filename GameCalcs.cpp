@@ -3,146 +3,40 @@
 
 size_t CGameCalcs::MineralWorkerLimit(size_t baseCount)
 {
-	return 3 * mymin(baseCount, (size_t)4);
+	return 3 * 8 * mymin(baseCount, (size_t)4);
 }
 
 size_t CGameCalcs::GasWorkerLimit(size_t baseCount, size_t geyserBuildingCount)
 {
-	return 3 * baseCount + 4 * (geyserBuildingCount - baseCount);
+	geyserBuildingCount = mymin(geyserBuildingCount, 2 * baseCount);
+	return 3 * ((geyserBuildingCount + 1)/2) + 4 * (geyserBuildingCount/2);
 }
 
 double CGameCalcs::CalculateMineralIncomeRate(size_t baseCount, size_t workerCount)
 {
-	size_t workers = workerCount;
-	size_t mineralPatches = 8 * mymin(baseCount, (size_t)4);
-	size_t patches[32] = {0};
-	for (size_t i = 0; i < mineralPatches && workers > 0; i++)
-	{
-		// Assign first drone
-		patches[i]++;
-		workers--;
-	}
-	for (size_t i = 0; i < mineralPatches && workers > 0; i++)
-	{
-		// Assign second drone
-		patches[i]++;
-		workers--;
-	}
-	for (size_t i = mineralPatches / 2; i < mineralPatches && workers > 0; i++)
-	{
-		// Assign third drone
-		patches[i]++;
-		workers--;
-	}
-	for (size_t i = 0; i < mineralPatches / 2 && workers > 0; i++)
-	{
-		// Assign third drone
-		patches[i]++;
-		workers--;
-	}
+	static double sumIncome[] = {0.0, 4*45/60.0, (4*45+4*39)/60.0, (8*45+4*39)/60.0, (8*45+8*39)/60.0, (8*45+8*39+4*34)/60.0, (8*45+8*39+4*34+4*12)/60.0}; // Sum of income rates
+	static double incomeRate[] = {45/60.0, 39/60.0, 45/60.0, 39/60.0, 34/60.0, 12/60.0, 0}; // Income rates
 
-	// Assume half the patches are close, and half are far, and the close
-	// ones have more SCVs. (perfect)
-	double mineralIncomeRate = 0.0;
-	for (size_t i = 0; i < mineralPatches; i++)
-	{
-		if (i < mineralPatches / 2) // Close patch
-		{
-			if (patches[i] == 0)
-				break;
-			else if (patches[i] == 1)
-				mineralIncomeRate += 45.0 / 60.0; // Per TeamLiquid
-			else if (patches[i] == 2)
-				mineralIncomeRate += 90.0 / 60.0; // Per TeamLiquid
-			else
-				mineralIncomeRate += 102.0 / 60.0; // Per TeamLiquid
-		}
-		else
-		{
-			if (patches[i] == 0)
-				break;
-			else if (patches[i] == 1)
-				mineralIncomeRate += 39.0 / 60.0; // Per TeamLiquid
-			else if (patches[i] == 2)
-				mineralIncomeRate += 78.0 / 60.0; // Per TeamLiquid
-			else
-				mineralIncomeRate += 102.0 / 60.0; // Per TeamLiquid
-		}
-	}
-
-	return mineralIncomeRate;
+	size_t patchCount = 4 * baseCount; // Yes, I know it's 8 per base, this is per type of patch (near/far) & how many workers on that patch (1,2,3), in the order that they'd get used
+	workerCount = mymin(workerCount, 24*baseCount);
+	size_t incomeRateIndex = workerCount/patchCount;
+	return baseCount*sumIncome[incomeRateIndex] + (workerCount % patchCount)*incomeRate[incomeRateIndex];
 }
 
 double CGameCalcs::CalculateGasIncomeRate(size_t baseCount, size_t geyserBuildingCount, size_t workerCount)
 {
+	static double closeGeyserSumIncome[] = {0.0, 42/60.0, 84/60.0, 114/60.0}; // Sum of income rates
+	static double farGeyserSumIncome[] = {0.0, 33/60.0, 67/60.0, 101/60.0, 114/60.0}; // Sum of income rates
+
 	if (geyserBuildingCount == 0)
 		return 0;
 
-	baseCount = mymin(baseCount, (size_t)4);
 	geyserBuildingCount = mymin(geyserBuildingCount, 2 * baseCount);
-	size_t workers = workerCount;
-	size_t geysers[8] = {0};
+	size_t closeGeyserCount = (geyserBuildingCount + 1) / 2;
+	size_t closeGeyserWorkerCount = mymin(workerCount, 3*closeGeyserCount);
+	size_t farGeyserCount = geyserBuildingCount / 2;
+	size_t farGeyserWorkerCount = mymin(workerCount-closeGeyserWorkerCount, 4*farGeyserCount);
 
-	for (size_t i = 0; i < geyserBuildingCount && workers > 0; i++)
-	{
-		// Assign first drone
-		geysers[i]++;
-		workers--;
-	}
-	for (size_t i = 0; i < geyserBuildingCount && workers > 0; i++)
-	{
-		// Assign second drone
-		geysers[i]++;
-		workers--;
-	}
-	for (size_t i = baseCount; i < geyserBuildingCount && workers > 0; i++)
-	{
-		// Assign third drone
-		geysers[i]++;
-		workers--;
-	}
-	for (size_t i = 0; i < baseCount && workers > 0; i++)
-	{
-		// Assign third drone
-		geysers[i]++;
-		workers--;
-	}
-	for (size_t i = baseCount; i < geyserBuildingCount && workers > 0; i++)
-	{
-		// Assign fourth drone
-		geysers[i]++;
-		workers--;
-	}
-
-	double gasIncomeRate = 0.0;
-
-	for (size_t i = 0; i < geyserBuildingCount; i++)
-	{
-		if (i < baseCount) // Close geyser
-		{
-			if (geysers[i] == 0)
-				break;
-			else if (geysers[i] == 1)
-				gasIncomeRate += 42.0 / 60.0; // Per TeamLiquid
-			else if (geysers[i] == 2)
-				gasIncomeRate += 84.0 / 60.0; // Per TeamLiquid
-			else
-				gasIncomeRate += 114.0 / 60.0; // Per TeamLiquid
-		}
-		else
-		{
-			if (geysers[i] == 0)
-				break;
-			else if (geysers[i] == 1)
-				gasIncomeRate += 33.0 / 60.0; // Per TeamLiquid
-			else if (geysers[i] == 2)
-				gasIncomeRate += 67.0 / 60.0; // Per TeamLiquid
-			else if (geysers[i] == 3)
-				gasIncomeRate += 101.0 / 60.0; // Per TeamLiquid
-			else
-				gasIncomeRate += 114.0 / 60.0; // Per TeamLiquid
-		}
-	}
-
-	return gasIncomeRate;
+	return (114/60.0) * (closeGeyserWorkerCount/3) + closeGeyserSumIncome[closeGeyserWorkerCount%3]
+		 + (114/60.0) * (farGeyserWorkerCount/4) + farGeyserSumIncome[farGeyserWorkerCount%4];
 }

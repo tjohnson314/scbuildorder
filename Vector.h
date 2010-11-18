@@ -103,7 +103,7 @@ void CVector<T>::capacity(size_t capacity)
 	if(m_capacity > capacity)
 		return;
 
-	size_t newCapacity = m_capacity > 0 ? m_capacity : 16;
+	size_t newCapacity = m_capacity > 0 ? m_capacity : 128;
 	while(newCapacity < capacity + 1)
 		newCapacity <<= 1;
 

@@ -159,4 +159,4 @@ public:
 	EZergCommand m_lastDroneMove;
 };
 
-typedef CSimulatorEngine<CZergState, EZergCommand, CZergEvent> CZergEngine;
+typedef CSimulatorEngine<CZergState, CZergState, EZergCommand, CZergEvent> CZergEngine;

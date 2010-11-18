@@ -255,15 +255,14 @@ void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 	{
 		UpdateData(TRUE);
 
-		m_bestBuildOrder = CVector<EProtossCommand>();
 		m_protossEngine = new CProtossEngine(m_settingsDlg->GetTimeLimit());
 		bool waypointAdded = false;
 		for(size_t i=0; i < m_waypointDlgs.size(); i++)
 		{
-			if(m_waypointDlgs[i]->GetState().value() > 0)
+			if(m_waypointDlgs[i]->GetTarget().hasTarget())
 			{
 				waypointAdded = true;
-				m_protossEngine->AddWaypoint(m_waypointDlgs[i]->GetState(), m_waypointDlgs[i]->GetWaypointTargetTime());
+				m_protossEngine->AddWaypoint(m_waypointDlgs[i]->GetTarget(), m_waypointDlgs[i]->GetWaypointTargetTime());
 			}
 		}
 		if(!waypointAdded)
@@ -279,6 +278,17 @@ void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 		m_protossEngine->AddVillage(200, 100);
 		m_protossEngine->AddVillage(200, 100);
 		m_protossEngine->AddVillage(200, 100);
+
+		m_protossEngine->AddSeed(m_bestBuildOrder);
+
+		if(m_settingsDlg->GetScoutingWorker())
+		{
+			m_protossEngine->AddCustomEvent(CProtossEvent(CProtossEvent::eSendScout, m_settingsDlg->GetScoutingWorkerTime()));
+			if(m_settingsDlg->GetScoutingWorkerDies())
+				m_protossEngine->AddCustomEvent(CProtossEvent(CProtossEvent::eKillScout, m_settingsDlg->GetScoutingWorkerEndTime()));
+			else if(m_settingsDlg->GetScoutingWorkerReturns())
+				m_protossEngine->AddCustomEvent(CProtossEvent(CProtossEvent::eReturnScout, m_settingsDlg->GetScoutingWorkerEndTime()));
+		}
 
 		CListCtrl *villageList = (CListCtrl *)GetDlgItem(IDC_LIST_VILLAGEINFO);
 		villageList->DeleteAllItems();

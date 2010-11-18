@@ -243,7 +243,7 @@ bool CZergState::WaitForResources(double &time, double timeLimit, double mineral
 	double gasRequired = gasCost - m_gas;
 	double maxQueenEnergy = 0;
 	for(size_t i=0; i < 4 && i < m_queenCount; i++)
-		maxQueenEnergy = max(maxQueenEnergy, m_queenEnergy[i]);
+		maxQueenEnergy = mymax(maxQueenEnergy, m_queenEnergy[i]);
 	double queenEnergyRequired = queenEnergyCost - maxQueenEnergy;
 
 	while(mineralsRequired > 0 || gasRequired > 0 || queenEnergyRequired > 0)
@@ -275,7 +275,7 @@ bool CZergState::WaitForResources(double &time, double timeLimit, double mineral
 		}
 		queenTimeRequired = queenEnergyRequired / 0.5625;
 
-		double timeRequired = max(max(mineralTimeRequired, gasTimeRequired), queenTimeRequired);
+		double timeRequired = mymax(mymax(mineralTimeRequired, gasTimeRequired), queenTimeRequired);
 
 		if(time + timeRequired > timeLimit && (!events || events->GetData().time() > timeLimit))
 			return false;
@@ -288,7 +288,7 @@ bool CZergState::WaitForResources(double &time, double timeLimit, double mineral
 		mineralsRequired = mineralCost - m_minerals;
 		gasRequired = gasCost - m_gas;
 		for(size_t i=0; i < 4 && i < m_queenCount; i++)
-			maxQueenEnergy = max(maxQueenEnergy, m_queenEnergy[i]);
+			maxQueenEnergy = mymax(maxQueenEnergy, m_queenEnergy[i]);
 		queenEnergyRequired = queenEnergyCost - maxQueenEnergy;
 	}
 

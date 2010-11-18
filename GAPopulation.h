@@ -70,7 +70,7 @@ CGAPopulation<TGene, TFitnessCalc, TFitness>::~CGAPopulation()
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 void CGAPopulation<TGene, TFitnessCalc, TFitness>::Initialise(size_t initialPopulation, size_t minSize, size_t maxSize)
 {
-	minSize = min(minSize, maxSize);
+	minSize = mymin(minSize, maxSize);
 	for(size_t j=0; j < initialPopulation; j++)
 	{
 		CVector<TGene> junk;
@@ -134,19 +134,20 @@ bool CGAPopulation<TGene, TFitnessCalc, TFitness>::Evolve()
 	while(newPopulationCount < m_maxPopulation && newPopulationCount < m_populationCount * 2)
 	{
 		// Breeding
-		CGAChromosome<TGene, TFitness> *parentA, *parentB;
+		CGAChromosome<TGene, TFitness> *parentA, *parentB, **population;
 
 		double chosenFitness = (totalFitness * rand_sse()) / RAND_MAX;
 		double curFitness = 0;
-		for(size_t i=0; i < m_maxPopulation; i++)
+		population = m_population;
+		for(size_t i=0; i < m_maxPopulation; i++, population++)
 		{
-			if(m_population[i] != 0)
+			if(*population != 0)
 			{
-				curFitness += m_population[i]->GetFitness();
+				curFitness += (*population)->GetFitness();
 	
 				if(curFitness >= chosenFitness)
 				{
-					parentA = m_population[i];
+					parentA = *population;
 					break;
 				}
 			}
@@ -154,15 +155,16 @@ bool CGAPopulation<TGene, TFitnessCalc, TFitness>::Evolve()
 
 		chosenFitness = (totalFitness * rand_sse()) / RAND_MAX;
 		curFitness = 0;
-		for(size_t i=0; i < m_maxPopulation; i++)
+		population = m_population;
+		for(size_t i=0; i < m_maxPopulation; i++, population++)
 		{
-			if(m_population[i] != 0)
+			if(*population != 0)
 			{
-				curFitness += m_population[i]->GetFitness();
+				curFitness += (*population)->GetFitness();
 	
 				if(curFitness >= chosenFitness)
 				{
-					parentB = m_population[i];
+					parentB = *population;
 					break;
 				}
 			}

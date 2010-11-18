@@ -38,8 +38,8 @@
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
 
-template<typename T>
-const T &mymin(const T &a, const T &b) { return (a < b) ? a : b; }
+template<typename T> const T &mymin(const T &a, const T &b) { return (a < b) ? a : b; }
+template<typename T> const T &mymax(const T &a, const T &b) { return (a > b) ? a : b; }
 
 
 #include "FastRand.h"

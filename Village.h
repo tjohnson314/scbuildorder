@@ -5,11 +5,11 @@
 #include "FitnessCalc.h"
 #include "FitnessValue.h"
 
-template<typename TState, typename TCommand, typename TEvent>
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
 class CVillage
 {
 public:
-	CVillage(const CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue> &config, const size_t &stagnationLimit, size_t populationLimit, size_t initialPopulation);
+	CVillage(const CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue> &config, const size_t &stagnationLimit, size_t populationLimit, size_t initialPopulation);
 	~CVillage() { CloseHandle(m_semaphore); CloseHandle(m_threadHandle); }
 
 	size_t populationCount() const { if(!m_population) return 0; return m_population->populationCount(); }
@@ -26,15 +26,15 @@ public:
 
 	size_t getStagnationLimit() const { return m_stagnationLimit; }
 
-	static void Execute(void *input) { ((CVillage<TState, TCommand, TEvent> *)input)->Execute(); }
+	static void Execute(void *input) { ((CVillage<TTarget, TState, TCommand, TEvent> *)input)->Execute(); }
 	void Execute();
 	void Run(); // Only call from static member above
 
 protected:
 	void Initialise() { m_evolution = 0; m_population->Initialise(m_initialPopulation, 4, 8); }
 
-	const CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue> &m_config;
-	CGAPopulation<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue> *m_population;
+	const CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue> &m_config;
+	CGAPopulation<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue> *m_population;
 	const size_t &m_stagnationLimit;
 
 	size_t m_populationLimit;
@@ -54,28 +54,28 @@ protected:
 	CFitnessValue m_bestFitness;
 };
 
-template<typename TState, typename TCommand, typename TEvent>
-CVillage<TState, TCommand, TEvent>::CVillage(const CGAConfiguration<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue> &config, const size_t &stagnationLimit, size_t populationLimit, size_t initialPopulation)
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+CVillage<TTarget, TState, TCommand, TEvent>::CVillage(const CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue> &config, const size_t &stagnationLimit, size_t populationLimit, size_t initialPopulation)
 : m_config(config), m_populationLimit(populationLimit), m_population(0), m_stagnationLimit(stagnationLimit), m_initialPopulation(initialPopulation), m_threadHandle(0), m_threadId(0), m_bRunning(false), m_bContinueRunning(true), m_evolution(0), m_bestValue(0), m_bestFitness()
 {
 	m_semaphore = CreateSemaphore(0, 1, 1, 0);
 }
 
-template<typename TState, typename TCommand, typename TEvent>
-void CVillage<TState, TCommand, TEvent>::Start()
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+void CVillage<TTarget, TState, TCommand, TEvent>::Start()
 {
 	if(m_bRunning)
 		return;
 
-	m_threadHandle = CThreadPool::Get()->StartThread(CVillage<TState, TCommand, TEvent>::Execute, this);
+	m_threadHandle = CThreadPool::Get()->StartThread(CVillage<TTarget, TState, TCommand, TEvent>::Execute, this);
 }
 
-template<typename TState, typename TCommand, typename TEvent>
-void CVillage<TState, TCommand, TEvent>::Execute()
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+void CVillage<TTarget, TState, TCommand, TEvent>::Execute()
 {
 	m_bRunning = true;
 
-	m_population = new CGAPopulation<TCommand, CFitnessCalc<TState, TCommand, TEvent>, CFitnessValue>(m_config, m_populationLimit);
+	m_population = new CGAPopulation<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>(m_config, m_populationLimit);
 
 	Initialise();
 

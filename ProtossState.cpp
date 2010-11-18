@@ -8,11 +8,11 @@
 
 CProtossState::CProtossState()
 : m_minerals(0), m_gas(0)
-, m_nexusCount(0), m_pylonCount(0), m_assimilatorCount(0), m_gatewayCount(0), m_warpgateCount(0), m_forgeCount(0), m_photonCannonCount(0), m_cyberneticsCoreCount(0), m_twilightCouncilCount(0), m_templarArchivesCount(0), m_darkShrineCount(0), m_roboticsFacilityCount(0), m_roboticsBayCount(0), m_stargateCount(0), m_fleetBeaconCount(0)
-, m_nexusUnderConstruction(0), m_assimilatorUnderConstruction(0), m_pylonUnderConstruction(0), m_gatewayUnderConstruction(0), m_warpgateUnderConstruction(0), m_photonCannonUnderConstruction(0), m_forgeUnderConstruction(0), m_cyberneticsCoreUnderConstruction(0), m_twilightCouncilUnderConstruction(0), m_templarArchivesUnderConstruction(0), m_darkShrineUnderConstruction(0), m_roboticsFacilityUnderConstruction(0), m_roboticsBayUnderConstruction(0), m_stargateUnderConstruction(0), m_fleetBeaconUnderConstruction(0)
-, m_nexusInUse(0), m_gatewayInUse(0), m_warpgateOnCooldown(0), m_forgeInUse(0), m_cyberneticsCoreInUse(0), m_twilightCouncilInUse(0), m_templarArchivesInUse(0), m_darkShrineInUse(0), m_roboticsFacilityInUse(0), m_roboticsBayInUse(0), m_stargateInUse(0), m_fleetBeaconInUse(0)
-, m_nexusChronoCount(0), m_gatewayChronoCount(0), m_warpgateChronoCount(0), m_forgeChronoCount(0), m_cyberneticsCoreChronoCount(0), m_twilightCouncilChronoCount(0), m_templarArchivesChronoCount(0), m_darkShrineChronoCount(0), m_roboticsFacilityChronoCount(0), m_roboticsBayChronoCount(0), m_stargateChronoCount(0), m_fleetBeaconChronoCount(0)
-, m_nexusChronoAvailable(0), m_gatewayChronoAvailable(0), m_warpgateChronoAvailable(0), m_forgeChronoAvailable(0), m_cyberneticsCoreChronoAvailable(0), m_twilightCouncilChronoAvailable(0), m_templarArchivesChronoAvailable(0), m_darkShrineChronoAvailable(0), m_roboticsFacilityChronoAvailable(0), m_roboticsBayChronoAvailable(0), m_stargateChronoAvailable(0), m_fleetBeaconChronoAvailable(0)
+, m_nexusCount(0), m_pylonCount(0), m_assimilatorCount(0), m_gatewayCount(0), m_warpGateCount(0), m_forgeCount(0), m_photonCannonCount(0), m_cyberneticsCoreCount(0), m_twilightCouncilCount(0), m_templarArchivesCount(0), m_darkShrineCount(0), m_roboticsFacilityCount(0), m_roboticsBayCount(0), m_stargateCount(0), m_fleetBeaconCount(0)
+, m_nexusUnderConstruction(0), m_assimilatorUnderConstruction(0), m_pylonUnderConstruction(0), m_gatewayUnderConstruction(0), m_warpGateUnderConstruction(0), m_photonCannonUnderConstruction(0), m_forgeUnderConstruction(0), m_cyberneticsCoreUnderConstruction(0), m_twilightCouncilUnderConstruction(0), m_templarArchivesUnderConstruction(0), m_darkShrineUnderConstruction(0), m_roboticsFacilityUnderConstruction(0), m_roboticsBayUnderConstruction(0), m_stargateUnderConstruction(0), m_fleetBeaconUnderConstruction(0)
+, m_nexusInUse(0), m_gatewayInUse(0), m_warpGateOnCooldown(0), m_forgeInUse(0), m_cyberneticsCoreInUse(0), m_twilightCouncilInUse(0), m_templarArchivesInUse(0), m_darkShrineInUse(0), m_roboticsFacilityInUse(0), m_roboticsBayInUse(0), m_stargateInUse(0), m_fleetBeaconInUse(0)
+, m_nexusChronoCount(0), m_gatewayChronoCount(0), m_warpGateChronoCount(0), m_forgeChronoCount(0), m_cyberneticsCoreChronoCount(0), m_twilightCouncilChronoCount(0), m_templarArchivesChronoCount(0), m_darkShrineChronoCount(0), m_roboticsFacilityChronoCount(0), m_roboticsBayChronoCount(0), m_stargateChronoCount(0), m_fleetBeaconChronoCount(0)
+, m_nexusChronoAvailable(0), m_gatewayChronoAvailable(0), m_warpGateChronoAvailable(0), m_forgeChronoAvailable(0), m_cyberneticsCoreChronoAvailable(0), m_twilightCouncilChronoAvailable(0), m_templarArchivesChronoAvailable(0), m_darkShrineChronoAvailable(0), m_roboticsFacilityChronoAvailable(0), m_roboticsBayChronoAvailable(0), m_stargateChronoAvailable(0), m_fleetBeaconChronoAvailable(0)
 , m_probeCount(0), m_zealotCount(0), m_stalkerCount(0), m_sentryCount(0), m_highTemplarCount(0), m_darkTemplarCount(0), m_archonCount(0), m_warpPrismCount(0), m_observerCount(0), m_immortalCount(0), m_colossusCount(0), m_phoenixCount(0), m_voidRayCount(0), m_carrierCount(0), m_mothershipCount(0)
 , m_probeUnderConstruction(0), m_zealotUnderConstruction(0), m_stalkerUnderConstruction(0), m_sentryUnderConstruction(0), m_highTemplarUnderConstruction(0), m_darkTemplarUnderConstruction(0), m_archonUnderConstruction(0), m_warpPrismUnderConstruction(0), m_observerUnderConstruction(0), m_immortalUnderConstruction(0), m_colossusUnderConstruction(0), m_phoenixUnderConstruction(0), m_voidRayUnderConstruction(0), m_carrierUnderConstruction(0), m_mothershipUnderConstruction(0)
 , m_researchGroundWeapons1Completed(false), m_researchGroundWeapons2Completed(false), m_researchGroundWeapons3Completed(false), m_researchGroundArmor1Completed(false), m_researchGroundArmor2Completed(false), m_researchGroundArmor3Completed(false), m_researchShields1Completed(false), m_researchShields2Completed(false), m_researchShields3Completed(false), m_researchAirWeapons1Completed(false), m_researchAirWeapons2Completed(false), m_researchAirWeapons3Completed(false), m_researchAirArmor1Completed(false), m_researchAirArmor2Completed(false), m_researchAirArmor3Completed(false), m_researchWarpGateTransformationCompleted(false), m_researchHallucinationCompleted(false), m_researchChargeCompleted(false), m_researchBlinkCompleted(false), m_researchPsionicStormCompleted(false), m_researchKhaydarinAmuletCompleted(false), m_researchGraviticDriveCompleted(false), m_researchGraviticBoostersCompleted(false), m_researchExtendedThermalLanceCompleted(false), m_researchFluxVanesCompleted(false), m_researchGravitonCatapultCompleted(false)
@@ -22,8 +22,7 @@ CProtossState::CProtossState()
 , m_mineralIncomeRate(0), m_gasIncomeRate(0)
 , m_timeLastProbeMove(0), m_lastProbeMove(eProtossCommandNone)
 {
-	for(size_t i=0; i < 4; i++)
-		m_nexusEnergy[i] = 0;
+	memset(m_nexusEnergy, 0, sizeof(double)*4);
 }
 
 CProtossState::~CProtossState()
@@ -50,390 +49,31 @@ void CProtossState::operator=(const CProtossState &state)
 	memmove(this, &state, sizeof(CProtossState));
 }
 
-bool CProtossState::operator>=(const CProtossState &state) const
-{
-	if(m_minerals < state.m_minerals)
-		return false;
-	if(m_gas < state.m_gas)
-		return false;
-	for(size_t i=0; i < 4; i++)
-	{
-		if(m_nexusEnergy[i] < state.m_nexusEnergy[i])
-			return false;
-	}
-
-	if(m_nexusCount < state.m_nexusCount)
-		return false;
-	if(m_pylonCount < state.m_pylonCount)
-		return false;
-	if(m_assimilatorCount < state.m_assimilatorCount)
-		return false;
-	if(m_gatewayCount < state.m_gatewayCount)
-		return false;
-	if(m_warpgateCount < state.m_warpgateCount)
-		return false;
-	if(m_forgeCount < state.m_forgeCount)
-		return false;
-	if(m_photonCannonCount < state.m_photonCannonCount)
-		return false;
-	if(m_cyberneticsCoreCount < state.m_cyberneticsCoreCount)
-		return false;
-	if(m_twilightCouncilCount < state.m_twilightCouncilCount)
-		return false;
-	if(m_templarArchivesCount < state.m_templarArchivesCount)
-		return false;
-	if(m_darkShrineCount < state.m_darkShrineCount)
-		return false;
-	if(m_roboticsFacilityCount < state.m_roboticsFacilityCount)
-		return false;
-	if(m_roboticsBayCount < state.m_roboticsBayCount)
-		return false;
-	if(m_stargateCount < state.m_stargateCount)
-		return false;
-	if(m_fleetBeaconCount < state.m_fleetBeaconCount)
-		return false;
-
-	if(m_probeCount < state.m_probeCount)
-		return false;
-	if(m_zealotCount < state.m_zealotCount)
-		return false;
-	if(m_stalkerCount < state.m_stalkerCount)
-		return false;
-	if(m_sentryCount < state.m_sentryCount)
-		return false;
-	if(m_highTemplarCount < state.m_highTemplarCount)
-		return false;
-	if(m_darkTemplarCount < state.m_darkTemplarCount)
-		return false;
-	if(m_archonCount < state.m_archonCount)
-		return false;
-	if(m_warpPrismCount < state.m_warpPrismCount)
-		return false;
-	if(m_observerCount < state.m_observerCount)
-		return false;
-	if(m_immortalCount < state.m_immortalCount)
-		return false;
-	if(m_colossusCount < state.m_colossusCount)
-		return false;
-	if(m_phoenixCount < state.m_phoenixCount)
-		return false;
-	if(m_voidRayCount < state.m_voidRayCount)
-		return false;
-	if(m_carrierCount < state.m_carrierCount)
-		return false;
-	if(m_mothershipCount < state.m_mothershipCount)
-		return false;
-
-	if(!m_researchGroundWeapons1Completed && state.m_researchGroundWeapons1Completed)
-		return false;
-	if(!m_researchGroundWeapons2Completed && state.m_researchGroundWeapons2Completed)
-		return false;
-	if(!m_researchGroundWeapons3Completed && state.m_researchGroundWeapons3Completed)
-		return false;
-	if(!m_researchGroundArmor1Completed && state.m_researchGroundArmor1Completed)
-		return false;
-	if(!m_researchGroundArmor2Completed && state.m_researchGroundArmor2Completed)
-		return false;
-	if(!m_researchGroundArmor3Completed && state.m_researchGroundArmor3Completed)
-		return false;
-	if(!m_researchShields1Completed && state.m_researchShields1Completed)
-		return false;
-	if(!m_researchShields2Completed && state.m_researchShields2Completed)
-		return false;
-	if(!m_researchShields3Completed && state.m_researchShields3Completed)
-		return false;
-	if(!m_researchAirWeapons1Completed && state.m_researchAirWeapons1Completed)
-		return false;
-	if(!m_researchAirWeapons2Completed && state.m_researchAirWeapons2Completed)
-		return false;
-	if(!m_researchAirWeapons3Completed && state.m_researchAirWeapons3Completed)
-		return false;
-	if(!m_researchAirArmor1Completed && state.m_researchAirArmor1Completed)
-		return false;
-	if(!m_researchAirArmor2Completed && state.m_researchAirArmor2Completed)
-		return false;
-	if(!m_researchAirArmor3Completed && state.m_researchAirArmor3Completed)
-		return false;
-	if(!m_researchWarpGateTransformationCompleted && state.m_researchWarpGateTransformationCompleted)
-		return false;
-	if(!m_researchHallucinationCompleted && state.m_researchHallucinationCompleted)
-		return false;
-	if(!m_researchChargeCompleted && state.m_researchChargeCompleted)
-		return false;
-	if(!m_researchBlinkCompleted && state.m_researchBlinkCompleted)
-		return false;
-	if(!m_researchPsionicStormCompleted && state.m_researchPsionicStormCompleted)
-		return false;
-	if(!m_researchKhaydarinAmuletCompleted && state.m_researchKhaydarinAmuletCompleted)
-		return false;
-	if(!m_researchGraviticDriveCompleted && state.m_researchGraviticDriveCompleted)
-		return false;
-	if(!m_researchGraviticBoostersCompleted && state.m_researchGraviticBoostersCompleted)
-		return false;
-	if(!m_researchExtendedThermalLanceCompleted && state.m_researchExtendedThermalLanceCompleted)
-		return false;
-	if(!m_researchFluxVanesCompleted && state.m_researchFluxVanesCompleted)
-		return false;
-	if(!m_researchGravitonCatapultCompleted && state.m_researchGravitonCatapultCompleted)
-		return false;
-
-	return true;
-}
-
-void CProtossState::intersection(const CProtossState &s1, const CProtossState &s2)
-{
-	m_minerals = mymin(s1.m_minerals, s2.m_minerals);
-	m_gas = mymin(s1.m_gas, s2.m_gas);
-
-	m_nexusCount = mymin(s1.m_nexusCount, s2.m_nexusCount);
-	m_pylonCount = mymin(s1.m_pylonCount, s2.m_pylonCount);
-	m_assimilatorCount = mymin(s1.m_assimilatorCount, s2.m_assimilatorCount);
-	m_gatewayCount = mymin(s1.m_gatewayCount, s2.m_gatewayCount);
-	m_warpgateCount = mymin(s1.m_warpgateCount, s2.m_warpgateCount);
-	m_forgeCount = mymin(s1.m_forgeCount, s2.m_forgeCount);
-	m_photonCannonCount = mymin(s1.m_photonCannonCount, s2.m_photonCannonCount);
-	m_cyberneticsCoreCount = mymin(s1.m_cyberneticsCoreCount, s2.m_cyberneticsCoreCount);
-	m_twilightCouncilCount = mymin(s1.m_twilightCouncilCount, s2.m_twilightCouncilCount);
-	m_templarArchivesCount = mymin(s1.m_templarArchivesCount, s2.m_templarArchivesCount);
-	m_darkShrineCount = mymin(s1.m_darkShrineCount, s2.m_darkShrineCount);
-	m_roboticsFacilityCount = mymin(s1.m_roboticsFacilityCount, s2.m_roboticsFacilityCount);
-	m_roboticsBayCount = mymin(s1.m_roboticsBayCount, s2.m_roboticsBayCount);
-	m_stargateCount = mymin(s1.m_stargateCount, s2.m_stargateCount);
-	m_fleetBeaconCount = mymin(s1.m_fleetBeaconCount, s2.m_fleetBeaconCount);
-
-	m_probeCount = mymin(s1.m_probeCount, s2.m_probeCount);
-	m_zealotCount = mymin(s1.m_zealotCount, s2.m_zealotCount);
-	m_stalkerCount = mymin(s1.m_stalkerCount, s2.m_stalkerCount);
-	m_sentryCount = mymin(s1.m_sentryCount, s2.m_sentryCount);
-	m_highTemplarCount = mymin(s1.m_highTemplarCount, s2.m_highTemplarCount);
-	m_darkTemplarCount = mymin(s1.m_darkTemplarCount, s2.m_darkTemplarCount);
-	m_archonCount = mymin(s1.m_archonCount, s2.m_archonCount);
-	m_warpPrismCount = mymin(s1.m_warpPrismCount, s2.m_warpPrismCount);
-	m_observerCount = mymin(s1.m_observerCount, s2.m_observerCount);
-	m_immortalCount = mymin(s1.m_immortalCount, s2.m_immortalCount);
-	m_colossusCount = mymin(s1.m_colossusCount, s2.m_colossusCount);
-	m_phoenixCount = mymin(s1.m_phoenixCount, s2.m_phoenixCount);
-	m_voidRayCount = mymin(s1.m_voidRayCount, s2.m_voidRayCount);
-	m_carrierCount = mymin(s1.m_carrierCount, s2.m_carrierCount);
-	m_mothershipCount = mymin(s1.m_mothershipCount, s2.m_mothershipCount);
-
-	m_researchGroundWeapons1Completed = s1.m_researchGroundWeapons1Completed && s2.m_researchGroundWeapons1Completed;
-	m_researchGroundWeapons2Completed = s1.m_researchGroundWeapons2Completed && s2.m_researchGroundWeapons2Completed;
-	m_researchGroundWeapons3Completed = s1.m_researchGroundWeapons3Completed && s2.m_researchGroundWeapons3Completed;
-	m_researchGroundArmor1Completed = s1.m_researchGroundArmor1Completed && s2.m_researchGroundArmor1Completed;
-	m_researchGroundArmor2Completed = s1.m_researchGroundArmor2Completed && s2.m_researchGroundArmor2Completed;
-	m_researchGroundArmor3Completed = s1.m_researchGroundArmor3Completed && s2.m_researchGroundArmor3Completed;
-	m_researchShields1Completed = s1.m_researchShields1Completed && s2.m_researchShields1Completed;
-	m_researchShields2Completed = s1.m_researchShields2Completed && s2.m_researchShields2Completed;
-	m_researchShields3Completed = s1.m_researchShields3Completed && s2.m_researchShields3Completed;
-	m_researchAirWeapons1Completed = s1.m_researchAirWeapons1Completed && s2.m_researchAirWeapons1Completed;
-	m_researchAirWeapons2Completed = s1.m_researchAirWeapons2Completed && s2.m_researchAirWeapons2Completed;
-	m_researchAirWeapons3Completed = s1.m_researchAirWeapons3Completed && s2.m_researchAirWeapons3Completed;
-	m_researchAirArmor1Completed = s1.m_researchAirArmor1Completed && s2.m_researchAirArmor1Completed;
-	m_researchAirArmor2Completed = s1.m_researchAirArmor2Completed && s2.m_researchAirArmor2Completed;
-	m_researchAirArmor3Completed = s1.m_researchAirArmor3Completed && s2.m_researchAirArmor3Completed;
-	m_researchWarpGateTransformationCompleted = s1.m_researchWarpGateTransformationCompleted && s2.m_researchWarpGateTransformationCompleted;
-	m_researchHallucinationCompleted = s1.m_researchHallucinationCompleted && s2.m_researchHallucinationCompleted;
-	m_researchChargeCompleted = s1.m_researchChargeCompleted && s2.m_researchChargeCompleted;
-	m_researchBlinkCompleted = s1.m_researchBlinkCompleted && s2.m_researchBlinkCompleted;
-	m_researchPsionicStormCompleted = s1.m_researchPsionicStormCompleted && s2.m_researchPsionicStormCompleted;
-	m_researchKhaydarinAmuletCompleted = s1.m_researchKhaydarinAmuletCompleted && s2.m_researchKhaydarinAmuletCompleted;
-	m_researchGraviticDriveCompleted = s1.m_researchGraviticDriveCompleted && s2.m_researchGraviticDriveCompleted;
-	m_researchGraviticBoostersCompleted = s1.m_researchGraviticBoostersCompleted && s2.m_researchGraviticBoostersCompleted;
-	m_researchExtendedThermalLanceCompleted = s1.m_researchExtendedThermalLanceCompleted && s2.m_researchExtendedThermalLanceCompleted;
-	m_researchFluxVanesCompleted = s1.m_researchFluxVanesCompleted && s2.m_researchFluxVanesCompleted;
-	m_researchGravitonCatapultCompleted = s1.m_researchGravitonCatapultCompleted && s2.m_researchGravitonCatapultCompleted;
-}
-
-void CProtossState::operator-=(const CProtossState &state)
-{
-	m_minerals -= state.m_minerals;
-	m_gas -= state.m_gas;
-	for(size_t i=0; i < 4; i++)
-		m_nexusEnergy[i] -= state.m_nexusEnergy[i];
-
-	m_nexusCount -= state.m_nexusCount;
-	m_pylonCount -= state.m_pylonCount;
-	m_assimilatorCount -= state.m_assimilatorCount;
-	m_gatewayCount -= state.m_gatewayCount;
-	m_warpgateCount -= state.m_warpgateCount;
-	m_forgeCount -= state.m_forgeCount;
-	m_photonCannonCount -= state.m_photonCannonCount;
-	m_cyberneticsCoreCount -= state.m_cyberneticsCoreCount;
-	m_twilightCouncilCount -= state.m_twilightCouncilCount;
-	m_templarArchivesCount -= state.m_templarArchivesCount;
-	m_darkShrineCount -= state.m_darkShrineCount;
-	m_roboticsFacilityCount -= state.m_roboticsFacilityCount;
-	m_roboticsBayCount -= state.m_roboticsBayCount;
-	m_stargateCount -= state.m_stargateCount;
-	m_fleetBeaconCount -= state.m_fleetBeaconCount;
-
-	m_probeCount -= state.m_probeCount;
-	m_zealotCount -= state.m_zealotCount;
-	m_stalkerCount -= state.m_stalkerCount;
-	m_sentryCount -= state.m_sentryCount;
-	m_highTemplarCount -= state.m_highTemplarCount;
-	m_darkTemplarCount -= state.m_darkTemplarCount;
-	m_archonCount -= state.m_archonCount;
-	m_warpPrismCount -= state.m_warpPrismCount;
-	m_observerCount -= state.m_observerCount;
-	m_immortalCount -= state.m_immortalCount;
-	m_colossusCount -= state.m_colossusCount;
-	m_phoenixCount -= state.m_phoenixCount;
-	m_voidRayCount -= state.m_voidRayCount;
-	m_carrierCount -= state.m_carrierCount;
-	m_mothershipCount -= state.m_mothershipCount;
-
-	m_researchGroundWeapons1Completed &= !state.m_researchGroundWeapons1Completed;
-	m_researchGroundWeapons2Completed &= !state.m_researchGroundWeapons2Completed;
-	m_researchGroundWeapons3Completed &= !state.m_researchGroundWeapons3Completed;
-	m_researchGroundArmor1Completed &= !state.m_researchGroundArmor1Completed;
-	m_researchGroundArmor2Completed &= !state.m_researchGroundArmor2Completed;
-	m_researchGroundArmor3Completed &= !state.m_researchGroundArmor3Completed;
-	m_researchShields1Completed &= !state.m_researchShields1Completed;
-	m_researchShields2Completed &= !state.m_researchShields2Completed;
-	m_researchShields3Completed &= !state.m_researchShields3Completed;
-	m_researchAirWeapons1Completed &= !state.m_researchAirWeapons1Completed;
-	m_researchAirWeapons2Completed &= !state.m_researchAirWeapons2Completed;
-	m_researchAirWeapons3Completed &= !state.m_researchAirWeapons3Completed;
-	m_researchAirArmor1Completed &= !state.m_researchAirArmor1Completed;
-	m_researchAirArmor2Completed &= !state.m_researchAirArmor2Completed;
-	m_researchAirArmor3Completed &= !state.m_researchAirArmor3Completed;
-	m_researchWarpGateTransformationCompleted &= !state.m_researchWarpGateTransformationCompleted;
-	m_researchHallucinationCompleted &= !state.m_researchHallucinationCompleted;
-	m_researchChargeCompleted &= !state.m_researchChargeCompleted;
-	m_researchBlinkCompleted &= !state.m_researchBlinkCompleted;
-	m_researchPsionicStormCompleted &= !state.m_researchPsionicStormCompleted;
-	m_researchKhaydarinAmuletCompleted &= !state.m_researchKhaydarinAmuletCompleted;
-	m_researchGraviticDriveCompleted &= !state.m_researchGraviticDriveCompleted;
-	m_researchGraviticBoostersCompleted &= !state.m_researchGraviticBoostersCompleted;
-	m_researchExtendedThermalLanceCompleted &= !state.m_researchExtendedThermalLanceCompleted;
-	m_researchFluxVanesCompleted &= !state.m_researchFluxVanesCompleted;
-	m_researchGravitonCatapultCompleted &= !state.m_researchGravitonCatapultCompleted;
-}
-
-double CProtossState::value() const
-{
-	double value = 0;
-
-	value += m_minerals * 1;
-	value += m_gas * 2;
-	for(size_t i=0; i < 4 && i < m_nexusCount; i++)
-		value += m_nexusEnergy[i] * 0.2;
-
-	value += m_nexusCount * 400;
-	value += m_assimilatorCount * 75;
-	value += m_pylonCount * 100;
-	value += m_gatewayCount * 150;
-	value += m_warpgateCount * 10; // WarpGate value already calculated in gateway count
-	value += m_forgeCount * 150;
-	value += m_photonCannonCount * 150;
-	value += m_cyberneticsCoreCount * 150;
-	value += m_twilightCouncilCount * 350;
-	value += m_templarArchivesCount * 550;
-	value += m_darkShrineCount * 650;
-	value += m_roboticsFacilityCount * 400;
-	value += m_roboticsBayCount * 600;
-	value += m_stargateCount * 450;
-	value += m_fleetBeaconCount * 700;
-
-	value += m_probeCount * 50;
-	value += m_zealotCount * 100;
-	value += m_stalkerCount * 225;
-	value += m_sentryCount * 250;
-	value += m_highTemplarCount * 350;
-	value += m_darkTemplarCount * 375;
-	value += m_archonCount * 800;
-	value += m_warpPrismCount * 200;
-	value += m_observerCount * 250;
-	value += m_immortalCount * 450;
-	value += m_colossusCount * 700;
-	value += m_phoenixCount * 350;
-	value += m_voidRayCount * 550;
-	value += m_carrierCount * 850;
-	value += m_mothershipCount * 1200;
-
-	if(m_researchGroundWeapons1Completed)
-		value += 300;
-	if(m_researchGroundWeapons2Completed)
-		value += 525;
-	if(m_researchGroundWeapons3Completed)
-		value += 750;
-	if(m_researchGroundArmor1Completed)
-		value += 300;
-	if(m_researchGroundArmor2Completed)
-		value += 525;
-	if(m_researchGroundArmor3Completed)
-		value += 750;
-	if(m_researchShields1Completed)
-		value += 600;
-	if(m_researchShields2Completed)
-		value += 900;
-	if(m_researchShields3Completed)
-		value += 1200;
-	if(m_researchAirWeapons1Completed)
-		value += 300;
-	if(m_researchAirWeapons2Completed)
-		value += 525;
-	if(m_researchAirWeapons3Completed)
-		value += 750;
-	if(m_researchAirArmor1Completed)
-		value += 450;
-	if(m_researchAirArmor2Completed)
-		value += 670;
-	if(m_researchAirArmor3Completed)
-		value += 900;
-	if(m_researchWarpGateTransformationCompleted)
-		value += 150;
-	if(m_researchHallucinationCompleted)
-		value += 300;
-	if(m_researchChargeCompleted)
-		value += 600;
-	if(m_researchBlinkCompleted)
-		value += 450;
-	if(m_researchPsionicStormCompleted)
-		value += 600;
-	if(m_researchKhaydarinAmuletCompleted)
-		value += 450;
-	if(m_researchGraviticDriveCompleted)
-		value += 300;
-	if(m_researchGraviticBoostersCompleted)
-		value += 300;
-	if(m_researchExtendedThermalLanceCompleted)
-		value += 600;
-	if(m_researchFluxVanesCompleted)
-		value += 450;
-	if(m_researchGravitonCatapultCompleted)
-		value += 450;
-
-	if(m_researchWarpGateTransformationCompleted)
-		value += 150;
-
-	return value;
-}
-
 bool CProtossState::GetResourceWaitTime(const CResourceCost &cost, double &resourceWaitTime) const
 {
-	double mineralsRequired = cost.m_minerals - m_minerals;
-	double gasRequired = cost.m_gas - m_gas;
-	double maxNexusEnergy = 0;
-	for(size_t i=0; i < 4 && i < m_nexusCount; i++)
-		maxNexusEnergy = max(maxNexusEnergy, m_nexusEnergy[i]);
-	double nexusEnergyRequired = cost.m_nexusEnergy - maxNexusEnergy;
-
 	double mineralTimeRequired = 0, gasTimeRequired = 0, nexusTimeRequired = 0;
+
+	double mineralsRequired = cost.m_minerals - m_minerals;
 	if(mineralsRequired > 0)
 	{
 		if(m_mineralIncomeRate <= 0)
 			return false;
 		mineralTimeRequired = mineralsRequired / m_mineralIncomeRate;
 	}
+
+	double gasRequired = cost.m_gas - m_gas;
 	if(gasRequired > 0)
 	{
 		if(m_gasIncomeRate <= 0)
 			return false;
 		gasTimeRequired = gasRequired / m_gasIncomeRate;
 	}
+
+	double maxNexusEnergy = 0.0;
+	const double *nexusEnergy = m_nexusEnergy, *end = m_nexusEnergy + mymin(m_nexusCount, (size_t)4);
+	while(nexusEnergy < end)
+		maxNexusEnergy = mymax(maxNexusEnergy, *(nexusEnergy++));
+	double nexusEnergyRequired = cost.m_nexusEnergy - maxNexusEnergy;
 	if(nexusEnergyRequired > 0)
 	{
 		if(m_nexusCount <= 0)
@@ -442,7 +82,7 @@ bool CProtossState::GetResourceWaitTime(const CResourceCost &cost, double &resou
 		nexusTimeRequired = nexusEnergyRequired / 0.5625;
 	}
 
-	resourceWaitTime = max(max(mineralTimeRequired, gasTimeRequired), nexusTimeRequired);
+	resourceWaitTime = mymax(mymax(mineralTimeRequired, gasTimeRequired), nexusTimeRequired);
 
 	return true;
 }
@@ -456,15 +96,9 @@ bool CProtossState::HasResources(const CResourceCost &cost) const
 	if(cost.m_nexusEnergy > 0)
 	{
 		double maxNexusEnergy = 0;
-		for(size_t i=0; i < 4 && i < m_nexusCount; i++)
-		{
-			if(m_nexusEnergy[i] > maxNexusEnergy)
-			{
-				maxNexusEnergy = m_nexusEnergy[i];
-				if(maxNexusEnergy > cost.m_nexusEnergy)
-					break;
-			}
-		}
+		const double *nexusEnergy = m_nexusEnergy, *end = m_nexusEnergy + mymin(m_nexusCount, (size_t)4);
+		while(nexusEnergy < end && maxNexusEnergy <= cost.m_nexusEnergy)
+			maxNexusEnergy = mymax(maxNexusEnergy, *(nexusEnergy++));
 		if(maxNexusEnergy < cost.m_nexusEnergy)
 			return false;
 	}
@@ -478,17 +112,15 @@ void CProtossState::SpendResources(const CResourceCost &cost)
 	m_gas -= cost.m_gas;
 	if(cost.m_nexusEnergy > 0)
 	{
-		size_t maxNexusEnergyIndex = 0;
-		double maxNexusEnergy = 0;
-		for(size_t i=0; i < 4 && i < m_nexusCount; i++)
+		double *nexusEnergy = m_nexusEnergy, *end = m_nexusEnergy + mymin(m_nexusCount, (size_t)4), *best = m_nexusEnergy;
+		while(nexusEnergy < end)
 		{
-			if(m_nexusEnergy[i] > maxNexusEnergy)
-			{
-				maxNexusEnergyIndex = i;
-				maxNexusEnergy = m_nexusEnergy[i];
-			}
+			if(*nexusEnergy > *best)
+				best = nexusEnergy;
+			nexusEnergy++;
 		}
-		m_nexusEnergy[maxNexusEnergyIndex] -= cost.m_nexusEnergy;
+
+		*best -= cost.m_nexusEnergy;
 	}
 }
 
@@ -500,13 +132,13 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 		UseProbeForBuilding(30, time, events);
 		AddEvent(events, CProtossEvent(CProtossEvent::eSpawnNexus, time + 100));
 		m_nexusUnderConstruction++;
-		RecalculateSupplyCapUnderConstruction();
+		m_supplyCapUnderConstruction = mymin(m_supplyCapUnderConstruction + 10, (size_t)200);
 		break;
 	case eProtossCommandBuildPylon:
 		UseProbeForBuilding(10, time, events);
 		AddEvent(events, CProtossEvent(CProtossEvent::eSpawnPylon, time + 25));
 		m_pylonUnderConstruction++;
-		RecalculateSupplyCapUnderConstruction();
+		m_supplyCapUnderConstruction = mymin(m_supplyCapUnderConstruction + 8, (size_t)200);
 		break;
 	case eProtossCommandBuildAssimilator:
 		UseProbeForBuilding(4, time, events);
@@ -527,7 +159,7 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 		else
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGate, time + 10));
 		m_gatewayInUse++;
-		m_warpgateUnderConstruction++;
+		m_warpGateUnderConstruction++;
 		break;
 	case eProtossCommandBuildForge:
 		UseProbeForBuilding(10, time, events);
@@ -590,19 +222,19 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnProbe, time + 17));
 		m_nexusInUse++;
 		m_probeUnderConstruction++;
-		RecalculateSupply();
+		m_supply++;
 		break;
 	case eProtossCommandBuildZealot:
-		if(m_warpgateChronoAvailable > 0)
+		if(m_warpGateChronoAvailable > 0)
 		{
-			m_warpgateChronoAvailable--;
-			m_warpgateOnCooldown++;
+			m_warpGateChronoAvailable--;
+			m_warpGateOnCooldown++;
 			AddEvent(events, CProtossEvent(CProtossEvent::eChronoWarpGateOffCooldown, time + 28 * CHRONOBOOST_GAIN));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateZealot, time + 5));
 		}
-		else if(m_warpgateOnCooldown < m_warpgateCount)
+		else if(m_warpGateOnCooldown < m_warpGateCount)
 		{
-			m_warpgateOnCooldown++;
+			m_warpGateOnCooldown++;
 			AddEvent(events, CProtossEvent(CProtossEvent::eWarpGateOffCooldown, time + 28));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateZealot, time + 5));
 		}
@@ -615,19 +247,19 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnZealot, time + 38));
 		m_gatewayInUse++;
 		m_zealotUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 2;
 		break;
 	case eProtossCommandBuildStalker:
-		if(m_warpgateChronoAvailable > 0)
+		if(m_warpGateChronoAvailable > 0)
 		{
-			m_warpgateChronoAvailable--;
-			m_warpgateOnCooldown++;
+			m_warpGateChronoAvailable--;
+			m_warpGateOnCooldown++;
 			AddEvent(events, CProtossEvent(CProtossEvent::eChronoWarpGateOffCooldown, time + 32 * CHRONOBOOST_GAIN));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateStalker, time + 5));
 		}
-		else if(m_warpgateOnCooldown < m_warpgateCount)
+		else if(m_warpGateOnCooldown < m_warpGateCount)
 		{
-			m_warpgateOnCooldown++;
+			m_warpGateOnCooldown++;
 			AddEvent(events, CProtossEvent(CProtossEvent::eWarpGateOffCooldown, time + 32));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateStalker, time + 5));
 		}
@@ -640,19 +272,19 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnStalker, time + 42));
 		m_gatewayInUse++;
 		m_stalkerUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 2;
 		break;
 	case eProtossCommandBuildSentry:
-		if(m_warpgateChronoAvailable > 0)
+		if(m_warpGateChronoAvailable > 0)
 		{
-			m_warpgateChronoAvailable--;
-			m_warpgateOnCooldown++;
+			m_warpGateChronoAvailable--;
+			m_warpGateOnCooldown++;
 			AddEvent(events, CProtossEvent(CProtossEvent::eChronoWarpGateOffCooldown, time + 32 * CHRONOBOOST_GAIN));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateSentry, time + 5));
 		}
-		else if(m_warpgateOnCooldown < m_warpgateCount)
+		else if(m_warpGateOnCooldown < m_warpGateCount)
 		{
-			m_warpgateOnCooldown++;
+			m_warpGateOnCooldown++;
 			AddEvent(events, CProtossEvent(CProtossEvent::eWarpGateOffCooldown, time + 32));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateSentry, time + 5));
 		}
@@ -665,19 +297,19 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnSentry, time + 42));
 		m_gatewayInUse++;
 		m_sentryUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 2;
 		break;
 	case eProtossCommandBuildHighTemplar:
-		if(m_warpgateChronoAvailable > 0)
+		if(m_warpGateChronoAvailable > 0)
 		{
-			m_warpgateChronoAvailable--;
-			m_warpgateOnCooldown++;
+			m_warpGateChronoAvailable--;
+			m_warpGateOnCooldown++;
 			AddEvent(events, CProtossEvent(CProtossEvent::eChronoWarpGateOffCooldown, time + 45 * CHRONOBOOST_GAIN));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateHighTemplar, time + 5));
 		}
-		else if(m_warpgateOnCooldown < m_warpgateCount)
+		else if(m_warpGateOnCooldown < m_warpGateCount)
 		{
-			m_warpgateOnCooldown++;
+			m_warpGateOnCooldown++;
 			AddEvent(events, CProtossEvent(CProtossEvent::eWarpGateOffCooldown, time + 45));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateHighTemplar, time + 5));
 		}
@@ -690,19 +322,19 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnHighTemplar, time + 55));
 		m_gatewayInUse++;
 		m_highTemplarUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 2;
 		break;
 	case eProtossCommandBuildDarkTemplar:
-		if(m_warpgateChronoAvailable > 0)
+		if(m_warpGateChronoAvailable > 0)
 		{
-			m_warpgateChronoAvailable--;
-			m_warpgateOnCooldown++;
+			m_warpGateChronoAvailable--;
+			m_warpGateOnCooldown++;
 			AddEvent(events, CProtossEvent(CProtossEvent::eChronoWarpGateOffCooldown, time + 45 * CHRONOBOOST_GAIN));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateDarkTemplar, time + 5));
 		}
-		else if(m_warpgateOnCooldown < m_warpgateCount)
+		else if(m_warpGateOnCooldown < m_warpGateCount)
 		{
-			m_warpgateOnCooldown++;
+			m_warpGateOnCooldown++;
 			AddEvent(events, CProtossEvent(CProtossEvent::eWarpGateOffCooldown, time + 45));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateDarkTemplar, time + 5));
 		}
@@ -715,7 +347,7 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnDarkTemplar, time + 55));
 		m_gatewayInUse++;
 		m_darkTemplarUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 2;
 		break;
 	case eProtossCommandBuildArchon2HT:
 		AddEvent(events, CProtossEvent(CProtossEvent::eSpawnArchon, time + 12));
@@ -743,7 +375,7 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpPrism, time + 50));
 		m_roboticsFacilityInUse++;
 		m_warpPrismUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 2;
 		break;
 	case eProtossCommandBuildObserver:
 		if(m_roboticsFacilityChronoAvailable > 0)
@@ -755,7 +387,7 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnObserver, time + 40));
 		m_roboticsFacilityInUse++;
 		m_observerUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 2;
 		break;
 	case eProtossCommandBuildImmortal:
 		if(m_roboticsFacilityChronoAvailable > 0)
@@ -767,7 +399,7 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnImmortal, time + 55));
 		m_roboticsFacilityInUse++;
 		m_immortalUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 4;
 		break;
 	case eProtossCommandBuildColossus:
 		if(m_roboticsFacilityChronoAvailable > 0)
@@ -779,7 +411,7 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnColossus, time + 75));
 		m_roboticsFacilityInUse++;
 		m_colossusUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 6;
 		break;
 	case eProtossCommandBuildPhoenix:
 		if(m_stargateChronoAvailable > 0)
@@ -791,7 +423,7 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnPhoenix, time + 45));
 		m_stargateInUse++;
 		m_phoenixUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 2;
 		break;
 	case eProtossCommandBuildVoidRay:
 		if(m_stargateChronoAvailable > 0)
@@ -803,618 +435,596 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnVoidRay, time + 60));
 		m_stargateInUse++;
 		m_voidRayUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 3;
 		break;
 	case eProtossCommandBuildCarrier:
 		if(m_stargateChronoAvailable > 0)
 		{
 			m_stargateChronoAvailable--;
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoCarrier, time + 75 * CHRONOBOOST_GAIN));
+			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoCarrier, time + 120 * CHRONOBOOST_GAIN));
 		}
 		else
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnCarrier, time + 75));
+			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnCarrier, time + 120));
 		m_stargateInUse++;
 		m_carrierUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 6;
 		break;
 	case eProtossCommandBuildMothership:
 		if(m_nexusChronoAvailable > 0)
 		{
 			m_nexusChronoAvailable--;
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoMothership, time + 75 * CHRONOBOOST_GAIN));
+			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoMothership, time + 160 * CHRONOBOOST_GAIN));
 		}
 		else
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnMothership, time + 75));
+			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnMothership, time + 160));
 		m_nexusInUse++;
 		m_mothershipUnderConstruction++;
-		RecalculateSupply();
+		m_supply += 8;
 		break;
 
 	case eProtossCommandChronoNexus:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoNexusEnd, time + 20));
-		m_nexusChronoCount++;
 
-		// Find last Build Probe event and make 20% faster
-		if(events && m_nexusInUse > m_nexusChronoCount - 1)
+		// Find last non-chrono event and make 20% faster
+		if(m_nexusInUse > m_nexusChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events;
-			if(curEntry->GetData().event() == CProtossEvent::eSpawnProbe
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnMothership)
-				lastEntry = curEntry;
-			while(curEntry->GetNext() != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnProbe
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnMothership)
-				{
-					prevEntry = curEntry;
-					lastEntry = curEntry->GetNext();
-				}
-
-				curEntry = curEntry->GetNext();
-			}
-
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
-
-				switch(lastEntry->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eSpawnProbe:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoProbe);
-					break;
 				case CProtossEvent::eSpawnMothership:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoMothership);
+					lastPrevEntry = prevEntry;
+					lastEntry = curEntry;
 					break;
 				}
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
+
+				prevEntry = curEntry;
 			}
+
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
 			else
-				m_nexusChronoAvailable++;
+				lastPrevEntry->SetNext(lastEntry->GetNext());
+
+			switch(lastEntry->GetData().event())
+			{
+			case CProtossEvent::eSpawnProbe:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoProbe);
+				break;
+			case CProtossEvent::eSpawnMothership:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoMothership);
+				break;
+			}
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_nexusChronoAvailable++;
+
+		m_nexusChronoCount++;
 		break;
 	case eProtossCommandChronoGateway:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoGatewayEnd, time + 20));
-		m_gatewayChronoCount++;
 
-		// Find last build gateway unit event and make 20% faster
-		if(events)
+		// Find last non-chrono event and make 20% faster
+		if(m_gatewayInUse > m_gatewayChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events;
-			if(curEntry->GetData().event() == CProtossEvent::eSpawnZealot
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnStalker
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnSentry
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnHighTemplar
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnDarkTemplar
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnWarpGate)
-				lastEntry = curEntry;
-			while(curEntry->GetNext() != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnZealot
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnStalker
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnSentry
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnHighTemplar
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnDarkTemplar
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnWarpGate)
-				{
-					prevEntry = curEntry;
-					lastEntry = curEntry->GetNext();
-				}
-
-				curEntry = curEntry->GetNext();
-			}
-
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
-
-				switch(lastEntry->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eSpawnZealot:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoZealot);
-					break;
 				case CProtossEvent::eSpawnStalker:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoStalker);
-					break;
 				case CProtossEvent::eSpawnSentry:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoSentry);
-					break;
 				case CProtossEvent::eSpawnHighTemplar:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoHighTemplar);
-					break;
 				case CProtossEvent::eSpawnDarkTemplar:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoDarkTemplar);
-					break;
 				case CProtossEvent::eSpawnWarpGate:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoWarpGate);
+					lastPrevEntry = prevEntry;
+					lastEntry = curEntry;
 					break;
 				}
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
+
+				prevEntry = curEntry;
 			}
+
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
 			else
-				m_gatewayChronoAvailable++;
+				lastPrevEntry->SetNext(lastEntry->GetNext());
+
+			switch(lastEntry->GetData().event())
+			{
+			case CProtossEvent::eSpawnZealot:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoZealot);
+				break;
+			case CProtossEvent::eSpawnStalker:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoStalker);
+				break;
+			case CProtossEvent::eSpawnSentry:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoSentry);
+				break;
+			case CProtossEvent::eSpawnHighTemplar:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoHighTemplar);
+				break;
+			case CProtossEvent::eSpawnDarkTemplar:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoDarkTemplar);
+				break;
+			case CProtossEvent::eSpawnWarpGate:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoWarpGate);
+				break;
+			}
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_gatewayChronoAvailable++;
+
+		m_gatewayChronoCount++;
 		break;
 	case eProtossCommandChronoWarpGate:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoWarpGateEnd, time + 20));
-		m_warpgateChronoCount++;
 
-		// Find last warpgate cooldown event and make 20% faster
-		if(events)
+		// Find last non-chrono event and make 20% faster
+		if(m_warpGateOnCooldown > m_warpGateChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events;
-			if(curEntry->GetData().event() == CProtossEvent::eWarpGateOffCooldown)
-				lastEntry = curEntry;
-			while(curEntry->GetNext() != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetNext()->GetData().event() == CProtossEvent::eWarpGateOffCooldown)
+				switch(curEntry->GetData().event())
 				{
-					prevEntry = curEntry;
-					lastEntry = curEntry->GetNext();
+				case CProtossEvent::eWarpGateOffCooldown:
+					lastPrevEntry = prevEntry;
+					lastEntry = curEntry;
+					break;
 				}
 
-				curEntry = curEntry->GetNext();
+				prevEntry = curEntry;
 			}
 
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
-
-				lastEntry->GetData().event(CProtossEvent::eChronoWarpGateOffCooldown);
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
-			}
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
 			else
-				m_warpgateChronoAvailable++;
+				lastPrevEntry->SetNext(lastEntry->GetNext());
+
+			switch(lastEntry->GetData().event())
+			{
+			case CProtossEvent::eWarpGateOffCooldown:
+				lastEntry->GetData().event(CProtossEvent::eChronoWarpGateOffCooldown);
+				break;
+			}
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_warpGateChronoAvailable++;
+
+		m_warpGateChronoCount++;
 		break;
 	case eProtossCommandChronoForge:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoForgeEnd, time + 20));
-		m_forgeChronoCount++;
 
 		// Find last non-chrono event and make 20% faster
-		if(events)
+		if(m_forgeInUse > m_forgeChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events, *curPrevEntry = 0;
-			while(curEntry != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetData().event() == CProtossEvent::eResearchGroundWeapons1Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchGroundWeapons2Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchGroundWeapons3Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchGroundArmor1Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchGroundArmor2Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchGroundArmor3Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchShields1Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchShields2Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchShields3Complete)
-				{
-					prevEntry = curPrevEntry;
-					lastEntry = curEntry;
-				}
-
-				curPrevEntry = curEntry;
-				curEntry = curEntry->GetNext();
-			}
-
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
-
-				switch(lastEntry->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchGroundWeapons1Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundWeapons1Complete);
-					break;
 				case CProtossEvent::eResearchGroundWeapons2Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundWeapons2Complete);
-					break;
 				case CProtossEvent::eResearchGroundWeapons3Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundWeapons3Complete);
-					break;
 				case CProtossEvent::eResearchGroundArmor1Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundArmor1Complete);
-					break;
 				case CProtossEvent::eResearchGroundArmor2Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundArmor2Complete);
-					break;
 				case CProtossEvent::eResearchGroundArmor3Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundArmor3Complete);
-					break;
 				case CProtossEvent::eResearchShields1Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoShields1Complete);
-					break;
 				case CProtossEvent::eResearchShields2Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoShields2Complete);
-					break;
 				case CProtossEvent::eResearchShields3Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoShields3Complete);
+					lastPrevEntry = prevEntry;
+					lastEntry = curEntry;
 					break;
 				}
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
+
+				prevEntry = curEntry;
 			}
+
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
 			else
-				m_forgeChronoAvailable++;
+				lastPrevEntry->SetNext(lastEntry->GetNext());
+
+			switch(lastEntry->GetData().event())
+			{
+			case CProtossEvent::eResearchGroundWeapons1Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundWeapons1Complete);
+				break;
+			case CProtossEvent::eResearchGroundWeapons2Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundWeapons2Complete);
+				break;
+			case CProtossEvent::eResearchGroundWeapons3Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundWeapons3Complete);
+				break;
+			case CProtossEvent::eResearchGroundArmor1Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundArmor1Complete);
+				break;
+			case CProtossEvent::eResearchGroundArmor2Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundArmor2Complete);
+				break;
+			case CProtossEvent::eResearchGroundArmor3Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoGroundArmor3Complete);
+				break;
+			case CProtossEvent::eResearchShields1Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoShields1Complete);
+				break;
+			case CProtossEvent::eResearchShields2Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoShields2Complete);
+				break;
+			case CProtossEvent::eResearchShields3Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoShields3Complete);
+				break;
+			}
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_forgeChronoAvailable++;
+
+		m_forgeChronoCount++;
 		break;
 	case eProtossCommandChronoCyberneticsCore:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoCyberneticsCoreEnd, time + 20));
-		m_cyberneticsCoreChronoCount++;
 
 		// Find last non-chrono event and make 20% faster
-		if(events)
+		if(m_cyberneticsCoreInUse > m_cyberneticsCoreChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events, *curPrevEntry = 0;
-			while(curEntry != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetData().event() == CProtossEvent::eResearchAirWeapons1Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchAirWeapons2Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchAirWeapons3Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchAirArmor1Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchAirArmor2Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchAirArmor3Complete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchWarpGateTransformationComplete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchHallucinationComplete)
-				{
-					prevEntry = curPrevEntry;
-					lastEntry = curEntry;
-				}
-
-				curPrevEntry = curEntry;
-				curEntry = curEntry->GetNext();
-			}
-
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
-
-				switch(lastEntry->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchAirWeapons1Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoAirWeapons1Complete);
-					break;
 				case CProtossEvent::eResearchAirWeapons2Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoAirWeapons2Complete);
-					break;
 				case CProtossEvent::eResearchAirWeapons3Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoAirWeapons3Complete);
-					break;
 				case CProtossEvent::eResearchAirArmor1Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoAirArmor1Complete);
-					break;
 				case CProtossEvent::eResearchAirArmor2Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoAirArmor2Complete);
-					break;
 				case CProtossEvent::eResearchAirArmor3Complete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoAirArmor3Complete);
-					break;
 				case CProtossEvent::eResearchWarpGateTransformationComplete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoWarpGateTransformationComplete);
-					break;
 				case CProtossEvent::eResearchHallucinationComplete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoHallucinationComplete);
+					lastPrevEntry = prevEntry;
+					lastEntry = curEntry;
 					break;
 				}
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
+
+				prevEntry = curEntry;
 			}
+
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
 			else
-				m_cyberneticsCoreChronoAvailable++;
+				lastPrevEntry->SetNext(lastEntry->GetNext());
+
+			switch(lastEntry->GetData().event())
+			{
+			case CProtossEvent::eResearchAirWeapons1Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoAirWeapons1Complete);
+				break;
+			case CProtossEvent::eResearchAirWeapons2Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoAirWeapons2Complete);
+				break;
+			case CProtossEvent::eResearchAirWeapons3Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoAirWeapons3Complete);
+				break;
+			case CProtossEvent::eResearchAirArmor1Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoAirArmor1Complete);
+				break;
+			case CProtossEvent::eResearchAirArmor2Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoAirArmor2Complete);
+				break;
+			case CProtossEvent::eResearchAirArmor3Complete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoAirArmor3Complete);
+				break;
+			case CProtossEvent::eResearchWarpGateTransformationComplete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoWarpGateTransformationComplete);
+				break;
+			case CProtossEvent::eResearchHallucinationComplete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoHallucinationComplete);
+				break;
+			}
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_cyberneticsCoreChronoAvailable++;
+
+		m_cyberneticsCoreChronoCount++;
 		break;
 	case eProtossCommandChronoTwilightCouncil:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoTwilightCouncilEnd, time + 20));
-		m_twilightCouncilChronoCount++;
 
 		// Find last non-chrono event and make 20% faster
-		if(events)
+		if(m_twilightCouncilInUse > m_twilightCouncilChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events, *curPrevEntry = 0;
-			while(curEntry != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetData().event() == CProtossEvent::eResearchChargeComplete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchBlinkComplete)
+				switch(curEntry->GetData().event())
 				{
-					prevEntry = curPrevEntry;
+				case CProtossEvent::eResearchChargeComplete:
+				case CProtossEvent::eResearchBlinkComplete:
+					lastPrevEntry = prevEntry;
 					lastEntry = curEntry;
+					break;
 				}
 
-				curPrevEntry = curEntry;
-				curEntry = curEntry->GetNext();
+				prevEntry = curEntry;
 			}
 
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
+			else
+				lastPrevEntry->SetNext(lastEntry->GetNext());
 
-				switch(lastEntry->GetData().event())
-				{
+			switch(lastEntry->GetData().event())
+			{
 				case CProtossEvent::eResearchChargeComplete:
 					lastEntry->GetData().event(CProtossEvent::eResearchChronoChargeComplete);
 					break;
 				case CProtossEvent::eResearchBlinkComplete:
 					lastEntry->GetData().event(CProtossEvent::eResearchChronoBlinkComplete);
 					break;
-				}
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
 			}
-			else
-				m_twilightCouncilChronoAvailable++;
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_twilightCouncilChronoAvailable++;
+
+		m_twilightCouncilChronoCount++;
 		break;
 	case eProtossCommandChronoTemplarArchives:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoTemplarArchivesEnd, time + 20));
-		m_templarArchivesChronoCount++;
 
 		// Find last non-chrono event and make 20% faster
-		if(events)
+		if(m_templarArchivesInUse > m_templarArchivesChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events, *curPrevEntry = 0;
-			while(curEntry != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetData().event() == CProtossEvent::eResearchPsionicStormComplete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchKhaydarinAmuletComplete)
-				{
-					prevEntry = curPrevEntry;
-					lastEntry = curEntry;
-				}
-
-				curPrevEntry = curEntry;
-				curEntry = curEntry->GetNext();
-			}
-
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
-
-				switch(lastEntry->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchPsionicStormComplete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoPsionicStormComplete);
-					break;
 				case CProtossEvent::eResearchKhaydarinAmuletComplete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoKhaydarinAmuletComplete);
+					lastPrevEntry = prevEntry;
+					lastEntry = curEntry;
 					break;
 				}
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
+
+				prevEntry = curEntry;
 			}
+
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
 			else
-				m_templarArchivesChronoAvailable++;
+				lastPrevEntry->SetNext(lastEntry->GetNext());
+
+			switch(lastEntry->GetData().event())
+			{
+			case CProtossEvent::eResearchPsionicStormComplete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoPsionicStormComplete);
+				break;
+			case CProtossEvent::eResearchKhaydarinAmuletComplete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoKhaydarinAmuletComplete);
+				break;
+			}
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_templarArchivesChronoAvailable++;
+
+		m_templarArchivesChronoCount++;
 		break;
 	case eProtossCommandChronoRoboticsFacility:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoRoboticsFacilityEnd, time + 20));
-		m_roboticsFacilityChronoCount++;
 
-		// Find last cybernetics core event and make 20% faster
-		if(events)
+		// Find last non-chrono event and make 20% faster
+		if(m_roboticsFacilityInUse > m_roboticsFacilityChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events;
-			if(curEntry->GetData().event() == CProtossEvent::eSpawnWarpPrism
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnObserver
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnImmortal
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnColossus)
-				lastEntry = curEntry;
-			while(curEntry->GetNext() != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnWarpPrism
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnObserver
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnImmortal
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnColossus)
-				{
-					prevEntry = curEntry;
-					lastEntry = curEntry->GetNext();
-				}
-
-				curEntry = curEntry->GetNext();
-			}
-
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
-
-				switch(lastEntry->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eSpawnWarpPrism:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoWarpPrism);
-					break;
 				case CProtossEvent::eSpawnObserver:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoObserver);
-					break;
 				case CProtossEvent::eSpawnImmortal:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoImmortal);
-					break;
 				case CProtossEvent::eSpawnColossus:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoColossus);
+					lastPrevEntry = prevEntry;
+					lastEntry = curEntry;
 					break;
 				}
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
+
+				prevEntry = curEntry;
 			}
+
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
 			else
-				m_roboticsFacilityChronoAvailable++;
+				lastPrevEntry->SetNext(lastEntry->GetNext());
+
+			switch(lastEntry->GetData().event())
+			{
+			case CProtossEvent::eSpawnWarpPrism:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoWarpPrism);
+				break;
+			case CProtossEvent::eSpawnObserver:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoObserver);
+				break;
+			case CProtossEvent::eSpawnImmortal:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoImmortal);
+				break;
+			case CProtossEvent::eSpawnColossus:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoColossus);
+				break;
+			}
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_roboticsFacilityChronoAvailable++;
+
+		m_roboticsFacilityChronoCount++;
 		break;
 	case eProtossCommandChronoRoboticsBay:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoRoboticsBayEnd, time + 20));
-		m_roboticsBayChronoCount++;
 
 		// Find last non-chrono event and make 20% faster
-		if(events)
+		if(m_roboticsBayInUse > m_roboticsBayChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events, *curPrevEntry = 0;
-			while(curEntry != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetData().event() == CProtossEvent::eResearchGraviticDriveComplete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchGraviticBoostersComplete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchExtendedThermalLanceComplete)
-				{
-					prevEntry = curPrevEntry;
-					lastEntry = curEntry;
-				}
-
-				curPrevEntry = curEntry;
-				curEntry = curEntry->GetNext();
-			}
-
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
-
-				switch(lastEntry->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchGraviticDriveComplete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoGraviticDriveComplete);
-					break;
 				case CProtossEvent::eResearchGraviticBoostersComplete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoGraviticBoostersComplete);
-					break;
 				case CProtossEvent::eResearchExtendedThermalLanceComplete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoExtendedThermalLanceComplete);
+					lastPrevEntry = prevEntry;
+					lastEntry = curEntry;
 					break;
 				}
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
+
+				prevEntry = curEntry;
 			}
+
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
 			else
-				m_roboticsBayChronoAvailable++;
+				lastPrevEntry->SetNext(lastEntry->GetNext());
+
+			switch(lastEntry->GetData().event())
+			{
+			case CProtossEvent::eResearchGraviticDriveComplete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoGraviticDriveComplete);
+				break;
+			case CProtossEvent::eResearchGraviticBoostersComplete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoGraviticBoostersComplete);
+				break;
+			case CProtossEvent::eResearchExtendedThermalLanceComplete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoExtendedThermalLanceComplete);
+				break;
+			}
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_roboticsBayChronoAvailable++;
+
+		m_roboticsBayChronoCount++;
 		break;
 	case eProtossCommandChronoStargate:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoStargateEnd, time + 20));
-		m_stargateChronoCount++;
 
-		// Find last cybernetics core event and make 20% faster
-		if(events)
+		// Find last non-chrono event and make 20% faster
+		if(m_stargateInUse > m_stargateChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events;
-			if(curEntry->GetData().event() == CProtossEvent::eSpawnPhoenix
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnVoidRay
-				|| curEntry->GetData().event() == CProtossEvent::eSpawnCarrier)
-				lastEntry = curEntry;
-			while(curEntry->GetNext() != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnPhoenix
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnVoidRay
-					|| curEntry->GetNext()->GetData().event() == CProtossEvent::eSpawnCarrier)
-				{
-					prevEntry = curEntry;
-					lastEntry = curEntry->GetNext();
-				}
-
-				curEntry = curEntry->GetNext();
-			}
-
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
-
-				switch(lastEntry->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eSpawnPhoenix:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoPhoenix);
-					break;
 				case CProtossEvent::eSpawnVoidRay:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoVoidRay);
-					break;
 				case CProtossEvent::eSpawnCarrier:
-					lastEntry->GetData().event(CProtossEvent::eSpawnChronoCarrier);
+					lastPrevEntry = prevEntry;
+					lastEntry = curEntry;
 					break;
 				}
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
+
+				prevEntry = curEntry;
 			}
+
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
 			else
-				m_stargateChronoAvailable++;
+				lastPrevEntry->SetNext(lastEntry->GetNext());
+
+			switch(lastEntry->GetData().event())
+			{
+			case CProtossEvent::eSpawnPhoenix:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoPhoenix);
+				break;
+			case CProtossEvent::eSpawnVoidRay:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoVoidRay);
+				break;
+			case CProtossEvent::eSpawnCarrier:
+				lastEntry->GetData().event(CProtossEvent::eSpawnChronoCarrier);
+				break;
+			}
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_stargateChronoAvailable++;
+
+		m_stargateChronoCount++;
 		break;
 	case eProtossCommandChronoFleetBeacon:
 		AddEvent(events, CProtossEvent(CProtossEvent::eChronoFleetBeaconEnd, time + 20));
-		m_fleetBeaconChronoCount++;
-
+		
 		// Find last non-chrono event and make 20% faster
-		if(events)
+		if(m_fleetBeaconInUse > m_fleetBeaconChronoCount)
 		{
-			CLinkedList<CProtossEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events, *curPrevEntry = 0;
-			while(curEntry != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *lastEntry = 0, *prevEntry = 0, *lastPrevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				if(curEntry->GetData().event() == CProtossEvent::eResearchFluxVanesComplete
-					|| curEntry->GetData().event() == CProtossEvent::eResearchGravitonCatapultComplete)
-				{
-					prevEntry = curPrevEntry;
-					lastEntry = curEntry;
-				}
-
-				curPrevEntry = curEntry;
-				curEntry = curEntry->GetNext();
-			}
-
-			if(lastEntry)
-			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
-
-				switch(lastEntry->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchFluxVanesComplete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoFluxVanesComplete);
-					break;
 				case CProtossEvent::eResearchGravitonCatapultComplete:
-					lastEntry->GetData().event(CProtossEvent::eResearchChronoGravitonCatapultComplete);
+					lastPrevEntry = prevEntry;
+					lastEntry = curEntry;
 					break;
 				}
-				lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
-				AddEvent(events, lastEntry->GetData());
-				delete lastEntry;
+
+				prevEntry = curEntry;
 			}
+
+			if(!lastPrevEntry)
+				events = lastEntry->GetNext();
 			else
-				m_fleetBeaconChronoAvailable++;
+				lastPrevEntry->SetNext(lastEntry->GetNext());
+
+			switch(lastEntry->GetData().event())
+			{
+			case CProtossEvent::eResearchFluxVanesComplete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoFluxVanesComplete);
+				break;
+			case CProtossEvent::eResearchGravitonCatapultComplete:
+				lastEntry->GetData().event(CProtossEvent::eResearchChronoGravitonCatapultComplete);
+				break;
+			}
+
+			lastEntry->GetData().time(time + (lastEntry->GetData().time() - time) * CHRONOBOOST_GAIN);
+			AddEvent(events, lastEntry);
 		}
+		else
+			m_fleetBeaconChronoAvailable++;
+
+		m_fleetBeaconChronoCount++;
 		break;
 
 	case eProtossCommandResearchGroundWeapons1:
@@ -1725,17 +1335,18 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 
 void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&events)
 {
-	const CProtossEvent &event = events->GetData();
+	CLinkedList<CProtossEvent> *entry = events;
+	events = entry->GetNext();
 
-	ProgressTime(time, event.time() - time);
+	ProgressTime(time, entry->GetData().time() - time);
 
-	switch(event.event())
+	switch(entry->GetData().event())
 	{
 	case CProtossEvent::eSpawnNexus:
 		m_nexusUnderConstruction--;
 		m_nexusCount++;
 		RecalculateMineralIncomeRate();
-		RecalculateSupplyCap();
+		m_supplyCap = mymin(m_supplyCap + 10, (size_t)200);
 		break;
 	case CProtossEvent::eSpawnAssimilator:
 		m_assimilatorUnderConstruction--;
@@ -1745,32 +1356,29 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 	case CProtossEvent::eSpawnPylon:
 		m_pylonUnderConstruction--;
 		m_pylonCount++;
-		RecalculateSupplyCap();
+		m_supplyCap = mymin(m_supplyCap + 8, (size_t)200);
 		break;
 	case CProtossEvent::eSpawnGateway:
 		m_gatewayUnderConstruction--;
 		m_gatewayCount++;
 		break;
 	case CProtossEvent::eSpawnChronoWarpGate:
-		m_warpgateChronoAvailable++;
+		m_warpGateChronoAvailable++;
 		// Find the first ChronoGatewayEnd and convert to ChronoWarpGateEnd
 		{
 			CLinkedList<CProtossEvent> *curEntry = events;
-			while(curEntry->GetNext() != 0)
+			while(curEntry)
 			{
-				CLinkedList<CProtossEvent> *chronoGatewayEnd = curEntry->GetNext();
-				if(chronoGatewayEnd->GetData().event() == CProtossEvent::eChronoGatewayEnd)
+				if(curEntry->GetData().event() == CProtossEvent::eChronoGatewayEnd)
 				{
-					chronoGatewayEnd->GetData().event(CProtossEvent::eChronoWarpGateEnd);
+					curEntry->GetData().event(CProtossEvent::eChronoWarpGateEnd);
 					break;
 				}
-
-				curEntry = chronoGatewayEnd;
 			}
 		}
 	case CProtossEvent::eSpawnWarpGate:
-		m_warpgateUnderConstruction--;
-		m_warpgateCount++;
+		m_warpGateUnderConstruction--;
+		m_warpGateCount++;
 		m_gatewayInUse--;
 		break;
 	case CProtossEvent::eSpawnForge:
@@ -1815,9 +1423,9 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 		break;
 
 	case CProtossEvent::eChronoWarpGateOffCooldown:
-		m_warpgateChronoAvailable++;
+		m_warpGateChronoAvailable++;
 	case CProtossEvent::eWarpGateOffCooldown:
-		m_warpgateOnCooldown--;
+		m_warpGateOnCooldown--;
 		break;
 
 	case CProtossEvent::eProbeStartMiningMinerals:
@@ -1945,31 +1553,31 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 			m_nexusChronoAvailable--;
 		else
 		{
-			// Increase first Probe build time by 25%
-			CLinkedList<CProtossEvent> *curEntry = events;
-			while(curEntry->GetNext() != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				CLinkedList<CProtossEvent> *buildProbe = curEntry->GetNext();
-				if(buildProbe->GetData().event() == CProtossEvent::eSpawnChronoProbe
-					|| buildProbe->GetData().event() == CProtossEvent::eSpawnChronoMothership)
+				switch(curEntry->GetData().event())
 				{
-					curEntry->SetNext(buildProbe->GetNext());
-					switch(buildProbe->GetData().event())
-					{
-					case CProtossEvent::eSpawnChronoProbe:
-						buildProbe->GetData().event(CProtossEvent::eSpawnProbe);
-						break;
-					case CProtossEvent::eSpawnChronoMothership:
-						buildProbe->GetData().event(CProtossEvent::eSpawnMothership);
-						break;
-					}
-					buildProbe->GetData().time(time + (buildProbe->GetData().time() - time) * CHRONOBOOST_LOSS);
-					AddEvent(events, buildProbe->GetData());
-					delete buildProbe;
+				case CProtossEvent::eSpawnChronoProbe:
+					curEntry->GetData().event(CProtossEvent::eSpawnProbe);
+					break;
+				case CProtossEvent::eSpawnChronoMothership:
+					curEntry->GetData().event(CProtossEvent::eSpawnMothership);
+					break;
+				default:
+					prevEntry = curEntry;
+					continue;
 					break;
 				}
-					
-				curEntry = buildProbe;
+
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
+				break;
 			}
 		}
 		break;
@@ -1979,72 +1587,74 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 			m_gatewayChronoAvailable--;
 		else
 		{
-			// Increase first gateway unit build time by 25%
-			CLinkedList<CProtossEvent> *curEntry = events;
-			while(curEntry->GetNext() != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				CLinkedList<CProtossEvent> *buildUnit = curEntry->GetNext();
-				if(buildUnit->GetData().event() == CProtossEvent::eSpawnChronoZealot
-					|| buildUnit->GetData().event() == CProtossEvent::eSpawnChronoStalker
-					|| buildUnit->GetData().event() == CProtossEvent::eSpawnChronoSentry
-					|| buildUnit->GetData().event() == CProtossEvent::eSpawnChronoHighTemplar
-					|| buildUnit->GetData().event() == CProtossEvent::eSpawnChronoDarkTemplar
-					|| buildUnit->GetData().event() == CProtossEvent::eSpawnChronoWarpGate)
+				switch(curEntry->GetData().event())
 				{
-					curEntry->SetNext(buildUnit->GetNext());
-					switch(buildUnit->GetData().event())
-					{
-					case CProtossEvent::eSpawnChronoZealot:
-						buildUnit->GetData().event(CProtossEvent::eSpawnZealot);
-						break;
-					case CProtossEvent::eSpawnChronoStalker:
-						buildUnit->GetData().event(CProtossEvent::eSpawnStalker);
-						break;
-					case CProtossEvent::eSpawnChronoSentry:
-						buildUnit->GetData().event(CProtossEvent::eSpawnSentry);
-						break;
-					case CProtossEvent::eSpawnChronoHighTemplar:
-						buildUnit->GetData().event(CProtossEvent::eSpawnHighTemplar);
-						break;
-					case CProtossEvent::eSpawnChronoDarkTemplar:
-						buildUnit->GetData().event(CProtossEvent::eSpawnDarkTemplar);
-						break;
-					case CProtossEvent::eSpawnChronoWarpGate:
-						buildUnit->GetData().event(CProtossEvent::eSpawnWarpGate);
-						break;
-					}
-					buildUnit->GetData().time(time + (buildUnit->GetData().time() - time) * CHRONOBOOST_LOSS);
-					AddEvent(events, buildUnit->GetData());
-					delete buildUnit;
+				case CProtossEvent::eSpawnChronoZealot:
+					curEntry->GetData().event(CProtossEvent::eSpawnZealot);
+					break;
+				case CProtossEvent::eSpawnChronoStalker:
+					curEntry->GetData().event(CProtossEvent::eSpawnStalker);
+					break;
+				case CProtossEvent::eSpawnChronoSentry:
+					curEntry->GetData().event(CProtossEvent::eSpawnSentry);
+					break;
+				case CProtossEvent::eSpawnChronoHighTemplar:
+					curEntry->GetData().event(CProtossEvent::eSpawnHighTemplar);
+					break;
+				case CProtossEvent::eSpawnChronoDarkTemplar:
+					curEntry->GetData().event(CProtossEvent::eSpawnDarkTemplar);
+					break;
+				case CProtossEvent::eSpawnChronoWarpGate:
+					curEntry->GetData().event(CProtossEvent::eSpawnWarpGate);
+					break;
+				default:
+					prevEntry = curEntry;
+					continue;
 					break;
 				}
-					
-				curEntry = buildUnit;
+
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
+				break;
 			}
 		}
 		break;
 	case CProtossEvent::eChronoWarpGateEnd:
-		m_warpgateChronoCount--;
-		if(m_warpgateChronoAvailable > 0)
-			m_warpgateChronoAvailable--;
+		m_warpGateChronoCount--;
+		if(m_warpGateChronoAvailable > 0)
+			m_warpGateChronoAvailable--;
 		else
 		{
-			// Increase first warpgate cooldown time by 25%
-			CLinkedList<CProtossEvent> *curEntry = events;
-			while(curEntry->GetNext() != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				CLinkedList<CProtossEvent> *warpgateCooldown = curEntry->GetNext();
-				if(warpgateCooldown->GetData().event() == CProtossEvent::eChronoWarpGateOffCooldown)
+				switch(curEntry->GetData().event())
 				{
-					curEntry->SetNext(warpgateCooldown->GetNext());
-					warpgateCooldown->GetData().event(CProtossEvent::eWarpGateOffCooldown);
-					warpgateCooldown->GetData().time(time + (warpgateCooldown->GetData().time() - time) * CHRONOBOOST_LOSS);
-					AddEvent(events, warpgateCooldown->GetData());
-					delete warpgateCooldown;
+				case CProtossEvent::eChronoWarpGateOffCooldown:
+					curEntry->GetData().event(CProtossEvent::eWarpGateOffCooldown);
+					break;
+				default:
+					prevEntry = curEntry;
+					continue;
 					break;
 				}
 
-				curEntry = warpgateCooldown;
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
+				break;
 			}
 		}
 		break;
@@ -2054,49 +1664,51 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 			m_forgeChronoAvailable--;
 		else
 		{
-			// Increase first forge unit build time by 25%
-			CLinkedList<CProtossEvent> *chronoEvent;
-			for(CLinkedList<CProtossEvent> *curEntry = events; curEntry->GetNext() != 0; curEntry = chronoEvent)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				chronoEvent = curEntry->GetNext();
-				switch(chronoEvent->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchChronoGroundWeapons1Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchGroundWeapons1Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchGroundWeapons1Complete);
 					break;
 				case CProtossEvent::eResearchChronoGroundWeapons2Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchGroundWeapons2Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchGroundWeapons2Complete);
 					break;
 				case CProtossEvent::eResearchChronoGroundWeapons3Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchGroundWeapons3Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchGroundWeapons3Complete);
 					break;
 				case CProtossEvent::eResearchChronoGroundArmor1Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchGroundArmor1Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchGroundArmor1Complete);
 					break;
 				case CProtossEvent::eResearchChronoGroundArmor2Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchGroundArmor2Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchGroundArmor2Complete);
 					break;
 				case CProtossEvent::eResearchChronoGroundArmor3Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchGroundArmor3Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchGroundArmor3Complete);
 					break;
 				case CProtossEvent::eResearchChronoShields1Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchShields1Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchShields1Complete);
 					break;
 				case CProtossEvent::eResearchChronoShields2Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchShields2Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchShields2Complete);
 					break;
 				case CProtossEvent::eResearchChronoShields3Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchShields3Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchShields3Complete);
 					break;
 				default:
+					prevEntry = curEntry;
 					continue;
 					break;
 				}
 
-				curEntry->SetNext(chronoEvent->GetNext());
-				chronoEvent->GetData().time(time + (chronoEvent->GetData().time() - time) * CHRONOBOOST_LOSS);
-				AddEvent(events, chronoEvent->GetData());
-				delete chronoEvent;
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
 				break;
 			}
 		}
@@ -2107,47 +1719,48 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 			m_cyberneticsCoreChronoAvailable--;
 		else
 		{
-			// Increase first warpgate cooldown time by 25%
-			CLinkedList<CProtossEvent> *chronoEvent;
-			for(CLinkedList<CProtossEvent> *curEntry = events; curEntry->GetNext() != 0; curEntry = chronoEvent)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				chronoEvent = curEntry->GetNext();
-
-				switch(chronoEvent->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchChronoAirWeapons1Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchAirWeapons1Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchAirWeapons1Complete);
 					break;
 				case CProtossEvent::eResearchChronoAirWeapons2Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchAirWeapons2Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchAirWeapons2Complete);
 					break;
 				case CProtossEvent::eResearchChronoAirWeapons3Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchAirWeapons3Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchAirWeapons3Complete);
 					break;
 				case CProtossEvent::eResearchChronoAirArmor1Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchAirArmor1Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchAirArmor1Complete);
 					break;
 				case CProtossEvent::eResearchChronoAirArmor2Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchAirArmor2Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchAirArmor2Complete);
 					break;
 				case CProtossEvent::eResearchChronoAirArmor3Complete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchAirArmor3Complete);
+					curEntry->GetData().event(CProtossEvent::eResearchAirArmor3Complete);
 					break;
 				case CProtossEvent::eResearchChronoWarpGateTransformationComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchWarpGateTransformationComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchWarpGateTransformationComplete);
 					break;
 				case CProtossEvent::eResearchChronoHallucinationComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchHallucinationComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchHallucinationComplete);
 					break;
 				default:
+					prevEntry = curEntry;
 					continue;
 					break;
 				}
 
-				curEntry->SetNext(chronoEvent->GetNext());
-				chronoEvent->GetData().time(time + (chronoEvent->GetData().time() - time) * CHRONOBOOST_LOSS);
-				AddEvent(events, chronoEvent->GetData());
-				delete chronoEvent;
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
 				break;
 			}
 		}
@@ -2158,29 +1771,30 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 			m_twilightCouncilChronoAvailable--;
 		else
 		{
-			// Increase first warpgate cooldown time by 25%
-			CLinkedList<CProtossEvent> *chronoEvent;
-			for(CLinkedList<CProtossEvent> *curEntry = events; curEntry->GetNext() != 0; curEntry = chronoEvent)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				chronoEvent = curEntry->GetNext();
-
-				switch(chronoEvent->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchChronoChargeComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchChargeComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchChargeComplete);
 					break;
 				case CProtossEvent::eResearchChronoBlinkComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchBlinkComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchBlinkComplete);
 					break;
 				default:
+					prevEntry = curEntry;
 					continue;
 					break;
 				}
 
-				curEntry->SetNext(chronoEvent->GetNext());
-				chronoEvent->GetData().time(time + (chronoEvent->GetData().time() - time) * CHRONOBOOST_LOSS);
-				AddEvent(events, chronoEvent->GetData());
-				delete chronoEvent;
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
 				break;
 			}
 		}
@@ -2191,29 +1805,30 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 			m_templarArchivesChronoAvailable--;
 		else
 		{
-			// Increase first warpgate cooldown time by 25%
-			CLinkedList<CProtossEvent> *chronoEvent;
-			for(CLinkedList<CProtossEvent> *curEntry = events; curEntry->GetNext() != 0; curEntry = chronoEvent)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				chronoEvent = curEntry->GetNext();
-
-				switch(chronoEvent->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchChronoPsionicStormComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchPsionicStormComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchPsionicStormComplete);
 					break;
 				case CProtossEvent::eResearchChronoKhaydarinAmuletComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchKhaydarinAmuletComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchKhaydarinAmuletComplete);
 					break;
 				default:
+					prevEntry = curEntry;
 					continue;
 					break;
 				}
 
-				curEntry->SetNext(chronoEvent->GetNext());
-				chronoEvent->GetData().time(time + (chronoEvent->GetData().time() - time) * CHRONOBOOST_LOSS);
-				AddEvent(events, chronoEvent->GetData());
-				delete chronoEvent;
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
 				break;
 			}
 		}
@@ -2224,39 +1839,37 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 			m_roboticsFacilityChronoAvailable--;
 		else
 		{
-			// Increase first gateway unit build time by 25%
-			CLinkedList<CProtossEvent> *curEntry = events;
-			while(curEntry->GetNext() != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				CLinkedList<CProtossEvent> *buildUnit = curEntry->GetNext();
-				if(buildUnit->GetData().event() == CProtossEvent::eSpawnChronoWarpPrism
-					|| buildUnit->GetData().event() == CProtossEvent::eSpawnChronoObserver
-					|| buildUnit->GetData().event() == CProtossEvent::eSpawnChronoImmortal
-					|| buildUnit->GetData().event() == CProtossEvent::eSpawnChronoColossus)
+				switch(curEntry->GetData().event())
 				{
-					curEntry->SetNext(buildUnit->GetNext());
-					switch(buildUnit->GetData().event())
-					{
-					case CProtossEvent::eSpawnChronoWarpPrism:
-						buildUnit->GetData().event(CProtossEvent::eSpawnWarpPrism);
-						break;
-					case CProtossEvent::eSpawnChronoObserver:
-						buildUnit->GetData().event(CProtossEvent::eSpawnObserver);
-						break;
-					case CProtossEvent::eSpawnChronoImmortal:
-						buildUnit->GetData().event(CProtossEvent::eSpawnImmortal);
-						break;
-					case CProtossEvent::eSpawnChronoColossus:
-						buildUnit->GetData().event(CProtossEvent::eSpawnColossus);
-						break;
-					}
-					buildUnit->GetData().time(time + (buildUnit->GetData().time() - time) * CHRONOBOOST_LOSS);
-					AddEvent(events, buildUnit->GetData());
-					delete buildUnit;
+				case CProtossEvent::eSpawnChronoWarpPrism:
+					curEntry->GetData().event(CProtossEvent::eSpawnWarpPrism);
+					break;
+				case CProtossEvent::eSpawnChronoObserver:
+					curEntry->GetData().event(CProtossEvent::eSpawnObserver);
+					break;
+				case CProtossEvent::eSpawnChronoImmortal:
+					curEntry->GetData().event(CProtossEvent::eSpawnImmortal);
+					break;
+				case CProtossEvent::eSpawnChronoColossus:
+					curEntry->GetData().event(CProtossEvent::eSpawnColossus);
+					break;
+				default:
+					prevEntry = curEntry;
+					continue;
 					break;
 				}
-					
-				curEntry = buildUnit;
+
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
+				break;
 			}
 		}
 		break;
@@ -2266,32 +1879,33 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 			m_roboticsBayChronoAvailable--;
 		else
 		{
-			// Increase first warpgate cooldown time by 25%
-			CLinkedList<CProtossEvent> *chronoEvent;
-			for(CLinkedList<CProtossEvent> *curEntry = events; curEntry->GetNext() != 0; curEntry = chronoEvent)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				chronoEvent = curEntry->GetNext();
-
-				switch(chronoEvent->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchChronoGraviticDriveComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchGraviticDriveComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchGraviticDriveComplete);
 					break;
 				case CProtossEvent::eResearchChronoGraviticBoostersComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchGraviticBoostersComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchGraviticBoostersComplete);
 					break;
 				case CProtossEvent::eResearchChronoExtendedThermalLanceComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchExtendedThermalLanceComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchExtendedThermalLanceComplete);
 					break;
 				default:
+					prevEntry = curEntry;
 					continue;
 					break;
 				}
 
-				curEntry->SetNext(chronoEvent->GetNext());
-				chronoEvent->GetData().time(time + (chronoEvent->GetData().time() - time) * CHRONOBOOST_LOSS);
-				AddEvent(events, chronoEvent->GetData());
-				delete chronoEvent;
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
 				break;
 			}
 		}
@@ -2302,35 +1916,34 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 			m_stargateChronoAvailable--;
 		else
 		{
-			// Increase first gateway unit build time by 25%
-			CLinkedList<CProtossEvent> *curEntry = events;
-			while(curEntry->GetNext() != 0)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				CLinkedList<CProtossEvent> *buildUnit = curEntry->GetNext();
-				if(buildUnit->GetData().event() == CProtossEvent::eSpawnChronoPhoenix
-					|| buildUnit->GetData().event() == CProtossEvent::eSpawnChronoVoidRay
-					|| buildUnit->GetData().event() == CProtossEvent::eSpawnChronoCarrier)
+				switch(curEntry->GetData().event())
 				{
-					curEntry->SetNext(buildUnit->GetNext());
-					switch(buildUnit->GetData().event())
-					{
-					case CProtossEvent::eSpawnChronoPhoenix:
-						buildUnit->GetData().event(CProtossEvent::eSpawnPhoenix);
-						break;
-					case CProtossEvent::eSpawnChronoVoidRay:
-						buildUnit->GetData().event(CProtossEvent::eSpawnVoidRay);
-						break;
-					case CProtossEvent::eSpawnChronoCarrier:
-						buildUnit->GetData().event(CProtossEvent::eSpawnCarrier);
-						break;
-					}
-					buildUnit->GetData().time(time + (buildUnit->GetData().time() - time) * CHRONOBOOST_LOSS);
-					AddEvent(events, buildUnit->GetData());
-					delete buildUnit;
+				case CProtossEvent::eSpawnChronoPhoenix:
+					curEntry->GetData().event(CProtossEvent::eSpawnPhoenix);
+					break;
+				case CProtossEvent::eSpawnChronoVoidRay:
+					curEntry->GetData().event(CProtossEvent::eSpawnVoidRay);
+					break;
+				case CProtossEvent::eSpawnChronoCarrier:
+					curEntry->GetData().event(CProtossEvent::eSpawnCarrier);
+					break;
+				default:
+					prevEntry = curEntry;
+					continue;
 					break;
 				}
-					
-				curEntry = buildUnit;
+
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
+				break;
 			}
 		}
 		break;
@@ -2340,29 +1953,30 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 			m_fleetBeaconChronoAvailable--;
 		else
 		{
-			// Increase first warpgate cooldown time by 25%
-			CLinkedList<CProtossEvent> *chronoEvent;
-			for(CLinkedList<CProtossEvent> *curEntry = events; curEntry->GetNext() != 0; curEntry = chronoEvent)
+			CLinkedList<CProtossEvent> *curEntry = events, *prevEntry = 0;
+			for(; curEntry; curEntry = curEntry->GetNext())
 			{
-				chronoEvent = curEntry->GetNext();
-
-				switch(chronoEvent->GetData().event())
+				switch(curEntry->GetData().event())
 				{
 				case CProtossEvent::eResearchChronoFluxVanesComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchFluxVanesComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchFluxVanesComplete);
 					break;
 				case CProtossEvent::eResearchChronoGravitonCatapultComplete:
-					chronoEvent->GetData().event(CProtossEvent::eResearchGravitonCatapultComplete);
+					curEntry->GetData().event(CProtossEvent::eResearchGravitonCatapultComplete);
 					break;
 				default:
+					prevEntry = curEntry;
 					continue;
 					break;
 				}
 
-				curEntry->SetNext(chronoEvent->GetNext());
-				chronoEvent->GetData().time(time + (chronoEvent->GetData().time() - time) * CHRONOBOOST_LOSS);
-				AddEvent(events, chronoEvent->GetData());
-				delete chronoEvent;
+				if(!prevEntry)
+					events = curEntry->GetNext();
+				else
+					prevEntry->SetNext(curEntry->GetNext());
+
+				curEntry->GetData().time(time + (curEntry->GetData().time() - time) * CHRONOBOOST_LOSS);
+				AddEvent(events, curEntry);
 				break;
 			}
 		}
@@ -2516,25 +2130,25 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 		m_templarArchivesInUse--;
 		break;
 	case CProtossEvent::eResearchChronoGraviticDriveComplete:
-		m_roboticsFacilityChronoAvailable++;
+		m_roboticsBayChronoAvailable++;
 	case CProtossEvent::eResearchGraviticDriveComplete:
 		m_researchGraviticDriveCompleted = true;
 		m_researchGraviticDriveUnderConstruction = false;
-		m_roboticsFacilityInUse--;
+		m_roboticsBayInUse--;
 		break;
 	case CProtossEvent::eResearchChronoGraviticBoostersComplete:
-		m_roboticsFacilityChronoAvailable++;
+		m_roboticsBayChronoAvailable++;
 	case CProtossEvent::eResearchGraviticBoostersComplete:
 		m_researchGraviticBoostersCompleted = true;
 		m_researchGraviticBoostersUnderConstruction = false;
-		m_roboticsFacilityInUse--;
+		m_roboticsBayInUse--;
 		break;
 	case CProtossEvent::eResearchChronoExtendedThermalLanceComplete:
-		m_roboticsFacilityChronoAvailable++;
+		m_roboticsBayChronoAvailable++;
 	case CProtossEvent::eResearchExtendedThermalLanceComplete:
 		m_researchExtendedThermalLanceCompleted = true;
 		m_researchExtendedThermalLanceUnderConstruction = false;
-		m_roboticsFacilityInUse--;
+		m_roboticsBayInUse--;
 		break;
 	case CProtossEvent::eResearchChronoFluxVanesComplete:
 		m_fleetBeaconChronoAvailable++;
@@ -2550,121 +2164,30 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 		m_researchGravitonCatapultUnderConstruction = false;
 		m_fleetBeaconInUse--;
 		break;
+
+	case CProtossEvent::eSendScout:
+		if(m_probesOnMinerals > 0)
+		{
+			m_probesOnMinerals--;
+			RecalculateMineralIncomeRate();
+		}
+		else if(m_probesOnGas > 0)
+		{
+			m_probesOnGas--;
+			RecalculateGasIncomeRate();
+		}
+		break;
+	case CProtossEvent::eKillScout:
+		m_probeCount--;
+		m_supply--;
+		break;
+	case CProtossEvent::eReturnScout:
+		m_probesOnMinerals++;
+		RecalculateMineralIncomeRate();
+		break;
 	}
 
-	CLinkedList<CProtossEvent> *old = events;
-	events = events->GetNext();
-	delete old;
-}
-
-void CProtossState::AddRequirements()
-{
-	if(!m_researchAirWeapons2Completed
-		&& m_researchAirWeapons3Completed)
-		m_researchAirWeapons2Completed = true;
-
-	if(!m_researchAirArmor2Completed
-		&& m_researchAirArmor3Completed)
-		m_researchAirArmor2Completed = true;
-
-	if(m_fleetBeaconCount == 0
-		&& (m_carrierCount > 0 || m_mothershipCount > 0
-		|| m_researchGravitonCatapultCompleted || m_researchFluxVanesCompleted || m_researchAirWeapons2Completed || m_researchAirArmor2Completed))
-		m_fleetBeaconCount++;
-
-	if(m_stargateCount == 0
-		&& (m_fleetBeaconCount > 0
-		|| m_phoenixCount > 0 || m_voidRayCount > 0))
-		m_stargateCount++;
-
-	if(m_roboticsBayCount == 0
-		&& (m_colossusCount > 0
-			|| m_researchGraviticDriveCompleted || m_researchGraviticBoostersCompleted || m_researchExtendedThermalLanceCompleted))
-		m_roboticsBayCount++;
-
-	if(m_roboticsFacilityCount == 0
-		&& (m_roboticsBayCount > 0
-		|| m_warpPrismCount > 0 || m_observerCount > 0 || m_immortalCount > 0))
-		m_roboticsFacilityCount++;
-
-	if(m_darkShrineCount == 0
-		&& m_darkTemplarCount > 0)
-		m_darkShrineCount++;
-
-	if(m_templarArchivesCount == 0
-		&& (m_highTemplarCount > 0
-			|| m_researchPsionicStormCompleted || m_researchKhaydarinAmuletCompleted))
-		m_templarArchivesCount++;
-
-	if(!m_researchGroundWeapons2Completed
-		&& m_researchGroundWeapons3Completed)
-		m_researchGroundWeapons2Completed = true;
-
-	if(!m_researchGroundArmor2Completed
-		&& m_researchGroundArmor3Completed)
-		m_researchGroundArmor2Completed = true;
-
-	if(!m_researchShields2Completed
-		&& m_researchShields3Completed)
-		m_researchShields2Completed = true;
-
-	if(m_twilightCouncilCount == 0
-		&& (m_templarArchivesCount > 0 || m_darkShrineCount > 0
-			|| m_archonCount > 0 // Don't know if it's from HTs or DTs, but either way requires TC
-			|| m_researchChargeCompleted || m_researchBlinkCompleted || m_researchGroundWeapons2Completed || m_researchGroundArmor2Completed || m_researchShields2Completed))
-		m_twilightCouncilCount++;
-
-	if(!m_researchAirWeapons1Completed
-		&& m_researchAirWeapons2Completed)
-		m_researchAirWeapons1Completed = true;
-
-	if(!m_researchAirArmor1Completed
-		&& m_researchAirArmor2Completed)
-		m_researchAirArmor1Completed = true;
-
-	if(!m_researchWarpGateTransformationCompleted
-		&& (m_warpgateCount > 0))
-		m_researchWarpGateTransformationCompleted = true;
-
-	if(m_cyberneticsCoreCount == 0
-		&& (m_roboticsFacilityCount > 0 || m_stargateCount > 0 || m_twilightCouncilCount > 0
-			|| m_stalkerCount > 0 || m_sentryCount > 0
-			|| m_researchAirWeapons1Completed || m_researchAirArmor1Completed || m_researchWarpGateTransformationCompleted || m_researchHallucinationCompleted))
-		m_cyberneticsCoreCount++;
-
-	if(!m_researchGroundWeapons1Completed
-		&& m_researchGroundWeapons2Completed)
-		m_researchGroundWeapons1Completed = true;
-
-	if(!m_researchGroundArmor1Completed
-		&& m_researchGroundArmor2Completed)
-		m_researchGroundArmor1Completed = true;
-
-	if(!m_researchShields1Completed
-		&& m_researchShields2Completed)
-		m_researchShields1Completed = true;
-
-	if(m_forgeCount == 0
-		&& (m_photonCannonCount > 0
-			|| m_researchGroundWeapons1Completed || m_researchGroundArmor1Completed || m_researchShields1Completed))
-		m_forgeCount++;
-
-	if(m_gatewayCount < m_warpgateCount)
-		m_gatewayCount = m_warpgateCount;
-
-	if(m_gatewayCount == 0
-		&& (m_cyberneticsCoreCount > 0 || m_zealotCount > 0))
-		m_gatewayCount++;
-
-	if(m_assimilatorCount == 0
-		&& (m_twilightCouncilCount > 0 || m_roboticsFacilityCount > 0 || m_stargateCount > 0
-			|| m_stalkerCount > 0 || m_sentryCount > 0
-			|| m_researchGroundWeapons1Completed || m_researchGroundArmor1Completed || m_researchShields1Completed || m_researchWarpGateTransformationCompleted || m_researchHallucinationCompleted))
-		m_assimilatorCount++;
-
-	if(m_pylonCount == 0
-		&& (m_gatewayCount > 0 || m_forgeCount > 0))
-		m_pylonCount++;
+	delete entry;
 }
 
 bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command) const
@@ -2682,7 +2205,7 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 			&& 0 < m_pylonCount + m_pylonUnderConstruction
 			&& 0 < m_probesOnMinerals + m_probesOnGas + m_probeUnderConstruction;
 	case eProtossCommandConvertGatewayToWarpGate:
-		return 0 < m_gatewayCount - m_warpgateCount - m_warpgateUnderConstruction + m_gatewayUnderConstruction
+		return 0 < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction + m_gatewayUnderConstruction
 			&& (m_researchWarpGateTransformationCompleted || m_researchWarpGateTransformationUnderConstruction)
 			&& 0 < m_pylonCount + m_pylonUnderConstruction;
 	case eProtossCommandBuildForge:
@@ -2800,10 +2323,10 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 		return 0 < m_nexusCount + m_nexusUnderConstruction;
 	case eProtossCommandChronoGateway:
 		return 0 < m_nexusCount + m_nexusUnderConstruction
-			&& 0 < m_gatewayCount + m_gatewayUnderConstruction - m_warpgateCount;
+			&& 0 < m_gatewayCount + m_gatewayUnderConstruction - m_warpGateCount;
 	case eProtossCommandChronoWarpGate:
 		return 0 < m_nexusCount + m_nexusUnderConstruction
-			&& 0 < m_warpgateCount + m_warpgateUnderConstruction;
+			&& 0 < m_warpGateCount + m_warpGateUnderConstruction;
 	case eProtossCommandChronoForge:
 		return 0 < m_nexusCount + m_nexusUnderConstruction
 			&& 0 < m_forgeCount + m_forgeUnderConstruction;
@@ -2954,7 +2477,7 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 			&& 0 < m_pylonCount
 			&& 0 < m_probesOnMinerals + m_probesOnGas;
 	case eProtossCommandConvertGatewayToWarpGate:
-		return m_gatewayInUse < m_gatewayCount - m_warpgateCount - m_warpgateUnderConstruction
+		return m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction
 			&& m_researchWarpGateTransformationCompleted
 			&& 0 < m_pylonCount;
 	case eProtossCommandBuildForge:
@@ -3002,26 +2525,26 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 		return m_nexusInUse < m_nexusCount
 			&& m_supply + 1 <= m_supplyCap;
 	case eProtossCommandBuildZealot:
-		return (m_gatewayInUse < m_gatewayCount - m_warpgateCount - m_warpgateUnderConstruction || m_warpgateOnCooldown < m_warpgateCount)
+		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction || m_warpGateOnCooldown < m_warpGateCount)
 			&& 0 < m_pylonCount
 			&& m_supply + 2 <= m_supplyCap;
 	case eProtossCommandBuildStalker:
-		return (m_gatewayInUse < m_gatewayCount - m_warpgateCount - m_warpgateUnderConstruction || m_warpgateOnCooldown < m_warpgateCount)
+		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction || m_warpGateOnCooldown < m_warpGateCount)
 			&& 0 < m_cyberneticsCoreCount
 			&& 0 < m_pylonCount
 			&& m_supply + 2 <= m_supplyCap;
 	case eProtossCommandBuildSentry:
-		return (m_gatewayInUse < m_gatewayCount - m_warpgateCount - m_warpgateUnderConstruction || m_warpgateOnCooldown < m_warpgateCount)
+		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction || m_warpGateOnCooldown < m_warpGateCount)
 			&& 0 < m_cyberneticsCoreCount
 			&& 0 < m_pylonCount
 			&& m_supply + 2 <= m_supplyCap;
 	case eProtossCommandBuildHighTemplar:
-		return (m_gatewayInUse < m_gatewayCount - m_warpgateCount - m_warpgateUnderConstruction || m_warpgateOnCooldown < m_warpgateCount)
+		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction || m_warpGateOnCooldown < m_warpGateCount)
 			&& 0 < m_templarArchivesCount
 			&& 0 < m_pylonCount
 			&& m_supply + 2 <= m_supplyCap;
 	case eProtossCommandBuildDarkTemplar:
-		return (m_gatewayInUse < m_gatewayCount - m_warpgateCount - m_warpgateUnderConstruction || m_warpgateOnCooldown < m_warpgateCount)
+		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction || m_warpGateOnCooldown < m_warpGateCount)
 			&& 0 < m_darkShrineCount
 			&& 0 < m_pylonCount
 			&& m_supply + 2 <= m_supplyCap;
@@ -3072,10 +2595,10 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 			&& m_nexusChronoCount < m_nexusCount;
 	case eProtossCommandChronoGateway:
 		return 0 < m_nexusCount
-			&& m_gatewayChronoCount < m_gatewayCount - m_warpgateCount;
+			&& m_gatewayChronoCount < m_gatewayCount - m_warpGateCount;
 	case eProtossCommandChronoWarpGate:
 		return 0 < m_nexusCount
-			&& m_warpgateChronoCount < m_warpgateCount;
+			&& m_warpGateChronoCount < m_warpGateCount;
 	case eProtossCommandChronoForge:
 		return 0 < m_nexusCount + m_nexusUnderConstruction
 			&& m_forgeChronoCount < m_forgeCount;
@@ -3444,12 +2967,12 @@ void CProtossState::RecalculateSupply()
 
 void CProtossState::RecalculateSupplyCap()
 {
-	m_supplyCap = 10 * m_nexusCount + 8 * m_pylonCount;
+	m_supplyCap = mymin(10 * m_nexusCount + 8 * m_pylonCount, (size_t)200);
 }
 
 void CProtossState::RecalculateSupplyCapUnderConstruction()
 {
-	m_supplyCapUnderConstruction = m_supplyCap + 10 * m_nexusUnderConstruction + 8 * m_pylonUnderConstruction;
+	m_supplyCapUnderConstruction = mymin(m_supplyCap + 10 * m_nexusUnderConstruction + 8 * m_pylonUnderConstruction, (size_t)200);
 }
 
 void CProtossState::RecalculateMineralIncomeRate()
@@ -3466,8 +2989,12 @@ void CProtossState::ProgressTime(double &time, double duration)
 {
 	m_minerals += m_mineralIncomeRate * duration;
 	m_gas += m_gasIncomeRate * duration;
-	for(size_t i=0; i < 4 && i < m_nexusCount; i++)
-		m_nexusEnergy[i] = mymin(m_nexusEnergy[i] + 0.5625 * duration, 100.0);
+	double *nexusEnergy = m_nexusEnergy, *end = m_nexusEnergy + mymin(m_nexusCount, (size_t)4);
+	while(nexusEnergy < end)
+	{
+		(*nexusEnergy) = mymin((*nexusEnergy) + 0.5625 * duration, 100.0);
+		nexusEnergy++;
+	}
 	time += duration;
 }
 
@@ -3495,18 +3022,31 @@ void CProtossState::AddEvent(CLinkedList<CProtossEvent> *&events, const CProtoss
 		events->InsertOrdered<Less<CProtossEvent>>(event);
 }
 
+void CProtossState::AddEvent(CLinkedList<CProtossEvent> *&events, CLinkedList<CProtossEvent> *event)
+{
+	if(!events || event->GetData() < events->GetData())
+	{
+		event->SetNext(events);
+		events = event;
+	}
+	else
+		events->InsertOrdered<Less<CProtossEvent>>(event);
+}
+
 void CProtossState::PrintDetails(CString &output) const
 {
 	PrintSummary(output);
+
+	output.AppendFormat(L"\r\nIncome:   %4.0fM %4.0fG", 60 * m_mineralIncomeRate, 60 * m_gasIncomeRate);
 
 	output.Append(L"\r\nBuildings: ");
 
 	if(0 < m_nexusCount)			output.AppendFormat(L" %u Nexus", m_nexusCount);
 	if(0 < m_assimilatorCount)		output.AppendFormat(L" %u Assimilator", m_assimilatorCount);
 	if(0 < m_pylonCount)			output.AppendFormat(L" %u Pylon", m_pylonCount);
-	if(0 < m_gatewayCount - m_warpgateCount)
-									output.AppendFormat(L" %u Gateway", m_gatewayCount - m_warpgateCount);
-	if(0 < m_warpgateCount)			output.AppendFormat(L" %u WarpGate", m_warpgateCount);
+	if(0 < m_gatewayCount - m_warpGateCount)
+									output.AppendFormat(L" %u Gateway", m_gatewayCount - m_warpGateCount);
+	if(0 < m_warpGateCount)			output.AppendFormat(L" %u Warp Gate", m_warpGateCount);
 	if(0 < m_forgeCount)			output.AppendFormat(L" %u Forge", m_forgeCount);
 	if(0 < m_photonCannonCount)		output.AppendFormat(L" %u Photon Cannon", m_photonCannonCount);
 	if(0 < m_cyberneticsCoreCount)	output.AppendFormat(L" %u Cybernetics Core", m_cyberneticsCoreCount);
