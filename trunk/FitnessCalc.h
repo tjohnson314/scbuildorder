@@ -227,7 +227,8 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 		waypoint++;
 	}
 
-	fitness.m_extraValue = (*waypoint)->m_target.extraValue(state);
+	if(!bRanOutOfTime)
+		fitness.m_extraValue = (*waypoint)->m_target.extraValue(state);
 
 	value.truncate(cmdIndex + 1); // No point keeping the build order longer than it needs to be
 
