@@ -238,14 +238,17 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eWarpGateOffCooldown, time + 28));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateZealot, time + 5));
 		}
-		else if(m_gatewayChronoAvailable > 0)
-		{
-			m_gatewayChronoAvailable--;
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoZealot, time + 38 * CHRONOBOOST_GAIN));
-		}
 		else
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnZealot, time + 38));
-		m_gatewayInUse++;
+		{
+			if(m_gatewayChronoAvailable > 0)
+			{
+				m_gatewayChronoAvailable--;
+				AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoZealot, time + 38 * CHRONOBOOST_GAIN));
+			}
+			else
+				AddEvent(events, CProtossEvent(CProtossEvent::eSpawnZealot, time + 38));
+			m_gatewayInUse++;
+		}
 		m_zealotUnderConstruction++;
 		m_supply += 2;
 		break;
@@ -263,14 +266,17 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eWarpGateOffCooldown, time + 32));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateStalker, time + 5));
 		}
-		else if(m_gatewayChronoAvailable > 0)
-		{
-			m_gatewayChronoAvailable--;
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoStalker, time + 42 * CHRONOBOOST_GAIN));
-		}
 		else
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnStalker, time + 42));
-		m_gatewayInUse++;
+		{
+			if(m_gatewayChronoAvailable > 0)
+			{
+				m_gatewayChronoAvailable--;
+				AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoStalker, time + 42 * CHRONOBOOST_GAIN));
+			}
+			else
+				AddEvent(events, CProtossEvent(CProtossEvent::eSpawnStalker, time + 42));
+			m_gatewayInUse++;
+		}
 		m_stalkerUnderConstruction++;
 		m_supply += 2;
 		break;
@@ -288,14 +294,17 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eWarpGateOffCooldown, time + 32));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateSentry, time + 5));
 		}
-		else if(m_gatewayChronoAvailable > 0)
-		{
-			m_gatewayChronoAvailable--;
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoSentry, time + 42 * CHRONOBOOST_GAIN));
-		}
 		else
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnSentry, time + 42));
-		m_gatewayInUse++;
+		{
+			if(m_gatewayChronoAvailable > 0)
+			{
+				m_gatewayChronoAvailable--;
+				AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoSentry, time + 42 * CHRONOBOOST_GAIN));
+			}
+			else
+				AddEvent(events, CProtossEvent(CProtossEvent::eSpawnSentry, time + 42));
+			m_gatewayInUse++;
+		}
 		m_sentryUnderConstruction++;
 		m_supply += 2;
 		break;
@@ -313,14 +322,17 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eWarpGateOffCooldown, time + 45));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateHighTemplar, time + 5));
 		}
-		else if(m_gatewayChronoAvailable > 0)
-		{
-			m_gatewayChronoAvailable--;
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoHighTemplar, time + 55 * CHRONOBOOST_GAIN));
-		}
 		else
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnHighTemplar, time + 55));
-		m_gatewayInUse++;
+		{
+			if(m_gatewayChronoAvailable > 0)
+			{
+				m_gatewayChronoAvailable--;
+				AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoHighTemplar, time + 55 * CHRONOBOOST_GAIN));
+			}
+			else
+				AddEvent(events, CProtossEvent(CProtossEvent::eSpawnHighTemplar, time + 55));
+			m_gatewayInUse++;
+		}
 		m_highTemplarUnderConstruction++;
 		m_supply += 2;
 		break;
@@ -338,14 +350,17 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eWarpGateOffCooldown, time + 45));
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnWarpGateDarkTemplar, time + 5));
 		}
-		else if(m_gatewayChronoAvailable > 0)
-		{
-			m_gatewayChronoAvailable--;
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoDarkTemplar, time + 55 * CHRONOBOOST_GAIN));
-		}
 		else
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnDarkTemplar, time + 55));
-		m_gatewayInUse++;
+		{
+			if(m_gatewayChronoAvailable > 0)
+			{
+				m_gatewayChronoAvailable--;
+				AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoDarkTemplar, time + 55 * CHRONOBOOST_GAIN));
+			}
+			else
+				AddEvent(events, CProtossEvent(CProtossEvent::eSpawnDarkTemplar, time + 55));
+			m_gatewayInUse++;
+		}
 		m_darkTemplarUnderConstruction++;
 		m_supply += 2;
 		break;
@@ -1364,16 +1379,15 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 		break;
 	case CProtossEvent::eSpawnChronoWarpGate:
 		m_warpGateChronoAvailable++;
+		m_warpGateChronoCount++;
+		m_gatewayChronoCount--;
 		// Find the first ChronoGatewayEnd and convert to ChronoWarpGateEnd
+		for(CLinkedList<CProtossEvent> *curEntry = events; curEntry; curEntry = curEntry->GetNext())
 		{
-			CLinkedList<CProtossEvent> *curEntry = events;
-			while(curEntry)
+			if(curEntry->GetData().event() == CProtossEvent::eChronoGatewayEnd)
 			{
-				if(curEntry->GetData().event() == CProtossEvent::eChronoGatewayEnd)
-				{
-					curEntry->GetData().event(CProtossEvent::eChronoWarpGateEnd);
-					break;
-				}
+				curEntry->GetData().event(CProtossEvent::eChronoWarpGateEnd);
+				break;
 			}
 		}
 	case CProtossEvent::eSpawnWarpGate:
@@ -2525,26 +2539,26 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 		return m_nexusInUse < m_nexusCount
 			&& m_supply + 1 <= m_supplyCap;
 	case eProtossCommandBuildZealot:
-		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction || m_warpGateOnCooldown < m_warpGateCount)
+		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount || m_warpGateOnCooldown < m_warpGateCount)
 			&& 0 < m_pylonCount
 			&& m_supply + 2 <= m_supplyCap;
 	case eProtossCommandBuildStalker:
-		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction || m_warpGateOnCooldown < m_warpGateCount)
+		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount || m_warpGateOnCooldown < m_warpGateCount)
 			&& 0 < m_cyberneticsCoreCount
 			&& 0 < m_pylonCount
 			&& m_supply + 2 <= m_supplyCap;
 	case eProtossCommandBuildSentry:
-		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction || m_warpGateOnCooldown < m_warpGateCount)
+		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount || m_warpGateOnCooldown < m_warpGateCount)
 			&& 0 < m_cyberneticsCoreCount
 			&& 0 < m_pylonCount
 			&& m_supply + 2 <= m_supplyCap;
 	case eProtossCommandBuildHighTemplar:
-		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction || m_warpGateOnCooldown < m_warpGateCount)
+		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount || m_warpGateOnCooldown < m_warpGateCount)
 			&& 0 < m_templarArchivesCount
 			&& 0 < m_pylonCount
 			&& m_supply + 2 <= m_supplyCap;
 	case eProtossCommandBuildDarkTemplar:
-		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction || m_warpGateOnCooldown < m_warpGateCount)
+		return (m_gatewayInUse < m_gatewayCount - m_warpGateCount || m_warpGateOnCooldown < m_warpGateCount)
 			&& 0 < m_darkShrineCount
 			&& 0 < m_pylonCount
 			&& m_supply + 2 <= m_supplyCap;
