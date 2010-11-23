@@ -25,8 +25,6 @@
 
 // CSCBuildOrderGUIView
 
-IMPLEMENT_DYNCREATE(CSCBuildOrderGUIView, CFormView)
-
 BEGIN_MESSAGE_MAP(CSCBuildOrderGUIView, CFormView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
@@ -53,15 +51,7 @@ CSCBuildOrderGUIView::CSCBuildOrderGUIView()
 
 CSCBuildOrderGUIView::~CSCBuildOrderGUIView()
 {
-	if(m_bStarted)
-	{
-		m_updateTimer = 0;
-		StopEngine();
-	}
-
-	while(m_waypointDlgs.size() > 0)
-		delete m_waypointDlgs.pop();
-
+	StopEngine();
 	delete m_settingsDlg;
 }
 
@@ -106,10 +96,7 @@ void CSCBuildOrderGUIView::OnInitialUpdate()
 			((CTabCtrl *)GetDlgItem(IDC_TAB_PAGES))->InsertItem(i, tabName);
 		}
 
-		CProtossStateDlg *pDlg = new CProtossStateDlg();
-		pDlg->SetWaypointTargetTime((i+1) * 300);
-		pDlg->Create(IDD_DLG_PROTOSSSTATE, this);
-		m_waypointDlgs.push_back(pDlg);
+		AddTargetDlg();
 	}
 
 	((CTabCtrl *)GetDlgItem(IDC_TAB_PAGES))->InsertItem(5, L"Settings");
@@ -237,16 +224,35 @@ CSCBuildOrderGUIDoc* CSCBuildOrderGUIView::GetDocument() const // non-debug vers
 #endif //_DEBUG
 
 // CSCBuildOrderGUIView message handlers
+void CSCBuildOrderGUIView::StartEngine()
+{
+	if(!m_bStarted)
+	{
+		m_bStarted = true;
+		m_startTickCount = GetTickCount();
+		m_updateTimer = SetTimer(IDT_TIMER_0, 1000, 0);
+	}
+}
+
 void CSCBuildOrderGUIView::StopEngine()
 {
-	if(m_updateTimer)
-		KillTimer(m_updateTimer);
+	if(m_bStarted)
+	{
+		if(m_updateTimer && GetSafeHwnd())
+			KillTimer(m_updateTimer);
 
-	m_protossEngine->Stop();
-	delete m_protossEngine;
-	m_protossEngine = 0;
+		m_bStarted = false;
+	}
+}
 
-	m_bStarted = false;
+void CSCBuildOrderGUIView::InitEngine(CEngine *engine)
+{
+	engine->InitConfiguration(m_settingsDlg->GetMutationRate());
+	engine->AddVillage(200, 100);
+	engine->AddVillage(200, 100);
+	engine->AddVillage(200, 100);
+	engine->AddVillage(200, 100);
+	engine->AddVillage(200, 100);
 }
 
 void CSCBuildOrderGUIView::OnBnClickedButtonStart()
@@ -254,41 +260,6 @@ void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 	if(!m_bStarted)
 	{
 		UpdateData(TRUE);
-
-		m_protossEngine = new CProtossEngine(m_settingsDlg->GetTimeLimit());
-		bool waypointAdded = false;
-		for(size_t i=0; i < m_waypointDlgs.size(); i++)
-		{
-			if(m_waypointDlgs[i]->GetTarget().hasTarget())
-			{
-				waypointAdded = true;
-				m_protossEngine->AddWaypoint(m_waypointDlgs[i]->GetTarget(), m_waypointDlgs[i]->GetWaypointTargetTime());
-			}
-		}
-		if(!waypointAdded)
-		{
-			delete m_protossEngine;
-			m_protossEngine = 0;
-			MessageBox(L"No waypoints to be added.  Please enter target details.");
-			return;
-		}
-		m_protossEngine->InitConfiguration(m_settingsDlg->GetMutationRate());
-		m_protossEngine->AddVillage(200, 100);
-		m_protossEngine->AddVillage(200, 100);
-		m_protossEngine->AddVillage(200, 100);
-		m_protossEngine->AddVillage(200, 100);
-		m_protossEngine->AddVillage(200, 100);
-
-		m_protossEngine->AddSeed(m_bestBuildOrder);
-
-		if(m_settingsDlg->GetScoutingWorker())
-		{
-			m_protossEngine->AddCustomEvent(CProtossEvent(CProtossEvent::eSendScout, m_settingsDlg->GetScoutingWorkerTime()));
-			if(m_settingsDlg->GetScoutingWorkerDies())
-				m_protossEngine->AddCustomEvent(CProtossEvent(CProtossEvent::eKillScout, m_settingsDlg->GetScoutingWorkerEndTime()));
-			else if(m_settingsDlg->GetScoutingWorkerReturns())
-				m_protossEngine->AddCustomEvent(CProtossEvent(CProtossEvent::eReturnScout, m_settingsDlg->GetScoutingWorkerEndTime()));
-		}
 
 		CListCtrl *villageList = (CListCtrl *)GetDlgItem(IDC_LIST_VILLAGEINFO);
 		villageList->DeleteAllItems();
@@ -344,12 +315,8 @@ void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 			villageList->SetItemText(nItem, 5, L"0");
 		}
 
-		m_bStarted = true;
 		GetDlgItem(IDC_BUTTON_STARTSTOP)->SetWindowTextW(L"Stop");
-
-		m_protossEngine->Start();
-		m_startTickCount = GetTickCount();
-		m_updateTimer = SetTimer(IDT_TIMER_0, 1000, 0);
+		StartEngine();
 	}
 	else
 	{
@@ -400,45 +367,43 @@ void CSCBuildOrderGUIView::UpdateListBoxEntry(int nItem, size_t population, size
 
 void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 {
-	if(m_protossEngine)
+	const CEngine *engine = GetEngine();
+
+	if(!engine)
+		return;
+
+	DWORD timeDiff = GetTickCount() - m_startTickCount;
+
+	size_t totalPopulation = engine->CityPopulationCount();
+	size_t totalEvolution = engine->CityEvolution();
+	size_t totalStagnationCount = engine->CityStagnationCount();
+	unsigned long long totalGameCount = engine->CityGameCount();
+	double overallBestFitness = engine->CityBestFitness();
+
+	UpdateListBoxEntry(1, totalPopulation, totalEvolution, totalStagnationCount, totalGameCount, 1000.0 * overallBestFitness, timeDiff);
+	for(size_t i=0; i < 5; i++)
 	{
-		DWORD timeDiff = GetTickCount() - m_startTickCount;
+		size_t villagePopulation = engine->VillagePopulationCount(i);
+		size_t villageEvolution = engine->VillageEvolution(i);
+		size_t villageStagnationCount = engine->VillageStagnationCount(i);
+		unsigned long long villageGameCount = engine->VillageGameCount(i);
+		double villageBestFitness = engine->VillageBestFitness(i);
 
-		size_t totalPopulation = m_protossEngine->CityPopulationCount();
-		size_t totalEvolution = m_protossEngine->CityEvolution();
-		size_t totalStagnationCount = m_protossEngine->CityStagnationCount();
-		unsigned long long totalGameCount = m_protossEngine->CityGameCount();
-		double overallBestFitness = m_protossEngine->CityBestFitness();
+		UpdateListBoxEntry(i+2, villagePopulation, villageEvolution, villageStagnationCount, villageGameCount, 1000.0 * villageBestFitness, timeDiff);
 
-		UpdateListBoxEntry(1, totalPopulation, totalEvolution, totalStagnationCount, totalGameCount, 1000.0 * overallBestFitness, timeDiff);
-		for(size_t i=0; i < 5; i++)
-		{
-			size_t villagePopulation = m_protossEngine->VillagePopulationCount(i);
-			size_t villageEvolution = m_protossEngine->VillageEvolution(i);
-			size_t villageStagnationCount = m_protossEngine->VillageStagnationCount(i);
-			unsigned long long villageGameCount = m_protossEngine->VillageGameCount(i);
-			double villageBestFitness = m_protossEngine->VillageBestFitness(i);
+		totalPopulation += villagePopulation;
+		totalGameCount += villageGameCount;
+		if(villageBestFitness > overallBestFitness)
+			overallBestFitness = villageBestFitness;
+	}
+	totalStagnationCount = engine->StagnationLimit();
+	UpdateListBoxEntry(0, totalPopulation, totalEvolution, totalStagnationCount, totalGameCount, 1000.0 * overallBestFitness, timeDiff);
 
-			UpdateListBoxEntry(i+2, villagePopulation, villageEvolution, villageStagnationCount, villageGameCount, 1000.0 * villageBestFitness, timeDiff);
-
-			totalPopulation += villagePopulation;
-			totalGameCount += villageGameCount;
-			if(villageBestFitness > overallBestFitness)
-				overallBestFitness = villageBestFitness;
-		}
-		totalStagnationCount = m_protossEngine->StagnationLimit();
-		UpdateListBoxEntry(0, totalPopulation, totalEvolution, totalStagnationCount, totalGameCount, 1000.0 * overallBestFitness, timeDiff);
-
-		CVector<EProtossCommand> buildOrder;
-		m_protossEngine->GetBestGame(buildOrder);
-
-		if(buildOrder != m_bestBuildOrder)
-		{
-			CString strText;
-			m_bestBuildOrder = buildOrder;
-			m_protossEngine->PrintBestGame(strText);
-			GetDlgItem(IDC_EDIT_OUTPUT)->SetWindowTextW(strText);
-		}
+	if(UpdateBestBuildOrder())
+	{
+		CString strText;
+		engine->PrintBestGame(strText);
+		GetDlgItem(IDC_EDIT_OUTPUT)->SetWindowTextW(strText);
 	}
 }
 
@@ -449,7 +414,7 @@ void CSCBuildOrderGUIView::ActivateTabDialogs()
 	int nSel = tabCtrl->GetCurSel();
 	CDialog *pCurSelDlg;
 	if(nSel < 5)
-		pCurSelDlg = m_waypointDlgs[nSel];
+		pCurSelDlg = GetTargetDlg(nSel);
 	else
 		pCurSelDlg = m_settingsDlg;
 
@@ -464,16 +429,8 @@ void CSCBuildOrderGUIView::ActivateTabDialogs()
 	tabCtrl->GetWindowRect(rectWnd);
 	tabCtrl->GetParent()->ScreenToClient(rectWnd);
 	rectClient.OffsetRect(rectWnd.left, rectWnd.top);
-	for(int nCount=0; nCount < 5; nCount++)
-	{
-		m_waypointDlgs[nCount]->SetWindowPos(&wndTop, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_HIDEWINDOW);
-	}
+	SetTargetDlgPositions(rectClient);
 	m_settingsDlg->SetWindowPos(&wndTop, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_HIDEWINDOW);
-
-	if(nSel < 5)
-		pCurSelDlg = m_waypointDlgs[nSel];
-	else
-		pCurSelDlg = m_settingsDlg;
 
 	pCurSelDlg->SetWindowPos(&wndTop, rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height(), SWP_SHOWWINDOW);
 	pCurSelDlg->ShowWindow(SW_SHOW);

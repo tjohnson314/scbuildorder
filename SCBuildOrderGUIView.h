@@ -6,8 +6,8 @@
 #include <vector>
 
 #include "SCBuildOrderGUIDoc.h"
-#include "ProtossState.h"
-#include "ZergState.h"
+#include "ProtossTarget.h"
+#include "ZergTarget.h"
 
 #include "ProtossStateDlg.h"
 #include "SettingsDlg.h"
@@ -18,7 +18,6 @@ class CSCBuildOrderGUIView : public CFormView
 {
 protected: // create from serialization only
 	CSCBuildOrderGUIView();
-	DECLARE_DYNCREATE(CSCBuildOrderGUIView)
 
 // Attributes
 public:
@@ -57,9 +56,6 @@ public:
 	afx_msg void OnBnClickedButtonStart();
 
 protected:
-	CProtossEngine *m_protossEngine;
-	CZergEngine *m_zergEngine;
-
 	bool m_bStarted;
 	UINT m_updateTimer;
 	DWORD m_startTickCount;
@@ -68,16 +64,24 @@ protected:
 	CNumberFormat m_numberFormatInt;
 	CNumberFormat m_numberFormatFloat;
 
-	void StopEngine();
+	virtual void StartEngine();
+	virtual void StopEngine();
 
-	CVector<EProtossCommand> m_bestBuildOrder;
-	CVector<CProtossStateDlg *> m_waypointDlgs;
 	CSettingsDlg *m_settingsDlg;
 
 	void ResizeControls();
 	void ActivateTabDialogs();
 
 	void UpdateListBoxEntry(int nItem, size_t population, size_t evolution, size_t stagnationCount, unsigned long long gameCount, double bestFitness, DWORD timeDiff);
+
+	void InitEngine(CEngine *engine);
+
+	virtual void AddTargetDlg() = 0;
+	virtual void SetTargetDlgPositions(const CRect &rect) = 0;
+
+	virtual const CEngine *GetEngine() const = 0;
+	virtual bool UpdateBestBuildOrder() = 0;
+	virtual CDialog *GetTargetDlg(int index) = 0;
 
 public:
 	afx_msg void OnTcnSelchangeTabPages(NMHDR *pNMHDR, LRESULT *pResult);

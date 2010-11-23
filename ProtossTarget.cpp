@@ -13,8 +13,8 @@ double CProtossTarget::targetValue(const CProtossState &state, double time) cons
 {
 	double value = 0;
 
-	value += mymin(m_minerals, state.m_minerals) * 1;
-	value += mymin(m_gas, state.m_gas) * 2;
+	value += mymin(m_minerals, state.m_minerals) * 1.0;
+	value += mymin(m_gas, state.m_gas) * 2.0;
 	double nexusEnergy = 0;
 	for(size_t i=0; i < 4 && i < m_nexusCount; i++)
 		nexusEnergy += state.m_nexusEnergy[i];
@@ -127,9 +127,9 @@ double CProtossTarget::extraValue(const CProtossState &state) const
 	double value = 0;
 
 	if(state.m_minerals > m_minerals)
-		value += (state.m_minerals - m_minerals) * 1;
+		value += (state.m_minerals - m_minerals) * 1.0;
 	if(state.m_gas > m_gas)
-		value += (state.m_gas - m_gas) * 2;
+		value += (state.m_gas - m_gas) * 2.0;
 	double nexusEnergy = 0;
 	for(size_t i=0; i < 4 && i < m_nexusCount; i++)
 		nexusEnergy += state.m_nexusEnergy[i];
@@ -187,14 +187,14 @@ double CProtossTarget::extraValue(const CProtossState &state) const
 		value += (state.m_sentryCount - m_sentryCount) * 250;
 	if(state.m_highTemplarCount > m_highTemplarCount)
 	{
-		if(m_archonCount > 0 && m_highTemplarCount == 0)
+		if(m_archonCount > 0 && m_highTemplarCount == 0 && state.m_archonCount == 0)
 			value += 5000 * state.m_highTemplarCount; // Hack to make High Templar valuable when requesting Archons
 		else
 			value += (state.m_highTemplarCount - m_highTemplarCount) * 350;
 	}
 	if(state.m_darkTemplarCount > m_darkTemplarCount)
 	{
-		if(m_archonCount > 0 && m_darkTemplarCount == 0)
+		if(m_archonCount > 0 && m_darkTemplarCount == 0 && state.m_archonCount == 0)
 			value += 5000 * state.m_darkTemplarCount; // Hack to make Dark Templar valuable when requesting Archons
 		else
 			value += (state.m_darkTemplarCount - m_darkTemplarCount) * 375;
@@ -218,57 +218,57 @@ double CProtossTarget::extraValue(const CProtossState &state) const
 	if(state.m_mothershipCount > m_mothershipCount)
 		value += (state.m_mothershipCount - m_mothershipCount) * 1200;
 
-	if(m_researchGroundWeapons1Completed && state.m_researchGroundWeapons1Completed)
+	if(state.m_researchGroundWeapons1Completed && !m_researchGroundWeapons1Completed)
 		value += 300;
-	if(m_researchGroundWeapons2Completed && state.m_researchGroundWeapons2Completed)
+	if(state.m_researchGroundWeapons2Completed && !m_researchGroundWeapons2Completed)
 		value += 525;
-	if(m_researchGroundWeapons3Completed && state.m_researchGroundWeapons3Completed)
+	if(state.m_researchGroundWeapons3Completed && !m_researchGroundWeapons3Completed)
 		value += 750;
-	if(m_researchGroundArmor1Completed && state.m_researchGroundArmor1Completed)
+	if(state.m_researchGroundArmor1Completed && !m_researchGroundArmor1Completed)
 		value += 300;
-	if(m_researchGroundArmor2Completed && state.m_researchGroundArmor2Completed)
+	if(state.m_researchGroundArmor2Completed && !m_researchGroundArmor2Completed)
 		value += 525;
-	if(m_researchGroundArmor3Completed && state.m_researchGroundArmor3Completed)
+	if(state.m_researchGroundArmor3Completed && !m_researchGroundArmor3Completed)
 		value += 750;
-	if(m_researchShields1Completed && state.m_researchShields1Completed)
+	if(state.m_researchShields1Completed && !m_researchShields1Completed)
 		value += 600;
-	if(m_researchShields2Completed && state.m_researchShields2Completed)
+	if(state.m_researchShields2Completed && !m_researchShields2Completed)
 		value += 900;
-	if(m_researchShields3Completed && state.m_researchShields3Completed)
+	if(state.m_researchShields3Completed && !m_researchShields3Completed)
 		value += 1200;
-	if(m_researchAirWeapons1Completed && state.m_researchAirWeapons1Completed)
+	if(state.m_researchAirWeapons1Completed && !m_researchAirWeapons1Completed)
 		value += 300;
-	if(m_researchAirWeapons2Completed && state.m_researchAirWeapons2Completed)
+	if(state.m_researchAirWeapons2Completed && !m_researchAirWeapons2Completed)
 		value += 525;
-	if(m_researchAirWeapons3Completed && state.m_researchAirWeapons3Completed)
+	if(state.m_researchAirWeapons3Completed && !m_researchAirWeapons3Completed)
 		value += 750;
-	if(m_researchAirArmor1Completed && state.m_researchAirArmor1Completed)
+	if(state.m_researchAirArmor1Completed && !m_researchAirArmor1Completed)
 		value += 450;
-	if(m_researchAirArmor2Completed && state.m_researchAirArmor2Completed)
+	if(state.m_researchAirArmor2Completed && !m_researchAirArmor2Completed)
 		value += 670;
-	if(m_researchAirArmor3Completed && state.m_researchAirArmor3Completed)
+	if(state.m_researchAirArmor3Completed && !m_researchAirArmor3Completed)
 		value += 900;
-	if(m_researchWarpGateTransformationCompleted && state.m_researchWarpGateTransformationCompleted)
+	if(state.m_researchWarpGateTransformationCompleted && !m_researchWarpGateTransformationCompleted)
 		value += 150;
-	if(m_researchHallucinationCompleted && state.m_researchHallucinationCompleted)
+	if(state.m_researchHallucinationCompleted && !m_researchHallucinationCompleted)
 		value += 300;
-	if(m_researchChargeCompleted && state.m_researchChargeCompleted)
+	if(state.m_researchChargeCompleted && !m_researchChargeCompleted)
 		value += 600;
-	if(m_researchBlinkCompleted && state.m_researchBlinkCompleted)
+	if(state.m_researchBlinkCompleted && !m_researchBlinkCompleted)
 		value += 450;
-	if(m_researchPsionicStormCompleted && state.m_researchPsionicStormCompleted)
+	if(state.m_researchPsionicStormCompleted && !m_researchPsionicStormCompleted)
 		value += 600;
-	if(m_researchKhaydarinAmuletCompleted && state.m_researchKhaydarinAmuletCompleted)
+	if(state.m_researchKhaydarinAmuletCompleted && !m_researchKhaydarinAmuletCompleted)
 		value += 450;
-	if(m_researchGraviticDriveCompleted && state.m_researchGraviticDriveCompleted)
+	if(state.m_researchGraviticDriveCompleted && !m_researchGraviticDriveCompleted)
 		value += 300;
-	if(m_researchGraviticBoostersCompleted && state.m_researchGraviticBoostersCompleted)
+	if(state.m_researchGraviticBoostersCompleted && !m_researchGraviticBoostersCompleted)
 		value += 300;
-	if(m_researchExtendedThermalLanceCompleted && state.m_researchExtendedThermalLanceCompleted)
+	if(state.m_researchExtendedThermalLanceCompleted && !m_researchExtendedThermalLanceCompleted)
 		value += 600;
-	if(m_researchFluxVanesCompleted && state.m_researchFluxVanesCompleted)
+	if(state.m_researchFluxVanesCompleted && !m_researchFluxVanesCompleted)
 		value += 450;
-	if(m_researchGravitonCatapultCompleted && state.m_researchGravitonCatapultCompleted)
+	if(state.m_researchGravitonCatapultCompleted && !m_researchGravitonCatapultCompleted)
 		value += 450;
 
 	return value;
@@ -711,85 +711,6 @@ void CProtossTarget::operator+=(const CProtossTarget &target)
 
 void CProtossTarget::BuildAlphabet(CVector<EProtossCommand> &alphabet) const
 {
-/*
-	alphabet.push_back(eProtossCommandBuildNexus);
-	alphabet.push_back(eProtossCommandBuildPylon);
-	alphabet.push_back(eProtossCommandBuildAssimilator);
-	alphabet.push_back(eProtossCommandBuildGateway);
-	alphabet.push_back(eProtossCommandConvertGatewayToWarpGate);
-	alphabet.push_back(eProtossCommandBuildForge);
-	alphabet.push_back(eProtossCommandBuildPhotonCannon);
-	alphabet.push_back(eProtossCommandBuildCyberneticsCore);
-	alphabet.push_back(eProtossCommandBuildTwilightCouncil);
-	alphabet.push_back(eProtossCommandBuildTemplarArchives);
-	alphabet.push_back(eProtossCommandBuildDarkShrine);
-	alphabet.push_back(eProtossCommandBuildRoboticsFacility);
-	alphabet.push_back(eProtossCommandBuildRoboticsBay);
-	alphabet.push_back(eProtossCommandBuildStargate);
-	alphabet.push_back(eProtossCommandBuildFleetBeacon);
-
-	alphabet.push_back(eProtossCommandChronoNexus);
-	alphabet.push_back(eProtossCommandChronoGateway);
-	alphabet.push_back(eProtossCommandChronoWarpGate);
-	alphabet.push_back(eProtossCommandChronoForge);
-	alphabet.push_back(eProtossCommandChronoCyberneticsCore);
-	alphabet.push_back(eProtossCommandChronoTwilightCouncil);
-	alphabet.push_back(eProtossCommandChronoTemplarArchives);
-	//alphabet.push_back(eProtossCommandChronoDarkShrine);
-	alphabet.push_back(eProtossCommandChronoRoboticsFacility);
-	alphabet.push_back(eProtossCommandChronoRoboticsBay);
-	alphabet.push_back(eProtossCommandChronoStargate);
-	alphabet.push_back(eProtossCommandChronoFleetBeacon);
-
-	alphabet.push_back(eProtossCommandBuildProbe);
-	alphabet.push_back(eProtossCommandBuildZealot);
-	alphabet.push_back(eProtossCommandBuildStalker);
-	alphabet.push_back(eProtossCommandBuildSentry);
-	alphabet.push_back(eProtossCommandBuildHighTemplar);
-	alphabet.push_back(eProtossCommandBuildDarkTemplar);
-	alphabet.push_back(eProtossCommandBuildArchon2HT);
-	alphabet.push_back(eProtossCommandBuildArchon1HT1DT);
-	alphabet.push_back(eProtossCommandBuildArchon2DT);
-	alphabet.push_back(eProtossCommandBuildWarpPrism);
-	alphabet.push_back(eProtossCommandBuildObserver);
-	alphabet.push_back(eProtossCommandBuildImmortal);
-	alphabet.push_back(eProtossCommandBuildColossus);
-	alphabet.push_back(eProtossCommandBuildPhoenix);
-	alphabet.push_back(eProtossCommandBuildVoidRay);
-	alphabet.push_back(eProtossCommandBuildCarrier);
-	alphabet.push_back(eProtossCommandBuildMothership);
-
-	alphabet.push_back(eProtossCommandResearchGroundWeapons1);
-	alphabet.push_back(eProtossCommandResearchGroundWeapons2);
-	alphabet.push_back(eProtossCommandResearchGroundWeapons3);
-	alphabet.push_back(eProtossCommandResearchGroundArmor1);
-	alphabet.push_back(eProtossCommandResearchGroundArmor2);
-	alphabet.push_back(eProtossCommandResearchGroundArmor3);
-	alphabet.push_back(eProtossCommandResearchShields1);
-	alphabet.push_back(eProtossCommandResearchShields2);
-	alphabet.push_back(eProtossCommandResearchShields3);
-	alphabet.push_back(eProtossCommandResearchAirWeapons1);
-	alphabet.push_back(eProtossCommandResearchAirWeapons2);
-	alphabet.push_back(eProtossCommandResearchAirWeapons3);
-	alphabet.push_back(eProtossCommandResearchAirArmor1);
-	alphabet.push_back(eProtossCommandResearchAirArmor2);
-	alphabet.push_back(eProtossCommandResearchAirArmor3);
-	alphabet.push_back(eProtossCommandResearchWarpGateTransformation);
-	alphabet.push_back(eProtossCommandResearchHallucination);
-	alphabet.push_back(eProtossCommandResearchCharge);
-	alphabet.push_back(eProtossCommandResearchBlink);
-	alphabet.push_back(eProtossCommandResearchPsionicStorm);
-	alphabet.push_back(eProtossCommandResearchKhaydarinAmulet);
-	alphabet.push_back(eProtossCommandResearchGraviticDrive);
-	alphabet.push_back(eProtossCommandResearchGraviticBoosters);
-	alphabet.push_back(eProtossCommandResearchExtendedThermalLance);
-	alphabet.push_back(eProtossCommandResearchFluxVanes);
-	alphabet.push_back(eProtossCommandResearchGravitonCatapult);
-
-	alphabet.push_back(eProtossCommandMoveProbeToGas);
-	alphabet.push_back(eProtossCommandMoveProbeToMinerals);
-
-/*/
 	alphabet.push_back(eProtossCommandBuildNexus);
 	alphabet.push_back(eProtossCommandChronoNexus);
 	alphabet.push_back(eProtossCommandBuildPylon);
@@ -938,5 +859,4 @@ void CProtossTarget::BuildAlphabet(CVector<EProtossCommand> &alphabet) const
 		alphabet.push_back(eProtossCommandResearchFluxVanes);
 	if(m_researchGravitonCatapultCompleted)
 		alphabet.push_back(eProtossCommandResearchGravitonCatapult);
-//*/
 }

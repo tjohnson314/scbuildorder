@@ -159,6 +159,18 @@
     <ClInclude Include="Engine.h">
       <Filter>GameSimulation</Filter>
     </ClInclude>
+    <ClInclude Include="ZergTarget.h">
+      <Filter>Zerg</Filter>
+    </ClInclude>
+    <ClInclude Include="SCBuildOrderGUIProtossView.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SCBuildOrderGUIZergView.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ZergStateDlg.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SCBuildOrderGUIView.cpp">
@@ -243,6 +255,18 @@
     </ClCompile>
     <ClCompile Include="ProtossTarget.cpp">
       <Filter>Protoss</Filter>
+    </ClCompile>
+    <ClCompile Include="ZergTarget.cpp">
+      <Filter>Zerg</Filter>
+    </ClCompile>
+    <ClCompile Include="SCBuildOrderGUIProtossView.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SCBuildOrderGUIZergView.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ZergStateDlg.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -48,6 +48,34 @@ enum EZergCommand
 
 	, eZergCommandQueenSpawnLarva
 
+	, eZergCommandResearchAdrenalGlands
+	, eZergCommandResearchMetabolicBoost
+	, eZergCommandResearchMeleeAttacks1
+	, eZergCommandResearchMeleeAttacks2
+	, eZergCommandResearchMeleeAttacks3
+	, eZergCommandResearchGroundCarapace1
+	, eZergCommandResearchGroundCarapace2
+	, eZergCommandResearchGroundCarapace3
+	, eZergCommandResearchMissileAttacks1
+	, eZergCommandResearchMissileAttacks2
+	, eZergCommandResearchMissileAttacks3
+	, eZergCommandResearchGlialReconstitution
+	, eZergCommandResearchTunnelingClaws
+	, eZergCommandResearchCentrifugalHooks
+	, eZergCommandResearchBurrow
+	, eZergCommandResearchPneumaticCarapace
+	, eZergCommandResearchVentralSacs
+	, eZergCommandResearchGroovedSpines
+	, eZergCommandResearchPathogenGlands
+	, eZergCommandResearchNeuralParasite
+	, eZergCommandResearchFlyerAttacks1
+	, eZergCommandResearchFlyerAttacks2
+	, eZergCommandResearchFlyerAttacks3
+	, eZergCommandResearchFlyerCarapace1
+	, eZergCommandResearchFlyerCarapace2
+	, eZergCommandResearchFlyerCarapace3
+	, eZergCommandResearchChitinousPlating
+
 	, eZergCommandMoveDroneToGas
 	, eZergCommandMoveDroneToMinerals
 };

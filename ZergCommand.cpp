@@ -76,6 +76,61 @@ const WCHAR *tostring(EZergCommand command)
 	case eZergCommandQueenSpawnLarva:
 		return L"Queen Spawn Larva";
 
+	case eZergCommandResearchAdrenalGlands:
+		return L"Research Adrenal Glands";
+	case eZergCommandResearchMetabolicBoost:
+		return L"Research Metabolic Boost";
+	case eZergCommandResearchMeleeAttacks1:
+		return L"Research Melee Attacks 1";
+	case eZergCommandResearchMeleeAttacks2:
+		return L"Research Melee Attacks 2";
+	case eZergCommandResearchMeleeAttacks3:
+		return L"Research Melee Attacks 3";
+	case eZergCommandResearchGroundCarapace1:
+		return L"Research Ground Carapace 1";
+	case eZergCommandResearchGroundCarapace2:
+		return L"Research Ground Carapace 2";
+	case eZergCommandResearchGroundCarapace3:
+		return L"Research Ground Carapace 3";
+	case eZergCommandResearchMissileAttacks1:
+		return L"Research Missile Attacks 1";
+	case eZergCommandResearchMissileAttacks2:
+		return L"Research Missile Attacks 2";
+	case eZergCommandResearchMissileAttacks3:
+		return L"Research Missile Attacks 3";
+	case eZergCommandResearchGlialReconstitution:
+		return L"Research Glial Reconstitution";
+	case eZergCommandResearchTunnelingClaws:
+		return L"Research Tunneling Claws";
+	case eZergCommandResearchCentrifugalHooks:
+		return L"Research Centrifugal Hooks";
+	case eZergCommandResearchBurrow:
+		return L"Research Burrow";
+	case eZergCommandResearchPneumaticCarapace:
+		return L"Research Pneumatic Carapace";
+	case eZergCommandResearchVentralSacs:
+		return L"Research Ventral Sacs";
+	case eZergCommandResearchGroovedSpines:
+		return L"Research Grooved Spines";
+	case eZergCommandResearchPathogenGlands:
+		return L"Research Pathogen Glands";
+	case eZergCommandResearchNeuralParasite:
+		return L"Research Neural Parasite";
+	case eZergCommandResearchFlyerAttacks1:
+		return L"Research Flyer Attacks 1";
+	case eZergCommandResearchFlyerAttacks2:
+		return L"Research Flyer Attacks 2";
+	case eZergCommandResearchFlyerAttacks3:
+		return L"Research Flyer Attacks 3";
+	case eZergCommandResearchFlyerCarapace1:
+		return L"Research Flyer Carapace 1";
+	case eZergCommandResearchFlyerCarapace2:
+		return L"Research Flyer Carapace 2";
+	case eZergCommandResearchFlyerCarapace3:
+		return L"Research Flyer Carapace 3";
+	case eZergCommandResearchChitinousPlating:
+		return L"Research Chitinous Plating";
+
 	case eZergCommandMoveDroneToGas:
 		return L"Move Drone To Gas";
 	case eZergCommandMoveDroneToMinerals:

@@ -24,6 +24,7 @@ public:
 		, eSpawnUltraliskCavern
 		, eSpawnGreaterSpire
 
+		, eExtractorTrickFinished
 		, eCreepTumourAvailable
 
 		// Units
@@ -43,14 +44,37 @@ public:
 		, eSpawnUltralisk
 		, eSpawnBroodlord
 
-		, eExtractorTrickFinished
+		// Research
+		, eResearchAdrenalGlandsComplete
+		, eResearchMetabolicBoostComplete
+		, eResearchMeleeAttacks1Complete
+		, eResearchMeleeAttacks2Complete
+		, eResearchMeleeAttacks3Complete
+		, eResearchGroundCarapace1Complete
+		, eResearchGroundCarapace2Complete
+		, eResearchGroundCarapace3Complete
+		, eResearchMissileAttacks1Complete
+		, eResearchMissileAttacks2Complete
+		, eResearchMissileAttacks3Complete
+		, eResearchGlialReconstitutionComplete
+		, eResearchTunnelingClawsComplete
+		, eResearchCentrifugalHooksComplete
+		, eResearchBurrowComplete
+		, eResearchPneumaticCarapaceComplete
+		, eResearchVentralSacsComplete
+		, eResearchGroovedSpinesComplete
+		, eResearchPathogenGlandsComplete
+		, eResearchNeuralParasiteComplete
+		, eResearchFlyerAttacks1Complete
+		, eResearchFlyerAttacks2Complete
+		, eResearchFlyerAttacks3Complete
+		, eResearchFlyerCarapace1Complete
+		, eResearchFlyerCarapace2Complete
+		, eResearchFlyerCarapace3Complete
+		, eResearchChitinousPlatingComplete
 
 		, eDroneStartMiningMinerals
 		, eDroneStartMiningGas
-
-		// Abilities
-
-		// Research
 	};
 
 	CZergEvent(EEvent event, double time) : m_event(event), m_time(time) {}

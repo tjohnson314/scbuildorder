@@ -10,7 +10,8 @@
 
 #include "ChildFrm.h"
 #include "SCBuildOrderGUIDoc.h"
-#include "SCBuildOrderGUIView.h"
+#include "SCBuildOrderGUIProtossView.h"
+#include "SCBuildOrderGUIZergView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -109,10 +110,19 @@ BOOL CSCBuildOrderGUIApp::InitInstance()
 	// Register the application's document templates.  Document templates
 	//  serve as the connection between documents, frame windows and views
 	CMultiDocTemplate* pDocTemplate;
-	pDocTemplate = new CMultiDocTemplate(IDR_BuildOrderTYPE,
+
+	pDocTemplate = new CMultiDocTemplate(IDR_BUILDORDERTYPE_PROTOSS,
 		RUNTIME_CLASS(CSCBuildOrderGUIDoc),
 		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-		RUNTIME_CLASS(CSCBuildOrderGUIView));
+		RUNTIME_CLASS(CSCBuildOrderGUIProtossView));
+	if (!pDocTemplate)
+		return FALSE;
+	AddDocTemplate(pDocTemplate);
+
+	pDocTemplate = new CMultiDocTemplate(IDR_BUILDORDERTYPE_ZERG,
+		RUNTIME_CLASS(CSCBuildOrderGUIDoc),
+		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
+		RUNTIME_CLASS(CSCBuildOrderGUIZergView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);
