@@ -138,9 +138,8 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 							break;
 						}
 
-						if(!bHaveStateRequirements)
-							bHaveStateRequirements = state.HasBuildingStateRequirements(time, *command);
-						if(bHaveStateRequirements && !bHaveCost)
+						bHaveStateRequirements = state.HasBuildingStateRequirements(time, *command);
+						if(bHaveStateRequirements)
 							bHaveCost = state.HasResources(cost);
 					}
 				}
@@ -245,7 +244,7 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 template <typename TTarget, typename TState, typename TCommand, typename TEvent>
 void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(CString &output, const CVector<TCommand> &value) const
 {
-	double time = 2; // Assume it takes 2 secs to start building/mining anything
+	double time = 2.0; // Assume it takes 2 secs to start building/mining anything
 	TState state;
 	CLinkedList<TEvent> *events = 0;
 	state.SetInitialState();

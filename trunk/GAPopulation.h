@@ -47,13 +47,14 @@ protected:
 	size_t m_populationCount;
 	size_t m_stagnationCount;
 	unsigned long long m_gameCount;
+	TFitness m_currentBestFitness;
 
 	CGAChromosome<TGene, TFitness> **m_population;
 };
 
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 CGAPopulation<TGene, TFitnessCalc, TFitness>::CGAPopulation(const CGAConfiguration<TGene, TFitnessCalc, TFitness> &config, size_t maxPopulation)
-: m_config(config), m_maxPopulation(maxPopulation < 20 ? 20 : maxPopulation), m_populationMemPool(maxPopulation * sizeof(CGAChromosome<TGene, TFitness> *)), m_stagnationCount(0), m_gameCount(0)
+: m_config(config), m_maxPopulation(maxPopulation < 20 ? 20 : maxPopulation), m_populationMemPool(maxPopulation * sizeof(CGAChromosome<TGene, TFitness> *)), m_stagnationCount(0), m_gameCount(0), m_currentBestFitness()
 {
 	m_populationCount = 0;
 	m_population = (CGAChromosome<TGene, TFitness> **)m_populationMemPool.Alloc();
@@ -117,8 +118,6 @@ bool CGAPopulation<TGene, TFitnessCalc, TFitness>::AddChromosome(const CVector<T
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 bool CGAPopulation<TGene, TFitnessCalc, TFitness>::Evolve()
 {
-	TFitness currentBestFitness = m_population[0]->GetFitness();
-
 	CGAChromosome<TGene, TFitness> **newPopulation = (CGAChromosome<TGene, TFitness> **)m_populationMemPool.Alloc();
 	memset(newPopulation, 0, m_maxPopulation * sizeof(CGAChromosome<TGene, TFitness> *));
 
@@ -238,8 +237,11 @@ bool CGAPopulation<TGene, TFitnessCalc, TFitness>::Evolve()
 	m_populationMemPool.Free(m_population);
 	m_population = newPopulation;
 
-	if(currentBestFitness < m_population[0]->GetFitness())
+	if(m_currentBestFitness < m_population[0]->GetFitness())
+	{
+		m_currentBestFitness = m_population[0]->GetFitness();
 		m_stagnationCount = 0;
+	}
 	else
 		m_stagnationCount++;
 	

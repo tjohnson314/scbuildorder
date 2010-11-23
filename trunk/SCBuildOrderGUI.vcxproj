@@ -77,6 +77,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -135,7 +136,9 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SCBuildOrderGUI.h" />
     <ClInclude Include="SCBuildOrderGUIDoc.h" />
+    <ClInclude Include="SCBuildOrderGUIProtossView.h" />
     <ClInclude Include="SCBuildOrderGUIView.h" />
+    <ClInclude Include="SCBuildOrderGUIZergView.h" />
     <ClInclude Include="SettingsDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -145,6 +148,8 @@
     <ClInclude Include="ZergCommand.h" />
     <ClInclude Include="ZergEvent.h" />
     <ClInclude Include="ZergState.h" />
+    <ClInclude Include="ZergStateDlg.h" />
+    <ClInclude Include="ZergTarget.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChildFrm.cpp" />
@@ -169,7 +174,9 @@
     <ClCompile Include="ProtossTarget.cpp" />
     <ClCompile Include="SCBuildOrderGUI.cpp" />
     <ClCompile Include="SCBuildOrderGUIDoc.cpp" />
+    <ClCompile Include="SCBuildOrderGUIProtossView.cpp" />
     <ClCompile Include="SCBuildOrderGUIView.cpp" />
+    <ClCompile Include="SCBuildOrderGUIZergView.cpp" />
     <ClCompile Include="SettingsDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -179,6 +186,8 @@
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="ZergCommand.cpp" />
     <ClCompile Include="ZergState.cpp" />
+    <ClCompile Include="ZergStateDlg.cpp" />
+    <ClCompile Include="ZergTarget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SCBuildOrderGUI.rc" />

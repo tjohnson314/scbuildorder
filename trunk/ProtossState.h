@@ -35,7 +35,6 @@ public:
 	void operator=(const CProtossState &state);
 
 	bool GetResourceWaitTime(const CResourceCost &cost, double &resourceWaitTime) const;
-	bool PrepareToExecuteCommand(double &time, double timeLimit, EProtossCommand command, CLinkedList<CProtossEvent> *&events);
 	void ExecuteCommand(double &time, double timeLimit, EProtossCommand command, CLinkedList<CProtossEvent> *&events);
 
 	void RecalculateSupply();

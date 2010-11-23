@@ -9,30 +9,33 @@
 struct CZergState
 {
 public:
+	class CResourceCost
+	{
+	public:
+		CResourceCost() : m_minerals(0), m_gas(0), m_queenEnergy(0) {}
+
+		double m_minerals;
+		double m_gas;
+		double m_queenEnergy;
+	};
+
 	CZergState();
 	~CZergState();
 
 	void SetInitialState();
 
-	void AddRequirements();
 	bool HasBuildingStateRequirements(double time, EZergCommand command) const;
 	bool HasBuildingRequirements(double time, EZergCommand command) const;
 
-	static double MineralCost(EZergCommand command);
-	static double GasCost(EZergCommand command);
-	static double QueenEnergyCost(EZergCommand command);
+	bool HasResources(const CResourceCost &cost) const;
+
+	static void GetCost(CResourceCost &cost, EZergCommand command);
+	void SpendResources(const CResourceCost &cost);
 
 	void operator=(const CZergState &state);
-	bool operator>=(const CZergState &state) const;
 
-	void intersection(const CZergState &s1, const CZergState &s2);
-	void operator-=(const CZergState &state);
-
-	bool WaitForResources(double &time, double timeLimit, double mineralCost, double gasCost, double nexusEnergyCost, CLinkedList<CZergEvent> *&events);
-	bool PrepareToExecuteCommand(double &time, double timeLimit, EZergCommand command, CLinkedList<CZergEvent> *&events);
-	bool ExecuteCommand(double &time, double timeLimit, EZergCommand command, CLinkedList<CZergEvent> *&events);
-
-	double value() const;
+	bool GetResourceWaitTime(const CResourceCost &cost, double &resourceWaitTime) const;
+	void ExecuteCommand(double &time, double timeLimit, EZergCommand command, CLinkedList<CZergEvent> *&events);
 
 	void RecalculateSupply();
 	void RecalculateSupplyCap();
@@ -46,8 +49,10 @@ public:
 	void ConsumeLarva(double &time, CLinkedList<CZergEvent> *&events);
 	void UseDroneForBuilding(double duration, double &time, CLinkedList<CZergEvent> *&events);
 	void AddEvent(CLinkedList<CZergEvent> *&events, const CZergEvent &event);
+	void AddEvent(CLinkedList<CZergEvent> *&events, CLinkedList<CZergEvent> *event);
 
-	void PrintSummary(CString &output) const { output.AppendFormat(L"%4.0fM %4.0fG %2dL %3.0fE %3.0f/%3.0fS", m_minerals, m_gas, m_larvaCount, m_queenEnergy[0], m_supply, m_supplyCap); }
+	void PrintSummary(CString &output) const { output.AppendFormat(L"%4.0fM %4.0fG %2dL %3.0fE %3d/%3dS", m_minerals, m_gas, m_larvaCount, m_queenEnergy[0], (size_t)m_supply, (size_t)m_supplyCap); }
+	void PrintDetails(CString &output) const;
 
 	// Resources
 	double m_minerals;
@@ -58,6 +63,7 @@ public:
 	size_t m_hatcheryCount;
 	size_t m_extractorCount;
 	size_t m_spawningPoolCount;
+	size_t m_banelingNestCount;
 	size_t m_creepTumourCount;
 	size_t m_evolutionChamberCount;
 	size_t m_spineCrawlerCount;
@@ -65,7 +71,6 @@ public:
 	size_t m_roachWarrenCount;
 	size_t m_lairCount;
 	size_t m_hydraliskDenCount;
-	size_t m_banelingNestCount;
 	size_t m_spireCount;
 	size_t m_infestationPitCount;
 	size_t m_nydusNetworkCount;
@@ -116,9 +121,9 @@ public:
 	size_t m_overlordCount;
 	size_t m_queenCount;
 	size_t m_zerglingCount;
+	size_t m_banelingCount;
 	size_t m_roachCount;
 	size_t m_hydraliskCount;
-	size_t m_banelingCount;
 	size_t m_overseerCount;
 	size_t m_infestorCount;
 	size_t m_mutaliskCount;
@@ -130,9 +135,9 @@ public:
 	size_t m_overlordUnderConstruction;
 	size_t m_queenUnderConstruction;
 	size_t m_zerglingUnderConstruction;
+	size_t m_banelingUnderConstruction;
 	size_t m_roachUnderConstruction;
 	size_t m_hydraliskUnderConstruction;
-	size_t m_banelingUnderConstruction;
 	size_t m_overseerUnderConstruction;
 	size_t m_infestorUnderConstruction;
 	size_t m_mutaliskUnderConstruction;
@@ -145,6 +150,61 @@ public:
 	size_t m_dronesOnGas;
 
 	// Research
+	bool m_researchAdrenalGlandsCompleted;
+	bool m_researchMetabolicBoostCompleted;
+	bool m_researchMeleeAttacks1Completed;
+	bool m_researchMeleeAttacks2Completed;
+	bool m_researchMeleeAttacks3Completed;
+	bool m_researchGroundCarapace1Completed;
+	bool m_researchGroundCarapace2Completed;
+	bool m_researchGroundCarapace3Completed;
+	bool m_researchMissileAttacks1Completed;
+	bool m_researchMissileAttacks2Completed;
+	bool m_researchMissileAttacks3Completed;
+	bool m_researchGlialReconstitutionCompleted;
+	bool m_researchTunnelingClawsCompleted;
+	bool m_researchCentrifugalHooksCompleted;
+	bool m_researchBurrowCompleted;
+	bool m_researchPneumaticCarapaceCompleted;
+	bool m_researchVentralSacsCompleted;
+	bool m_researchGroovedSpinesCompleted;
+	bool m_researchPathogenGlandsCompleted;
+	bool m_researchNeuralParasiteCompleted;
+	bool m_researchFlyerAttacks1Completed;
+	bool m_researchFlyerAttacks2Completed;
+	bool m_researchFlyerAttacks3Completed;
+	bool m_researchFlyerCarapace1Completed;
+	bool m_researchFlyerCarapace2Completed;
+	bool m_researchFlyerCarapace3Completed;
+	bool m_researchChitinousPlatingCompleted;
+
+	bool m_researchAdrenalGlandsUnderConstruction;
+	bool m_researchMetabolicBoostUnderConstruction;
+	bool m_researchMeleeAttacks1UnderConstruction;
+	bool m_researchMeleeAttacks2UnderConstruction;
+	bool m_researchMeleeAttacks3UnderConstruction;
+	bool m_researchGroundCarapace1UnderConstruction;
+	bool m_researchGroundCarapace2UnderConstruction;
+	bool m_researchGroundCarapace3UnderConstruction;
+	bool m_researchMissileAttacks1UnderConstruction;
+	bool m_researchMissileAttacks2UnderConstruction;
+	bool m_researchMissileAttacks3UnderConstruction;
+	bool m_researchGlialReconstitutionUnderConstruction;
+	bool m_researchTunnelingClawsUnderConstruction;
+	bool m_researchCentrifugalHooksUnderConstruction;
+	bool m_researchBurrowUnderConstruction;
+	bool m_researchPneumaticCarapaceUnderConstruction;
+	bool m_researchVentralSacsUnderConstruction;
+	bool m_researchGroovedSpinesUnderConstruction;
+	bool m_researchPathogenGlandsUnderConstruction;
+	bool m_researchNeuralParasiteUnderConstruction;
+	bool m_researchFlyerAttacks1UnderConstruction;
+	bool m_researchFlyerAttacks2UnderConstruction;
+	bool m_researchFlyerAttacks3UnderConstruction;
+	bool m_researchFlyerCarapace1UnderConstruction;
+	bool m_researchFlyerCarapace2UnderConstruction;
+	bool m_researchFlyerCarapace3UnderConstruction;
+	bool m_researchChitinousPlatingUnderConstruction;
 
 	// Supply
 	double m_supply;
@@ -158,5 +218,3 @@ public:
 	double m_timeLastDroneMove;
 	EZergCommand m_lastDroneMove;
 };
-
-typedef CSimulatorEngine<CZergState, CZergState, EZergCommand, CZergEvent> CZergEngine;

@@ -8,8 +8,33 @@
 #include "FitnessCalc.h"
 #include "FitnessValue.h"
 
+class CEngine
+{
+public:
+	virtual void InitConfiguration(double mutationRate) = 0;
+	virtual void AddVillage(size_t populationLimit, size_t initialPopulation) = 0;
+
+	virtual void Start() = 0;
+	virtual void Stop() = 0;
+
+	virtual size_t VillagePopulationCount(size_t village) const = 0;
+	virtual size_t VillageEvolution(size_t village) const = 0;
+	virtual size_t VillageStagnationCount(size_t village) const = 0;
+	virtual unsigned long long VillageGameCount(size_t village) const = 0;
+	virtual CFitnessValue VillageBestFitness(size_t village) const = 0;
+
+	virtual size_t CityPopulationCount() const = 0;
+	virtual size_t CityEvolution() const = 0;
+	virtual size_t CityStagnationCount() const = 0;
+	virtual unsigned long long CityGameCount() const = 0;
+	virtual CFitnessValue CityBestFitness() const = 0;
+
+	virtual size_t StagnationLimit() const = 0;
+	virtual void PrintBestGame(CString &output) const = 0;
+};
+
 template<typename TTarget, typename TState, typename TCommand, typename TEvent>
-class CSimulatorEngine
+class CSimulatorEngine : public CEngine
 {
 public:
 	CSimulatorEngine(double timeLimit);

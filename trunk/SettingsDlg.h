@@ -39,6 +39,7 @@ protected:
 	BOOL m_scoutingWorkerDies;
 	BOOL m_scoutingWorkerReturns;
 	double m_scoutingWorkerEndTime;
+
 public:
 	afx_msg void OnBnClickedCheckScoutingworker();
 	afx_msg void OnBnClickedCheckScoutingworkerdies();
