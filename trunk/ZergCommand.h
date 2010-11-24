@@ -46,7 +46,7 @@ enum EZergCommand
 	, eZergCommandExtractorTrickZergling
 	, eZergCommandExtractorTrickRoach
 
-	, eZergCommandQueenSpawnLarva
+	, eZergCommandQueenSpawnLarvae
 
 	, eZergCommandResearchAdrenalGlands
 	, eZergCommandResearchMetabolicBoost

@@ -5,9 +5,9 @@
 
 CZergState::CZergState()
 : m_minerals(0), m_gas(0)
-, m_hatcheryCount(0), m_extractorCount(0), m_spawningPoolCount(0), m_creepTumourCount(0), m_evolutionChamberCount(0), m_spineCrawlerCount(0), m_sporeCrawlerCount(0), m_roachWarrenCount(0), m_lairCount(0), m_hydraliskDenCount(0), m_banelingNestCount(0), m_spireCount(0), m_infestationPitCount(0), m_nydusNetworkCount(0), m_hiveCount(0), m_ultraliskCavernCount(0), m_greaterSpireCount(0)
+, m_baseCount(0), m_hatcheryCount(0), m_extractorCount(0), m_spawningPoolCount(0), m_creepTumourCount(0), m_evolutionChamberCount(0), m_spineCrawlerCount(0), m_sporeCrawlerCount(0), m_roachWarrenCount(0), m_lairCount(0), m_hydraliskDenCount(0), m_banelingNestCount(0), m_spireCount(0), m_infestationPitCount(0), m_nydusNetworkCount(0), m_hiveCount(0), m_ultraliskCavernCount(0), m_greaterSpireCount(0)
 , m_hatcheryUnderConstruction(0), m_extractorUnderConstruction(0), m_spawningPoolUnderConstruction(0), m_creepTumourUnderConstruction(0), m_evolutionChamberUnderConstruction(0), m_spineCrawlerUnderConstruction(0), m_sporeCrawlerUnderConstruction(0), m_roachWarrenUnderConstruction(0), m_lairUnderConstruction(0), m_hydraliskDenUnderConstruction(0), m_banelingNestUnderConstruction(0), m_spireUnderConstruction(0), m_infestationPitUnderConstruction(0), m_nydusNetworkUnderConstruction(0), m_hiveUnderConstruction(0), m_ultraliskCavernUnderConstruction(0), m_greaterSpireUnderConstruction(0)
-, m_hatcheryInUse(0), m_spawningPoolInUse(0), m_creepTumourOnCooldown(0), m_creepTumourExpandAvailable(0), m_evolutionChamberInUse(0), m_spineCrawlerInUse(0), m_sporeCrawlerInUse(0), m_roachWarrenInUse(0), m_lairInUse(0), m_hydraliskDenInUse(0), m_banelingNestInUse(0), m_spireInUse(0), m_infestationPitInUse(0), m_nydusNetworkInUse(0), m_hiveInUse(0), m_ultraliskCavernInUse(0), m_greaterSpireInUse(0)
+, m_baseSpawningLarvae(0), m_hatcheryInUse(0), m_spawningPoolInUse(0), m_creepTumourOnCooldown(0), m_creepTumourExpandAvailable(0), m_evolutionChamberInUse(0), m_spineCrawlerInUse(0), m_sporeCrawlerInUse(0), m_roachWarrenInUse(0), m_lairInUse(0), m_hydraliskDenInUse(0), m_banelingNestInUse(0), m_spireInUse(0), m_infestationPitInUse(0), m_nydusNetworkInUse(0), m_hiveInUse(0), m_ultraliskCavernInUse(0), m_greaterSpireInUse(0)
 , m_larvaCount(0), m_droneCount(0), m_overlordCount(0), m_queenCount(0), m_zerglingCount(0), m_roachCount(0), m_hydraliskCount(0), m_banelingCount(0), m_overseerCount(0), m_infestorCount(0), m_mutaliskCount(0), m_corruptorCount(0), m_ultraliskCount(0), m_broodlordCount(0)
 , m_droneUnderConstruction(0), m_overlordUnderConstruction(0), m_queenUnderConstruction(0), m_zerglingUnderConstruction(0), m_roachUnderConstruction(0), m_hydraliskUnderConstruction(0), m_banelingUnderConstruction(0), m_overseerUnderConstruction(0), m_infestorUnderConstruction(0), m_mutaliskUnderConstruction(0), m_corruptorUnderConstruction(0), m_ultraliskUnderConstruction(0), m_broodlordUnderConstruction(0)
 , m_researchAdrenalGlandsCompleted(false), m_researchMetabolicBoostCompleted(false), m_researchMeleeAttacks1Completed(false), m_researchMeleeAttacks2Completed(false), m_researchMeleeAttacks3Completed(false), m_researchGroundCarapace1Completed(false), m_researchGroundCarapace2Completed(false), m_researchGroundCarapace3Completed(false), m_researchMissileAttacks1Completed(false), m_researchMissileAttacks2Completed(false), m_researchMissileAttacks3Completed(false), m_researchGlialReconstitutionCompleted(false), m_researchTunnelingClawsCompleted(false), m_researchCentrifugalHooksCompleted(false), m_researchBurrowCompleted(false), m_researchPneumaticCarapaceCompleted(false), m_researchVentralSacsCompleted(false), m_researchGroovedSpinesCompleted(false), m_researchPathogenGlandsCompleted(false), m_researchNeuralParasiteCompleted(false), m_researchFlyerAttacks1Completed(false), m_researchFlyerAttacks2Completed(false), m_researchFlyerAttacks3Completed(false), m_researchFlyerCarapace1Completed(false), m_researchFlyerCarapace2Completed(false), m_researchFlyerCarapace3Completed(false), m_researchChitinousPlatingCompleted(false)
@@ -29,6 +29,7 @@ void CZergState::SetInitialState()
 {
 	memset(this, 0, sizeof(CZergState));
 	m_minerals = 50;
+	m_baseCount = 1;
 	m_hatcheryCount = 1;
 	m_droneCount = 6;
 	m_dronesOnMinerals = 6;
@@ -96,7 +97,7 @@ void CZergState::ExecuteCommand(double &time, double timeLimit, EZergCommand com
 		m_supplyCapUnderConstruction += 2.0;
 		break;
 	case eZergCommandBuildExtractor:
-		if(m_extractorCount < 2 * (m_hatcheryCount + m_lairUnderConstruction + m_lairCount + m_hiveUnderConstruction + m_hiveCount))
+		if(m_extractorCount + m_extractorUnderConstruction < 2 * m_baseCount)
 			UseDroneForBuilding(2, time, events);
 		else
 			UseDroneForBuilding(15, time, events);
@@ -218,11 +219,15 @@ void CZergState::ExecuteCommand(double &time, double timeLimit, EZergCommand com
 		break;
 
 	case eZergCommandExtractorTrickDrone:
+		m_extractorUnderConstruction++;
 		AddEvent(events, CZergEvent(CZergEvent::eExtractorTrickFinished, time + 2));
 		m_droneCount--;
 		m_dronesOnMinerals--;
 		RecalculateMineralIncomeRate();
-		m_supply -= 1.0;
+		AddEvent(events, CZergEvent(CZergEvent::eSpawnDrone, time + 18));
+		m_droneUnderConstruction++;
+		ConsumeLarva(time, events);
+		break;
 	case eZergCommandBuildDrone:
 		AddEvent(events, CZergEvent(CZergEvent::eSpawnDrone, time + 17));
 		m_droneUnderConstruction++;
@@ -300,8 +305,9 @@ void CZergState::ExecuteCommand(double &time, double timeLimit, EZergCommand com
 		m_broodlordUnderConstruction++;
 		break;
 
-	case eZergCommandQueenSpawnLarva:
+	case eZergCommandQueenSpawnLarvae:
 		AddEvent(events, CZergEvent(CZergEvent::eSpawnQueenLarva, time + 40));
+		m_baseSpawningLarvae++;
 		break;
 
 	case eZergCommandResearchAdrenalGlands:
@@ -471,6 +477,7 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 	case CZergEvent::eSpawnHatchery:
 		m_hatcheryUnderConstruction--;
 		m_hatcheryCount++;
+		m_baseCount++;
 		m_supplyCap += 2.0;
 		RecalculateMineralIncomeRate();
 		RecalculateGasIncomeRate();
@@ -563,7 +570,8 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva, time + 15));
 		break;
 	case CZergEvent::eSpawnQueenLarva:
-		m_larvaCount = mymin(m_larvaCount + 4, (size_t)19); // TODO: Make 19*bases
+		m_larvaCount = mymin(m_larvaCount + 4, (size_t)19 * m_baseCount); // TODO: Needs to split counts per base
+		m_baseSpawningLarvae--;
 		
 		// Remove last subsequent Spawn Larva event
 		if(m_larvaCount < 7 && events)
@@ -656,7 +664,9 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 		m_droneCount++;
 		m_dronesOnMinerals++;
 		m_supply += 1.0;
+		m_extractorUnderConstruction--;
 		RecalculateMineralIncomeRate();
+		UseDroneForMovement(2, time, events);
 		break;
 
 	case CZergEvent::eResearchAdrenalGlandsComplete:
@@ -804,54 +814,54 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 	switch (command)
 	{
 	case eZergCommandBuildHatchery:
-		return 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+		return 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildExtractor:
-		return 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+		return 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildSpawningPool:
 		return 0 < m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+	case eZergCommandBuildBanelingNest:
+		return 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandExpandCreepTumour:
 		return 0 < m_creepTumourExpandAvailable + m_creepTumourOnCooldown;
 	case eZergCommandBuildEvolutionChamber:
 		return 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildSpineCrawler:
 		return 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildSporeCrawler:
 		return 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildRoachWarren:
 		return 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildLair:
 		return 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
 			&& 0 < m_hatcheryCount + m_hatcheryUnderConstruction;
 	case eZergCommandBuildHydraliskDen:
 		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
-	case eZergCommandBuildBanelingNest:
-		return 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildSpire:
 		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildInfestationPit:
 		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildNydusNetwork:
 		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildHive:
 		return 0 < m_infestationPitCount + m_infestationPitUnderConstruction
 			&& 0 < m_lairCount + m_lairUnderConstruction;
 	case eZergCommandBuildUltraliskCavern:
 		return 0 < m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildGreaterSpire:
 		return 0 < m_hiveCount + m_hiveUnderConstruction
 			&& 0 < m_spireCount + m_spireUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 
 	case eZergCommandCancelExtractor:
 		return 0 < m_extractorUnderConstruction;
@@ -905,12 +915,13 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 			&& 0 < m_corruptorCount + m_corruptorUnderConstruction;
 
 	case eZergCommandExtractorTrickDrone:
-		return 0 < m_larvaCount + m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_larvaCount + m_baseCount
 			&& 0 < m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction
-			&& m_supply <= m_supplyCapUnderConstruction;
+			&& m_supply <= m_supplyCapUnderConstruction
+			&& m_extractorCount + m_extractorUnderConstruction < 2 * m_baseCount;
 
-	case eZergCommandQueenSpawnLarva:
-		return 0 < m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+	case eZergCommandQueenSpawnLarvae:
+		return 0 < m_baseCount + m_hatcheryUnderConstruction
 			&& 0 < m_queenCount + m_queenUnderConstruction;
 
 	case eZergCommandResearchAdrenalGlands:
@@ -949,17 +960,18 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 			&& 0 < m_hiveCount + m_hiveUnderConstruction
 			&& (m_researchMissileAttacks2Completed || m_researchMissileAttacks2UnderConstruction);
 	case eZergCommandResearchGlialReconstitution:
-		return 0 < m_roachWarrenCount + m_roachWarrenUnderConstruction;
+		return 0 < m_roachWarrenCount + m_roachWarrenUnderConstruction
+			&& 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount;
 	case eZergCommandResearchTunnelingClaws:
 		return 0 < m_roachWarrenCount + m_roachWarrenUnderConstruction;
 	case eZergCommandResearchCentrifugalHooks:
 		return 0 < m_banelingNestCount + m_banelingNestUnderConstruction;
 	case eZergCommandResearchBurrow:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction;
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount;
 	case eZergCommandResearchPneumaticCarapace:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction;
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount;
 	case eZergCommandResearchVentralSacs:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction;
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount;
 	case eZergCommandResearchGroovedSpines:
 		return 0 < m_hydraliskDenCount + m_hydraliskDenUnderConstruction;
 	case eZergCommandResearchPathogenGlands:
@@ -1011,54 +1023,54 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 	switch (command)
 	{
 	case eZergCommandBuildHatchery:
-		return 0 < m_dronesOnMinerals + m_dronesOnGas;
+		return 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildExtractor:
-		return 0 < m_dronesOnMinerals + m_dronesOnGas;
+		return 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildSpawningPool:
 		return 0 < m_hatcheryCount + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
+	case eZergCommandBuildBanelingNest:
+		return 0 < m_spawningPoolCount
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandExpandCreepTumour:
 		return 0 < m_creepTumourExpandAvailable;
 	case eZergCommandBuildEvolutionChamber:
 		return 0 < m_spawningPoolCount
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildSpineCrawler:
 		return 0 < m_spawningPoolCount
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildSporeCrawler:
 		return 0 < m_spawningPoolCount
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildRoachWarren:
 		return 0 < m_spawningPoolCount
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildLair:
 		return 0 < m_spawningPoolCount
 			&& m_hatcheryInUse < m_hatcheryCount;
 	case eZergCommandBuildHydraliskDen:
 		return 0 < m_lairCount + m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
-	case eZergCommandBuildBanelingNest:
-		return 0 < m_spawningPoolCount
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildSpire:
 		return 0 < m_lairCount + m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildInfestationPit:
 		return 0 < m_lairCount + m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildNydusNetwork:
 		return 0 < m_lairCount + m_hiveCount + m_hiveUnderConstruction
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildHive:
 		return 0 < m_infestationPitCount
 			&& m_lairInUse < m_lairCount;
 	case eZergCommandBuildUltraliskCavern:
 		return 0 < m_hiveCount
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildGreaterSpire:
 		return 0 < m_hiveCount
 			&& m_spireInUse < m_spireCount
-			&& 0 < m_dronesOnMinerals + m_dronesOnGas;
+			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 
 	case eZergCommandCancelExtractor:
 		return 0 < m_extractorUnderConstruction;
@@ -1115,8 +1127,8 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 			&& 0 < m_dronesOnMinerals + m_dronesOnGas
 			&& 1 <= m_larvaCount;
 
-	case eZergCommandQueenSpawnLarva:
-		return 0 < m_hatcheryCount + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+	case eZergCommandQueenSpawnLarvae:
+		return m_baseSpawningLarvae < m_baseCount
 			&& 0 < m_queenCount;
 
 	case eZergCommandResearchAdrenalGlands:
@@ -1155,7 +1167,8 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 			&& 0 < m_hiveCount
 			&& m_researchMissileAttacks2Completed;
 	case eZergCommandResearchGlialReconstitution:
-		return m_roachWarrenInUse < m_roachWarrenCount;
+		return m_roachWarrenInUse < m_roachWarrenCount
+			&& 0 < m_lairCount + m_hiveCount;
 	case eZergCommandResearchTunnelingClaws:
 		return m_roachWarrenInUse < m_roachWarrenCount;
 	case eZergCommandResearchCentrifugalHooks:
@@ -1324,7 +1337,7 @@ void CZergState::GetCost(CResourceCost &cost, EZergCommand command)
 		cost.m_minerals = 75;
 		break;
 
-	case eZergCommandQueenSpawnLarva:
+	case eZergCommandQueenSpawnLarvae:
 		cost.m_queenEnergy = 25;
 		break;
 
@@ -1468,12 +1481,12 @@ void CZergState::RecalculateSupplyCapUnderConstruction()
 
 void CZergState::RecalculateMineralIncomeRate()
 {
-	m_mineralIncomeRate = CGameCalcs::CalculateMineralIncomeRate(m_hatcheryCount + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction, m_dronesOnMinerals);
+	m_mineralIncomeRate = CGameCalcs::CalculateMineralIncomeRate(m_hatcheryCount + m_lairCount + m_hiveCount, m_dronesOnMinerals);
 }
 
 void CZergState::RecalculateGasIncomeRate()
 {
-	m_gasIncomeRate = CGameCalcs::CalculateGasIncomeRate(m_hatcheryCount + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction, m_extractorCount, m_dronesOnGas);
+	m_gasIncomeRate = CGameCalcs::CalculateGasIncomeRate(m_hatcheryCount + m_lairCount + m_hiveCount, m_extractorCount, m_dronesOnGas);
 }
 
 void CZergState::ProgressTime(double &time, double duration)
@@ -1497,6 +1510,23 @@ void CZergState::ConsumeLarva(double &time, CLinkedList<CZergEvent> *&events)
 		AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva, time + 15));
 }
 
+void CZergState::UseDroneForMovement(double duration, double &time, CLinkedList<CZergEvent> *&events)
+{
+	// Simulate drone being pulled off the line for a period beforehand
+	if(m_dronesOnMinerals > 0)
+	{
+		AddEvent(events, CZergEvent(CZergEvent::eDroneStartMiningMinerals, time + duration));
+		m_dronesOnMinerals--;
+		RecalculateMineralIncomeRate();
+	}
+	else if(m_dronesOnGas > 0)
+	{
+		AddEvent(events, CZergEvent(CZergEvent::eDroneStartMiningGas, time + duration));
+		m_dronesOnGas--;
+		RecalculateGasIncomeRate();
+	}
+}
+
 void CZergState::UseDroneForBuilding(double duration, double &time, CLinkedList<CZergEvent> *&events)
 {
 	m_droneCount--;
@@ -1514,19 +1544,7 @@ void CZergState::UseDroneForBuilding(double duration, double &time, CLinkedList<
 		RecalculateGasIncomeRate();
 	}
 
-	// Simulate drone being pulled off the line for a period beforehand
-	if(m_dronesOnMinerals > 0)
-	{
-		AddEvent(events, CZergEvent(CZergEvent::eDroneStartMiningMinerals, time + duration));
-		m_dronesOnMinerals--;
-		RecalculateMineralIncomeRate();
-	}
-	else if(m_dronesOnGas > 0)
-	{
-		AddEvent(events, CZergEvent(CZergEvent::eDroneStartMiningGas, time + duration));
-		m_dronesOnGas--;
-		RecalculateGasIncomeRate();
-	}
+	UseDroneForMovement(duration, time, events);
 }
 
 void CZergState::AddEvent(CLinkedList<CZergEvent> *&events, const CZergEvent &event)

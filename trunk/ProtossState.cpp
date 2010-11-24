@@ -2745,7 +2745,7 @@ void CProtossState::GetCost(CResourceCost &cost, EProtossCommand command)
 		cost.m_minerals = 150;
 		break;
 	case eProtossCommandBuildForge:
-		cost.m_minerals = 200;
+		cost.m_minerals = 150;
 		break;
 	case eProtossCommandBuildPhotonCannon:
 		cost.m_minerals = 150;
@@ -2762,7 +2762,7 @@ void CProtossState::GetCost(CResourceCost &cost, EProtossCommand command)
 		cost.m_gas = 200;
 		break;
 	case eProtossCommandBuildDarkShrine:
-		cost.m_minerals = 150;
+		cost.m_minerals = 100;
 		cost.m_gas = 250;
 		break;
 	case eProtossCommandBuildRoboticsFacility:

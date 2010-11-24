@@ -47,6 +47,7 @@ public:
 	void ProcessEvent(double &time, CLinkedList<CZergEvent> *&events);
 
 	void ConsumeLarva(double &time, CLinkedList<CZergEvent> *&events);
+	void UseDroneForMovement(double duration, double &time, CLinkedList<CZergEvent> *&events);
 	void UseDroneForBuilding(double duration, double &time, CLinkedList<CZergEvent> *&events);
 	void AddEvent(CLinkedList<CZergEvent> *&events, const CZergEvent &event);
 	void AddEvent(CLinkedList<CZergEvent> *&events, CLinkedList<CZergEvent> *event);
@@ -60,6 +61,7 @@ public:
 	double m_queenEnergy[4]; // Only going to store energy for 4 nexi
 
 	// Buildings
+	size_t m_baseCount;
 	size_t m_hatcheryCount;
 	size_t m_extractorCount;
 	size_t m_spawningPoolCount;
@@ -97,6 +99,7 @@ public:
 	size_t m_ultraliskCavernUnderConstruction;
 	size_t m_greaterSpireUnderConstruction;
 
+	size_t m_baseSpawningLarvae;
 	size_t m_hatcheryInUse;
 	size_t m_spawningPoolInUse;
 	size_t m_creepTumourOnCooldown;

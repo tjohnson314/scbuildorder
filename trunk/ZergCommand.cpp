@@ -73,7 +73,7 @@ const WCHAR *tostring(EZergCommand command)
 	case eZergCommandExtractorTrickDrone:
 		return L"Extractor Trick Drone";
 
-	case eZergCommandQueenSpawnLarva:
+	case eZergCommandQueenSpawnLarvae:
 		return L"Queen Spawn Larva";
 
 	case eZergCommandResearchAdrenalGlands:
