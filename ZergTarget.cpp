@@ -42,8 +42,9 @@ double CZergTarget::targetValue(const CZergState &state, double time) const
 	value += mymin(m_overlordCount, state.m_overlordCount) * 100;
 	value += mymin(m_queenCount, state.m_queenCount) * 150;
 	value += mymin(m_zerglingCount, state.m_zerglingCount) * 25;
-	value += mymin(m_roachCount, state.m_roachCount) * 100;
 	value += mymin(m_banelingCount, state.m_banelingCount) * 100;
+	value += mymin(m_roachCount, state.m_roachCount) * 100;
+	value += mymin(m_hydraliskCount, state.m_hydraliskCount) * 200;
 	value += mymin(m_overseerCount, state.m_overseerCount) * 350;
 	value += mymin(m_infestorCount, state.m_infestorCount) * 400;
 	value += mymin(m_mutaliskCount, state.m_mutaliskCount) * 300;
@@ -191,6 +192,8 @@ double CZergTarget::extraValue(const CZergState &state) const
 		value += (state.m_banelingCount - m_banelingCount) * 100;
 	if(state.m_roachCount > m_roachCount)
 		value += (state.m_roachCount - m_roachCount) * 100;
+	if(state.m_hydraliskCount > m_hydraliskCount)
+		value += (state.m_hydraliskCount - m_hydraliskCount) * 200;
 	if(state.m_overseerCount > m_overseerCount)
 		value += (state.m_overseerCount - m_overseerCount) * 350;
 	if(state.m_infestorCount > m_infestorCount)
@@ -296,9 +299,9 @@ bool CZergTarget::hasTarget() const
 	if(0 < m_overlordCount) return true;
 	if(0 < m_queenCount) return true;
 	if(0 < m_zerglingCount) return true;
+	if(0 < m_banelingCount) return true;
 	if(0 < m_roachCount) return true;
 	if(0 < m_hydraliskCount) return true;
-	if(0 < m_banelingCount) return true;
 	if(0 < m_overseerCount) return true;
 	if(0 < m_infestorCount) return true;
 	if(0 < m_mutaliskCount) return true;
@@ -384,6 +387,8 @@ bool CZergTarget::satisfiesTarget(const CZergState &state) const
 		return false;
 	if(state.m_spawningPoolCount < m_spawningPoolCount)
 		return false;
+	if(state.m_banelingNestCount < m_banelingNestCount)
+		return false;
 	if(state.m_creepTumourCount < m_creepTumourCount)
 		return false;
 	if(state.m_evolutionChamberCount < m_evolutionChamberCount)
@@ -392,11 +397,11 @@ bool CZergTarget::satisfiesTarget(const CZergState &state) const
 		return false;
 	if(state.m_sporeCrawlerCount < m_sporeCrawlerCount)
 		return false;
+	if(state.m_roachWarrenCount < m_roachWarrenCount)
+		return false;
 	if(state.m_lairCount < m_lairCount)
 		return false;
 	if(state.m_hydraliskDenCount < m_hydraliskDenCount)
-		return false;
-	if(state.m_banelingNestCount < m_banelingNestCount)
 		return false;
 	if(state.m_spireCount < m_spireCount)
 		return false;
@@ -419,9 +424,11 @@ bool CZergTarget::satisfiesTarget(const CZergState &state) const
 		return false;
 	if(state.m_zerglingCount < m_zerglingCount)
 		return false;
+	if(state.m_banelingCount < m_banelingCount)
+		return false;
 	if(state.m_roachCount < m_roachCount)
 		return false;
-	if(state.m_banelingCount < m_banelingCount)
+	if(state.m_hydraliskCount < m_hydraliskCount)
 		return false;
 	if(state.m_overseerCount < m_overseerCount)
 		return false;
@@ -558,7 +565,7 @@ void CZergTarget::AddRequirements()
 	if(m_lairCount == 0
 		&& (m_hydraliskDenCount > 0 || m_infestationPitCount > 0 || m_spireCount > 0 || m_nydusNetworkCount > 0
 			|| m_overseerCount > 0
-			|| m_researchBurrowCompleted || m_researchPneumaticCarapaceCompleted || m_researchVentralSacsCompleted))
+			|| m_researchBurrowCompleted || m_researchGlialReconstitutionCompleted || m_researchPneumaticCarapaceCompleted || m_researchVentralSacsCompleted))
 		m_lairCount++;
 
 	if(m_roachWarrenCount == 0
@@ -632,8 +639,9 @@ void CZergTarget::operator+=(const CZergTarget &target)
 	m_overlordCount = mymax(m_overlordCount, target.m_overlordCount);
 	m_queenCount = mymax(m_queenCount, target.m_queenCount);
 	m_zerglingCount = mymax(m_zerglingCount, target.m_zerglingCount);
-	m_roachCount = mymax(m_roachCount, target.m_roachCount);
 	m_banelingCount = mymax(m_banelingCount, target.m_banelingCount);
+	m_roachCount = mymax(m_roachCount, target.m_roachCount);
+	m_hydraliskCount = mymax(m_hydraliskCount, target.m_hydraliskCount);
 	m_overseerCount = mymax(m_overseerCount, target.m_overseerCount);
 	m_infestorCount = mymax(m_infestorCount, target.m_infestorCount);
 	m_mutaliskCount = mymax(m_mutaliskCount, target.m_mutaliskCount);
@@ -740,7 +748,7 @@ void CZergTarget::BuildAlphabet(CVector<EZergCommand> &alphabet) const
 
 	alphabet.push_back(eZergCommandExtractorTrickDrone);
 
-	alphabet.push_back(eZergCommandQueenSpawnLarva);
+	alphabet.push_back(eZergCommandQueenSpawnLarvae);
 
 	if(m_researchAdrenalGlandsCompleted)
 		alphabet.push_back(eZergCommandResearchAdrenalGlands);
