@@ -10,7 +10,7 @@ enum EZergCommand
 	, eZergCommandBuildHatchery
 	, eZergCommandBuildExtractor
 	, eZergCommandBuildSpawningPool
-	, eZergCommandExpandCreepTumour
+	, eZergCommandExpandCreepTumor
 	, eZergCommandBuildEvolutionChamber
 	, eZergCommandBuildSpineCrawler
 	, eZergCommandBuildSporeCrawler
@@ -47,6 +47,7 @@ enum EZergCommand
 	, eZergCommandExtractorTrickRoach
 
 	, eZergCommandQueenSpawnLarvae
+	, eZergCommandQueenSpawnCreepTumor
 
 	, eZergCommandResearchAdrenalGlands
 	, eZergCommandResearchMetabolicBoost

@@ -5,20 +5,24 @@
 
 CZergState::CZergState()
 : m_minerals(0), m_gas(0)
-, m_baseCount(0), m_hatcheryCount(0), m_extractorCount(0), m_spawningPoolCount(0), m_creepTumourCount(0), m_evolutionChamberCount(0), m_spineCrawlerCount(0), m_sporeCrawlerCount(0), m_roachWarrenCount(0), m_lairCount(0), m_hydraliskDenCount(0), m_banelingNestCount(0), m_spireCount(0), m_infestationPitCount(0), m_nydusNetworkCount(0), m_hiveCount(0), m_ultraliskCavernCount(0), m_greaterSpireCount(0)
-, m_hatcheryUnderConstruction(0), m_extractorUnderConstruction(0), m_spawningPoolUnderConstruction(0), m_creepTumourUnderConstruction(0), m_evolutionChamberUnderConstruction(0), m_spineCrawlerUnderConstruction(0), m_sporeCrawlerUnderConstruction(0), m_roachWarrenUnderConstruction(0), m_lairUnderConstruction(0), m_hydraliskDenUnderConstruction(0), m_banelingNestUnderConstruction(0), m_spireUnderConstruction(0), m_infestationPitUnderConstruction(0), m_nydusNetworkUnderConstruction(0), m_hiveUnderConstruction(0), m_ultraliskCavernUnderConstruction(0), m_greaterSpireUnderConstruction(0)
-, m_baseSpawningLarvae(0), m_hatcheryInUse(0), m_spawningPoolInUse(0), m_creepTumourOnCooldown(0), m_creepTumourExpandAvailable(0), m_evolutionChamberInUse(0), m_spineCrawlerInUse(0), m_sporeCrawlerInUse(0), m_roachWarrenInUse(0), m_lairInUse(0), m_hydraliskDenInUse(0), m_banelingNestInUse(0), m_spireInUse(0), m_infestationPitInUse(0), m_nydusNetworkInUse(0), m_hiveInUse(0), m_ultraliskCavernInUse(0), m_greaterSpireInUse(0)
-, m_larvaCount(0), m_droneCount(0), m_overlordCount(0), m_queenCount(0), m_zerglingCount(0), m_roachCount(0), m_hydraliskCount(0), m_banelingCount(0), m_overseerCount(0), m_infestorCount(0), m_mutaliskCount(0), m_corruptorCount(0), m_ultraliskCount(0), m_broodlordCount(0)
+, m_baseCount(0), m_hatcheryCount(0), m_extractorCount(0), m_spawningPoolCount(0), m_creepTumorCount(0), m_evolutionChamberCount(0), m_spineCrawlerCount(0), m_sporeCrawlerCount(0), m_roachWarrenCount(0), m_lairCount(0), m_hydraliskDenCount(0), m_banelingNestCount(0), m_spireCount(0), m_infestationPitCount(0), m_nydusNetworkCount(0), m_hiveCount(0), m_ultraliskCavernCount(0), m_greaterSpireCount(0)
+, m_hatcheryUnderConstruction(0), m_extractorUnderConstruction(0), m_spawningPoolUnderConstruction(0), m_creepTumorUnderConstruction(0), m_evolutionChamberUnderConstruction(0), m_spineCrawlerUnderConstruction(0), m_sporeCrawlerUnderConstruction(0), m_roachWarrenUnderConstruction(0), m_lairUnderConstruction(0), m_hydraliskDenUnderConstruction(0), m_banelingNestUnderConstruction(0), m_spireUnderConstruction(0), m_infestationPitUnderConstruction(0), m_nydusNetworkUnderConstruction(0), m_hiveUnderConstruction(0), m_ultraliskCavernUnderConstruction(0), m_greaterSpireUnderConstruction(0)
+, m_baseTotalSpawningLarvae(0), m_hatcheryInUse(0), m_spawningPoolInUse(0), m_creepTumorOnCooldown(0), m_creepTumorExpandAvailable(0), m_evolutionChamberInUse(0), m_spineCrawlerInUse(0), m_sporeCrawlerInUse(0), m_roachWarrenInUse(0), m_lairInUse(0), m_hydraliskDenInUse(0), m_banelingNestInUse(0), m_spireInUse(0), m_infestationPitInUse(0), m_nydusNetworkInUse(0), m_hiveInUse(0), m_ultraliskCavernInUse(0), m_greaterSpireInUse(0)
+, m_larvaTotalCount(0), m_droneCount(0), m_overlordCount(0), m_queenCount(0), m_zerglingCount(0), m_roachCount(0), m_hydraliskCount(0), m_banelingCount(0), m_overseerCount(0), m_infestorCount(0), m_mutaliskCount(0), m_corruptorCount(0), m_ultraliskCount(0), m_broodlordCount(0)
 , m_droneUnderConstruction(0), m_overlordUnderConstruction(0), m_queenUnderConstruction(0), m_zerglingUnderConstruction(0), m_roachUnderConstruction(0), m_hydraliskUnderConstruction(0), m_banelingUnderConstruction(0), m_overseerUnderConstruction(0), m_infestorUnderConstruction(0), m_mutaliskUnderConstruction(0), m_corruptorUnderConstruction(0), m_ultraliskUnderConstruction(0), m_broodlordUnderConstruction(0)
 , m_researchAdrenalGlandsCompleted(false), m_researchMetabolicBoostCompleted(false), m_researchMeleeAttacks1Completed(false), m_researchMeleeAttacks2Completed(false), m_researchMeleeAttacks3Completed(false), m_researchGroundCarapace1Completed(false), m_researchGroundCarapace2Completed(false), m_researchGroundCarapace3Completed(false), m_researchMissileAttacks1Completed(false), m_researchMissileAttacks2Completed(false), m_researchMissileAttacks3Completed(false), m_researchGlialReconstitutionCompleted(false), m_researchTunnelingClawsCompleted(false), m_researchCentrifugalHooksCompleted(false), m_researchBurrowCompleted(false), m_researchPneumaticCarapaceCompleted(false), m_researchVentralSacsCompleted(false), m_researchGroovedSpinesCompleted(false), m_researchPathogenGlandsCompleted(false), m_researchNeuralParasiteCompleted(false), m_researchFlyerAttacks1Completed(false), m_researchFlyerAttacks2Completed(false), m_researchFlyerAttacks3Completed(false), m_researchFlyerCarapace1Completed(false), m_researchFlyerCarapace2Completed(false), m_researchFlyerCarapace3Completed(false), m_researchChitinousPlatingCompleted(false)
 , m_researchAdrenalGlandsUnderConstruction(false), m_researchMetabolicBoostUnderConstruction(false), m_researchMeleeAttacks1UnderConstruction(false), m_researchMeleeAttacks2UnderConstruction(false), m_researchMeleeAttacks3UnderConstruction(false), m_researchGroundCarapace1UnderConstruction(false), m_researchGroundCarapace2UnderConstruction(false), m_researchGroundCarapace3UnderConstruction(false), m_researchMissileAttacks1UnderConstruction(false), m_researchMissileAttacks2UnderConstruction(false), m_researchMissileAttacks3UnderConstruction(false), m_researchGlialReconstitutionUnderConstruction(false), m_researchTunnelingClawsUnderConstruction(false), m_researchCentrifugalHooksUnderConstruction(false), m_researchBurrowUnderConstruction(false), m_researchPneumaticCarapaceUnderConstruction(false), m_researchVentralSacsUnderConstruction(false), m_researchGroovedSpinesUnderConstruction(false), m_researchPathogenGlandsUnderConstruction(false), m_researchNeuralParasiteUnderConstruction(false), m_researchFlyerAttacks1UnderConstruction(false), m_researchFlyerAttacks2UnderConstruction(false), m_researchFlyerAttacks3UnderConstruction(false), m_researchFlyerCarapace1UnderConstruction(false), m_researchFlyerCarapace2UnderConstruction(false), m_researchFlyerCarapace3UnderConstruction(false), m_researchChitinousPlatingUnderConstruction(false)
-, m_dronesOnMinerals(0), m_dronesOnGas(0)
+, m_queensBusy(0), m_dronesOnMinerals(0), m_dronesOnGas(0)
 , m_supply(0), m_supplyCap(0), m_supplyCapUnderConstruction(0)
 , m_mineralIncomeRate(0), m_gasIncomeRate(0)
 , m_timeLastDroneMove(0), m_lastDroneMove(eZergCommandNone)
 {
 	for(size_t i=0; i < 4; i++)
+	{
 		m_queenEnergy[i] = 0;
+		m_larvaCount[i] = 0;
+		m_baseSpawningLarvae[i] = false;
+	}
 }
 
 CZergState::~CZergState()
@@ -34,7 +38,8 @@ void CZergState::SetInitialState()
 	m_droneCount = 6;
 	m_dronesOnMinerals = 6;
 	m_overlordCount = 1;
-	m_larvaCount = 3;
+	m_larvaTotalCount = 3;
+	m_larvaCount[0] = 3;
 
 	RecalculateSupply();
 	RecalculateSupplyCap();
@@ -109,10 +114,11 @@ void CZergState::ExecuteCommand(double &time, double timeLimit, EZergCommand com
 		AddEvent(events, CZergEvent(CZergEvent::eSpawnSpawningPool, time + 65));
 		m_spawningPoolUnderConstruction++;
 		break;
-	case eZergCommandExpandCreepTumour:
-		AddEvent(events, CZergEvent(CZergEvent::eCreepTumourAvailable, time + 15));
-		m_creepTumourOnCooldown++;
-		m_creepTumourCount++;
+	case eZergCommandExpandCreepTumor:
+		m_creepTumorExpandAvailable--;
+		AddEvent(events, CZergEvent(CZergEvent::eCreepTumorAvailable, time + 15));
+		m_creepTumorOnCooldown++;
+		m_creepTumorCount++;
 		break;
 	case eZergCommandBuildEvolutionChamber:
 		UseDroneForBuilding(5, time, events);
@@ -305,9 +311,46 @@ void CZergState::ExecuteCommand(double &time, double timeLimit, EZergCommand com
 		m_broodlordUnderConstruction++;
 		break;
 
+	case eZergCommandQueenSpawnCreepTumor:
+		m_queensBusy++;
+		AddEvent(events, CZergEvent(CZergEvent::eQueenReady, time + 20));
+		m_creepTumorCount++;
+		m_creepTumorOnCooldown++;
+		AddEvent(events, CZergEvent(CZergEvent::eCreepTumorAvailable, time + 15));
+		break;
 	case eZergCommandQueenSpawnLarvae:
-		AddEvent(events, CZergEvent(CZergEvent::eSpawnQueenLarva, time + 40));
-		m_baseSpawningLarvae++;
+		{
+			size_t index=5;
+			for(size_t i=0; i < mymin((size_t)4, m_baseCount); i++)
+			{
+				if(!m_baseSpawningLarvae[i])
+				{
+					if(index == 5 || m_larvaCount[index] > m_larvaCount[i])
+						index = i;
+				}
+			}
+
+			if(index < 5)
+			{
+				m_baseSpawningLarvae[index] = true;
+				switch(index)
+				{
+				case 0:
+					AddEvent(events, CZergEvent(CZergEvent::eSpawnQueenLarvae1, time + 40));
+					break;
+				case 1:
+					AddEvent(events, CZergEvent(CZergEvent::eSpawnQueenLarvae2, time + 40));
+					break;
+				case 2:
+					AddEvent(events, CZergEvent(CZergEvent::eSpawnQueenLarvae3, time + 40));
+					break;
+				case 3:
+					AddEvent(events, CZergEvent(CZergEvent::eSpawnQueenLarvae4, time + 40));
+					break;
+				}
+				m_baseTotalSpawningLarvae++;
+			}
+		}
 		break;
 
 	case eZergCommandResearchAdrenalGlands:
@@ -481,6 +524,12 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 		m_supplyCap += 2.0;
 		RecalculateMineralIncomeRate();
 		RecalculateGasIncomeRate();
+		if(m_baseCount == 2)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva2, time + 15.0));
+		else if(m_baseCount == 3)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva3, time + 15.0));
+		else if(m_baseCount == 4)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva4, time + 15.0));
 		break;
 	case CZergEvent::eSpawnExtractor:
 		m_extractorUnderConstruction--;
@@ -550,9 +599,12 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 		m_greaterSpireCount++;
 		break;
 
-	case CZergEvent::eCreepTumourAvailable:
-		m_creepTumourOnCooldown--;
-		m_creepTumourExpandAvailable++;
+	case CZergEvent::eQueenReady:
+		m_queensBusy--;
+		break;
+	case CZergEvent::eCreepTumorAvailable:
+		m_creepTumorOnCooldown--;
+		m_creepTumorExpandAvailable++;
 		break;
 
 	case CZergEvent::eDroneStartMiningMinerals:
@@ -564,40 +616,92 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 		RecalculateGasIncomeRate();
 		break;
 
-	case CZergEvent::eSpawnLarva:
-		m_larvaCount++;
-		if(m_larvaCount < 3)
-			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva, time + 15));
+	case CZergEvent::eSpawnLarva1:
+		m_larvaTotalCount++;
+		m_larvaCount[0]++;
+		if(m_larvaCount[0] < 3)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva1, time + 15));
 		break;
-	case CZergEvent::eSpawnQueenLarva:
-		m_larvaCount = mymin(m_larvaCount + 4, (size_t)19 * m_baseCount); // TODO: Needs to split counts per base
-		m_baseSpawningLarvae--;
-		
-		// Remove last subsequent Spawn Larva event
-		if(m_larvaCount < 7 && events)
+	case CZergEvent::eSpawnLarva2:
+		m_larvaTotalCount++;
+		m_larvaCount[1]++;
+		if(m_larvaCount[1] < 3)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva2, time + 15));
+		break;
+	case CZergEvent::eSpawnLarva3:
+		m_larvaTotalCount++;
+		m_larvaCount[2]++;
+		if(m_larvaCount[2] < 3)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva3, time + 15));
+		break;
+	case CZergEvent::eSpawnLarva4:
+		m_larvaTotalCount++;
+		m_larvaCount[3]++;
+		if(m_larvaCount[3] < 3)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva4, time + 15));
+		break;
+	case CZergEvent::eSpawnQueenLarvae1:
+	case CZergEvent::eSpawnQueenLarvae2:
+	case CZergEvent::eSpawnQueenLarvae3:
+	case CZergEvent::eSpawnQueenLarvae4:
 		{
-			CLinkedList<CZergEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events;
-			if(curEntry->GetData().event() == CZergEvent::eSpawnLarva)
-				lastEntry = curEntry;
-			while(curEntry->GetNext() != 0)
+			size_t *larvaCount;
+			CZergEvent::EEvent spawnEvent;
+			switch(entry->GetData().event())
 			{
-				if(curEntry->GetNext()->GetData().event() == CZergEvent::eSpawnLarva)
-				{
-					prevEntry = curEntry;
-					lastEntry = curEntry->GetNext();
-				}
-
-				curEntry = curEntry->GetNext();
+			case CZergEvent::eSpawnQueenLarvae1:
+				larvaCount = &m_larvaCount[0];
+				spawnEvent = CZergEvent::eSpawnLarva1;
+				m_baseSpawningLarvae[0] = false;
+				break;
+			case CZergEvent::eSpawnQueenLarvae2:
+				larvaCount = &m_larvaCount[1];
+				spawnEvent = CZergEvent::eSpawnLarva2;
+				m_baseSpawningLarvae[1] = false;
+				break;
+			case CZergEvent::eSpawnQueenLarvae3:
+				larvaCount = &m_larvaCount[2];
+				spawnEvent = CZergEvent::eSpawnLarva3;
+				m_baseSpawningLarvae[2] = false;
+				break;
+			case CZergEvent::eSpawnQueenLarvae4:
+				larvaCount = &m_larvaCount[3];
+				spawnEvent = CZergEvent::eSpawnLarva4;
+				m_baseSpawningLarvae[3] = false;
+				break;
 			}
 
-			if(lastEntry)
+			size_t larvaIncrease = mymin((size_t)4, (size_t)19 - *larvaCount);
+			*larvaCount += larvaIncrease;
+			m_larvaTotalCount += larvaIncrease;
+			m_baseTotalSpawningLarvae--;
+		
+			// Remove last subsequent Spawn Larva event
+			if(*larvaCount < 7 && events)
 			{
-				if(prevEntry)
-					prevEntry->SetNext(lastEntry->GetNext());
-				else // Must be first entry
-					events = lastEntry->GetNext();
+				CLinkedList<CZergEvent> *prevEntry = 0, *lastEntry = 0, *curEntry = events;
+				if(curEntry->GetData().event() == spawnEvent)
+					lastEntry = curEntry;
+				while(curEntry->GetNext() != 0)
+				{
+					if(curEntry->GetNext()->GetData().event() == spawnEvent)
+					{
+						prevEntry = curEntry;
+						lastEntry = curEntry->GetNext();
+					}
 
-				delete lastEntry;
+					curEntry = curEntry->GetNext();
+				}
+
+				if(lastEntry)
+				{
+					if(prevEntry)
+						prevEntry->SetNext(lastEntry->GetNext());
+					else // Must be first entry
+						events = lastEntry->GetNext();
+
+					delete lastEntry;
+				}
 			}
 		}
 		break;
@@ -823,8 +927,8 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 	case eZergCommandBuildBanelingNest:
 		return 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
-	case eZergCommandExpandCreepTumour:
-		return 0 < m_creepTumourExpandAvailable + m_creepTumourOnCooldown;
+	case eZergCommandExpandCreepTumor:
+		return 0 < m_creepTumorExpandAvailable + m_creepTumorOnCooldown;
 	case eZergCommandBuildEvolutionChamber:
 		return 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
@@ -841,16 +945,16 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 		return 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
 			&& 0 < m_hatcheryCount + m_hatcheryUnderConstruction;
 	case eZergCommandBuildHydraliskDen:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildSpire:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildInfestationPit:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildNydusNetwork:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildHive:
 		return 0 < m_infestationPitCount + m_infestationPitUnderConstruction
@@ -868,46 +972,46 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 		break;
 
 	case eZergCommandBuildDrone:
-		return 0 < m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_larvaCount + m_baseCount
 			&& m_supply + 1.0 <= m_supplyCapUnderConstruction;
 	case eZergCommandBuildOverlord:
-		return 1 <= m_larvaCount;
+		return 0 < m_larvaCount + m_baseCount;
 	case eZergCommandBuildQueen:
-		return 0 < m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_larvaCount + m_baseCount
 			&& 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
 			&& m_supply + 2.0 <= m_supplyCapUnderConstruction;
 	case eZergCommandBuildZergling:
-		return 0 < m_larvaCount + m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_larvaCount + m_baseCount
 			&& 0 < m_spawningPoolCount + m_spawningPoolUnderConstruction
 			&& m_supply + 1.0 <= m_supplyCapUnderConstruction;
 	case eZergCommandBuildBaneling:
 		return 0 < m_banelingNestCount + m_banelingNestUnderConstruction
 			&& 0 < m_zerglingCount + m_zerglingUnderConstruction;
 	case eZergCommandBuildRoach:
-		return 0 < m_larvaCount + m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_larvaCount + m_baseCount
 			&& 0 < m_roachWarrenCount + m_roachWarrenUnderConstruction
 			&& m_supply + 2.0 <= m_supplyCapUnderConstruction;
 	case eZergCommandBuildHydralisk:
-		return 0 < m_larvaCount + m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_larvaCount + m_baseCount
 			&& 0 < m_hydraliskDenCount + m_hydraliskDenUnderConstruction
 			&& m_supply + 2.0 <= m_supplyCapUnderConstruction;
 	case eZergCommandBuildOverseer:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount
 			&& 0 < m_overlordCount + m_overlordUnderConstruction;
 	case eZergCommandBuildInfestor:
-		return 0 < m_larvaCount + m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_larvaCount + m_baseCount
 			&& 0 < m_infestationPitCount + m_infestationPitUnderConstruction
 			&& m_supply + 2.0 <= m_supplyCapUnderConstruction;
 	case eZergCommandBuildMutalisk:
-		return 0 < m_larvaCount + m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_larvaCount + m_baseCount
 			&& 0 < m_spireCount + m_spireUnderConstruction
 			&& m_supply + 2.0 <= m_supplyCapUnderConstruction;
 	case eZergCommandBuildCorruptor:
-		return 0 < m_larvaCount + m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_larvaCount + m_baseCount
 			&& 0 < m_spireCount + m_spireUnderConstruction
 			&& m_supply + 2.0 <= m_supplyCapUnderConstruction;
 	case eZergCommandBuildUltralisk:
-		return 0 < m_larvaCount + m_hatcheryCount + m_hatcheryUnderConstruction + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_larvaCount + m_baseCount
 			&& 0 < m_ultraliskCavernCount + m_ultraliskCavernUnderConstruction
 			&& m_supply + 6.0 <= m_supplyCapUnderConstruction;
 	case eZergCommandBuildBroodlord:
@@ -920,6 +1024,8 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 			&& m_supply <= m_supplyCapUnderConstruction
 			&& m_extractorCount + m_extractorUnderConstruction < 2 * m_baseCount;
 
+	case eZergCommandQueenSpawnCreepTumor:
+		return 0 < m_queenCount + m_queenUnderConstruction;
 	case eZergCommandQueenSpawnLarvae:
 		return 0 < m_baseCount + m_hatcheryUnderConstruction
 			&& 0 < m_queenCount + m_queenUnderConstruction;
@@ -979,23 +1085,23 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 	case eZergCommandResearchNeuralParasite:
 		return 0 < m_infestationPitUnderConstruction;
 	case eZergCommandResearchFlyerAttacks1:
-		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount + m_greaterSpireUnderConstruction;
+		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount;
 	case eZergCommandResearchFlyerAttacks2:
-		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount + m_greaterSpireUnderConstruction
+		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount
 			&& 0 < m_hiveCount + m_hiveUnderConstruction
 			&& (m_researchFlyerAttacks1Completed || m_researchFlyerAttacks1UnderConstruction);
 	case eZergCommandResearchFlyerAttacks3:
-		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount + m_greaterSpireUnderConstruction
+		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount
 			&& 0 < m_hiveCount + m_hiveUnderConstruction
 			&& (m_researchFlyerAttacks2Completed || m_researchFlyerAttacks2UnderConstruction);
 	case eZergCommandResearchFlyerCarapace1:
-		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount + m_greaterSpireUnderConstruction;
+		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount;
 	case eZergCommandResearchFlyerCarapace2:
-		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount + m_greaterSpireUnderConstruction
+		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount
 			&& 0 < m_hiveCount + m_hiveUnderConstruction
 			&& (m_researchFlyerCarapace1Completed || m_researchFlyerCarapace1UnderConstruction);
 	case eZergCommandResearchFlyerCarapace3:
-		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount + m_greaterSpireUnderConstruction
+		return 0 < m_spireCount + m_spireUnderConstruction + m_greaterSpireCount
 			&& 0 < m_hiveCount + m_hiveUnderConstruction
 			&& (m_researchFlyerCarapace2Completed || m_researchFlyerCarapace2UnderConstruction);
 	case eZergCommandResearchChitinousPlating:
@@ -1003,15 +1109,15 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 
 	case eZergCommandMoveDroneToGas:
 		return (eZergCommandMoveDroneToMinerals != m_lastDroneMove || time != m_timeLastDroneMove)
-			&& 0 < m_hatcheryCount + m_hatcheryUnderConstruction
+			&& 0 < m_baseCount + m_hatcheryUnderConstruction
 			&& 0 < m_extractorCount + m_extractorUnderConstruction
 			&& 0 < m_dronesOnMinerals + m_droneUnderConstruction
-			&& m_dronesOnGas < CGameCalcs::GasWorkerLimit(m_hatcheryCount + m_hatcheryUnderConstruction, m_extractorCount + m_extractorUnderConstruction);
+			&& m_dronesOnGas < CGameCalcs::GasWorkerLimit(m_baseCount + m_hatcheryUnderConstruction, m_extractorCount + m_extractorUnderConstruction);
 	case eZergCommandMoveDroneToMinerals:
 		return (eZergCommandMoveDroneToGas != m_lastDroneMove || time != m_timeLastDroneMove)
-			&& 0 < m_hatcheryCount + m_hatcheryUnderConstruction
+			&& 0 < m_baseCount + m_hatcheryUnderConstruction
 			&& 0 < m_dronesOnGas
-			&& m_dronesOnMinerals < CGameCalcs::MineralWorkerLimit(m_hatcheryCount + m_hatcheryUnderConstruction);
+			&& m_dronesOnMinerals < CGameCalcs::MineralWorkerLimit(m_baseCount + m_hatcheryUnderConstruction);
 
 	default:
 		return true;
@@ -1027,13 +1133,13 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 	case eZergCommandBuildExtractor:
 		return 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildSpawningPool:
-		return 0 < m_hatcheryCount + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_baseCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildBanelingNest:
 		return 0 < m_spawningPoolCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
-	case eZergCommandExpandCreepTumour:
-		return 0 < m_creepTumourExpandAvailable;
+	case eZergCommandExpandCreepTumor:
+		return 0 < m_creepTumorExpandAvailable;
 	case eZergCommandBuildEvolutionChamber:
 		return 0 < m_spawningPoolCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
@@ -1050,16 +1156,16 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 		return 0 < m_spawningPoolCount
 			&& m_hatcheryInUse < m_hatcheryCount;
 	case eZergCommandBuildHydraliskDen:
-		return 0 < m_lairCount + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_lairCount + m_hiveCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildSpire:
-		return 0 < m_lairCount + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_lairCount + m_hiveCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildInfestationPit:
-		return 0 < m_lairCount + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_lairCount + m_hiveCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildNydusNetwork:
-		return 0 < m_lairCount + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_lairCount + m_hiveCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas;
 	case eZergCommandBuildHive:
 		return 0 < m_infestationPitCount
@@ -1077,47 +1183,47 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 
 	case eZergCommandBuildDrone:
 		return m_supply + 1.0 <= m_supplyCap
-			&& 1 <= m_larvaCount;
+			&& 1 <= m_larvaTotalCount;
 	case eZergCommandBuildOverlord:
-		return true;
+		return 1 <= m_larvaTotalCount;
 	case eZergCommandBuildQueen:
-		return m_hatcheryInUse + m_lairInUse + m_hiveInUse < m_hatcheryCount + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return (m_hatcheryInUse < m_hatcheryCount || m_lairInUse < m_lairCount || m_hiveInUse < m_hiveCount)
 			&& 0 < m_spawningPoolCount
 			&& m_supply + 2.0 <= m_supplyCap;
 	case eZergCommandBuildZergling:
 		return 0 < m_spawningPoolCount
 			&& m_supply + 1.0 <= m_supplyCap
-			&& 1 <= m_larvaCount;
+			&& 1 <= m_larvaTotalCount;
 	case eZergCommandBuildBaneling:
 		return 0 < m_banelingNestCount
 			&& 1 <= m_zerglingCount;
 	case eZergCommandBuildRoach:
 		return 0 < m_roachWarrenCount
 			&& m_supply + 2.0 <= m_supplyCap
-			&& 1 <= m_larvaCount;
+			&& 1 <= m_larvaTotalCount;
 	case eZergCommandBuildHydralisk:
 		return 0 < m_hydraliskDenCount
 			&& m_supply + 2.0 <= m_supplyCap
-			&& 1 <= m_larvaCount;
+			&& 1 <= m_larvaTotalCount;
 	case eZergCommandBuildOverseer:
-		return 0 < m_lairCount + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_lairCount + m_hiveCount
 			&& 1 <= m_overlordCount;
 	case eZergCommandBuildInfestor:
 		return 0 < m_infestationPitCount
 			&& m_supply + 2.0 <= m_supplyCap
-			&& 1 <= m_larvaCount;
+			&& 1 <= m_larvaTotalCount;
 	case eZergCommandBuildMutalisk:
 		return 0 < m_spireCount
 			&& m_supply + 2.0 <= m_supplyCap
-			&& 1 <= m_larvaCount;
+			&& 1 <= m_larvaTotalCount;
 	case eZergCommandBuildCorruptor:
 		return 0 < m_spireCount
 			&& m_supply + 2.0 <= m_supplyCap
-			&& 1 <= m_larvaCount;
+			&& 1 <= m_larvaTotalCount;
 	case eZergCommandBuildUltralisk:
 		return 0 < m_ultraliskCavernCount
 			&& m_supply + 6.0 <= m_supplyCap
-			&& 1 <= m_larvaCount;
+			&& 1 <= m_larvaTotalCount;
 	case eZergCommandBuildBroodlord:
 		return 0 < m_greaterSpireCount
 			&& 1 <= m_corruptorCount;
@@ -1125,11 +1231,13 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 	case eZergCommandExtractorTrickDrone:
 		return m_supply <= m_supplyCap
 			&& 0 < m_dronesOnMinerals + m_dronesOnGas
-			&& 1 <= m_larvaCount;
+			&& 1 <= m_larvaTotalCount;
 
+	case eZergCommandQueenSpawnCreepTumor:
+		return m_queensBusy < m_queenCount;
 	case eZergCommandQueenSpawnLarvae:
-		return m_baseSpawningLarvae < m_baseCount
-			&& 0 < m_queenCount;
+		return m_baseTotalSpawningLarvae < mymin(m_baseCount, (size_t)4)
+			&& m_queensBusy < m_queenCount;
 
 	case eZergCommandResearchAdrenalGlands:
 		return m_spawningPoolInUse < m_spawningPoolCount
@@ -1209,11 +1317,11 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 		return m_ultraliskCavernInUse < m_ultraliskCavernCount;
 
 	case eZergCommandMoveDroneToGas:
-		return 0 < m_hatcheryCount + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_baseCount
 			&& 0 < m_extractorCount
 			&& 0 < m_dronesOnMinerals;
 	case eZergCommandMoveDroneToMinerals:
-		return 0 < m_hatcheryCount + m_lairCount + m_lairUnderConstruction + m_hiveCount + m_hiveUnderConstruction
+		return 0 < m_baseCount
 			&& 0 < m_extractorCount
 			&& 0 < m_dronesOnGas;
 
@@ -1337,6 +1445,9 @@ void CZergState::GetCost(CResourceCost &cost, EZergCommand command)
 		cost.m_minerals = 75;
 		break;
 
+	case eZergCommandQueenSpawnCreepTumor:
+		cost.m_queenEnergy = 25;
+		break;
 	case eZergCommandQueenSpawnLarvae:
 		cost.m_queenEnergy = 25;
 		break;
@@ -1504,10 +1615,33 @@ void CZergState::ProgressTime(double &time, double duration)
 
 void CZergState::ConsumeLarva(double &time, CLinkedList<CZergEvent> *&events)
 {
-	m_larvaCount--;
+	m_larvaTotalCount--;
 
-	if(m_larvaCount == 2)
-		AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva, time + 15));
+	// TODO: Not necessarily optimal to use first available larva
+	if(m_larvaCount[0] > 0)
+	{
+		m_larvaCount[0]--;
+		if(m_larvaCount[0] == 2)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva1, time + 15));
+	}
+	else if(m_larvaCount[1] > 0)
+	{
+		m_larvaCount[1]--;
+		if(m_larvaCount[1] == 2)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva2, time + 15));
+	}
+	else if(m_larvaCount[2] > 0)
+	{
+		m_larvaCount[2]--;
+		if(m_larvaCount[2] == 2)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva3, time + 15));
+	}
+	else if(m_larvaCount[3] > 0)
+	{
+		m_larvaCount[3]--;
+		if(m_larvaCount[3] == 2)
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva4, time + 15));
+	}
 }
 
 void CZergState::UseDroneForMovement(double duration, double &time, CLinkedList<CZergEvent> *&events)
@@ -1603,7 +1737,7 @@ void CZergState::PrintDetails(CString &output) const
 	if(0 < m_hatcheryCount)				output.AppendFormat(L" %u Hatchery", m_hatcheryCount);
 	if(0 < m_extractorCount)			output.AppendFormat(L" %u Extractor", m_extractorCount);
 	if(0 < m_spawningPoolCount)			output.AppendFormat(L" %u Spawning Pool", m_spawningPoolCount);
-	if(0 < m_creepTumourCount)			output.AppendFormat(L" %u Creep Tumour", m_creepTumourCount);
+	if(0 < m_creepTumorCount)			output.AppendFormat(L" %u Creep Tumor", m_creepTumorCount);
 	if(0 < m_evolutionChamberCount)		output.AppendFormat(L" %u Evolution Chamber", m_evolutionChamberCount);
 	if(0 < m_spineCrawlerCount)			output.AppendFormat(L" %u Spine Crawler", m_spineCrawlerCount);
 	if(0 < m_sporeCrawlerCount)			output.AppendFormat(L" %u Spore Crawler", m_sporeCrawlerCount);

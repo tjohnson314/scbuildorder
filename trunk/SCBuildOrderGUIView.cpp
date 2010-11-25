@@ -32,6 +32,7 @@ BEGIN_MESSAGE_MAP(CSCBuildOrderGUIView, CFormView)
 	ON_BN_CLICKED(IDC_BUTTON_STARTSTOP, &CSCBuildOrderGUIView::OnBnClickedButtonStart)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_PAGES, &CSCBuildOrderGUIView::OnTcnSelchangeTabPages)
 	ON_WM_SIZE()
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -47,6 +48,8 @@ CSCBuildOrderGUIView::CSCBuildOrderGUIView()
 	m_numberFormatInt.SetNumDigits(0);
 
 	m_numberFormatFloat.LoadDefault();
+
+	m_completionBackgroundBrush.CreateSolidBrush(RGB(240, 240, 240));
 }
 
 CSCBuildOrderGUIView::~CSCBuildOrderGUIView()
@@ -379,6 +382,23 @@ void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 	size_t totalStagnationCount = engine->CityStagnationCount();
 	unsigned long long totalGameCount = engine->CityGameCount();
 	double overallBestFitness = engine->CityBestFitness();
+	
+	double completionPercentage = 100.0 * (double)totalStagnationCount / mymax((double)totalEvolution, 50000.0);
+	CString completionPercentageText;
+	completionPercentageText.Format(L"%6.2f %%", completionPercentage);
+	unsigned char red, green;
+	if(completionPercentage < 50.0)
+	{
+		red = 255;
+		green = (unsigned char)(255.0 * completionPercentage / 50.0);
+	}
+	else
+	{
+		red = 255 - (unsigned char)(((completionPercentage - 50.0) / 50.0) * 255.0);
+		green = 255;
+	}
+	m_completionBackgroundBrush.DeleteObject();
+	m_completionBackgroundBrush.CreateSolidBrush(RGB(red, green, 0));
 
 	UpdateListBoxEntry(1, totalPopulation, totalEvolution, totalStagnationCount, totalGameCount, 1000.0 * overallBestFitness, timeDiff);
 	for(size_t i=0; i < 5; i++)
@@ -398,6 +418,8 @@ void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 	}
 	totalStagnationCount = engine->StagnationLimit();
 	UpdateListBoxEntry(0, totalPopulation, totalEvolution, totalStagnationCount, totalGameCount, 1000.0 * overallBestFitness, timeDiff);
+
+	GetDlgItem(IDC_EDIT_COMPLETION)->SetWindowText(completionPercentageText);
 
 	if(UpdateBestBuildOrder())
 	{
@@ -450,4 +472,12 @@ void CSCBuildOrderGUIView::OnSize(UINT nType, int cx, int cy)
 	CFormView::OnSize(nType, cx, cy);
 
 	ResizeControls();
+}
+
+HBRUSH CSCBuildOrderGUIView::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	if(pWnd->GetDlgCtrlID() == IDC_EDIT_COMPLETION && CTLCOLOR_STATIC == nCtlColor)
+		return (HBRUSH)(m_completionBackgroundBrush.GetSafeHandle());
+
+	return CFormView::OnCtlColor(pDC, pWnd, nCtlColor);
 }

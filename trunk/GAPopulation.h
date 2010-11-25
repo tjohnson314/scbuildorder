@@ -71,6 +71,8 @@ CGAPopulation<TGene, TFitnessCalc, TFitness>::~CGAPopulation()
 template<typename TGene, typename TFitnessCalc, typename TFitness>
 void CGAPopulation<TGene, TFitnessCalc, TFitness>::Initialise(size_t initialPopulation, size_t minSize, size_t maxSize)
 {
+	m_currentBestFitness = TFitness();
+
 	minSize = mymin(minSize, maxSize);
 	for(size_t j=0; j < initialPopulation; j++)
 	{

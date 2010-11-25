@@ -51,6 +51,7 @@ protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButtonStart();
@@ -60,6 +61,7 @@ protected:
 	UINT m_updateTimer;
 	DWORD m_startTickCount;
 	double m_timeLimit;
+	CBrush m_completionBackgroundBrush;
 
 	CNumberFormat m_numberFormatInt;
 	CNumberFormat m_numberFormatFloat;

@@ -11,8 +11,8 @@ const WCHAR *tostring(EZergCommand command)
 		return L"Build Extractor";
 	case eZergCommandBuildSpawningPool:
 		return L"Build Spawning Pool";
-	case eZergCommandExpandCreepTumour:
-		return L"Expand Creep Tumour";
+	case eZergCommandExpandCreepTumor:
+		return L"Expand Creep Tumor";
 	case eZergCommandBuildEvolutionChamber:
 		return L"Build Evolution Chamber";
 	case eZergCommandBuildSpineCrawler:
@@ -73,6 +73,8 @@ const WCHAR *tostring(EZergCommand command)
 	case eZergCommandExtractorTrickDrone:
 		return L"Extractor Trick Drone";
 
+	case eZergCommandQueenSpawnCreepTumor:
+		return L"Queen Spawn Creep Tumor";
 	case eZergCommandQueenSpawnLarvae:
 		return L"Queen Spawn Larva";
 

@@ -25,7 +25,7 @@ double CGameCalcs::CalculateMineralIncomeRate(size_t baseCount, size_t workerCou
 
 double CGameCalcs::CalculateGasIncomeRate(size_t baseCount, size_t geyserBuildingCount, size_t workerCount)
 {
-	static double closeGeyserSumIncome[] = {0.0, 42/60.0, 84/60.0, 114/60.0}; // Sum of income rates
+	static double closeGeyserSumIncome[] = {0.0, 38/60.0, 76/60.0, 114/60.0}; // Sum of income rates
 	static double farGeyserSumIncome[] = {0.0, 33/60.0, 67/60.0, 101/60.0, 114/60.0}; // Sum of income rates
 
 	if (geyserBuildingCount == 0)
