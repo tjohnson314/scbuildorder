@@ -3,7 +3,7 @@
 
 CZergTarget::CZergTarget()
 : m_minerals(0), m_gas(0), m_queenEnergy(0)
-, m_hatcheryCount(0), m_extractorCount(0), m_spawningPoolCount(0), m_creepTumourCount(0), m_evolutionChamberCount(0), m_spineCrawlerCount(0), m_sporeCrawlerCount(0), m_roachWarrenCount(0), m_lairCount(0), m_hydraliskDenCount(0), m_banelingNestCount(0), m_spireCount(0), m_infestationPitCount(0), m_nydusNetworkCount(0), m_hiveCount(0), m_ultraliskCavernCount(0), m_greaterSpireCount(0)
+, m_hatcheryCount(0), m_extractorCount(0), m_spawningPoolCount(0), m_creepTumorCount(0), m_evolutionChamberCount(0), m_spineCrawlerCount(0), m_sporeCrawlerCount(0), m_roachWarrenCount(0), m_lairCount(0), m_hydraliskDenCount(0), m_banelingNestCount(0), m_spireCount(0), m_infestationPitCount(0), m_nydusNetworkCount(0), m_hiveCount(0), m_ultraliskCavernCount(0), m_greaterSpireCount(0)
 , m_larvaCount(0), m_droneCount(0), m_overlordCount(0), m_queenCount(0), m_zerglingCount(0), m_roachCount(0), m_hydraliskCount(0), m_banelingCount(0), m_overseerCount(0), m_infestorCount(0), m_mutaliskCount(0), m_corruptorCount(0), m_ultraliskCount(0), m_broodlordCount(0)
 , m_researchAdrenalGlandsCompleted(false), m_researchMetabolicBoostCompleted(false), m_researchMeleeAttacks1Completed(false), m_researchMeleeAttacks2Completed(false), m_researchMeleeAttacks3Completed(false), m_researchGroundCarapace1Completed(false), m_researchGroundCarapace2Completed(false), m_researchGroundCarapace3Completed(false), m_researchMissileAttacks1Completed(false), m_researchMissileAttacks2Completed(false), m_researchMissileAttacks3Completed(false), m_researchGlialReconstitutionCompleted(false), m_researchTunnelingClawsCompleted(false), m_researchCentrifugalHooksCompleted(false), m_researchBurrowCompleted(false), m_researchPneumaticCarapaceCompleted(false), m_researchVentralSacsCompleted(false), m_researchGroovedSpinesCompleted(false), m_researchPathogenGlandsCompleted(false), m_researchNeuralParasiteCompleted(false), m_researchFlyerAttacks1Completed(false), m_researchFlyerAttacks2Completed(false), m_researchFlyerAttacks3Completed(false), m_researchFlyerCarapace1Completed(false), m_researchFlyerCarapace2Completed(false), m_researchFlyerCarapace3Completed(false), m_researchChitinousPlatingCompleted(false)
 {
@@ -23,7 +23,7 @@ double CZergTarget::targetValue(const CZergState &state, double time) const
 	value += mymin(m_hatcheryCount, (state.m_hatcheryCount + state.m_lairUnderConstruction)) * 350;
 	value += mymin(m_extractorCount, state.m_extractorCount) * 75;
 	value += mymin(m_spawningPoolCount, state.m_spawningPoolCount) * 250;
-	value += mymin(m_creepTumourCount, state.m_creepTumourCount) * 10;
+	value += mymin(m_creepTumorCount, state.m_creepTumorCount) * 10;
 	value += mymin(m_evolutionChamberCount, state.m_evolutionChamberCount) * 125;
 	value += mymin(m_spineCrawlerCount, state.m_spineCrawlerCount) * 150;
 	value += mymin(m_sporeCrawlerCount, state.m_sporeCrawlerCount) * 125;
@@ -37,7 +37,7 @@ double CZergTarget::targetValue(const CZergState &state, double time) const
 	value += mymin(m_ultraliskCavernCount, state.m_ultraliskCavernCount) * 600;
 	value += mymin(m_greaterSpireCount, state.m_greaterSpireCount) * 1050;
 
-	value += mymin(m_larvaCount, state.m_larvaCount) * 5;
+	value += mymin(m_larvaCount, state.m_larvaTotalCount) * 5;
 	value += mymin(m_droneCount, state.m_droneCount) * 50;
 	value += mymin(m_overlordCount, state.m_overlordCount) * 100;
 	value += mymin(m_queenCount, state.m_queenCount) * 150;
@@ -146,8 +146,8 @@ double CZergTarget::extraValue(const CZergState &state) const
 		value += (state.m_extractorCount - m_extractorCount) * 75;
 	if(state.m_spawningPoolCount > m_spawningPoolCount)
 		value += (state.m_spawningPoolCount - m_spawningPoolCount) * 250;
-	if(state.m_creepTumourCount > m_creepTumourCount)
-		value += (state.m_creepTumourCount - m_creepTumourCount) * 10;
+	if(state.m_creepTumorCount > m_creepTumorCount)
+		value += (state.m_creepTumorCount - m_creepTumorCount) * 10;
 	if(state.m_evolutionChamberCount > m_evolutionChamberCount)
 		value += (state.m_evolutionChamberCount - m_evolutionChamberCount) * 125;
 	if(state.m_spineCrawlerCount > m_spineCrawlerCount)
@@ -173,8 +173,8 @@ double CZergTarget::extraValue(const CZergState &state) const
 	if(state.m_greaterSpireCount > m_greaterSpireCount)
 		value += (state.m_greaterSpireCount - m_greaterSpireCount) * 1050;
 
-	if(state.m_larvaCount > m_larvaCount)
-		value += (state.m_larvaCount - m_larvaCount) * 10;
+	if(state.m_larvaTotalCount > m_larvaCount)
+		value += (state.m_larvaTotalCount - m_larvaCount) * 10;
 	if(state.m_droneCount > m_droneCount)
 		value += (state.m_droneCount - m_droneCount) * 50;
 	if(state.m_overlordCount > m_overlordCount)
@@ -279,7 +279,7 @@ bool CZergTarget::hasTarget() const
 	if(0 < m_hatcheryCount) return true;
 	if(0 < m_extractorCount) return true;
 	if(0 < m_spawningPoolCount) return true;
-	if(0 < m_creepTumourCount) return true;
+	if(0 < m_creepTumorCount) return true;
 	if(0 < m_evolutionChamberCount) return true;
 	if(0 < m_spineCrawlerCount) return true;
 	if(0 < m_sporeCrawlerCount) return true;
@@ -389,7 +389,7 @@ bool CZergTarget::satisfiesTarget(const CZergState &state) const
 		return false;
 	if(state.m_banelingNestCount < m_banelingNestCount)
 		return false;
-	if(state.m_creepTumourCount < m_creepTumourCount)
+	if(state.m_creepTumorCount < m_creepTumorCount)
 		return false;
 	if(state.m_evolutionChamberCount < m_evolutionChamberCount)
 		return false;
@@ -574,7 +574,7 @@ void CZergTarget::AddRequirements()
 		m_roachWarrenCount++;
 
 	if(m_queenCount == 0
-		&& (m_creepTumourCount > 0))
+		&& (m_creepTumorCount > 0))
 		m_queenCount++;
 
 	if(!m_researchMeleeAttacks1Completed
@@ -620,7 +620,7 @@ void CZergTarget::operator+=(const CZergTarget &target)
 	m_hatcheryCount = mymax(m_hatcheryCount, target.m_hatcheryCount);
 	m_extractorCount = mymax(m_extractorCount, target.m_extractorCount);
 	m_spawningPoolCount = mymax(m_spawningPoolCount, target.m_spawningPoolCount);
-	m_creepTumourCount = mymax(m_creepTumourCount, target.m_creepTumourCount);
+	m_creepTumorCount = mymax(m_creepTumorCount, target.m_creepTumorCount);
 	m_evolutionChamberCount = mymax(m_evolutionChamberCount, target.m_evolutionChamberCount);
 	m_spineCrawlerCount = mymax(m_spineCrawlerCount, target.m_spineCrawlerCount);
 	m_sporeCrawlerCount = mymax(m_sporeCrawlerCount, target.m_sporeCrawlerCount);
@@ -691,9 +691,10 @@ void CZergTarget::BuildAlphabet(CVector<EZergCommand> &alphabet) const
 	}
 
 	alphabet.push_back(eZergCommandBuildSpawningPool); // Might be better to have queen even if you don't need pool
-	if(m_creepTumourCount > 0)
+	if(m_creepTumorCount > 0)
 	{
-		alphabet.push_back(eZergCommandExpandCreepTumour);
+		alphabet.push_back(eZergCommandQueenSpawnCreepTumor);
+		alphabet.push_back(eZergCommandExpandCreepTumor);
 	}
 	if(m_evolutionChamberCount > 0)
 		alphabet.push_back(eZergCommandBuildEvolutionChamber);

@@ -52,7 +52,7 @@ public:
 	void AddEvent(CLinkedList<CZergEvent> *&events, const CZergEvent &event);
 	void AddEvent(CLinkedList<CZergEvent> *&events, CLinkedList<CZergEvent> *event);
 
-	void PrintSummary(CString &output) const { output.AppendFormat(L"%4.0fM %4.0fG %2dL %3.0fE %3d/%3dS", m_minerals, m_gas, m_larvaCount, m_queenEnergy[0], (size_t)m_supply, (size_t)m_supplyCap); }
+	void PrintSummary(CString &output) const { output.AppendFormat(L"%4.0fM %4.0fG %2dL %2dL %2dL %3.0fE %3d/%3dS", m_minerals, m_gas, m_larvaCount[0], m_larvaCount[1], m_larvaCount[2], m_queenEnergy[0], (size_t)m_supply, (size_t)m_supplyCap); }
 	void PrintDetails(CString &output) const;
 
 	// Resources
@@ -66,7 +66,7 @@ public:
 	size_t m_extractorCount;
 	size_t m_spawningPoolCount;
 	size_t m_banelingNestCount;
-	size_t m_creepTumourCount;
+	size_t m_creepTumorCount;
 	size_t m_evolutionChamberCount;
 	size_t m_spineCrawlerCount;
 	size_t m_sporeCrawlerCount;
@@ -84,7 +84,7 @@ public:
 	size_t m_hatcheryUnderConstruction;
 	size_t m_extractorUnderConstruction;
 	size_t m_spawningPoolUnderConstruction;
-	size_t m_creepTumourUnderConstruction;
+	size_t m_creepTumorUnderConstruction;
 	size_t m_evolutionChamberUnderConstruction;
 	size_t m_spineCrawlerUnderConstruction;
 	size_t m_sporeCrawlerUnderConstruction;
@@ -99,11 +99,12 @@ public:
 	size_t m_ultraliskCavernUnderConstruction;
 	size_t m_greaterSpireUnderConstruction;
 
-	size_t m_baseSpawningLarvae;
+	size_t m_baseTotalSpawningLarvae;
+	bool m_baseSpawningLarvae[4];
 	size_t m_hatcheryInUse;
 	size_t m_spawningPoolInUse;
-	size_t m_creepTumourOnCooldown;
-	size_t m_creepTumourExpandAvailable;
+	size_t m_creepTumorOnCooldown;
+	size_t m_creepTumorExpandAvailable;
 	size_t m_evolutionChamberInUse;
 	size_t m_spineCrawlerInUse;
 	size_t m_sporeCrawlerInUse;
@@ -119,7 +120,8 @@ public:
 	size_t m_greaterSpireInUse;
 
 	// Units
-	size_t m_larvaCount;
+	size_t m_larvaTotalCount;
+	size_t m_larvaCount[4];	// Store larva for up to 4 bases
 	size_t m_droneCount;
 	size_t m_overlordCount;
 	size_t m_queenCount;
@@ -149,6 +151,7 @@ public:
 	size_t m_broodlordUnderConstruction;
 
 	// Unit States
+	size_t m_queensBusy; // Due to building creep tumors
 	size_t m_dronesOnMinerals;
 	size_t m_dronesOnGas;
 

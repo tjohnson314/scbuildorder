@@ -37,7 +37,7 @@ void CZergStateDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_HATCHERYCOUNT, m_zergTarget.m_hatcheryCount);
 	DDX_Text(pDX, IDC_EDIT_EXTRACTORCOUNT, m_zergTarget.m_extractorCount);
 	DDX_Text(pDX, IDC_EDIT_SPAWNINGPOOLCOUNT, m_zergTarget.m_spawningPoolCount);
-	DDX_Text(pDX, IDC_EDIT_CREEPTUMORCOUNT, m_zergTarget.m_creepTumourCount);
+	DDX_Text(pDX, IDC_EDIT_CREEPTUMORCOUNT, m_zergTarget.m_creepTumorCount);
 	DDX_Text(pDX, IDC_EDIT_EVOLUTIONCHAMBERCOUNT, m_zergTarget.m_evolutionChamberCount);
 	DDX_Text(pDX, IDC_EDIT_SPINECRAWLERCOUNT, m_zergTarget.m_spineCrawlerCount);
 	DDX_Text(pDX, IDC_EDIT_SPORECRAWLERCOUNT, m_zergTarget.m_sporeCrawlerCount);

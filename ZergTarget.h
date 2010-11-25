@@ -34,7 +34,7 @@ public:
 	size_t m_hatcheryCount;
 	size_t m_extractorCount;
 	size_t m_spawningPoolCount;
-	size_t m_creepTumourCount;
+	size_t m_creepTumorCount;
 	size_t m_evolutionChamberCount;
 	size_t m_spineCrawlerCount;
 	size_t m_sporeCrawlerCount;

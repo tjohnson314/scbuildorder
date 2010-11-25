@@ -9,7 +9,7 @@ public:
 		eSpawnHatchery
 		, eSpawnExtractor
 		, eSpawnSpawningPool
-		, eSpawnCreepTumour
+		, eSpawnCreepTumor
 		, eSpawnEvolutionChamber
 		, eSpawnSpineCrawler
 		, eSpawnSporeCrawler
@@ -25,11 +25,17 @@ public:
 		, eSpawnGreaterSpire
 
 		, eExtractorTrickFinished
-		, eCreepTumourAvailable
+		, eCreepTumorAvailable
 
 		// Units
-		, eSpawnLarva
-		, eSpawnQueenLarva
+		, eSpawnLarva1
+		, eSpawnLarva2
+		, eSpawnLarva3
+		, eSpawnLarva4
+		, eSpawnQueenLarvae1
+		, eSpawnQueenLarvae2
+		, eSpawnQueenLarvae3
+		, eSpawnQueenLarvae4
 		, eSpawnDrone
 		, eSpawnOverlord
 		, eSpawnQueen
@@ -73,6 +79,7 @@ public:
 		, eResearchFlyerCarapace3Complete
 		, eResearchChitinousPlatingComplete
 
+		, eQueenReady
 		, eDroneStartMiningMinerals
 		, eDroneStartMiningGas
 	};
