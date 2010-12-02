@@ -1355,10 +1355,12 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 			&& !m_researchInfantryWeapons1Completed && !m_researchInfantryWeapons1UnderConstruction;
 	case eTerranCommandResearchInfantryWeapons2:
 		return 0 < m_engineeringBayCount + m_engineeringBayUnderConstruction
+			&& 0 < m_armoryCount + m_armoryUnderConstruction
 			&& !m_researchInfantryWeapons2Completed && !m_researchInfantryWeapons2UnderConstruction
 			&& (m_researchInfantryWeapons1Completed || m_researchInfantryWeapons1UnderConstruction);
 	case eTerranCommandResearchInfantryWeapons3:
 		return 0 < m_engineeringBayCount + m_engineeringBayUnderConstruction
+			&& 0 < m_armoryCount + m_armoryUnderConstruction
 			&& !m_researchInfantryWeapons3Completed && !m_researchInfantryWeapons3UnderConstruction
 			&& (m_researchInfantryWeapons2Completed || m_researchInfantryWeapons2UnderConstruction);
 	case eTerranCommandResearchInfantryArmor1:
@@ -1366,10 +1368,12 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 			&& !m_researchInfantryArmor1Completed && !m_researchInfantryArmor1UnderConstruction;
 	case eTerranCommandResearchInfantryArmor2:
 		return 0 < m_engineeringBayCount + m_engineeringBayUnderConstruction
+			&& 0 < m_armoryCount + m_armoryUnderConstruction
 			&& !m_researchInfantryArmor2Completed && !m_researchInfantryArmor2UnderConstruction
 			&& (m_researchInfantryArmor1Completed || m_researchInfantryArmor1UnderConstruction);
 	case eTerranCommandResearchInfantryArmor3:
 		return 0 < m_engineeringBayCount + m_engineeringBayUnderConstruction
+			&& 0 < m_armoryCount + m_armoryUnderConstruction
 			&& !m_researchInfantryArmor3Completed && !m_researchInfantryArmor3UnderConstruction
 			&& (m_researchInfantryArmor2Completed || m_researchInfantryArmor2UnderConstruction);
 	case eTerranCommandResearchBuildingArmor:
@@ -1502,7 +1506,8 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 			&& 0 < m_reactorAvailable;
 	case eTerranCommandBuildOrbitalCommand:
 		return 0 < m_barracksCount
-			&& m_orbitalCommandCount + m_orbitalCommandUnderConstruction + m_planetaryFortressCount + m_planetaryFortressUnderConstruction < m_commandCenterCount;
+			&& m_orbitalCommandCount + m_orbitalCommandUnderConstruction + m_planetaryFortressCount + m_planetaryFortressUnderConstruction < m_commandCenterCount
+			&& m_commandCenterInUse < m_commandCenterCount - m_orbitalCommandCount - m_planetaryFortressCount;
 	case eTerranCommandBuildEngineeringBay:
 		return 0 < m_barracksCount
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas;
@@ -1674,17 +1679,21 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 		return m_engineeringBayInUse < m_engineeringBayCount;
 	case eTerranCommandResearchInfantryWeapons2:
 		return m_engineeringBayInUse < m_engineeringBayCount
+			&& 0 < m_armoryCount
 			&& m_researchInfantryWeapons1Completed;
 	case eTerranCommandResearchInfantryWeapons3:
 		return m_engineeringBayInUse < m_engineeringBayCount
+			&& 0 < m_armoryCount
 			&& m_researchInfantryWeapons2Completed;
 	case eTerranCommandResearchInfantryArmor1:
 		return m_engineeringBayInUse < m_engineeringBayCount;
 	case eTerranCommandResearchInfantryArmor2:
 		return m_engineeringBayInUse < m_engineeringBayCount
+			&& 0 < m_armoryCount
 			&& m_researchInfantryArmor1Completed;
 	case eTerranCommandResearchInfantryArmor3:
 		return m_engineeringBayInUse < m_engineeringBayCount
+			&& 0 < m_armoryCount
 			&& m_researchInfantryArmor2Completed;
 	case eTerranCommandResearchBuildingArmor:
 		return m_engineeringBayInUse < m_engineeringBayCount;
