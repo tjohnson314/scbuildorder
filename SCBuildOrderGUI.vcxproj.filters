@@ -23,6 +23,9 @@
     <Filter Include="GameSimulation">
       <UniqueIdentifier>{e705004a-9756-479f-8cc7-c1acfc2372fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Terran">
+      <UniqueIdentifier>{eebc91b2-fa1f-4364-8329-5b01025666e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -171,6 +174,24 @@
     <ClInclude Include="ZergStateDlg.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="TerranCommand.h">
+      <Filter>Terran</Filter>
+    </ClInclude>
+    <ClInclude Include="TerranEvent.h">
+      <Filter>Terran</Filter>
+    </ClInclude>
+    <ClInclude Include="TerranState.h">
+      <Filter>Terran</Filter>
+    </ClInclude>
+    <ClInclude Include="TerranTarget.h">
+      <Filter>Terran</Filter>
+    </ClInclude>
+    <ClInclude Include="TerranStateDlg.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SCBuildOrderGUITerranView.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SCBuildOrderGUIView.cpp">
@@ -266,6 +287,21 @@
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="ZergStateDlg.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TerranTarget.cpp">
+      <Filter>Terran</Filter>
+    </ClCompile>
+    <ClCompile Include="TerranState.cpp">
+      <Filter>Terran</Filter>
+    </ClCompile>
+    <ClCompile Include="TerranCommand.cpp">
+      <Filter>Terran</Filter>
+    </ClCompile>
+    <ClCompile Include="TerranStateDlg.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SCBuildOrderGUITerranView.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>

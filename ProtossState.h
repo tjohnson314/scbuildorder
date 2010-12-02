@@ -231,8 +231,5 @@ public:
 	// Income Rates
 	double m_mineralIncomeRate;
 	double m_gasIncomeRate;
-
-	double m_timeLastProbeMove;
-	EProtossCommand m_lastProbeMove;
 };
 

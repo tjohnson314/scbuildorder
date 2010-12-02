@@ -9,10 +9,27 @@ CZergTarget::CZergTarget()
 {
 }
 
-double CZergTarget::targetValue(const CZergState &state, double time) const
+double CZergTarget::targetValue(const CZergState &state, double time, bool bSatisfied) const
 {
 	double value = 0;
 
+/*
+	value += state.m_mineralsMined + state.m_gasHarvested;
+	value += state.m_mineralIncomeRate + state.m_gasIncomeRate;
+	value += 50 * state.m_droneCount;
+	value += 200 * mymin((size_t)1, state.m_spawningPoolCount);
+	value += 150 * mymin((size_t)2, state.m_queenCount);
+
+	return value;
+*/
+
+/*	
+	if(!bSatisfied && time > 0)
+	{
+		value += state.m_mineralIncomeRate;
+		value += state.m_gasIncomeRate * 2.0;
+	}
+*/
 	value += mymin(m_minerals, state.m_minerals) * 1.0;
 	value += mymin(m_gas, state.m_gas) * 2.0;
 	double queenEnergy = 0;
@@ -20,17 +37,17 @@ double CZergTarget::targetValue(const CZergState &state, double time) const
 		queenEnergy += state.m_queenEnergy[i];
 	value += mymin(m_queenEnergy, queenEnergy) * 0.2;
 
-	value += mymin(m_hatcheryCount, (state.m_hatcheryCount + state.m_lairUnderConstruction)) * 350;
+	value += mymin(m_hatcheryCount, state.m_hatcheryCount) * 350;
 	value += mymin(m_extractorCount, state.m_extractorCount) * 75;
 	value += mymin(m_spawningPoolCount, state.m_spawningPoolCount) * 250;
 	value += mymin(m_creepTumorCount, state.m_creepTumorCount) * 10;
 	value += mymin(m_evolutionChamberCount, state.m_evolutionChamberCount) * 125;
 	value += mymin(m_spineCrawlerCount, state.m_spineCrawlerCount) * 150;
 	value += mymin(m_sporeCrawlerCount, state.m_sporeCrawlerCount) * 125;
-	value += mymin(m_lairCount, (state.m_lairCount + state.m_hiveUnderConstruction)) * 700;
+	value += mymin(m_lairCount, state.m_lairCount) * 700;
 	value += mymin(m_hydraliskDenCount, state.m_hydraliskDenCount) * 350;
 	value += mymin(m_banelingNestCount, state.m_banelingNestCount) * 250;
-	value += mymin(m_spireCount, (state.m_spireCount + state.m_greaterSpireUnderConstruction)) * 650;
+	value += mymin(m_spireCount, state.m_spireCount) * 650;
 	value += mymin(m_infestationPitCount, state.m_infestationPitCount) * 350;
 	value += mymin(m_nydusNetworkCount, state.m_nydusNetworkCount) * 600;
 	value += mymin(m_hiveCount, state.m_hiveCount) * 1200;
@@ -155,13 +172,18 @@ double CZergTarget::extraValue(const CZergState &state) const
 	if(state.m_sporeCrawlerCount > m_sporeCrawlerCount)
 		value += (state.m_sporeCrawlerCount - m_sporeCrawlerCount) * 125;
 	if(state.m_lairCount > m_lairCount)
-		value += (state.m_lairCount - m_lairCount) * 700;
+	{
+		if(m_hiveCount > 0 && m_lairCount == 0 && state.m_hiveCount == 0)
+			value += 70000 * state.m_lairCount; // Hack to make Lair valuable when requesting Hive
+		else
+			value += (state.m_lairCount - m_lairCount) * 700;
+	}
 	if(state.m_hydraliskDenCount > m_hydraliskDenCount)
 		value += (state.m_hydraliskDenCount - m_hydraliskDenCount) * 350;
 	if(state.m_banelingNestCount > m_banelingNestCount)
 		value += (state.m_banelingNestCount - m_banelingNestCount) * 250;
 	if(state.m_spireCount > m_spireCount)
-		value += (state.m_spireCount + m_spireCount) * 650;
+		value += (state.m_spireCount - m_spireCount) * 650;
 	if(state.m_infestationPitCount > m_infestationPitCount)
 		value += (state.m_infestationPitCount - m_infestationPitCount) * 350;
 	if(state.m_nydusNetworkCount > m_nydusNetworkCount)
@@ -534,7 +556,7 @@ void CZergTarget::AddRequirements()
 
 	if(m_hiveCount == 0
 		&& (m_ultraliskCavernCount > 0 || m_greaterSpireCount > 0
-			|| m_researchMeleeAttacks2Completed || m_researchGroundCarapace2Completed || m_researchMissileAttacks2Completed || m_researchFlyerAttacks2Completed || m_researchFlyerCarapace2Completed))
+			|| m_researchAdrenalGlandsCompleted || m_researchMeleeAttacks2Completed || m_researchGroundCarapace2Completed || m_researchMissileAttacks2Completed || m_researchFlyerAttacks2Completed || m_researchFlyerCarapace2Completed))
 		m_hiveCount++;
 
 	if(!m_researchFlyerAttacks1Completed
@@ -562,10 +584,10 @@ void CZergTarget::AddRequirements()
 			|| m_researchGroovedSpinesCompleted))
 		m_hydraliskDenCount++;
 
-	if(m_lairCount == 0
+	if(m_lairCount == 0 && m_hiveCount == 0
 		&& (m_hydraliskDenCount > 0 || m_infestationPitCount > 0 || m_spireCount > 0 || m_nydusNetworkCount > 0
 			|| m_overseerCount > 0
-			|| m_researchBurrowCompleted || m_researchGlialReconstitutionCompleted || m_researchPneumaticCarapaceCompleted || m_researchVentralSacsCompleted))
+			|| m_researchCentrifugalHooksCompleted || m_researchGlialReconstitutionCompleted || m_researchTunnelingClawsCompleted || m_researchBurrowCompleted || m_researchPneumaticCarapaceCompleted || m_researchVentralSacsCompleted))
 		m_lairCount++;
 
 	if(m_roachWarrenCount == 0
@@ -605,9 +627,9 @@ void CZergTarget::AddRequirements()
 		m_spawningPoolCount++;
 
 	if(m_extractorCount == 0
-		&& (m_lairCount > 0 || m_banelingNestCount > 0
+		&& (m_hiveCount > 0 || m_lairCount > 0 || m_banelingNestCount > 0
 			|| m_roachCount > 0
-			|| m_researchMetabolicBoostCompleted || m_researchMeleeAttacks1Completed || m_researchGroundCarapace1Completed || m_researchMissileAttacks1Completed || m_researchGlialReconstitutionCompleted || m_researchTunnelingClawsCompleted))
+			|| m_researchMetabolicBoostCompleted || m_researchMeleeAttacks1Completed || m_researchGroundCarapace1Completed || m_researchMissileAttacks1Completed))
 		m_extractorCount++;
 }
 
@@ -681,11 +703,10 @@ void CZergTarget::operator+=(const CZergTarget &target)
 void CZergTarget::BuildAlphabet(CVector<EZergCommand> &alphabet) const
 {
 	alphabet.push_back(eZergCommandBuildHatchery);
-	alphabet.push_back(eZergCommandBuildExtractor);
-	//alphabet.push_back(eZergCommandCancelExtractor);
 
 	if(m_extractorCount > 0)
 	{
+		alphabet.push_back(eZergCommandBuildExtractor);
 		alphabet.push_back(eZergCommandMoveDroneToGas);
 		alphabet.push_back(eZergCommandMoveDroneToMinerals);
 	}
@@ -704,7 +725,7 @@ void CZergTarget::BuildAlphabet(CVector<EZergCommand> &alphabet) const
 		alphabet.push_back(eZergCommandBuildSporeCrawler);
 	if(m_roachWarrenCount > 0)
 		alphabet.push_back(eZergCommandBuildRoachWarren);
-	if(m_lairCount > 0)
+	if(m_lairCount > 0 || m_hiveCount > 0)
 		alphabet.push_back(eZergCommandBuildLair);
 	if(m_hydraliskDenCount > 0)
 		alphabet.push_back(eZergCommandBuildHydraliskDen);

@@ -12,6 +12,7 @@
 #include "SCBuildOrderGUIDoc.h"
 #include "SCBuildOrderGUIProtossView.h"
 #include "SCBuildOrderGUIZergView.h"
+#include "SCBuildOrderGUITerranView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -123,6 +124,14 @@ BOOL CSCBuildOrderGUIApp::InitInstance()
 		RUNTIME_CLASS(CSCBuildOrderGUIDoc),
 		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
 		RUNTIME_CLASS(CSCBuildOrderGUIZergView));
+	if (!pDocTemplate)
+		return FALSE;
+	AddDocTemplate(pDocTemplate);
+
+	pDocTemplate = new CMultiDocTemplate(IDR_BUILDORDERTYPE_TERRAN,
+		RUNTIME_CLASS(CSCBuildOrderGUIDoc),
+		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
+		RUNTIME_CLASS(CSCBuildOrderGUITerranView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);

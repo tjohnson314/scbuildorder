@@ -7,6 +7,7 @@
 enum EProtossCommand
 {
 	eProtossCommandNone = 0
+
 	, eProtossCommandBuildNexus
 	, eProtossCommandBuildPylon
 	, eProtossCommandBuildAssimilator

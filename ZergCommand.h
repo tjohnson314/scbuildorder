@@ -7,6 +7,7 @@
 enum EZergCommand
 {
 	eZergCommandNone = 0
+
 	, eZergCommandBuildHatchery
 	, eZergCommandBuildExtractor
 	, eZergCommandBuildSpawningPool
