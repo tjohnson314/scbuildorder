@@ -10,7 +10,7 @@ public:
 	CProtossTarget();
 	~CProtossTarget() {}
 
-	double targetValue(const CProtossState &state, double time) const;
+	double targetValue(const CProtossState &state, double time, bool bSatisfied) const;
 	double targetTimePenalty(const CProtossState &state, double time) const;
 	double extraValue(const CProtossState &state) const;
 

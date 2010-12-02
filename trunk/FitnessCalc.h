@@ -123,7 +123,7 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 						{
 							bRanOutOfTime = true;
 
-							fitness.m_targetValue += (*waypoint)->m_target.targetValue(state, 0);
+							fitness.m_targetValue += (*waypoint)->m_target.targetValue(state, 0, false);
 							fitness.m_targetValueTime = (*waypoint)->m_targetTime;
 						}
 
@@ -153,7 +153,7 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 					{
 						bRanOutOfTime = true;
 
-						fitness.m_targetValue += (*waypoint)->m_target.targetValue(state, 0);
+						fitness.m_targetValue += (*waypoint)->m_target.targetValue(state, 0, false);
 						fitness.m_targetValueTime = (*waypoint)->m_targetTime;
 					}
 
@@ -188,7 +188,7 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 				{
 					bRanOutOfTime = true;
 
-					fitness.m_targetValue += (*waypoint)->m_target.targetValue(state, 0);
+					fitness.m_targetValue += (*waypoint)->m_target.targetValue(state, 0, false);
 					fitness.m_targetValueTime = (*waypoint)->m_targetTime;
 				}
 
@@ -207,7 +207,7 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 
 		if(!bRanOutOfTime)
 		{
-			fitness.m_targetValue += (*waypoint)->m_target.targetValue(state, bSatisfied ? time : 0);
+			fitness.m_targetValue += (*waypoint)->m_target.targetValue(state, time, bSatisfied);
 			if(bSatisfied)
 				fitness.m_targetValueTime = time + (*waypoint)->m_target.targetTimePenalty(state, time);
 			else
@@ -215,7 +215,7 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 		}
 		else
 		{
-			fitness.m_extraValue = (*waypoint)->m_target.targetValue(state, 0);
+			fitness.m_extraValue = (*waypoint)->m_target.targetValue(state, 0, false);
 			fitness.m_extraValueTime = time;
 		}
 

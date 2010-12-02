@@ -60,6 +60,9 @@ public:
 	double m_gas;
 	double m_queenEnergy[4]; // Only going to store energy for 4 nexi
 
+	double m_mineralsMined;
+	double m_gasHarvested;
+
 	// Buildings
 	size_t m_baseCount;
 	size_t m_hatcheryCount;
@@ -220,7 +223,4 @@ public:
 	// Income Rates
 	double m_mineralIncomeRate;
 	double m_gasIncomeRate;
-
-	double m_timeLastDroneMove;
-	EZergCommand m_lastDroneMove;
 };

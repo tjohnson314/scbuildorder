@@ -20,7 +20,6 @@ CProtossState::CProtossState()
 , m_probesOnMinerals(0), m_probesOnGas(0)
 , m_supply(0), m_supplyCap(0), m_supplyCapUnderConstruction(0)
 , m_mineralIncomeRate(0), m_gasIncomeRate(0)
-, m_timeLastProbeMove(0), m_lastProbeMove(eProtossCommandNone)
 {
 	memset(m_nexusEnergy, 0, sizeof(double)*4);
 }
@@ -1330,19 +1329,13 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 		break;
 
 	case eProtossCommandMoveProbeToGas:
-		m_timeLastProbeMove = time;
-		m_lastProbeMove = eProtossCommandMoveProbeToGas;
+		AddEvent(events, CProtossEvent(CProtossEvent::eProbeStartMiningGas, time + 2));
 		m_probesOnMinerals--;
-		m_probesOnGas++;
 		RecalculateMineralIncomeRate();
-		RecalculateGasIncomeRate();
 		break;
 	case eProtossCommandMoveProbeToMinerals:
-		m_timeLastProbeMove = time;
-		m_lastProbeMove = eProtossCommandMoveProbeToMinerals;
+		AddEvent(events, CProtossEvent(CProtossEvent::eProbeStartMiningMinerals, time + 2));
 		m_probesOnGas--;
-		m_probesOnMinerals++;
-		RecalculateMineralIncomeRate();
 		RecalculateGasIncomeRate();
 		break;
 	}
@@ -2370,15 +2363,12 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 			&& 0 < m_fleetBeaconCount + m_fleetBeaconUnderConstruction;
 
 	case eProtossCommandMoveProbeToGas:
-		return (eProtossCommandMoveProbeToMinerals != m_lastProbeMove || time != m_timeLastProbeMove)
-			&& 0 < m_nexusCount + m_nexusUnderConstruction
+		return 0 < m_nexusCount + m_nexusUnderConstruction
 			&& 0 < m_assimilatorCount + m_assimilatorUnderConstruction
 			&& 0 < m_probesOnMinerals + m_probeUnderConstruction
 			&& m_probesOnGas < CGameCalcs::GasWorkerLimit(m_nexusCount + m_nexusUnderConstruction, m_assimilatorCount + m_assimilatorUnderConstruction);
 	case eProtossCommandMoveProbeToMinerals:
-		return (eProtossCommandMoveProbeToGas != m_lastProbeMove || time != m_timeLastProbeMove)
-			&& 0 < m_nexusCount + m_nexusUnderConstruction
-			&& 0 < m_assimilatorCount + m_assimilatorUnderConstruction
+		return 0 < m_nexusCount + m_nexusUnderConstruction
 			&& 0 < m_probesOnGas
 			&& m_probesOnMinerals < CGameCalcs::MineralWorkerLimit(m_nexusCount + m_nexusUnderConstruction);
 
@@ -2491,7 +2481,7 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 			&& 0 < m_pylonCount
 			&& 0 < m_probesOnMinerals + m_probesOnGas;
 	case eProtossCommandConvertGatewayToWarpGate:
-		return m_gatewayInUse < m_gatewayCount - m_warpGateCount - m_warpGateUnderConstruction
+		return m_gatewayInUse < m_gatewayCount - m_warpGateCount
 			&& m_researchWarpGateTransformationCompleted
 			&& 0 < m_pylonCount;
 	case eProtossCommandBuildForge:
@@ -3051,7 +3041,7 @@ void CProtossState::PrintDetails(CString &output) const
 {
 	PrintSummary(output);
 
-	output.AppendFormat(L"\r\nIncome:   %4.0fM %4.0fG", 60 * m_mineralIncomeRate, 60 * m_gasIncomeRate);
+	output.AppendFormat(L"\r\nIncome:   %4.0fM %4.0fG", 60.0 * m_mineralIncomeRate, 60.0 * m_gasIncomeRate);
 
 	output.Append(L"\r\nBuildings: ");
 

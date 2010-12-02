@@ -413,7 +413,7 @@ void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 
 		totalPopulation += villagePopulation;
 		totalGameCount += villageGameCount;
-		if(villageBestFitness > overallBestFitness)
+		if(overallBestFitness < villageBestFitness)
 			overallBestFitness = villageBestFitness;
 	}
 	totalStagnationCount = engine->StagnationLimit();
@@ -423,9 +423,20 @@ void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 
 	if(UpdateBestBuildOrder())
 	{
+		CEdit *output = (CEdit *)GetDlgItem(IDC_EDIT_OUTPUT);
+		int scrollMin, scrollMax;
+		output->GetScrollRange(SB_VERT, &scrollMin, &scrollMax);
+		int scrollPos = output->GetScrollPos(SB_VERT);
+
+		double scrollPercent = (double)(scrollPos - scrollMin) / (scrollMax - scrollMin);
+
 		CString strText;
 		engine->PrintBestGame(strText);
-		GetDlgItem(IDC_EDIT_OUTPUT)->SetWindowTextW(strText);
+		output->SetWindowTextW(strText);
+
+		output->GetScrollRange(SB_VERT, &scrollMin, &scrollMax);
+		//output->SetScrollPos(SB_VERT, (int)(scrollPercent * (scrollMax - scrollMin)) + scrollMin);
+		output->LineScroll(output->GetLineCount() * scrollPercent);
 	}
 }
 

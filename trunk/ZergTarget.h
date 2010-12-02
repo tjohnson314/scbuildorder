@@ -12,7 +12,7 @@ public:
 	CZergTarget();
 	~CZergTarget() {}
 
-	double targetValue(const CZergState &state, double time) const;
+	double targetValue(const CZergState &state, double time, bool bSatisfied) const;
 	double targetTimePenalty(const CZergState &state, double time) const;
 	double extraValue(const CZergState &state) const;
 

@@ -137,11 +137,17 @@
     <ClInclude Include="SCBuildOrderGUI.h" />
     <ClInclude Include="SCBuildOrderGUIDoc.h" />
     <ClInclude Include="SCBuildOrderGUIProtossView.h" />
+    <ClInclude Include="SCBuildOrderGUITerranView.h" />
     <ClInclude Include="SCBuildOrderGUIView.h" />
     <ClInclude Include="SCBuildOrderGUIZergView.h" />
     <ClInclude Include="SettingsDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TerranCommand.h" />
+    <ClInclude Include="TerranEvent.h" />
+    <ClInclude Include="TerranState.h" />
+    <ClInclude Include="TerranStateDlg.h" />
+    <ClInclude Include="TerranTarget.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Village.h" />
@@ -175,6 +181,7 @@
     <ClCompile Include="SCBuildOrderGUI.cpp" />
     <ClCompile Include="SCBuildOrderGUIDoc.cpp" />
     <ClCompile Include="SCBuildOrderGUIProtossView.cpp" />
+    <ClCompile Include="SCBuildOrderGUITerranView.cpp" />
     <ClCompile Include="SCBuildOrderGUIView.cpp" />
     <ClCompile Include="SCBuildOrderGUIZergView.cpp" />
     <ClCompile Include="SettingsDlg.cpp" />
@@ -182,6 +189,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TerranCommand.cpp" />
+    <ClCompile Include="TerranState.cpp" />
+    <ClCompile Include="TerranStateDlg.cpp" />
+    <ClCompile Include="TerranTarget.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="ZergCommand.cpp" />

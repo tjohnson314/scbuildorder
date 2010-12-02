@@ -9,10 +9,16 @@ CProtossTarget::CProtossTarget()
 {
 }
 
-double CProtossTarget::targetValue(const CProtossState &state, double time) const
+double CProtossTarget::targetValue(const CProtossState &state, double time, bool bSatisfied) const
 {
 	double value = 0;
-
+/*	
+	if(!bSatisfied && time > 0)
+	{
+		value += state.m_mineralIncomeRate;
+		value += state.m_gasIncomeRate * 2.0;
+	}
+*/
 	value += mymin(m_minerals, state.m_minerals) * 1.0;
 	value += mymin(m_gas, state.m_gas) * 2.0;
 	double nexusEnergy = 0;
@@ -24,7 +30,7 @@ double CProtossTarget::targetValue(const CProtossState &state, double time) cons
 	value += mymin(m_assimilatorCount, state.m_assimilatorCount) * 75;
 	value += mymin(m_pylonCount, state.m_pylonCount) * 100;
 	value += mymin(m_gatewayCount, state.m_gatewayCount) * 150;
-	value += mymin(m_warpGateCount, state.m_warpGateCount) * 10; // WarpGate value already calculated in gateway count
+	value += mymin(m_warpGateCount, state.m_warpGateCount) * 150; // WarpGate value already calculated in gateway count
 	value += mymin(m_forgeCount, state.m_forgeCount) * 150;
 	value += mymin(m_photonCannonCount, state.m_photonCannonCount) * 150;
 	value += mymin(m_cyberneticsCoreCount, state.m_cyberneticsCoreCount) * 150;

@@ -10,10 +10,10 @@
 #endif
 
 #include "SCBuildOrderGUIDoc.h"
-#include "SCBuildOrderGUIZergView.h"
+#include "SCBuildOrderGUITerranView.h"
 
 #include "SettingsDlg.h"
-#include "ZergStateDlg.h"
+#include "TerranStateDlg.h"
 
 #include "NumberFormat.h"
 
@@ -23,21 +23,21 @@
 
 // CSCBuildOrderGUIView
 
-IMPLEMENT_DYNCREATE(CSCBuildOrderGUIZergView, CSCBuildOrderGUIView)
+IMPLEMENT_DYNCREATE(CSCBuildOrderGUITerranView, CSCBuildOrderGUIView)
 
-BEGIN_MESSAGE_MAP(CSCBuildOrderGUIZergView, CSCBuildOrderGUIView)
+BEGIN_MESSAGE_MAP(CSCBuildOrderGUITerranView, CSCBuildOrderGUIView)
 END_MESSAGE_MAP()
 
 
 
 // CSCBuildOrderGUIView construction/destruction
 
-CSCBuildOrderGUIZergView::CSCBuildOrderGUIZergView()
-	: CSCBuildOrderGUIView(), m_zergEngine(NULL)
+CSCBuildOrderGUITerranView::CSCBuildOrderGUITerranView()
+	: CSCBuildOrderGUIView(), m_terranEngine(NULL)
 {
 }
 
-CSCBuildOrderGUIZergView::~CSCBuildOrderGUIZergView()
+CSCBuildOrderGUITerranView::~CSCBuildOrderGUITerranView()
 {
 	StopEngine();
 
@@ -45,12 +45,12 @@ CSCBuildOrderGUIZergView::~CSCBuildOrderGUIZergView()
 		delete m_waypointDlgs.pop();
 }
 
-void CSCBuildOrderGUIZergView::DoDataExchange(CDataExchange* pDX)
+void CSCBuildOrderGUITerranView::DoDataExchange(CDataExchange* pDX)
 {
 	CSCBuildOrderGUIView::DoDataExchange(pDX);
 }
 
-BOOL CSCBuildOrderGUIZergView::PreCreateWindow(CREATESTRUCT& cs)
+BOOL CSCBuildOrderGUITerranView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
@@ -58,9 +58,9 @@ BOOL CSCBuildOrderGUIZergView::PreCreateWindow(CREATESTRUCT& cs)
 	return CSCBuildOrderGUIView::PreCreateWindow(cs);
 }
 
-// CSCBuildOrderGUIZergView drawing
+// CSCBuildOrderGUITerranView drawing
 
-void CSCBuildOrderGUIZergView::OnDraw(CDC* /*pDC*/)
+void CSCBuildOrderGUITerranView::OnDraw(CDC* /*pDC*/)
 {
 	CSCBuildOrderGUIDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -70,15 +70,15 @@ void CSCBuildOrderGUIZergView::OnDraw(CDC* /*pDC*/)
 	// TODO: add draw code for native data here
 }
 
-void CSCBuildOrderGUIZergView::AddTargetDlg()
+void CSCBuildOrderGUITerranView::AddTargetDlg()
 {
-	CZergStateDlg *pDlg = new CZergStateDlg();
+	CTerranStateDlg *pDlg = new CTerranStateDlg();
 	pDlg->SetWaypointTargetTime((m_waypointDlgs.size() + 1) * 300);
-	pDlg->Create(IDD_DLG_ZERGSTATE, this);
+	pDlg->Create(IDD_DLG_TERRANSTATE, this);
 	m_waypointDlgs.push_back(pDlg);
 }
 
-void CSCBuildOrderGUIZergView::OnInitialUpdate()
+void CSCBuildOrderGUITerranView::OnInitialUpdate()
 {
 	CSCBuildOrderGUIView::OnInitialUpdate();
 }
@@ -86,81 +86,81 @@ void CSCBuildOrderGUIZergView::OnInitialUpdate()
 // CSCBuildOrderGUIView diagnostics
 
 #ifdef _DEBUG
-void CSCBuildOrderGUIZergView::AssertValid() const
+void CSCBuildOrderGUITerranView::AssertValid() const
 {
 	CSCBuildOrderGUIView::AssertValid();
 }
 
-void CSCBuildOrderGUIZergView::Dump(CDumpContext& dc) const
+void CSCBuildOrderGUITerranView::Dump(CDumpContext& dc) const
 {
 	CSCBuildOrderGUIView::Dump(dc);
 }
 
-CSCBuildOrderGUIDoc* CSCBuildOrderGUIZergView::GetDocument() const // non-debug version is inline
+CSCBuildOrderGUIDoc* CSCBuildOrderGUITerranView::GetDocument() const // non-debug version is inline
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CSCBuildOrderGUIDoc)));
 	return (CSCBuildOrderGUIDoc*)m_pDocument;
 }
 #endif //_DEBUG
 
-// CSCBuildOrderGUIZergView message handlers
-void CSCBuildOrderGUIZergView::StartEngine()
+// CSCBuildOrderGUITerranView message handlers
+void CSCBuildOrderGUITerranView::StartEngine()
 {
 	CSCBuildOrderGUIView::StartEngine();
 
-	m_settingsDlg->UpdateData(TRUE);
-	m_zergEngine = new CZergEngine(m_settingsDlg->GetTimeLimit());
+	m_terranEngine = new CTerranEngine(m_settingsDlg->GetTimeLimit());
 	bool waypointAdded = false;
 	for(size_t i=0; i < m_waypointDlgs.size(); i++)
 	{
 		if(m_waypointDlgs[i]->GetTarget().hasTarget())
 		{
 			waypointAdded = true;
-			m_zergEngine->AddWaypoint(m_waypointDlgs[i]->GetTarget(), m_waypointDlgs[i]->GetWaypointTargetTime());
+			m_terranEngine->AddWaypoint(m_waypointDlgs[i]->GetTarget(), m_waypointDlgs[i]->GetWaypointTargetTime());
 		}
 	}
 	if(!waypointAdded)
 	{
-		delete m_zergEngine;
-		m_zergEngine = 0;
+		delete m_terranEngine;
+		m_terranEngine = 0;
 		MessageBox(L"No waypoints to be added.  Please enter target details.");
 		return;
 	}
 
-	InitEngine(m_zergEngine);
+	InitEngine(m_terranEngine);
 
-	m_zergEngine->AddSeed(m_bestBuildOrder);
+	m_terranEngine->AddSeed(m_bestBuildOrder);
+	m_bestBuildOrder = CVector<ETerranCommand>();
 
 	/*
 	if(m_settingsDlg->GetScoutingWorker())
 	{
-		m_zergEngine->AddCustomEvent(CZergEvent(CZergEvent::eSendScout, m_settingsDlg->GetScoutingWorkerTime()));
+		m_terranEngine->AddCustomEvent(CTerranEvent(CTerranEvent::eSendScout, m_settingsDlg->GetScoutingWorkerTime()));
 		if(m_settingsDlg->GetScoutingWorkerDies())
-			m_zergEngine->AddCustomEvent(CZergEvent(CZergEvent::eKillScout, m_settingsDlg->GetScoutingWorkerEndTime()));
+			m_terranEngine->AddCustomEvent(CTerranEvent(CTerranEvent::eKillScout, m_settingsDlg->GetScoutingWorkerEndTime()));
 		else if(m_settingsDlg->GetScoutingWorkerReturns())
-			m_zergEngine->AddCustomEvent(CZergEvent(CZergEvent::eReturnScout, m_settingsDlg->GetScoutingWorkerEndTime()));
+			m_terranEngine->AddCustomEvent(CTerranEvent(CTerranEvent::eReturnScout, m_settingsDlg->GetScoutingWorkerEndTime()));
 	}
 	*/
 
-	m_zergEngine->Start();
+	m_terranEngine->Start();
 }
 
-void CSCBuildOrderGUIZergView::StopEngine()
+void CSCBuildOrderGUITerranView::StopEngine()
 {
 	CSCBuildOrderGUIView::StopEngine();
 
-	if(m_zergEngine)
+	if(m_terranEngine)
 	{
-		m_zergEngine->Stop();
-		delete m_zergEngine;
-		m_zergEngine = 0;
+		m_terranEngine->Stop();
+		delete m_terranEngine;
+		m_terranEngine = 0;
 	}
 }
 
-bool CSCBuildOrderGUIZergView::UpdateBestBuildOrder()
+bool CSCBuildOrderGUITerranView::UpdateBestBuildOrder()
 {
-	CVector<EZergCommand> buildOrder;
-	m_zergEngine->GetBestGame(buildOrder);
+	CVector<ETerranCommand> buildOrder;
+	m_terranEngine->GetBestGame(buildOrder);
 	if(buildOrder != m_bestBuildOrder)
 	{
 		m_bestBuildOrder = buildOrder;
@@ -170,7 +170,7 @@ bool CSCBuildOrderGUIZergView::UpdateBestBuildOrder()
 	return false;
 }
 
-void CSCBuildOrderGUIZergView::SetTargetDlgPositions(const CRect &rect)
+void CSCBuildOrderGUITerranView::SetTargetDlgPositions(const CRect &rect)
 {
 	for(int nCount=0; nCount < 5; nCount++)
 		m_waypointDlgs[nCount]->SetWindowPos(&wndTop, rect.left, rect.top, rect.Width(), rect.Height(), SWP_HIDEWINDOW);
