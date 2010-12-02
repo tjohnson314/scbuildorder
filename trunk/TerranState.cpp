@@ -268,7 +268,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 			m_barracksTechLabInUse++;
 		}
 		m_marineUnderConstruction++;
-		m_supply += 2;
+		m_supply++;
 		break;
 	case eTerranCommandBuildMarineNaked:
 		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnMarineNaked, time + 25));
