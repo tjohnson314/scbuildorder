@@ -147,12 +147,12 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		break;
 	case eTerranCommandBuildMissileTurret:
 		UseSCVForBuilding(5, time, events);
-		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnMissileTurret, time + 35));
+		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnMissileTurret, time + 25));
 		m_missileTurretUnderConstruction++;
 		break;
 	case eTerranCommandBuildSensorTower:
 		UseSCVForBuilding(5, time, events);
-		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnSensorTower, time + 35));
+		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnSensorTower, time + 25));
 		m_sensorTowerUnderConstruction++;
 		break;
 	case eTerranCommandBuildPlanetaryFortress:
@@ -162,7 +162,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		break;
 	case eTerranCommandBuildGhostAcademy:
 		UseSCVForBuilding(5, time, events);
-		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnGhostAcademy, time + 35));
+		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnGhostAcademy, time + 40));
 		m_ghostAcademyUnderConstruction++;
 		break;
 	case eTerranCommandBuildFactoryNaked:
@@ -186,31 +186,31 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		break;
 	case eTerranCommandBuildArmory:
 		UseSCVForBuilding(5, time, events);
-		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnArmory, time + 35));
+		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnArmory, time + 65));
 		m_armoryUnderConstruction++;
 		break;
 	case eTerranCommandBuildStarportNaked:
 		UseSCVForBuilding(5, time, events);
-		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnStarportNaked, time + 60));
+		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnStarportNaked, time + 50));
 		m_starportUnderConstruction++;
 		break;
 	case eTerranCommandBuildStarportOnTechLab:
 		UseSCVForBuilding(5, time, events);
-		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnStarportOnTechLab, time + 60));
+		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnStarportOnTechLab, time + 50));
 		m_starportUnderConstruction++;
 		m_starportTechLabUnderConstruction++;
 		m_techLabAvailable--;
 		break;
 	case eTerranCommandBuildStarportOnReactor:
 		UseSCVForBuilding(5, time, events);
-		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnStarportOnReactor, time + 60));
+		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnStarportOnReactor, time + 50));
 		m_starportUnderConstruction++;
 		m_starportReactorUnderConstruction++;
 		m_reactorAvailable--;
 		break;
 	case eTerranCommandBuildFusionCore:
 		UseSCVForBuilding(5, time, events);
-		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnFusionCore, time + 35));
+		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnFusionCore, time + 65));
 		m_fusionCoreUnderConstruction++;
 		break;
 
@@ -1294,6 +1294,7 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 			&& m_supply + 3 <= m_supplyCapUnderConstruction;
 	case eTerranCommandBuildThor:
 		return 0 < m_factoryTechLabCount + m_factoryTechLabUnderConstruction
+			&& 0 < m_armoryCount + m_armoryUnderConstruction
 			&& m_supply + 6 <= m_supplyCapUnderConstruction;
 	case eTerranCommandBuildViking:
 		return 0 < m_starportCount + m_starportUnderConstruction
@@ -1613,6 +1614,7 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 			&& m_supply + 3 <= m_supplyCap;
 	case eTerranCommandBuildThor:
 		return m_factoryTechLabInUse < m_factoryTechLabCount
+			&& 0 < m_armoryCount
 			&& m_supply + 6 <= m_supplyCap;
 	case eTerranCommandBuildViking:
 		return (m_starportInUse < m_starportCount - m_starportReactorCount - m_starportTechLabCount
