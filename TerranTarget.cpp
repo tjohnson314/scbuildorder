@@ -594,9 +594,17 @@ void CTerranTarget::AddRequirements()
 		&& m_researchShipPlating2Completed)
 		m_researchShipPlating1Completed = true;
 
+	if(!m_researchInfantryWeapons2Completed
+		&& m_researchInfantryWeapons3Completed)
+		m_researchInfantryWeapons2Completed = true;
+
+	if(!m_researchInfantryArmor2Completed
+		&& m_researchInfantryArmor3Completed)
+		m_researchInfantryArmor2Completed = true;
+
 	if(m_armoryCount == 0
 		&& (m_thorCount > 0
-			 || m_researchVehicleWeapons1Completed || m_researchVehiclePlating1Completed || m_researchShipWeapons1Completed || m_researchShipPlating1Completed))
+			 || m_researchInfantryWeapons2Completed || m_researchInfantryArmor2Completed || m_researchVehicleWeapons1Completed || m_researchVehiclePlating1Completed || m_researchShipWeapons1Completed || m_researchShipPlating1Completed))
 		m_armoryCount++;
 
 	if(m_factoryCount == 0
@@ -609,14 +617,6 @@ void CTerranTarget::AddRequirements()
 		&& (m_ghostCount > 0
 			|| m_researchMoebiusReactorCompleted || m_researchPersonalCloakingCompleted))
 		m_ghostAcademyCount++;
-
-	if(!m_researchInfantryWeapons2Completed
-		&& m_researchInfantryWeapons3Completed)
-		m_researchInfantryWeapons2Completed = true;
-
-	if(!m_researchInfantryArmor2Completed
-		&& m_researchInfantryArmor3Completed)
-		m_researchInfantryArmor2Completed = true;
 
 	if(!m_researchInfantryWeapons1Completed
 		&& m_researchInfantryWeapons2Completed)
