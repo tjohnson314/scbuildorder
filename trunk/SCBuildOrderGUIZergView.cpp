@@ -130,8 +130,8 @@ void CSCBuildOrderGUIZergView::StartEngine()
 	InitEngine(m_zergEngine);
 
 	m_zergEngine->AddSeed(m_bestBuildOrder);
+	m_bestBuildOrder = CVector<EZergCommand>();
 
-	/*
 	if(m_settingsDlg->GetScoutingWorker())
 	{
 		m_zergEngine->AddCustomEvent(CZergEvent(CZergEvent::eSendScout, m_settingsDlg->GetScoutingWorkerTime()));
@@ -140,7 +140,6 @@ void CSCBuildOrderGUIZergView::StartEngine()
 		else if(m_settingsDlg->GetScoutingWorkerReturns())
 			m_zergEngine->AddCustomEvent(CZergEvent(CZergEvent::eReturnScout, m_settingsDlg->GetScoutingWorkerEndTime()));
 	}
-	*/
 
 	m_zergEngine->Start();
 }

@@ -5,8 +5,10 @@ class CZergEvent
 public:
 	enum EEvent
 	{
+		eNone
+
 		// Buildings
-		eSpawnHatchery
+		, eSpawnHatchery
 		, eSpawnExtractor
 		, eSpawnSpawningPool
 		, eSpawnCreepTumor
@@ -82,8 +84,13 @@ public:
 		, eQueenReady
 		, eDroneStartMiningMinerals
 		, eDroneStartMiningGas
+
+		, eSendScout
+		, eKillScout
+		, eReturnScout
 	};
 
+	CZergEvent() : m_event(eNone), m_time(0) {}
 	CZergEvent(EEvent event, double time) : m_event(event), m_time(time) {}
 
 	void event(EEvent event) { m_event = event; }

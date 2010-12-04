@@ -131,6 +131,8 @@ public:
 	size_t m_stargateChronoAvailable;
 	size_t m_fleetBeaconChronoAvailable;
 
+	double m_nexusIdleTime;
+
 	// Units
 	size_t m_probeCount;
 	size_t m_zealotCount;

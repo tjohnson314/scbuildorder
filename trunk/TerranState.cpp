@@ -7,7 +7,7 @@ CTerranState::CTerranState()
 : m_minerals(0), m_gas(0)
 , m_baseCount(0), m_commandCenterCount(0), m_refineryCount(0), m_barracksCount(0), m_orbitalCommandCount(0), m_engineeringBayCount(0), m_bunkerCount(0), m_missileTurretCount(0), m_sensorTowerCount(0), m_planetaryFortressCount(0), m_ghostAcademyCount(0), m_factoryCount(0), m_armoryCount(0), m_starportCount(0), m_fusionCoreCount(0)
 , m_techLabCount(0), m_reactorCount(0), m_barracksTechLabCount(0), m_barracksReactorCount(0), m_factoryTechLabCount(0), m_factoryReactorCount(0), m_starportTechLabCount(0), m_starportReactorCount(0)
-, m_commandCenterUnderConstruction(0), m_refineryUnderConstruction(0), m_barracksUnderConstruction(0), m_orbitalCommandUnderConstruction(0), m_engineeringBayUnderConstruction(0), m_bunkerUnderConstruction(0), m_missileTurretUnderConstruction(0), m_sensorTowerUnderConstruction(0), m_planetaryFortressUnderConstruction(0), m_ghostAcademyUnderConstruction(0), m_factoryUnderConstruction(0), m_armoryUnderConstruction(0), m_starportUnderConstruction(0), m_fusionCoreUnderConstruction(0)
+, m_commandCenterUnderConstruction(0), m_refineryUnderConstruction(0), m_barracksUnderConstruction(0), m_orbitalCommandUnderConstruction(0), m_engineeringBayUnderConstruction(0), m_bunkerUnderConstruction(0), m_missileTurretUnderConstruction(0), m_sensorTowerUnderConstruction(0), m_planetaryFortressUnderConstruction(0), m_ghostAcademyUnderConstruction(0), m_factoryUnderConstruction(0), m_armoryUnderConstruction(0), m_starportUnderConstruction(0), m_fusionCoreUnderConstruction(0), m_commandCentreIdleTime(0.0)
 , m_commandCenterInUse(0), m_barracksInUse(0), m_orbitalCommandInUse(0), m_engineeringBayInUse(0), m_bunkerInUse(0), m_missileTurretInUse(0), m_sensorTowerInUse(0), m_planetaryFortressInUse(0), m_ghostAcademyInUse(0), m_factoryInUse(0), m_armoryInUse(0), m_starportInUse(0), m_fusionCoreInUse(0)
 , m_techLabAvailable(0), m_reactorAvailable(0), m_barracksTechLabInUse(0), m_barracksReactorInUse(0), m_factoryTechLabInUse(0), m_factoryReactorInUse(0), m_starportTechLabInUse(0), m_starportReactorInUse(0)
 , m_barracksTechLabUnderConstruction(0), m_barracksReactorUnderConstruction(0), m_factoryTechLabUnderConstruction(0), m_factoryReactorUnderConstruction(0), m_starportTechLabUnderConstruction(0), m_starportReactorUnderConstruction(0)
@@ -20,7 +20,7 @@ CTerranState::CTerranState()
 , m_supply(0), m_supplyCap(0), m_supplyCapUnderConstruction(0)
 , m_mineralIncomeRate(0), m_gasIncomeRate(0)
 {
-	for(size_t i=0; i < 4; i++)
+	for(size_t i=0; i < MAX_ORBITALCOMMAND_ENERGYTRACKING; i++)
 		m_orbitalCommandEnergy[i] = 0;
 }
 
@@ -70,7 +70,7 @@ bool CTerranState::GetResourceWaitTime(const CResourceCost &cost, double &resour
 	}
 
 	double maxNexusEnergy = 0.0;
-	const double *orbitalCommandEnergy = m_orbitalCommandEnergy, *end = m_orbitalCommandEnergy + mymin(m_orbitalCommandCount, (size_t)4);
+	const double *orbitalCommandEnergy = m_orbitalCommandEnergy, *end = m_orbitalCommandEnergy + mymin(m_orbitalCommandCount, (size_t)MAX_ORBITALCOMMAND_ENERGYTRACKING);
 	while(orbitalCommandEnergy < end)
 		maxNexusEnergy = mymax(maxNexusEnergy, *(orbitalCommandEnergy++));
 	double orbitalCommandEnergyRequired = cost.m_orbitalCommandEnergy - maxNexusEnergy;
@@ -95,7 +95,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		UseSCVForBuilding(15, time, events);
 		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnCommandCenter, time + 100));
 		m_commandCenterUnderConstruction++;
-		m_supplyCapUnderConstruction += 11;
+		m_supplyCapUnderConstruction = mymin((size_t)200, m_supplyCapUnderConstruction + 11);
 		break;
 	case eTerranCommandBuildRefinery:
 		if(m_refineryCount + m_refineryUnderConstruction < 2 * m_baseCount)
@@ -109,7 +109,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		UseSCVForBuilding(5, time, events);
 		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnSupplyDepot, time + 30));
 		m_supplyDepotUnderConstruction++;
-		m_supplyCapUnderConstruction += 8;
+		m_supplyCapUnderConstruction = mymin((size_t)200, m_supplyCapUnderConstruction + 8);
 		break;
 	case eTerranCommandBuildBarracksNaked:
 		UseSCVForBuilding(5, time, events);
@@ -158,7 +158,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 	case eTerranCommandBuildPlanetaryFortress:
 		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnPlanetaryFortress, time + 50));
 		m_planetaryFortressUnderConstruction++;
-		m_orbitalCommandInUse++;
+		m_commandCenterInUse++;
 		break;
 	case eTerranCommandBuildGhostAcademy:
 		UseSCVForBuilding(5, time, events);
@@ -455,6 +455,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 	case eTerranCommandCalldownExtraSupplies:
 		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnSupplyDepotExtraSupplies, time + 3));
 		m_supplyDepotExtraSuppliesUnderConstruction++;
+		m_supplyCapUnderConstruction = mymin((size_t)200, m_supplyCapUnderConstruction + 8);
 		break;
 	case eTerranCommandScannerSweep:
 		m_scannerSweepCount++;
@@ -677,7 +678,7 @@ void CTerranState::ProcessEvent(double &time, CLinkedList<CTerranEvent> *&events
 		m_commandCenterUnderConstruction--;
 		m_commandCenterCount++;
 		m_baseCount++;
-		m_supplyCap += 11;
+		m_supplyCap = mymin((size_t)200, m_supplyCap + 11);
 		RecalculateMineralIncomeRate();
 		RecalculateGasIncomeRate();
 		AddEvent(events, CTerranEvent(CTerranEvent::eSCVStartMiningMinerals, time + 2));
@@ -691,13 +692,13 @@ void CTerranState::ProcessEvent(double &time, CLinkedList<CTerranEvent> *&events
 	case CTerranEvent::eSpawnSupplyDepot:
 		m_supplyDepotUnderConstruction--;
 		m_supplyDepotCount++;
-		m_supplyCap += 8;
+		m_supplyCap = mymin((size_t)200, m_supplyCap + 8);
 		AddEvent(events, CTerranEvent(CTerranEvent::eSCVStartMiningMinerals, time + 5));
 		break;
 	case CTerranEvent::eSpawnSupplyDepotExtraSupplies:
 		m_supplyDepotExtraSuppliesUnderConstruction--;
 		m_supplyDepotExtraSuppliesCount++;
-		m_supplyCap += 8;
+		m_supplyCap = mymin((size_t)200, m_supplyCap + 8);
 		break;
 	case CTerranEvent::eSpawnBarracksNaked:
 		m_barracksUnderConstruction--;
@@ -719,7 +720,7 @@ void CTerranState::ProcessEvent(double &time, CLinkedList<CTerranEvent> *&events
 		AddEvent(events, CTerranEvent(CTerranEvent::eSCVStartMiningMinerals, time + 5));
 		break;
 	case CTerranEvent::eSpawnOrbitalCommand:
-		if(m_orbitalCommandCount < 4)
+		if(m_orbitalCommandCount < MAX_ORBITALCOMMAND_ENERGYTRACKING)
 			m_orbitalCommandEnergy[m_orbitalCommandCount] = 50.0;
 		m_commandCenterInUse--;
 		m_orbitalCommandUnderConstruction--;
@@ -1158,6 +1159,27 @@ void CTerranState::ProcessEvent(double &time, CLinkedList<CTerranEvent> *&events
 		m_researchWeaponRefitCompleted = true;
 		m_researchWeaponRefitUnderConstruction = false;
 		break;
+
+	case CTerranEvent::eSendScout:
+		if(m_scvsOnMinerals > 0)
+		{
+			m_scvsOnMinerals--;
+			RecalculateMineralIncomeRate();
+		}
+		else if(m_scvsOnGas > 0)
+		{
+			m_scvsOnGas--;
+			RecalculateGasIncomeRate();
+		}
+		break;
+	case CTerranEvent::eKillScout:
+		m_scvCount--;
+		m_supply--;
+		break;
+	case CTerranEvent::eReturnScout:
+		m_scvsOnMinerals++;
+		RecalculateMineralIncomeRate();
+		break;
 	}
 
 	delete entry;
@@ -1201,6 +1223,7 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
 	case eTerranCommandBuildPlanetaryFortress:
 		return 0 < m_barracksCount + m_barracksUnderConstruction
+			&& 0 < m_engineeringBayCount + m_engineeringBayUnderConstruction
 			&& m_orbitalCommandCount + m_orbitalCommandUnderConstruction + m_planetaryFortressCount + m_planetaryFortressUnderConstruction < m_commandCenterCount + m_commandCenterUnderConstruction;
 	case eTerranCommandBuildGhostAcademy:
 		return 0 < m_barracksCount + m_barracksUnderConstruction
@@ -1276,6 +1299,7 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 			&& m_supply + 1 <= m_supplyCapUnderConstruction;
 	case eTerranCommandBuildGhost:
 		return 0 < m_barracksTechLabCount + m_barracksTechLabUnderConstruction
+			&& 0 < m_ghostAcademyCount + m_ghostAcademyUnderConstruction
 			&& m_supply + 2 <= m_supplyCapUnderConstruction;
 	case eTerranCommandBuildHellion:
 		return 0 < m_factoryCount + m_factoryUnderConstruction
@@ -1328,6 +1352,7 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 			&& m_supply + 3 <= m_supplyCapUnderConstruction;
 	case eTerranCommandBuildBattleCruiser:
 		return 0 < m_starportTechLabCount + m_starportTechLabUnderConstruction
+			&& 0 < m_fusionCoreCount + m_fusionCoreUnderConstruction
 			&& m_supply + 6 <= m_supplyCapUnderConstruction;
 
 	case eTerranCommandCalldownMULE:
@@ -1346,6 +1371,7 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 			&& !m_researchCombatShieldCompleted && !m_researchCombatShieldUnderConstruction;
 	case eTerranCommandResearchNitroPacks:
 		return 0 < m_barracksTechLabCount + m_barracksTechLabUnderConstruction
+			&& 0 < m_factoryCount + m_factoryUnderConstruction
 			&& !m_researchNitroPacksCompleted && !m_researchNitroPacksUnderConstruction;
 	case eTerranCommandResearchConcussiveShells:
 		return 0 < m_barracksTechLabCount + m_barracksTechLabUnderConstruction
@@ -1522,6 +1548,7 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas;
 	case eTerranCommandBuildPlanetaryFortress:
 		return 0 < m_barracksCount
+			&& 0 < m_engineeringBayCount
 			&& m_orbitalCommandCount + m_orbitalCommandUnderConstruction + m_planetaryFortressCount + m_planetaryFortressUnderConstruction < m_commandCenterCount;
 	case eTerranCommandBuildGhostAcademy:
 		return 0 < m_barracksCount
@@ -1599,6 +1626,7 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 			&& m_supply + 1 <= m_supplyCap;
 	case eTerranCommandBuildGhost:
 		return m_barracksTechLabInUse < m_barracksTechLabCount
+			&& 0 < m_ghostAcademyCount
 			&& m_supply + 2 <= m_supplyCap;
 	case eTerranCommandBuildHellion:
 		return (m_factoryInUse < m_factoryCount - m_factoryReactorCount - m_factoryTechLabCount
@@ -1657,6 +1685,7 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 			&& m_supply + 3 <= m_supplyCap;
 	case eTerranCommandBuildBattleCruiser:
 		return m_starportTechLabInUse < m_starportTechLabCount
+			&& 0 < m_fusionCoreCount
 			&& m_supply + 6 <= m_supplyCap;
 
 	case eTerranCommandCalldownMULE:
@@ -1672,7 +1701,8 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 	case eTerranCommandResearchCombatShield:
 		return m_barracksTechLabResearchInUse < m_barracksTechLabCount;
 	case eTerranCommandResearchNitroPacks:
-		return m_barracksTechLabResearchInUse < m_barracksTechLabCount;
+		return m_barracksTechLabResearchInUse < m_barracksTechLabCount
+			&& 0 < m_factoryCount;
 	case eTerranCommandResearchConcussiveShells:
 		return m_barracksTechLabResearchInUse < m_barracksTechLabCount;
 	case eTerranCommandResearchInfantryWeapons1:
@@ -2098,12 +2128,12 @@ void CTerranState::RecalculateSupply()
 
 void CTerranState::RecalculateSupplyCap()
 {
-	m_supplyCap = 11 * m_commandCenterCount + 8 * m_supplyDepotCount + 8 * m_supplyDepotExtraSuppliesCount;
+	m_supplyCap = mymin((size_t)200, 11 * m_commandCenterCount + 8 * m_supplyDepotCount + 8 * m_supplyDepotExtraSuppliesCount);
 }
 
 void CTerranState::RecalculateSupplyCapUnderConstruction()
 {
-	m_supplyCapUnderConstruction = m_supplyCap + 11 * m_commandCenterUnderConstruction + 8 * m_supplyDepotUnderConstruction + 8 * m_supplyDepotExtraSuppliesUnderConstruction;
+	m_supplyCapUnderConstruction = mymin((size_t)200, m_supplyCap + 11 * m_commandCenterUnderConstruction + 8 * m_supplyDepotUnderConstruction + 8 * m_supplyDepotExtraSuppliesUnderConstruction);
 }
 
 void CTerranState::RecalculateMineralIncomeRate()
@@ -2120,12 +2150,13 @@ void CTerranState::ProgressTime(double &time, double duration)
 {
 	m_minerals += m_mineralIncomeRate * duration;
 	m_gas += m_gasIncomeRate * duration;
-	double *orbitalCommandEnergy = m_orbitalCommandEnergy, *end = m_orbitalCommandEnergy + mymin(m_orbitalCommandCount, (size_t)4);
+	double *orbitalCommandEnergy = m_orbitalCommandEnergy, *end = m_orbitalCommandEnergy + mymin(m_orbitalCommandCount, (size_t)MAX_ORBITALCOMMAND_ENERGYTRACKING);
 	while(orbitalCommandEnergy < end)
 	{
 		(*orbitalCommandEnergy) = mymin((*orbitalCommandEnergy) + 0.5625 * duration, 200.0);
 		orbitalCommandEnergy++;
 	}
+	m_commandCentreIdleTime += duration * (m_commandCenterCount - m_commandCenterInUse);
 	time += duration;
 }
 
@@ -2179,7 +2210,7 @@ bool CTerranState::HasResources(const CResourceCost &cost) const
 	if(cost.m_orbitalCommandEnergy > 0)
 	{
 		double maxNexusEnergy = 0;
-		const double *orbitalCommandEnergy = m_orbitalCommandEnergy, *end = m_orbitalCommandEnergy + mymin(m_orbitalCommandCount, (size_t)4);
+		const double *orbitalCommandEnergy = m_orbitalCommandEnergy, *end = m_orbitalCommandEnergy + mymin(m_orbitalCommandCount, (size_t)MAX_ORBITALCOMMAND_ENERGYTRACKING);
 		while(orbitalCommandEnergy < end && maxNexusEnergy <= cost.m_orbitalCommandEnergy)
 			maxNexusEnergy = mymax(maxNexusEnergy, *(orbitalCommandEnergy++));
 		if(maxNexusEnergy < cost.m_orbitalCommandEnergy)
@@ -2195,7 +2226,7 @@ void CTerranState::SpendResources(const CResourceCost &cost)
 	m_gas -= cost.m_gas;
 	if(cost.m_orbitalCommandEnergy > 0)
 	{
-		double *orbitalCommandEnergy = m_orbitalCommandEnergy, *end = m_orbitalCommandEnergy + mymin(m_orbitalCommandCount, (size_t)4), *best = m_orbitalCommandEnergy;
+		double *orbitalCommandEnergy = m_orbitalCommandEnergy, *end = m_orbitalCommandEnergy + mymin(m_orbitalCommandCount, (size_t)MAX_ORBITALCOMMAND_ENERGYTRACKING), *best = m_orbitalCommandEnergy;
 		while(orbitalCommandEnergy < end)
 		{
 			if(*orbitalCommandEnergy > *best)

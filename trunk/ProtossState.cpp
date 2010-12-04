@@ -9,7 +9,7 @@
 CProtossState::CProtossState()
 : m_minerals(0), m_gas(0)
 , m_nexusCount(0), m_pylonCount(0), m_assimilatorCount(0), m_gatewayCount(0), m_warpGateCount(0), m_forgeCount(0), m_photonCannonCount(0), m_cyberneticsCoreCount(0), m_twilightCouncilCount(0), m_templarArchivesCount(0), m_darkShrineCount(0), m_roboticsFacilityCount(0), m_roboticsBayCount(0), m_stargateCount(0), m_fleetBeaconCount(0)
-, m_nexusUnderConstruction(0), m_assimilatorUnderConstruction(0), m_pylonUnderConstruction(0), m_gatewayUnderConstruction(0), m_warpGateUnderConstruction(0), m_photonCannonUnderConstruction(0), m_forgeUnderConstruction(0), m_cyberneticsCoreUnderConstruction(0), m_twilightCouncilUnderConstruction(0), m_templarArchivesUnderConstruction(0), m_darkShrineUnderConstruction(0), m_roboticsFacilityUnderConstruction(0), m_roboticsBayUnderConstruction(0), m_stargateUnderConstruction(0), m_fleetBeaconUnderConstruction(0)
+, m_nexusUnderConstruction(0), m_assimilatorUnderConstruction(0), m_pylonUnderConstruction(0), m_gatewayUnderConstruction(0), m_warpGateUnderConstruction(0), m_photonCannonUnderConstruction(0), m_forgeUnderConstruction(0), m_cyberneticsCoreUnderConstruction(0), m_twilightCouncilUnderConstruction(0), m_templarArchivesUnderConstruction(0), m_darkShrineUnderConstruction(0), m_roboticsFacilityUnderConstruction(0), m_roboticsBayUnderConstruction(0), m_stargateUnderConstruction(0), m_fleetBeaconUnderConstruction(0), m_nexusIdleTime(0.0)
 , m_nexusInUse(0), m_gatewayInUse(0), m_warpGateOnCooldown(0), m_forgeInUse(0), m_cyberneticsCoreInUse(0), m_twilightCouncilInUse(0), m_templarArchivesInUse(0), m_darkShrineInUse(0), m_roboticsFacilityInUse(0), m_roboticsBayInUse(0), m_stargateInUse(0), m_fleetBeaconInUse(0)
 , m_nexusChronoCount(0), m_gatewayChronoCount(0), m_warpGateChronoCount(0), m_forgeChronoCount(0), m_cyberneticsCoreChronoCount(0), m_twilightCouncilChronoCount(0), m_templarArchivesChronoCount(0), m_darkShrineChronoCount(0), m_roboticsFacilityChronoCount(0), m_roboticsBayChronoCount(0), m_stargateChronoCount(0), m_fleetBeaconChronoCount(0)
 , m_nexusChronoAvailable(0), m_gatewayChronoAvailable(0), m_warpGateChronoAvailable(0), m_forgeChronoAvailable(0), m_cyberneticsCoreChronoAvailable(0), m_twilightCouncilChronoAvailable(0), m_templarArchivesChronoAvailable(0), m_darkShrineChronoAvailable(0), m_roboticsFacilityChronoAvailable(0), m_roboticsBayChronoAvailable(0), m_stargateChronoAvailable(0), m_fleetBeaconChronoAvailable(0)
@@ -131,13 +131,13 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 		UseProbeForBuilding(30, time, events);
 		AddEvent(events, CProtossEvent(CProtossEvent::eSpawnNexus, time + 100));
 		m_nexusUnderConstruction++;
-		m_supplyCapUnderConstruction = mymin(m_supplyCapUnderConstruction + 10, (size_t)200);
+		m_supplyCapUnderConstruction = mymin((size_t)200, m_supplyCapUnderConstruction + 10);
 		break;
 	case eProtossCommandBuildPylon:
 		UseProbeForBuilding(10, time, events);
 		AddEvent(events, CProtossEvent(CProtossEvent::eSpawnPylon, time + 25));
 		m_pylonUnderConstruction++;
-		m_supplyCapUnderConstruction = mymin(m_supplyCapUnderConstruction + 8, (size_t)200);
+		m_supplyCapUnderConstruction = mymin((size_t)200, m_supplyCapUnderConstruction + 8);
 		break;
 	case eProtossCommandBuildAssimilator:
 		UseProbeForBuilding(4, time, events);
@@ -1354,7 +1354,7 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 		m_nexusUnderConstruction--;
 		m_nexusCount++;
 		RecalculateMineralIncomeRate();
-		m_supplyCap = mymin(m_supplyCap + 10, (size_t)200);
+		m_supplyCap = mymin((size_t)200, m_supplyCap + 10);
 		break;
 	case CProtossEvent::eSpawnAssimilator:
 		m_assimilatorUnderConstruction--;
@@ -1364,7 +1364,7 @@ void CProtossState::ProcessEvent(double &time, CLinkedList<CProtossEvent> *&even
 	case CProtossEvent::eSpawnPylon:
 		m_pylonUnderConstruction--;
 		m_pylonCount++;
-		m_supplyCap = mymin(m_supplyCap + 8, (size_t)200);
+		m_supplyCap = mymin((size_t)200, m_supplyCap + 8);
 		break;
 	case CProtossEvent::eSpawnGateway:
 		m_gatewayUnderConstruction--;
@@ -2999,6 +2999,7 @@ void CProtossState::ProgressTime(double &time, double duration)
 		(*nexusEnergy) = mymin((*nexusEnergy) + 0.5625 * duration, 100.0);
 		nexusEnergy++;
 	}
+	m_nexusIdleTime += (m_nexusCount - m_nexusInUse) * duration;
 	time += duration;
 }
 

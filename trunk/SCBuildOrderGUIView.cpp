@@ -436,7 +436,7 @@ void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 
 		output->GetScrollRange(SB_VERT, &scrollMin, &scrollMax);
 		//output->SetScrollPos(SB_VERT, (int)(scrollPercent * (scrollMax - scrollMin)) + scrollMin);
-		output->LineScroll(output->GetLineCount() * scrollPercent);
+		output->LineScroll((int)(output->GetLineCount() * scrollPercent));
 	}
 }
 
