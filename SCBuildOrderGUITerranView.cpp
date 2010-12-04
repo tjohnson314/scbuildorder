@@ -131,7 +131,6 @@ void CSCBuildOrderGUITerranView::StartEngine()
 	m_terranEngine->AddSeed(m_bestBuildOrder);
 	m_bestBuildOrder = CVector<ETerranCommand>();
 
-	/*
 	if(m_settingsDlg->GetScoutingWorker())
 	{
 		m_terranEngine->AddCustomEvent(CTerranEvent(CTerranEvent::eSendScout, m_settingsDlg->GetScoutingWorkerTime()));
@@ -140,7 +139,6 @@ void CSCBuildOrderGUITerranView::StartEngine()
 		else if(m_settingsDlg->GetScoutingWorkerReturns())
 			m_terranEngine->AddCustomEvent(CTerranEvent(CTerranEvent::eReturnScout, m_settingsDlg->GetScoutingWorkerEndTime()));
 	}
-	*/
 
 	m_terranEngine->Start();
 }

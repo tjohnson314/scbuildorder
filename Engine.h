@@ -172,7 +172,7 @@ void CSimulatorEngine<TTarget, TState, TCommand, TEvent>::Execute()
 		m_villages[i]->Start();
 
 	m_city = new CGAPopulation<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue>(*m_config, 1000);
-	m_city->Initialise(200, 4, 8);
+	m_city->Initialise(500, 20, 40);
 
 	for(size_t i=0; i < m_seeds.size(); i++)
 		m_city->AddChromosome(*m_seeds[i]);

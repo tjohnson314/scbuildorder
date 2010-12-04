@@ -111,6 +111,9 @@ double CProtossTarget::targetValue(const CProtossState &state, double time, bool
 	if(m_researchGravitonCatapultCompleted && state.m_researchGravitonCatapultCompleted)
 		value += 450;
 
+	if(m_constantProbeProduction)
+		value -= state.m_nexusIdleTime; // TODO: Add leeway for Nexus being chrono boosted
+
 	return value;
 }
 
@@ -118,13 +121,13 @@ double CProtossTarget::targetTimePenalty(const CProtossState &state, double time
 {
 	double value = 0.0;
 
-	if(m_constantProbeProduction)
+/*	if(m_constantProbeProduction)
 	{
 		size_t expectedProbes = (size_t)(time / 11.0);
 		if(expectedProbes > state.m_probeCount && state.m_probeCount > m_probeCount)
 			value += (expectedProbes - state.m_probeCount) * 3.0;
 	}
-
+*/
 	return value;
 }
 

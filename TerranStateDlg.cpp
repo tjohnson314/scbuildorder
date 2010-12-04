@@ -52,6 +52,7 @@ void CTerranStateDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_REACTORCOUNT, m_terranTarget.m_reactorCount);
 
 	DDX_Text(pDX, IDC_EDIT_SCVCOUNT, m_terranTarget.m_scvCount);
+	DDX_Check(pDX, IDC_CHECK_CONSTANTSCVPRODUCTION, m_terranTarget.m_constantSCVProduction);
 	DDX_Text(pDX, IDC_EDIT_MARINECOUNT, m_terranTarget.m_marineCount);
 	DDX_Text(pDX, IDC_EDIT_MARAUDERCOUNT, m_terranTarget.m_marauderCount);
 	DDX_Text(pDX, IDC_EDIT_REAPERCOUNT, m_terranTarget.m_reaperCount);

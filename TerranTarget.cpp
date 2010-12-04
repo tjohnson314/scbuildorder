@@ -5,7 +5,7 @@ CTerranTarget::CTerranTarget()
 : m_minerals(0), m_gas(0), m_orbitalCommandEnergy(0)
 , m_commandCenterCount(0), m_refineryCount(0), m_supplyDepotCount(0), m_barracksCount(0), m_orbitalCommandCount(0), m_engineeringBayCount(0), m_bunkerCount(0), m_missileTurretCount(0), m_sensorTowerCount(0), m_planetaryFortressCount(0), m_ghostAcademyCount(0), m_factoryCount(0), m_armoryCount(0), m_starportCount(0), m_fusionCoreCount(0)
 , m_techLabCount(0), m_reactorCount(0)
-, m_scvCount(0), m_marineCount(0), m_marauderCount(0), m_reaperCount(0), m_ghostCount(0), m_hellionCount(0), m_siegeTankCount(0), m_thorCount(0), m_vikingCount(0), m_medivacCount(0), m_ravenCount(0), m_bansheeCount(0), m_battleCruiserCount(0), m_scannerSweepCount(0)
+, m_constantSCVProduction(false), m_scvCount(0), m_marineCount(0), m_marauderCount(0), m_reaperCount(0), m_ghostCount(0), m_hellionCount(0), m_siegeTankCount(0), m_thorCount(0), m_vikingCount(0), m_medivacCount(0), m_ravenCount(0), m_bansheeCount(0), m_battleCruiserCount(0), m_scannerSweepCount(0)
 , m_researchStimpackCompleted(false), m_researchCombatShieldCompleted(false), m_researchNitroPacksCompleted(false), m_researchConcussiveShellsCompleted(false), m_researchInfantryWeapons1Completed(false), m_researchInfantryWeapons2Completed(false), m_researchInfantryWeapons3Completed(false), m_researchInfantryArmor1Completed(false), m_researchInfantryArmor2Completed(false), m_researchInfantryArmor3Completed(false), m_researchBuildingArmorCompleted(false), m_researchHiSecAutoTrackingCompleted(false), m_researchNeoSteelFrameCompleted(false), m_researchMoebiusReactorCompleted(false), m_researchPersonalCloakingCompleted(false), m_researchInfernalPreIgniterCompleted(false), m_researchSiegeTechCompleted(false), m_researchDurableMaterialsCompleted(false), m_research250mmStrikeCannonsCompleted(false), m_researchVehicleWeapons1Completed(false), m_researchVehicleWeapons2Completed(false), m_researchVehicleWeapons3Completed(false), m_researchVehiclePlating1Completed(false), m_researchVehiclePlating2Completed(false), m_researchVehiclePlating3Completed(false), m_researchShipWeapons1Completed(false), m_researchShipWeapons2Completed(false), m_researchShipWeapons3Completed(false), m_researchShipPlating1Completed(false), m_researchShipPlating2Completed(false), m_researchShipPlating3Completed(false), m_researchCorvidReactorCompleted(false), m_researchCaduceusReactorCompleted(false), m_researchSeekerMissileCompleted(false), m_researchCloakingFieldCompleted(false), m_researchBehemothReactorCompleted(false), m_researchWeaponRefitCompleted(false)
 {
 }
@@ -134,6 +134,9 @@ double CTerranTarget::targetValue(const CTerranState &state, double time, bool b
 		value += 450;
 	if(m_researchWeaponRefitCompleted && state.m_researchWeaponRefitCompleted)
 		value += 450;
+
+	if(m_constantSCVProduction)
+		value -= state.m_commandCentreIdleTime;
 
 	return value;
 }
@@ -610,7 +613,7 @@ void CTerranTarget::AddRequirements()
 	if(m_factoryCount == 0
 		&& (m_armoryCount > 0 || m_starportCount > 0
 			|| m_hellionCount > 0 || m_siegeTankCount > 0 || m_thorCount > 0
-			|| m_researchInfernalPreIgniterCompleted || m_researchSiegeTechCompleted || m_researchDurableMaterialsCompleted || m_research250mmStrikeCannonsCompleted))
+			|| m_researchNitroPacksCompleted || m_researchInfernalPreIgniterCompleted || m_researchSiegeTechCompleted || m_researchDurableMaterialsCompleted || m_research250mmStrikeCannonsCompleted))
 		m_factoryCount++;
 
 	if(m_ghostAcademyCount == 0
@@ -736,8 +739,7 @@ void CTerranTarget::BuildAlphabet(CVector<ETerranCommand> &alphabet) const
 		alphabet.push_back(eTerranCommandMoveSCVToMinerals);
 	}
 
-	if(m_supplyDepotCount > 0)
-		alphabet.push_back(eTerranCommandBuildSupplyDepot);
+	alphabet.push_back(eTerranCommandBuildSupplyDepot);
 
 	alphabet.push_back(eTerranCommandBuildBarracksNaked);
 	alphabet.push_back(eTerranCommandBuildOrbitalCommand); // Always try this to test possible use of MULEs & extra supply

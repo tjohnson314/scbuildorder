@@ -1,5 +1,7 @@
 #pragma once
 
+#define MAX_ORBITALCOMMAND_ENERGYTRACKING 20
+
 #include <stdio.h>
 #include "TerranCommand.h"
 #include "TerranEvent.h"
@@ -57,7 +59,7 @@ public:
 	// Resources
 	double m_minerals;
 	double m_gas;
-	double m_orbitalCommandEnergy[4]; // Only going to store energy for 4 nexi
+	double m_orbitalCommandEnergy[MAX_ORBITALCOMMAND_ENERGYTRACKING]; // Only going to store energy for MAX_ORBITALCOMMAND_ENERGYTRACKING orbital commands
 
 	// Buildings
 	size_t m_baseCount;
@@ -143,6 +145,8 @@ public:
 
 	size_t m_ghostAcademyNukeCount;
 	size_t m_ghostAcademyNukeUnderConstruction;
+
+	double m_commandCentreIdleTime;
 
 	// Units
 	size_t m_scvCount;

@@ -51,6 +51,8 @@ public:
 	size_t m_reactorCount;
 
 	// Units
+	bool m_constantSCVProduction;
+
 	size_t m_scvCount;
 	size_t m_marineCount;
 	size_t m_marauderCount;

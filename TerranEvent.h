@@ -5,8 +5,10 @@ class CTerranEvent
 public:
 	enum EEvent
 	{
+		eNone
+
 		// Buildings
-		eSpawnCommandCenter
+		, eSpawnCommandCenter
 		, eSpawnRefinery
 		, eSpawnSupplyDepot
 		, eSpawnSupplyDepotExtraSupplies
@@ -105,8 +107,13 @@ public:
 		// Misc
 		, eSCVStartMiningMinerals
 		, eSCVStartMiningGas
+
+		, eSendScout
+		, eKillScout
+		, eReturnScout
 	};
 
+	CTerranEvent() : m_event(eNone), m_time(0) {}
 	CTerranEvent(EEvent event, double time) : m_event(event), m_time(time) {}
 
 	void event(EEvent event) { m_event = event; }

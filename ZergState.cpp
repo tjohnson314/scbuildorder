@@ -98,7 +98,7 @@ void CZergState::ExecuteCommand(double &time, double timeLimit, EZergCommand com
 		UseDroneForBuilding(15, time, events);
 		AddEvent(events, CZergEvent(CZergEvent::eSpawnHatchery, time + 100));
 		m_hatcheryUnderConstruction++;
-		m_supplyCapUnderConstruction += 2.0;
+		m_supplyCapUnderConstruction = mymin((double)200.0, m_supplyCapUnderConstruction + 2.0);
 		break;
 	case eZergCommandBuildExtractor:
 		if(m_extractorCount + m_extractorUnderConstruction < 2 * m_baseCount)
@@ -243,7 +243,7 @@ void CZergState::ExecuteCommand(double &time, double timeLimit, EZergCommand com
 		AddEvent(events, CZergEvent(CZergEvent::eSpawnOverlord, time + 25));
 		m_overlordUnderConstruction++;
 		ConsumeLarva(time, events);
-		m_supplyCapUnderConstruction += 8;
+		m_supplyCapUnderConstruction = mymin((double)200.0, m_supplyCapUnderConstruction + 8.0);
 		break;
 	case eZergCommandBuildQueen:
 		AddEvent(events, CZergEvent(CZergEvent::eSpawnQueen, time + 50));
@@ -514,7 +514,7 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 		m_hatcheryUnderConstruction--;
 		m_hatcheryCount++;
 		m_baseCount++;
-		m_supplyCap += 2.0;
+		m_supplyCap = mymin((double)200.0, m_supplyCap + 2.0);
 		RecalculateMineralIncomeRate();
 		RecalculateGasIncomeRate();
 		if(m_baseCount == 2)
@@ -706,7 +706,7 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 	case CZergEvent::eSpawnOverlord:
 		m_overlordCount++;
 		m_overlordUnderConstruction--;
-		RecalculateSupplyCap();
+		m_supplyCap = mymin((double)200.0, m_supplyCap + 8.0);
 		break;
 	case CZergEvent::eSpawnQueen:
 		m_hatcheryInUse--;
@@ -900,6 +900,27 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 		m_researchChitinousPlatingCompleted = true;
 		m_researchChitinousPlatingUnderConstruction = false;
 		m_ultraliskCavernInUse--;
+		break;
+
+	case CZergEvent::eSendScout:
+		if(m_dronesOnMinerals > 0)
+		{
+			m_dronesOnMinerals--;
+			RecalculateMineralIncomeRate();
+		}
+		else if(m_dronesOnGas > 0)
+		{
+			m_dronesOnGas--;
+			RecalculateGasIncomeRate();
+		}
+		break;
+	case CZergEvent::eKillScout:
+		m_droneCount--;
+		m_supply--;
+		break;
+	case CZergEvent::eReturnScout:
+		m_dronesOnMinerals++;
+		RecalculateMineralIncomeRate();
 		break;
 	}
 

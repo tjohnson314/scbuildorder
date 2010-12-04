@@ -31,7 +31,7 @@ public:
 	void Run(); // Only call from static member above
 
 protected:
-	void Initialise() { m_evolution = 0; m_population->Initialise(m_initialPopulation, 4, 8); }
+	void Initialise() { m_evolution = 0; m_population->Initialise(m_initialPopulation, 20, 40); }
 
 	const CGAConfiguration<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue> &m_config;
 	CGAPopulation<TCommand, CFitnessCalc<TTarget, TState, TCommand, TEvent>, CFitnessValue> *m_population;
