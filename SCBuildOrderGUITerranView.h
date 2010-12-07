@@ -49,7 +49,7 @@ protected:
 protected:
 	CTerranEngine *m_terranEngine;
 
-	virtual void StartEngine();
+	virtual bool StartEngine();
 	virtual void StopEngine();
 
 	CVector<ETerranCommand> m_bestBuildOrder;
@@ -60,6 +60,7 @@ protected:
 
 	virtual const CEngine *GetEngine() const { return m_terranEngine; }
 	virtual bool UpdateBestBuildOrder();
+	virtual void PrintBestGame(EOutputFormat format, CString &text) const;
 	virtual CDialog *GetTargetDlg(int index) { return m_waypointDlgs[index]; }
 };
 

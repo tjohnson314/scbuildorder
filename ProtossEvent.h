@@ -1,4 +1,5 @@
 #pragma once
+#include "OutputFormat.h"
 
 class CProtossEvent
 {
@@ -35,7 +36,6 @@ public:
 		, eChronoCyberneticsCoreEnd
 		, eChronoTwilightCouncilEnd
 		, eChronoTemplarArchivesEnd
-		, eChronoDarkShrineEnd
 		, eChronoRoboticsFacilityEnd
 		, eChronoRoboticsBayEnd
 		, eChronoStargateEnd
@@ -157,3 +157,7 @@ protected:
 	EEvent m_event;
 	double m_time;
 };
+
+const WCHAR *tostring(EOutputFormat format, CProtossEvent::EEvent event);
+
+bool DisplayEvent(EOutputFormat format, CProtossEvent::EEvent event);

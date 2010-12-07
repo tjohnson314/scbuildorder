@@ -1,4 +1,5 @@
 #pragma once
+#include "OutputFormat.h"
 
 class CZergEvent
 {
@@ -104,3 +105,7 @@ protected:
 	EEvent m_event;
 	double m_time;
 };
+
+const WCHAR *tostring(EOutputFormat format, CZergEvent::EEvent event);
+
+bool DisplayEvent(EOutputFormat format, CZergEvent::EEvent event);

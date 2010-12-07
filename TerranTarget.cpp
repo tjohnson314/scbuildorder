@@ -4,9 +4,9 @@
 CTerranTarget::CTerranTarget()
 : m_minerals(0), m_gas(0), m_orbitalCommandEnergy(0)
 , m_commandCenterCount(0), m_refineryCount(0), m_supplyDepotCount(0), m_barracksCount(0), m_orbitalCommandCount(0), m_engineeringBayCount(0), m_bunkerCount(0), m_missileTurretCount(0), m_sensorTowerCount(0), m_planetaryFortressCount(0), m_ghostAcademyCount(0), m_factoryCount(0), m_armoryCount(0), m_starportCount(0), m_fusionCoreCount(0)
-, m_techLabCount(0), m_reactorCount(0)
+, m_techLabCount(0), m_reactorCount(0), m_ghostAcademyNukeCount(0)
 , m_constantSCVProduction(false), m_scvCount(0), m_marineCount(0), m_marauderCount(0), m_reaperCount(0), m_ghostCount(0), m_hellionCount(0), m_siegeTankCount(0), m_thorCount(0), m_vikingCount(0), m_medivacCount(0), m_ravenCount(0), m_bansheeCount(0), m_battleCruiserCount(0), m_scannerSweepCount(0)
-, m_researchStimpackCompleted(false), m_researchCombatShieldCompleted(false), m_researchNitroPacksCompleted(false), m_researchConcussiveShellsCompleted(false), m_researchInfantryWeapons1Completed(false), m_researchInfantryWeapons2Completed(false), m_researchInfantryWeapons3Completed(false), m_researchInfantryArmor1Completed(false), m_researchInfantryArmor2Completed(false), m_researchInfantryArmor3Completed(false), m_researchBuildingArmorCompleted(false), m_researchHiSecAutoTrackingCompleted(false), m_researchNeoSteelFrameCompleted(false), m_researchMoebiusReactorCompleted(false), m_researchPersonalCloakingCompleted(false), m_researchInfernalPreIgniterCompleted(false), m_researchSiegeTechCompleted(false), m_researchDurableMaterialsCompleted(false), m_research250mmStrikeCannonsCompleted(false), m_researchVehicleWeapons1Completed(false), m_researchVehicleWeapons2Completed(false), m_researchVehicleWeapons3Completed(false), m_researchVehiclePlating1Completed(false), m_researchVehiclePlating2Completed(false), m_researchVehiclePlating3Completed(false), m_researchShipWeapons1Completed(false), m_researchShipWeapons2Completed(false), m_researchShipWeapons3Completed(false), m_researchShipPlating1Completed(false), m_researchShipPlating2Completed(false), m_researchShipPlating3Completed(false), m_researchCorvidReactorCompleted(false), m_researchCaduceusReactorCompleted(false), m_researchSeekerMissileCompleted(false), m_researchCloakingFieldCompleted(false), m_researchBehemothReactorCompleted(false), m_researchWeaponRefitCompleted(false)
+, m_researchStimpackCompleted(false), m_researchCombatShieldCompleted(false), m_researchNitroPacksCompleted(false), m_researchConcussiveShellsCompleted(false), m_researchInfantryWeapons1Completed(false), m_researchInfantryWeapons2Completed(false), m_researchInfantryWeapons3Completed(false), m_researchInfantryArmor1Completed(false), m_researchInfantryArmor2Completed(false), m_researchInfantryArmor3Completed(false), m_researchBuildingArmorCompleted(false), m_researchHiSecAutoTrackingCompleted(false), m_researchNeoSteelFrameCompleted(false), m_researchMoebiusReactorCompleted(false), m_researchPersonalCloakingCompleted(false), m_researchInfernalPreIgniterCompleted(false), m_researchSiegeTechCompleted(false), m_research250mmStrikeCannonsCompleted(false), m_researchVehicleWeapons1Completed(false), m_researchVehicleWeapons2Completed(false), m_researchVehicleWeapons3Completed(false), m_researchVehiclePlating1Completed(false), m_researchVehiclePlating2Completed(false), m_researchVehiclePlating3Completed(false), m_researchShipWeapons1Completed(false), m_researchShipWeapons2Completed(false), m_researchShipWeapons3Completed(false), m_researchShipPlating1Completed(false), m_researchShipPlating2Completed(false), m_researchShipPlating3Completed(false), m_researchDurableMaterialsCompleted(false), m_researchCorvidReactorCompleted(false), m_researchCaduceusReactorCompleted(false), m_researchSeekerMissileCompleted(false), m_researchCloakingFieldCompleted(false), m_researchBehemothReactorCompleted(false), m_researchWeaponRefitCompleted(false)
 {
 }
 
@@ -45,6 +45,7 @@ double CTerranTarget::targetValue(const CTerranState &state, double time, bool b
 
 	value += mymin(m_techLabCount, state.m_techLabCount) * 100;
 	value += mymin(m_reactorCount, state.m_reactorCount) * 150;
+	value += mymin(m_ghostAcademyNukeCount, state.m_ghostAcademyNukeCount) * 300;
 
 	value += mymin(m_scvCount, state.m_scvCount) * 50;
 	value += mymin(m_marineCount, state.m_marineCount) * 50;
@@ -94,8 +95,6 @@ double CTerranTarget::targetValue(const CTerranState &state, double time, bool b
 		value += 450;
 	if(m_researchSiegeTechCompleted && state.m_researchSiegeTechCompleted)
 		value += 300;
-	if(m_researchDurableMaterialsCompleted && state.m_researchDurableMaterialsCompleted)
-		value += 450;
 	if(m_research250mmStrikeCannonsCompleted && state.m_research250mmStrikeCannonsCompleted)
 		value += 450;
 	if(m_researchVehicleWeapons1Completed && state.m_researchVehicleWeapons1Completed)
@@ -122,6 +121,8 @@ double CTerranTarget::targetValue(const CTerranState &state, double time, bool b
 		value += 675;
 	if(m_researchShipPlating3Completed && state.m_researchShipPlating3Completed)
 		value += 900;
+	if(m_researchDurableMaterialsCompleted && state.m_researchDurableMaterialsCompleted)
+		value += 450;
 	if(m_researchCorvidReactorCompleted && state.m_researchCorvidReactorCompleted)
 		value += 450;
 	if(m_researchCaduceusReactorCompleted && state.m_researchCaduceusReactorCompleted)
@@ -206,6 +207,8 @@ double CTerranTarget::extraValue(const CTerranState &state) const
 		value += (state.m_techLabCount - m_techLabCount) * 100;
 	if(state.m_reactorCount > m_reactorCount)
 		value += (state.m_reactorCount - m_reactorCount) * 150;
+	if(state.m_ghostAcademyNukeCount > m_ghostAcademyNukeCount)
+		value += (state.m_ghostAcademyNukeCount - m_ghostAcademyNukeCount) * 300;
 
 	if(state.m_scvCount > m_scvCount)
 		value += (state.m_scvCount - m_scvCount) * 50;
@@ -268,8 +271,6 @@ double CTerranTarget::extraValue(const CTerranState &state) const
 		value += 450;
 	if(state.m_researchSiegeTechCompleted && !m_researchSiegeTechCompleted)
 		value += 300;
-	if(state.m_researchDurableMaterialsCompleted && !m_researchDurableMaterialsCompleted)
-		value += 450;
 	if(state.m_research250mmStrikeCannonsCompleted && !m_research250mmStrikeCannonsCompleted)
 		value += 450;
 	if(state.m_researchVehicleWeapons1Completed && !m_researchVehicleWeapons1Completed)
@@ -296,6 +297,8 @@ double CTerranTarget::extraValue(const CTerranState &state) const
 		value += 675;
 	if(state.m_researchShipPlating3Completed && !m_researchShipPlating3Completed)
 		value += 900;
+	if(state.m_researchDurableMaterialsCompleted && !m_researchDurableMaterialsCompleted)
+		value += 450;
 	if(state.m_researchCorvidReactorCompleted && !m_researchCorvidReactorCompleted)
 		value += 450;
 	if(state.m_researchCaduceusReactorCompleted && !m_researchCaduceusReactorCompleted)
@@ -336,6 +339,7 @@ bool CTerranTarget::hasTarget() const
 
 	if(0 < m_techLabCount) return true;
 	if(0 < m_reactorCount) return true;
+	if(0 < m_ghostAcademyNukeCount) return true;
 
 	if(0 < m_scvCount) return true;
 	if(0 < m_marineCount) return true;
@@ -368,7 +372,6 @@ bool CTerranTarget::hasTarget() const
 	if(m_researchPersonalCloakingCompleted) return true;
 	if(m_researchInfernalPreIgniterCompleted) return true;
 	if(m_researchSiegeTechCompleted) return true;
-	if(m_researchDurableMaterialsCompleted) return true;
 	if(m_research250mmStrikeCannonsCompleted) return true;
 	if(m_researchVehicleWeapons1Completed) return true;
 	if(m_researchVehicleWeapons2Completed) return true;
@@ -382,6 +385,7 @@ bool CTerranTarget::hasTarget() const
 	if(m_researchShipPlating1Completed) return true;
 	if(m_researchShipPlating2Completed) return true;
 	if(m_researchShipPlating3Completed) return true;
+	if(m_researchDurableMaterialsCompleted) return true;
 	if(m_researchCorvidReactorCompleted) return true;
 	if(m_researchCaduceusReactorCompleted) return true;
 	if(m_researchSeekerMissileCompleted) return true;
@@ -440,6 +444,8 @@ bool CTerranTarget::satisfiesTarget(const CTerranState &state) const
 	if(state.m_techLabCount < m_techLabCount)
 		return false;
 	if(state.m_reactorCount < m_reactorCount)
+		return false;
+	if(state.m_ghostAcademyNukeCount < m_ghostAcademyNukeCount)
 		return false;
 
 	if(state.m_scvCount < m_scvCount)
@@ -503,8 +509,6 @@ bool CTerranTarget::satisfiesTarget(const CTerranState &state) const
 		return false;
 	if(m_researchSiegeTechCompleted && !state.m_researchSiegeTechCompleted)
 		return false;
-	if(m_researchDurableMaterialsCompleted && !state.m_researchDurableMaterialsCompleted)
-		return false;
 	if(m_research250mmStrikeCannonsCompleted && !state.m_research250mmStrikeCannonsCompleted)
 		return false;
 	if(m_researchVehicleWeapons1Completed && !state.m_researchVehicleWeapons1Completed)
@@ -531,6 +535,8 @@ bool CTerranTarget::satisfiesTarget(const CTerranState &state) const
 		return false;
 	if(m_researchShipPlating3Completed && !state.m_researchShipPlating3Completed)
 		return false;
+	if(m_researchDurableMaterialsCompleted && !state.m_researchDurableMaterialsCompleted)
+		return false;
 	if(m_researchCorvidReactorCompleted && !state.m_researchCorvidReactorCompleted)
 		return false;
 	if(m_researchCaduceusReactorCompleted && !state.m_researchCaduceusReactorCompleted)
@@ -551,7 +557,7 @@ void CTerranTarget::AddRequirements()
 {
 	if(m_techLabCount == 0
 		&& (m_marauderCount > 0 || m_reaperCount > 0 || m_ghostCount > 0 || m_siegeTankCount > 0 || m_thorCount > 0 || m_ravenCount > 0 || m_bansheeCount > 0 || m_battleCruiserCount > 0
-			|| m_researchStimpackCompleted || m_researchCombatShieldCompleted || m_researchNitroPacksCompleted || m_researchConcussiveShellsCompleted || m_researchInfernalPreIgniterCompleted || m_researchSiegeTechCompleted || m_researchDurableMaterialsCompleted || m_research250mmStrikeCannonsCompleted || m_researchCorvidReactorCompleted || m_researchCaduceusReactorCompleted || m_researchSeekerMissileCompleted || m_researchCloakingFieldCompleted))
+			|| m_researchStimpackCompleted || m_researchCombatShieldCompleted || m_researchNitroPacksCompleted || m_researchConcussiveShellsCompleted || m_researchInfernalPreIgniterCompleted || m_researchSiegeTechCompleted || m_research250mmStrikeCannonsCompleted || m_researchDurableMaterialsCompleted || m_researchCorvidReactorCompleted || m_researchCaduceusReactorCompleted || m_researchSeekerMissileCompleted || m_researchCloakingFieldCompleted))
 		m_techLabCount++;
 
 	if(m_fusionCoreCount == 0
@@ -562,7 +568,7 @@ void CTerranTarget::AddRequirements()
 	if(m_starportCount == 0
 		&& (m_fusionCoreCount > 0
 			|| m_vikingCount > 0 || m_medivacCount > 0 || m_ravenCount > 0 || m_bansheeCount > 0
-			|| m_researchCorvidReactorCompleted || m_researchCaduceusReactorCompleted || m_researchSeekerMissileCompleted || m_researchCloakingFieldCompleted))
+			|| m_researchDurableMaterialsCompleted || m_researchCorvidReactorCompleted || m_researchCaduceusReactorCompleted || m_researchSeekerMissileCompleted || m_researchCloakingFieldCompleted))
 		m_starportCount++;
 
 	if(!m_researchVehicleWeapons2Completed
@@ -613,8 +619,11 @@ void CTerranTarget::AddRequirements()
 	if(m_factoryCount == 0
 		&& (m_armoryCount > 0 || m_starportCount > 0
 			|| m_hellionCount > 0 || m_siegeTankCount > 0 || m_thorCount > 0
-			|| m_researchNitroPacksCompleted || m_researchInfernalPreIgniterCompleted || m_researchSiegeTechCompleted || m_researchDurableMaterialsCompleted || m_research250mmStrikeCannonsCompleted))
+			|| m_researchNitroPacksCompleted || m_researchInfernalPreIgniterCompleted || m_researchSiegeTechCompleted || m_research250mmStrikeCannonsCompleted))
 		m_factoryCount++;
+
+	if(m_ghostAcademyCount < m_ghostAcademyNukeCount)
+		m_ghostAcademyCount = m_ghostAcademyNukeCount;
 
 	if(m_ghostAcademyCount == 0
 		&& (m_ghostCount > 0
@@ -644,7 +653,7 @@ void CTerranTarget::AddRequirements()
 		m_supplyDepotCount++;
 
 	if(m_refineryCount == 0
-		&& (m_planetaryFortressCount > 0 || m_techLabCount > 0 || m_reactorCount > 0 || m_factoryCount > 0
+		&& (m_ghostAcademyCount > 0 || m_planetaryFortressCount > 0 || m_techLabCount > 0 || m_reactorCount > 0 || m_factoryCount > 0
 			|| m_researchInfantryWeapons1Completed || m_researchInfantryArmor1Completed || m_researchBuildingArmorCompleted || m_researchHiSecAutoTrackingCompleted || m_researchNeoSteelFrameCompleted))
 		m_refineryCount++;
 }
@@ -673,6 +682,7 @@ void CTerranTarget::operator+=(const CTerranTarget &target)
 
 	m_techLabCount = mymax(m_techLabCount, target.m_techLabCount);
 	m_reactorCount = mymax(m_reactorCount, target.m_reactorCount);
+	m_ghostAcademyNukeCount = mymax(m_ghostAcademyNukeCount, target.m_ghostAcademyNukeCount);
 
 	m_scvCount = mymax(m_scvCount, target.m_scvCount);
 	m_marineCount = mymax(m_marineCount, target.m_marineCount);
@@ -706,7 +716,6 @@ void CTerranTarget::operator+=(const CTerranTarget &target)
 	m_researchPersonalCloakingCompleted |= target.m_researchPersonalCloakingCompleted;
 	m_researchInfernalPreIgniterCompleted |= target.m_researchInfernalPreIgniterCompleted;
 	m_researchSiegeTechCompleted |= target.m_researchSiegeTechCompleted;
-	m_researchDurableMaterialsCompleted |= target.m_researchDurableMaterialsCompleted;
 	m_research250mmStrikeCannonsCompleted |= target.m_research250mmStrikeCannonsCompleted;
 	m_researchVehicleWeapons1Completed |= target.m_researchVehicleWeapons1Completed;
 	m_researchVehicleWeapons2Completed |= target.m_researchVehicleWeapons2Completed;
@@ -720,6 +729,7 @@ void CTerranTarget::operator+=(const CTerranTarget &target)
 	m_researchShipPlating1Completed |= target.m_researchShipPlating1Completed;
 	m_researchShipPlating2Completed |= target.m_researchShipPlating2Completed;
 	m_researchShipPlating3Completed |= target.m_researchShipPlating3Completed;
+	m_researchDurableMaterialsCompleted |= target.m_researchDurableMaterialsCompleted;
 	m_researchCorvidReactorCompleted |= target.m_researchCorvidReactorCompleted;
 	m_researchCaduceusReactorCompleted |= target.m_researchCaduceusReactorCompleted;
 	m_researchSeekerMissileCompleted |= target.m_researchSeekerMissileCompleted;
@@ -781,6 +791,9 @@ void CTerranTarget::BuildAlphabet(CVector<ETerranCommand> &alphabet) const
 		if(m_starportCount > 0)
 			alphabet.push_back(eTerranCommandBuildStarportReactor);
 	}
+
+	if(m_ghostAcademyNukeCount > 0)
+		alphabet.push_back(eTerranCommandArmNuke);
 
 	alphabet.push_back(eTerranCommandBuildSCV);
 	if(m_marineCount > 0)
@@ -880,8 +893,6 @@ void CTerranTarget::BuildAlphabet(CVector<ETerranCommand> &alphabet) const
 		alphabet.push_back(eTerranCommandResearchInfernalPreIgniter);
 	if(m_researchSiegeTechCompleted)
 		alphabet.push_back(eTerranCommandResearchSiegeTech);
-	if(m_researchDurableMaterialsCompleted)
-		alphabet.push_back(eTerranCommandResearchDurableMaterials);
 	if(m_research250mmStrikeCannonsCompleted)
 		alphabet.push_back(eTerranCommandResearch250mmStrikeCannons);
 	if(m_researchVehicleWeapons1Completed)
@@ -908,6 +919,8 @@ void CTerranTarget::BuildAlphabet(CVector<ETerranCommand> &alphabet) const
 		alphabet.push_back(eTerranCommandResearchShipPlating2);
 	if(m_researchShipPlating3Completed)
 		alphabet.push_back(eTerranCommandResearchShipPlating3);
+	if(m_researchDurableMaterialsCompleted)
+		alphabet.push_back(eTerranCommandResearchDurableMaterials);
 	if(m_researchCorvidReactorCompleted)
 		alphabet.push_back(eTerranCommandResearchCorvidReactor);
 	if(m_researchCaduceusReactorCompleted)

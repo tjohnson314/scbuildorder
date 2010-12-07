@@ -125,6 +125,7 @@ public:
 	// Units
 	size_t m_larvaTotalCount;
 	size_t m_larvaCount[4];	// Store larva for up to 4 bases
+	double m_larvaCapDelay[4];
 	size_t m_droneCount;
 	size_t m_overlordCount;
 	size_t m_queenCount;

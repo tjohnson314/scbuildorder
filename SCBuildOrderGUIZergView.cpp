@@ -40,6 +40,7 @@ CSCBuildOrderGUIZergView::CSCBuildOrderGUIZergView()
 CSCBuildOrderGUIZergView::~CSCBuildOrderGUIZergView()
 {
 	StopEngine();
+	delete m_zergEngine;
 
 	while(m_waypointDlgs.size() > 0)
 		delete m_waypointDlgs.pop();
@@ -104,11 +105,11 @@ CSCBuildOrderGUIDoc* CSCBuildOrderGUIZergView::GetDocument() const // non-debug 
 #endif //_DEBUG
 
 // CSCBuildOrderGUIZergView message handlers
-void CSCBuildOrderGUIZergView::StartEngine()
+bool CSCBuildOrderGUIZergView::StartEngine()
 {
-	CSCBuildOrderGUIView::StartEngine();
-
 	m_settingsDlg->UpdateData(TRUE);
+
+	delete m_zergEngine;
 	m_zergEngine = new CZergEngine(m_settingsDlg->GetTimeLimit());
 	bool waypointAdded = false;
 	for(size_t i=0; i < m_waypointDlgs.size(); i++)
@@ -124,7 +125,7 @@ void CSCBuildOrderGUIZergView::StartEngine()
 		delete m_zergEngine;
 		m_zergEngine = 0;
 		MessageBox(L"No waypoints to be added.  Please enter target details.");
-		return;
+		return false;
 	}
 
 	InitEngine(m_zergEngine);
@@ -142,6 +143,8 @@ void CSCBuildOrderGUIZergView::StartEngine()
 	}
 
 	m_zergEngine->Start();
+
+	return CSCBuildOrderGUIView::StartEngine();
 }
 
 void CSCBuildOrderGUIZergView::StopEngine()
@@ -149,11 +152,7 @@ void CSCBuildOrderGUIZergView::StopEngine()
 	CSCBuildOrderGUIView::StopEngine();
 
 	if(m_zergEngine)
-	{
 		m_zergEngine->Stop();
-		delete m_zergEngine;
-		m_zergEngine = 0;
-	}
 }
 
 bool CSCBuildOrderGUIZergView::UpdateBestBuildOrder()
@@ -167,6 +166,14 @@ bool CSCBuildOrderGUIZergView::UpdateBestBuildOrder()
 	}
 
 	return false;
+}
+
+void CSCBuildOrderGUIZergView::PrintBestGame(EOutputFormat format, CString &text) const
+{
+	if(!m_zergEngine)
+		return;
+
+	m_zergEngine->PrintGame(format, m_bestBuildOrder, text);
 }
 
 void CSCBuildOrderGUIZergView::SetTargetDlgPositions(const CRect &rect)

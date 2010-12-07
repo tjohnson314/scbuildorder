@@ -1,116 +1,117 @@
 #pragma once
+#include "OutputFormat.h"
 
 class CTerranEvent
 {
 public:
 	enum EEvent
 	{
-		eNone
+			eNone
 
-		// Buildings
-		, eSpawnCommandCenter
-		, eSpawnRefinery
-		, eSpawnSupplyDepot
-		, eSpawnSupplyDepotExtraSupplies
-		, eSpawnBarracksNaked
-		, eSpawnBarracksOnTechLab
-		, eSpawnBarracksOnReactor
-		, eSpawnOrbitalCommand
-		, eSpawnEngineeringBay
-		, eSpawnBunker
-		, eSpawnMissileTurret
-		, eSpawnSensorTower
-		, eSpawnPlanetaryFortress
-		, eSpawnGhostAcademy
-		, eSpawnFactoryNaked
-		, eSpawnFactoryOnTechLab
-		, eSpawnFactoryOnReactor
-		, eSpawnArmory
-		, eSpawnStarportNaked
-		, eSpawnStarportOnTechLab
-		, eSpawnStarportOnReactor
-		, eSpawnFusionCore
+			// Buildings
+			, eSpawnCommandCenter
+			, eSpawnRefinery
+			, eSpawnSupplyDepot
+			, eSpawnSupplyDepotExtraSupplies
+			, eSpawnBarracksNaked
+			, eSpawnBarracksOnTechLab
+			, eSpawnBarracksOnReactor
+			, eSpawnOrbitalCommand
+			, eSpawnEngineeringBay
+			, eSpawnBunker
+			, eSpawnMissileTurret
+			, eSpawnSensorTower
+			, eSpawnPlanetaryFortress
+			, eSpawnGhostAcademy
+			, eSpawnFactoryNaked
+			, eSpawnFactoryOnTechLab
+			, eSpawnFactoryOnReactor
+			, eSpawnArmory
+			, eSpawnStarportNaked
+			, eSpawnStarportOnTechLab
+			, eSpawnStarportOnReactor
+			, eSpawnFusionCore
 
-		, eSpawnBarracksTechLab
-		, eSpawnBarracksReactor
-		, eSpawnFactoryTechLab
-		, eSpawnFactoryReactor
-		, eSpawnStarportTechLab
-		, eSpawnStarportReactor
+			, eSpawnBarracksTechLab
+			, eSpawnBarracksReactor
+			, eSpawnFactoryTechLab
+			, eSpawnFactoryReactor
+			, eSpawnStarportTechLab
+			, eSpawnStarportReactor
 
-		// Units
-		, eSpawnSCV
-		, eSpawnMULE
-		, eSpawnMarineNaked
-		, eSpawnMarineTechLab
-		, eSpawnMarineReactor
-		, eSpawnMarauder
-		, eSpawnReaper
-		, eSpawnGhost
-		, eSpawnHellionNaked
-		, eSpawnHellionTechLab
-		, eSpawnHellionReactor
-		, eSpawnSiegeTank
-		, eSpawnThor
-		, eSpawnVikingNaked
-		, eSpawnVikingTechLab
-		, eSpawnVikingReactor
-		, eSpawnMedivacNaked
-		, eSpawnMedivacTechLab
-		, eSpawnMedivacReactor
-		, eSpawnRaven
-		, eSpawnBanshee
-		, eSpawnBattleCruiser
+			// Units
+			, eSpawnSCV
+			, eSpawnMULE
+			, eSpawnMarineNaked
+			, eSpawnMarineTechLab
+			, eSpawnMarineReactor
+			, eSpawnMarauder
+			, eSpawnReaper
+			, eSpawnGhost
+			, eSpawnHellionNaked
+			, eSpawnHellionTechLab
+			, eSpawnHellionReactor
+			, eSpawnSiegeTank
+			, eSpawnThor
+			, eSpawnVikingNaked
+			, eSpawnVikingTechLab
+			, eSpawnVikingReactor
+			, eSpawnMedivacNaked
+			, eSpawnMedivacTechLab
+			, eSpawnMedivacReactor
+			, eSpawnRaven
+			, eSpawnBanshee
+			, eSpawnBattleCruiser
 
-		, eKillMULE
+			, eKillMULE
 
-		// Research
-		, eResearchStimpackComplete
-		, eResearchCombatShieldComplete
-		, eResearchNitroPacksComplete
-		, eResearchConcussiveShellsComplete
-		, eResearchInfantryWeapons1Complete
-		, eResearchInfantryWeapons2Complete
-		, eResearchInfantryWeapons3Complete
-		, eResearchInfantryArmor1Complete
-		, eResearchInfantryArmor2Complete
-		, eResearchInfantryArmor3Complete
-		, eResearchBuildingArmorComplete
-		, eResearchHiSecAutoTrackingComplete
-		, eResearchNeoSteelFrameComplete
-		, eResearchMoebiusReactorComplete
-		, eResearchPersonalCloakingComplete
-		, eArmNukeComplete
-		, eResearchInfernalPreIgniterComplete
-		, eResearchSiegeTechComplete
-		, eResearchDurableMaterialsComplete
-		, eResearch250mmStrikeCannonsComplete
-		, eResearchVehicleWeapons1Complete
-		, eResearchVehicleWeapons2Complete
-		, eResearchVehicleWeapons3Complete
-		, eResearchVehiclePlating1Complete
-		, eResearchVehiclePlating2Complete
-		, eResearchVehiclePlating3Complete
-		, eResearchShipWeapons1Complete
-		, eResearchShipWeapons2Complete
-		, eResearchShipWeapons3Complete
-		, eResearchShipPlating1Complete
-		, eResearchShipPlating2Complete
-		, eResearchShipPlating3Complete
-		, eResearchCorvidReactorComplete
-		, eResearchCaduceusReactorComplete
-		, eResearchSeekerMissileComplete
-		, eResearchCloakingFieldComplete
-		, eResearchBehemothReactorComplete
-		, eResearchWeaponRefitComplete
+			// Research
+			, eResearchStimpackComplete
+			, eResearchCombatShieldComplete
+			, eResearchNitroPacksComplete
+			, eResearchConcussiveShellsComplete
+			, eResearchInfantryWeapons1Complete
+			, eResearchInfantryWeapons2Complete
+			, eResearchInfantryWeapons3Complete
+			, eResearchInfantryArmor1Complete
+			, eResearchInfantryArmor2Complete
+			, eResearchInfantryArmor3Complete
+			, eResearchBuildingArmorComplete
+			, eResearchHiSecAutoTrackingComplete
+			, eResearchNeoSteelFrameComplete
+			, eResearchMoebiusReactorComplete
+			, eResearchPersonalCloakingComplete
+			, eArmNukeComplete
+			, eResearchInfernalPreIgniterComplete
+			, eResearchSiegeTechComplete
+			, eResearch250mmStrikeCannonsComplete
+			, eResearchVehicleWeapons1Complete
+			, eResearchVehicleWeapons2Complete
+			, eResearchVehicleWeapons3Complete
+			, eResearchVehiclePlating1Complete
+			, eResearchVehiclePlating2Complete
+			, eResearchVehiclePlating3Complete
+			, eResearchShipWeapons1Complete
+			, eResearchShipWeapons2Complete
+			, eResearchShipWeapons3Complete
+			, eResearchShipPlating1Complete
+			, eResearchShipPlating2Complete
+			, eResearchShipPlating3Complete
+			, eResearchDurableMaterialsComplete
+			, eResearchCorvidReactorComplete
+			, eResearchCaduceusReactorComplete
+			, eResearchSeekerMissileComplete
+			, eResearchCloakingFieldComplete
+			, eResearchBehemothReactorComplete
+			, eResearchWeaponRefitComplete
 
-		// Misc
-		, eSCVStartMiningMinerals
-		, eSCVStartMiningGas
+			// Misc
+			, eSCVStartMiningMinerals
+			, eSCVStartMiningGas
 
-		, eSendScout
-		, eKillScout
-		, eReturnScout
+			, eSendScout
+			, eKillScout
+			, eReturnScout
 	};
 
 	CTerranEvent() : m_event(eNone), m_time(0) {}
@@ -127,3 +128,7 @@ protected:
 	EEvent m_event;
 	double m_time;
 };
+
+const WCHAR *tostring(EOutputFormat format, CTerranEvent::EEvent event);
+
+bool DisplayEvent(EOutputFormat format, CTerranEvent::EEvent event);

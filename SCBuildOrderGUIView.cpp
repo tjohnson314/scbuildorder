@@ -31,6 +31,7 @@ BEGIN_MESSAGE_MAP(CSCBuildOrderGUIView, CFormView)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON_STARTSTOP, &CSCBuildOrderGUIView::OnBnClickedButtonStart)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_PAGES, &CSCBuildOrderGUIView::OnTcnSelchangeTabPages)
+	ON_CBN_SELCHANGE(IDC_COMBO_OUTPUTFORMAT, &CSCBuildOrderGUIView::OnCbnSelchangeComboOutputformat)
 	ON_WM_SIZE()
 	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
@@ -42,6 +43,7 @@ END_MESSAGE_MAP()
 CSCBuildOrderGUIView::CSCBuildOrderGUIView()
 	: CFormView(CSCBuildOrderGUIView::IDD)
 	, m_updateTimer(0), m_bStarted(false), m_startTickCount(0), m_timeLimit(1200)
+	, m_outputFormat(eOutputFormatSimple)
 {
 	// TODO: add construction code here
 	m_numberFormatInt.LoadDefault();
@@ -50,6 +52,8 @@ CSCBuildOrderGUIView::CSCBuildOrderGUIView()
 	m_numberFormatFloat.LoadDefault();
 
 	m_completionBackgroundBrush.CreateSolidBrush(RGB(240, 240, 240));
+
+	m_redrawBuildOrder = false;
 }
 
 CSCBuildOrderGUIView::~CSCBuildOrderGUIView()
@@ -58,9 +62,28 @@ CSCBuildOrderGUIView::~CSCBuildOrderGUIView()
 	delete m_settingsDlg;
 }
 
+void CSCBuildOrderGUIView::DDX_Combo(CDataExchange* pDX, int nIDC, int &value)
+{
+	CComboBox *pCmb = (CComboBox *)GetDlgItem(nIDC);
+	if(pDX->m_bSaveAndValidate)
+		value = pCmb->GetItemData(pCmb->GetCurSel());
+	else
+	{
+		for(int i=0; i < pCmb->GetCount(); i++)
+		{
+			if(pCmb->GetItemData(i) == value)
+			{
+				pCmb->SetCurSel(i);
+				break;
+			}
+		}
+	}
+}
+
 void CSCBuildOrderGUIView::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
+	DDX_Combo(pDX, IDC_COMBO_OUTPUTFORMAT, m_outputFormat);
 }
 
 BOOL CSCBuildOrderGUIView::PreCreateWindow(CREATESTRUCT& cs)
@@ -157,6 +180,15 @@ void CSCBuildOrderGUIView::OnInitialUpdate()
 	villageList->InsertColumn(6, &lvColumn);
 
 	// Output
+	int nIndex;
+	CComboBox *pCmbOutputFormat = (CComboBox *)GetDlgItem(IDC_COMBO_OUTPUTFORMAT);
+	nIndex = pCmbOutputFormat->AddString(L"Simple");	pCmbOutputFormat->SetItemData(nIndex, eOutputFormatSimple);		pCmbOutputFormat->SetCurSel(nIndex);
+	nIndex = pCmbOutputFormat->AddString(L"Detailed");	pCmbOutputFormat->SetItemData(nIndex, eOutputFormatDetailed);
+	nIndex = pCmbOutputFormat->AddString(L"Full");		pCmbOutputFormat->SetItemData(nIndex, eOutputFormatFull);
+	//nIndex = pCmbOutputFormat->AddString(L"Haploid");	pCmbOutputFormat->SetItemData(nIndex, eOutputFormatHaploid);
+	//nIndex = pCmbOutputFormat->AddString(L"YABOT");		pCmbOutputFormat->SetItemData(nIndex, eOutputFormatYABOT);
+	//nIndex = pCmbOutputFormat->AddString(L"SC2Gears");	pCmbOutputFormat->SetItemData(nIndex, eOutputFormatSC2Gears);
+
 	m_font.CreatePointFont(90, _T("Courier"));
 	GetDlgItem(IDC_EDIT_OUTPUT)->SetFont(&m_font);
 }
@@ -227,7 +259,7 @@ CSCBuildOrderGUIDoc* CSCBuildOrderGUIView::GetDocument() const // non-debug vers
 #endif //_DEBUG
 
 // CSCBuildOrderGUIView message handlers
-void CSCBuildOrderGUIView::StartEngine()
+bool CSCBuildOrderGUIView::StartEngine()
 {
 	if(!m_bStarted)
 	{
@@ -235,6 +267,8 @@ void CSCBuildOrderGUIView::StartEngine()
 		m_startTickCount = GetTickCount();
 		m_updateTimer = SetTimer(IDT_TIMER_0, 1000, 0);
 	}
+
+	return true;
 }
 
 void CSCBuildOrderGUIView::StopEngine()
@@ -318,8 +352,10 @@ void CSCBuildOrderGUIView::OnBnClickedButtonStart()
 			villageList->SetItemText(nItem, 5, L"0");
 		}
 
+		if(!StartEngine())
+			return;
+
 		GetDlgItem(IDC_BUTTON_STARTSTOP)->SetWindowTextW(L"Stop");
-		StartEngine();
 	}
 	else
 	{
@@ -370,6 +406,9 @@ void CSCBuildOrderGUIView::UpdateListBoxEntry(int nItem, size_t population, size
 
 void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 {
+	if(!m_bStarted)
+		return;
+
 	const CEngine *engine = GetEngine();
 
 	if(!engine)
@@ -422,22 +461,29 @@ void CSCBuildOrderGUIView::OnTimer(UINT TimerVal)
 	GetDlgItem(IDC_EDIT_COMPLETION)->SetWindowText(completionPercentageText);
 
 	if(UpdateBestBuildOrder())
-	{
-		CEdit *output = (CEdit *)GetDlgItem(IDC_EDIT_OUTPUT);
-		int scrollMin, scrollMax;
-		output->GetScrollRange(SB_VERT, &scrollMin, &scrollMax);
-		int scrollPos = output->GetScrollPos(SB_VERT);
+		PrintOutput();
+}
 
-		double scrollPercent = (double)(scrollPos - scrollMin) / (scrollMax - scrollMin);
+void CSCBuildOrderGUIView::PrintOutput()
+{
+	const CEngine *engine = GetEngine();
+	if(!engine)
+		return;
 
-		CString strText;
-		engine->PrintBestGame(strText);
-		output->SetWindowTextW(strText);
+	CEdit *output = (CEdit *)GetDlgItem(IDC_EDIT_OUTPUT);
+	int scrollMin, scrollMax;
+	output->GetScrollRange(SB_VERT, &scrollMin, &scrollMax);
+	int scrollPos = output->GetScrollPos(SB_VERT);
 
-		output->GetScrollRange(SB_VERT, &scrollMin, &scrollMax);
-		//output->SetScrollPos(SB_VERT, (int)(scrollPercent * (scrollMax - scrollMin)) + scrollMin);
-		output->LineScroll((int)(output->GetLineCount() * scrollPercent));
-	}
+	double scrollPercent = (double)(scrollPos - scrollMin) / (scrollMax - scrollMin);
+
+	CString text;
+	PrintBestGame((EOutputFormat)m_outputFormat, text);
+	output->SetWindowTextW(text);
+
+	output->GetScrollRange(SB_VERT, &scrollMin, &scrollMax);
+	//output->SetScrollPos(SB_VERT, (int)(scrollPercent * (scrollMax - scrollMin)) + scrollMin);
+	output->LineScroll((int)(output->GetLineCount() * scrollPercent));
 }
 
 void CSCBuildOrderGUIView::ActivateTabDialogs()
@@ -477,7 +523,6 @@ void CSCBuildOrderGUIView::OnTcnSelchangeTabPages(NMHDR *pNMHDR, LRESULT *pResul
 	*pResult = 0;
 }
 
-
 void CSCBuildOrderGUIView::OnSize(UINT nType, int cx, int cy)
 {
 	CFormView::OnSize(nType, cx, cy);
@@ -491,4 +536,12 @@ HBRUSH CSCBuildOrderGUIView::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		return (HBRUSH)(m_completionBackgroundBrush.GetSafeHandle());
 
 	return CFormView::OnCtlColor(pDC, pWnd, nCtlColor);
+}
+
+
+void CSCBuildOrderGUIView::OnCbnSelchangeComboOutputformat()
+{
+	UpdateData(TRUE);
+
+	PrintOutput();
 }

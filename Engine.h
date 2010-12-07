@@ -30,7 +30,7 @@ public:
 	virtual CFitnessValue CityBestFitness() const = 0;
 
 	virtual size_t StagnationLimit() const = 0;
-	virtual void PrintBestGame(CString &output) const = 0;
+	virtual void PrintBestGame(EOutputFormat format, CString &output) const = 0;
 };
 
 template<typename TTarget, typename TState, typename TCommand, typename TEvent>
@@ -68,7 +68,8 @@ public:
 
 	void GetBestGame(CVector<TCommand> &game) const { CLock lock(m_semaphore); if(!m_bestGame) return; game = *m_bestGame; }
 
-	void PrintBestGame(CString &output) const;
+	void PrintBestGame(EOutputFormat format, CString &output) const;
+	void PrintGame(EOutputFormat format, const CVector<TCommand> &game, CString &output) const;
 
 protected:
 	CVector<TCommand> m_vecAlphabet;
@@ -226,10 +227,16 @@ void CSimulatorEngine<TTarget, TState, TCommand, TEvent>::Execute()
 };
 
 template<typename TTarget, typename TState, typename TCommand, typename TEvent>
-void CSimulatorEngine<TTarget, TState, TCommand, TEvent>::PrintBestGame(CString &output) const
+void CSimulatorEngine<TTarget, TState, TCommand, TEvent>::PrintBestGame(EOutputFormat format, CString &output) const
 {
 	CVector<TCommand> game;
 	GetBestGame(game);
 	
-	m_targetFitness.PrintGame(output, game);
+	m_targetFitness.PrintGame(format, output, game);
+}
+
+template<typename TTarget, typename TState, typename TCommand, typename TEvent>
+void CSimulatorEngine<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat format, const CVector<TCommand> &game, CString &output) const
+{
+	m_targetFitness.PrintGame(format, output, game);
 }

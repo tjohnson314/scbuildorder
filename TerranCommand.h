@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include "Vector.h"
+#include "OutputFormat.h"
 
 enum ETerranCommand
 {
@@ -105,7 +106,6 @@ enum ETerranCommand
 	, eTerranCommandArmNuke
 	, eTerranCommandResearchInfernalPreIgniter
 	, eTerranCommandResearchSiegeTech
-	, eTerranCommandResearchDurableMaterials
 	, eTerranCommandResearch250mmStrikeCannons
 	, eTerranCommandResearchVehicleWeapons1
 	, eTerranCommandResearchVehicleWeapons2
@@ -119,6 +119,7 @@ enum ETerranCommand
 	, eTerranCommandResearchShipPlating1
 	, eTerranCommandResearchShipPlating2
 	, eTerranCommandResearchShipPlating3
+	, eTerranCommandResearchDurableMaterials
 	, eTerranCommandResearchCorvidReactor
 	, eTerranCommandResearchCaduceusReactor
 	, eTerranCommandResearchSeekerMissile
@@ -131,4 +132,25 @@ enum ETerranCommand
 	, eTerranCommandMoveSCVToMinerals
 };
 
-const WCHAR *tostring(ETerranCommand command);
+const WCHAR *tostring(EOutputFormat format, ETerranCommand command);
+
+inline bool DisplayCommand(EOutputFormat format, ETerranCommand command)
+{
+	switch(format)
+	{
+	case eOutputFormatSimple:
+		return eTerranCommandBuildSCV != command;
+	case eOutputFormatDetailed:
+		return true;
+	case eOutputFormatFull:
+		return true;
+	case eOutputFormatHaploid:
+		return eTerranCommandBuildSCV != command;
+	case eOutputFormatYABOT:
+		return eTerranCommandBuildSCV != command;
+	case eOutputFormatSC2Gears:
+		return eTerranCommandBuildSCV != command;
+	}
+
+	return false;
+}

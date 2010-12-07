@@ -48,6 +48,8 @@ void CTerranStateDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_STARPORTCOUNT, m_terranTarget.m_starportCount);
 	DDX_Text(pDX, IDC_EDIT_FUSIONCORECOUNT, m_terranTarget.m_fusionCoreCount);
 
+	DDX_Text(pDX, IDC_EDIT_ARMEDNUKECOUNT, m_terranTarget.m_ghostAcademyNukeCount);
+
 	DDX_Text(pDX, IDC_EDIT_TECHLABCOUNT, m_terranTarget.m_techLabCount);
 	DDX_Text(pDX, IDC_EDIT_REACTORCOUNT, m_terranTarget.m_reactorCount);
 

@@ -128,6 +128,7 @@
     <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="MemoryPoolManager.h" />
     <ClInclude Include="NumberFormat.h" />
+    <ClInclude Include="OutputFormat.h" />
     <ClInclude Include="ProtossCommand.h" />
     <ClInclude Include="ProtossEvent.h" />
     <ClInclude Include="ProtossState.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="MemoryPoolManager.cpp" />
     <ClCompile Include="NumberFormat.cpp" />
     <ClCompile Include="ProtossCommand.cpp" />
+    <ClCompile Include="ProtossEvent.cpp" />
     <ClCompile Include="ProtossState.cpp" />
     <ClCompile Include="ProtossStateDlg.cpp" />
     <ClCompile Include="ProtossTarget.cpp" />
@@ -190,12 +192,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TerranCommand.cpp" />
+    <ClCompile Include="TerranEvent.cpp" />
     <ClCompile Include="TerranState.cpp" />
     <ClCompile Include="TerranStateDlg.cpp" />
     <ClCompile Include="TerranTarget.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="ZergCommand.cpp" />
+    <ClCompile Include="ZergEvent.cpp" />
     <ClCompile Include="ZergState.cpp" />
     <ClCompile Include="ZergStateDlg.cpp" />
     <ClCompile Include="ZergTarget.cpp" />
