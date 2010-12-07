@@ -192,6 +192,9 @@
     <ClInclude Include="SCBuildOrderGUITerranView.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="OutputFormat.h">
+      <Filter>GameSimulation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SCBuildOrderGUIView.cpp">
@@ -303,6 +306,15 @@
     </ClCompile>
     <ClCompile Include="SCBuildOrderGUITerranView.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TerranEvent.cpp">
+      <Filter>Terran</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtossEvent.cpp">
+      <Filter>Protoss</Filter>
+    </ClCompile>
+    <ClCompile Include="ZergEvent.cpp">
+      <Filter>Zerg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

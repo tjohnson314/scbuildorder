@@ -14,8 +14,8 @@ CTerranState::CTerranState()
 , m_ghostAcademyNukeCount(0), m_ghostAcademyNukeUnderConstruction(0)
 , m_scvCount(0), m_muleCount(0), m_marineCount(0), m_marauderCount(0), m_reaperCount(0), m_ghostCount(0), m_hellionCount(0), m_siegeTankCount(0), m_thorCount(0), m_vikingCount(0), m_medivacCount(0), m_ravenCount(0), m_bansheeCount(0), m_battleCruiserCount(0)
 , m_scvUnderConstruction(0), m_muleUnderConstruction(0), m_marineUnderConstruction(0), m_marauderUnderConstruction(0), m_reaperUnderConstruction(0), m_ghostUnderConstruction(0), m_hellionUnderConstruction(0), m_siegeTankUnderConstruction(0), m_thorUnderConstruction(0), m_vikingUnderConstruction(0), m_medivacUnderConstruction(0), m_ravenUnderConstruction(0), m_bansheeUnderConstruction(0), m_battleCruiserUnderConstruction(0)
-, m_researchStimpackCompleted(false), m_researchCombatShieldCompleted(false), m_researchNitroPacksCompleted(false), m_researchConcussiveShellsCompleted(false), m_researchInfantryWeapons1Completed(false), m_researchInfantryWeapons2Completed(false), m_researchInfantryWeapons3Completed(false), m_researchInfantryArmor1Completed(false), m_researchInfantryArmor2Completed(false), m_researchInfantryArmor3Completed(false), m_researchBuildingArmorCompleted(false), m_researchHiSecAutoTrackingCompleted(false), m_researchNeoSteelFrameCompleted(false), m_researchMoebiusReactorCompleted(false), m_researchPersonalCloakingCompleted(false), m_researchInfernalPreIgniterCompleted(false), m_researchSiegeTechCompleted(false), m_researchDurableMaterialsCompleted(false), m_research250mmStrikeCannonsCompleted(false), m_researchVehicleWeapons1Completed(false), m_researchVehicleWeapons2Completed(false), m_researchVehicleWeapons3Completed(false), m_researchVehiclePlating1Completed(false), m_researchVehiclePlating2Completed(false), m_researchVehiclePlating3Completed(false), m_researchShipWeapons1Completed(false), m_researchShipWeapons2Completed(false), m_researchShipWeapons3Completed(false), m_researchShipPlating1Completed(false), m_researchShipPlating2Completed(false), m_researchShipPlating3Completed(false), m_researchCorvidReactorCompleted(false), m_researchCaduceusReactorCompleted(false), m_researchSeekerMissileCompleted(false), m_researchCloakingFieldCompleted(false), m_researchBehemothReactorCompleted(false), m_researchWeaponRefitCompleted(false)
-, m_researchStimpackUnderConstruction(false), m_researchCombatShieldUnderConstruction(false), m_researchNitroPacksUnderConstruction(false), m_researchConcussiveShellsUnderConstruction(false), m_researchInfantryWeapons1UnderConstruction(false), m_researchInfantryWeapons2UnderConstruction(false), m_researchInfantryWeapons3UnderConstruction(false), m_researchInfantryArmor1UnderConstruction(false), m_researchInfantryArmor2UnderConstruction(false), m_researchInfantryArmor3UnderConstruction(false), m_researchBuildingArmorUnderConstruction(false), m_researchHiSecAutoTrackingUnderConstruction(false), m_researchNeoSteelFrameUnderConstruction(false), m_researchMoebiusReactorUnderConstruction(false), m_researchPersonalCloakingUnderConstruction(false), m_researchInfernalPreIgniterUnderConstruction(false), m_researchSiegeTechUnderConstruction(false), m_researchDurableMaterialsUnderConstruction(false), m_research250mmStrikeCannonsUnderConstruction(false), m_researchVehicleWeapons1UnderConstruction(false), m_researchVehicleWeapons2UnderConstruction(false), m_researchVehicleWeapons3UnderConstruction(false), m_researchVehiclePlating1UnderConstruction(false), m_researchVehiclePlating2UnderConstruction(false), m_researchVehiclePlating3UnderConstruction(false), m_researchShipWeapons1UnderConstruction(false), m_researchShipWeapons2UnderConstruction(false), m_researchShipWeapons3UnderConstruction(false), m_researchShipPlating1UnderConstruction(false), m_researchShipPlating2UnderConstruction(false), m_researchShipPlating3UnderConstruction(false), m_researchCorvidReactorUnderConstruction(false), m_researchCaduceusReactorUnderConstruction(false), m_researchSeekerMissileUnderConstruction(false), m_researchCloakingFieldUnderConstruction(false), m_researchBehemothReactorUnderConstruction(false), m_researchWeaponRefitUnderConstruction(false)
+, m_researchStimpackCompleted(false), m_researchCombatShieldCompleted(false), m_researchNitroPacksCompleted(false), m_researchConcussiveShellsCompleted(false), m_researchInfantryWeapons1Completed(false), m_researchInfantryWeapons2Completed(false), m_researchInfantryWeapons3Completed(false), m_researchInfantryArmor1Completed(false), m_researchInfantryArmor2Completed(false), m_researchInfantryArmor3Completed(false), m_researchBuildingArmorCompleted(false), m_researchHiSecAutoTrackingCompleted(false), m_researchNeoSteelFrameCompleted(false), m_researchMoebiusReactorCompleted(false), m_researchPersonalCloakingCompleted(false), m_researchInfernalPreIgniterCompleted(false), m_researchSiegeTechCompleted(false), m_research250mmStrikeCannonsCompleted(false), m_researchVehicleWeapons1Completed(false), m_researchVehicleWeapons2Completed(false), m_researchVehicleWeapons3Completed(false), m_researchVehiclePlating1Completed(false), m_researchVehiclePlating2Completed(false), m_researchVehiclePlating3Completed(false), m_researchShipWeapons1Completed(false), m_researchShipWeapons2Completed(false), m_researchShipWeapons3Completed(false), m_researchShipPlating1Completed(false), m_researchShipPlating2Completed(false), m_researchShipPlating3Completed(false), m_researchDurableMaterialsCompleted(false), m_researchCorvidReactorCompleted(false), m_researchCaduceusReactorCompleted(false), m_researchSeekerMissileCompleted(false), m_researchCloakingFieldCompleted(false), m_researchBehemothReactorCompleted(false), m_researchWeaponRefitCompleted(false)
+, m_researchStimpackUnderConstruction(false), m_researchCombatShieldUnderConstruction(false), m_researchNitroPacksUnderConstruction(false), m_researchConcussiveShellsUnderConstruction(false), m_researchInfantryWeapons1UnderConstruction(false), m_researchInfantryWeapons2UnderConstruction(false), m_researchInfantryWeapons3UnderConstruction(false), m_researchInfantryArmor1UnderConstruction(false), m_researchInfantryArmor2UnderConstruction(false), m_researchInfantryArmor3UnderConstruction(false), m_researchBuildingArmorUnderConstruction(false), m_researchHiSecAutoTrackingUnderConstruction(false), m_researchNeoSteelFrameUnderConstruction(false), m_researchMoebiusReactorUnderConstruction(false), m_researchPersonalCloakingUnderConstruction(false), m_researchInfernalPreIgniterUnderConstruction(false), m_researchSiegeTechUnderConstruction(false), m_research250mmStrikeCannonsUnderConstruction(false), m_researchVehicleWeapons1UnderConstruction(false), m_researchVehicleWeapons2UnderConstruction(false), m_researchVehicleWeapons3UnderConstruction(false), m_researchVehiclePlating1UnderConstruction(false), m_researchVehiclePlating2UnderConstruction(false), m_researchVehiclePlating3UnderConstruction(false), m_researchShipWeapons1UnderConstruction(false), m_researchShipWeapons2UnderConstruction(false), m_researchShipWeapons3UnderConstruction(false), m_researchShipPlating1UnderConstruction(false), m_researchShipPlating2UnderConstruction(false), m_researchShipPlating3UnderConstruction(false), m_researchDurableMaterialsUnderConstruction(false), m_researchCorvidReactorUnderConstruction(false), m_researchCaduceusReactorUnderConstruction(false), m_researchSeekerMissileUnderConstruction(false), m_researchCloakingFieldUnderConstruction(false), m_researchBehemothReactorUnderConstruction(false), m_researchWeaponRefitUnderConstruction(false)
 , m_scvsOnMinerals(0), m_scvsOnGas(0), m_scannerSweepCount(0)
 , m_supply(0), m_supplyCap(0), m_supplyCapUnderConstruction(0)
 , m_mineralIncomeRate(0), m_gasIncomeRate(0)
@@ -551,11 +551,6 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		m_researchSiegeTechUnderConstruction = true;
 		m_factoryTechLabResearchInUse++;
 		break;
-	case eTerranCommandResearchDurableMaterials:
-		AddEvent(events, CTerranEvent(CTerranEvent::eResearchDurableMaterialsComplete, time + 110));
-		m_researchDurableMaterialsUnderConstruction = true;
-		m_factoryTechLabResearchInUse++;
-		break;
 	case eTerranCommandResearch250mmStrikeCannons:
 		AddEvent(events, CTerranEvent(CTerranEvent::eResearch250mmStrikeCannonsComplete, time + 110));
 		m_research250mmStrikeCannonsUnderConstruction = true;
@@ -620,6 +615,11 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		AddEvent(events, CTerranEvent(CTerranEvent::eResearchShipPlating3Complete, time + 220));
 		m_researchShipPlating3UnderConstruction = true;
 		m_armoryInUse++;
+		break;
+	case eTerranCommandResearchDurableMaterials:
+		AddEvent(events, CTerranEvent(CTerranEvent::eResearchDurableMaterialsComplete, time + 110));
+		m_researchDurableMaterialsUnderConstruction = true;
+		m_factoryTechLabResearchInUse++;
 		break;
 	case eTerranCommandResearchCorvidReactor:
 		AddEvent(events, CTerranEvent(CTerranEvent::eResearchCorvidReactorComplete, time + 110));
@@ -1059,11 +1059,6 @@ void CTerranState::ProcessEvent(double &time, CLinkedList<CTerranEvent> *&events
 		m_researchSiegeTechCompleted = true;
 		m_researchSiegeTechUnderConstruction = false;
 		break;
-	case CTerranEvent::eResearchDurableMaterialsComplete:
-		m_factoryTechLabResearchInUse--;
-		m_researchDurableMaterialsCompleted = true;
-		m_researchDurableMaterialsUnderConstruction = false;
-		break;
 	case CTerranEvent::eResearch250mmStrikeCannonsComplete:
 		m_factoryTechLabResearchInUse--;
 		m_research250mmStrikeCannonsCompleted = true;
@@ -1129,6 +1124,11 @@ void CTerranState::ProcessEvent(double &time, CLinkedList<CTerranEvent> *&events
 		m_researchShipPlating3Completed = true;
 		m_researchShipPlating3UnderConstruction = false;
 		break;
+	case CTerranEvent::eResearchDurableMaterialsComplete:
+		m_factoryTechLabResearchInUse--;
+		m_researchDurableMaterialsCompleted = true;
+		m_researchDurableMaterialsUnderConstruction = false;
+		break;
 	case CTerranEvent::eResearchCorvidReactorComplete:
 		m_starportTechLabResearchInUse--;
 		m_researchCorvidReactorCompleted = true;
@@ -1192,7 +1192,8 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 	case eTerranCommandBuildCommandCenter:
 		return 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
 	case eTerranCommandBuildRefinery:
-		return 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
+		return 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction
+			&& m_refineryCount + m_refineryUnderConstruction < 2 * (m_commandCenterCount + m_commandCenterUnderConstruction);
 	case eTerranCommandBuildSupplyDepot:
 		return 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
 	case eTerranCommandBuildBarracksNaked:
@@ -1425,9 +1426,6 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 	case eTerranCommandResearchSiegeTech:
 		return 0 < m_factoryTechLabCount + m_factoryTechLabUnderConstruction
 			&& !m_researchSiegeTechCompleted && !m_researchSiegeTechUnderConstruction;
-	case eTerranCommandResearchDurableMaterials:
-		return 0 < m_factoryTechLabCount + m_factoryTechLabUnderConstruction
-			&& !m_researchDurableMaterialsCompleted && !m_researchDurableMaterialsUnderConstruction;
 	case eTerranCommandResearch250mmStrikeCannons:
 		return 0 < m_factoryTechLabCount + m_factoryTechLabUnderConstruction
 			&& !m_research250mmStrikeCannonsCompleted && !m_research250mmStrikeCannonsUnderConstruction;
@@ -1475,6 +1473,9 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 		return 0 < m_armoryCount + m_armoryUnderConstruction
 			&& !m_researchShipPlating3Completed && !m_researchShipPlating3UnderConstruction
 			&& (m_researchShipPlating2Completed || m_researchShipPlating2UnderConstruction);
+	case eTerranCommandResearchDurableMaterials:
+		return 0 < m_starportTechLabCount + m_starportTechLabUnderConstruction
+			&& !m_researchDurableMaterialsCompleted && !m_researchDurableMaterialsUnderConstruction;
 	case eTerranCommandResearchCorvidReactor:
 		return 0 < m_starportTechLabCount + m_starportTechLabUnderConstruction
 			&& !m_researchCorvidReactorCompleted && !m_researchCorvidReactorUnderConstruction;
@@ -1496,7 +1497,6 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 
 	case eTerranCommandMoveSCVToGas:
 		return 0 < m_baseCount + m_commandCenterUnderConstruction
-			&& 0 < m_refineryCount + m_refineryUnderConstruction
 			&& 0 < m_scvsOnMinerals + m_scvUnderConstruction
 			&& m_scvsOnGas < CGameCalcs::GasWorkerLimit(m_baseCount + m_commandCenterUnderConstruction, m_refineryCount + m_refineryUnderConstruction);
 	case eTerranCommandMoveSCVToMinerals:
@@ -1741,8 +1741,6 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 		return m_factoryTechLabResearchInUse < m_factoryTechLabCount;
 	case eTerranCommandResearchSiegeTech:
 		return m_factoryTechLabResearchInUse < m_factoryTechLabCount;
-	case eTerranCommandResearchDurableMaterials:
-		return m_factoryTechLabResearchInUse < m_factoryTechLabCount;
 	case eTerranCommandResearch250mmStrikeCannons:
 		return m_factoryTechLabResearchInUse < m_factoryTechLabCount;
 	case eTerranCommandResearchVehicleWeapons1:
@@ -1777,6 +1775,8 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 	case eTerranCommandResearchShipPlating3:
 		return m_armoryInUse < m_armoryCount
 			&& m_researchShipPlating2Completed;
+	case eTerranCommandResearchDurableMaterials:
+		return m_starportTechLabResearchInUse < m_starportTechLabCount;
 	case eTerranCommandResearchCorvidReactor:
 		return m_starportTechLabResearchInUse < m_starportTechLabCount;
 	case eTerranCommandResearchCaduceusReactor:
@@ -1792,12 +1792,12 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 
 	case eTerranCommandMoveSCVToGas:
 		return 0 < m_baseCount
-			&& 0 < m_refineryCount
-			&& 0 < m_scvsOnMinerals;
+			&& 0 < m_scvsOnMinerals
+			&& m_scvsOnGas < CGameCalcs::GasWorkerLimit(m_baseCount, m_refineryCount);
 	case eTerranCommandMoveSCVToMinerals:
 		return 0 < m_baseCount
-			&& 0 < m_refineryCount
-			&& 0 < m_scvsOnGas;
+			&& 0 < m_scvsOnGas
+			&& m_scvsOnMinerals < CGameCalcs::MineralWorkerLimit(m_baseCount);
 
 	default:
 		return true;
@@ -2024,10 +2024,6 @@ void CTerranState::GetCost(CResourceCost &cost, ETerranCommand command)
 		cost.m_minerals = 100;
 		cost.m_gas = 100;
 		break;
-	case eTerranCommandResearchDurableMaterials:
-		cost.m_minerals = 150;
-		cost.m_gas = 150;
-		break;
 	case eTerranCommandResearch250mmStrikeCannons:
 		cost.m_minerals = 150;
 		cost.m_gas = 150;
@@ -2079,6 +2075,10 @@ void CTerranState::GetCost(CResourceCost &cost, ETerranCommand command)
 	case eTerranCommandResearchShipPlating3:
 		cost.m_minerals = 300;
 		cost.m_gas = 300;
+		break;
+	case eTerranCommandResearchDurableMaterials:
+		cost.m_minerals = 150;
+		cost.m_gas = 150;
 		break;
 	case eTerranCommandResearchCorvidReactor:
 		cost.m_minerals = 150;
@@ -2300,7 +2300,6 @@ void CTerranState::PrintDetails(CString &output) const
 	if(m_researchPersonalCloakingCompleted)		output.AppendFormat(L" Personal Cloaking");
 	if(m_researchInfernalPreIgniterCompleted)	output.AppendFormat(L" Infernal Pre-igniter");
 	if(m_researchSiegeTechCompleted)			output.AppendFormat(L" Siege Tech");
-	if(m_researchDurableMaterialsCompleted)		output.AppendFormat(L" Durable Materials");
 	if(m_research250mmStrikeCannonsCompleted)	output.AppendFormat(L" 250mm Strike Cannons");
 	if(m_researchVehicleWeapons1Completed)		output.AppendFormat(L" Vehicle Weapons 1");
 	if(m_researchVehicleWeapons2Completed)		output.AppendFormat(L" Vehicle Weapons 2");
@@ -2314,6 +2313,7 @@ void CTerranState::PrintDetails(CString &output) const
 	if(m_researchShipPlating1Completed)			output.AppendFormat(L" Ship Plating 1");
 	if(m_researchShipPlating2Completed)			output.AppendFormat(L" Ship Plating 2");
 	if(m_researchShipPlating3Completed)			output.AppendFormat(L" Ship Plating 3");
+	if(m_researchDurableMaterialsCompleted)		output.AppendFormat(L" Durable Materials");
 	if(m_researchCorvidReactorCompleted)		output.AppendFormat(L" Corvid Reactor");
 	if(m_researchCaduceusReactorCompleted)		output.AppendFormat(L" Caduceus Reactor");
 	if(m_researchSeekerMissileCompleted)		output.AppendFormat(L" Seeker Missile");

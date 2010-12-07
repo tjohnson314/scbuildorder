@@ -49,6 +49,7 @@ public:
 
 	size_t m_techLabCount;
 	size_t m_reactorCount;
+	size_t m_ghostAcademyNukeCount;
 
 	// Units
 	bool m_constantSCVProduction;
@@ -87,7 +88,6 @@ public:
 	bool m_researchPersonalCloakingCompleted;
 	bool m_researchInfernalPreIgniterCompleted;
 	bool m_researchSiegeTechCompleted;
-	bool m_researchDurableMaterialsCompleted;
 	bool m_research250mmStrikeCannonsCompleted;
 	bool m_researchVehicleWeapons1Completed;
 	bool m_researchVehicleWeapons2Completed;
@@ -101,6 +101,7 @@ public:
 	bool m_researchShipPlating1Completed;
 	bool m_researchShipPlating2Completed;
 	bool m_researchShipPlating3Completed;
+	bool m_researchDurableMaterialsCompleted;
 	bool m_researchCorvidReactorCompleted;
 	bool m_researchCaduceusReactorCompleted;
 	bool m_researchSeekerMissileCompleted;

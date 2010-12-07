@@ -49,7 +49,7 @@ protected:
 protected:
 	CProtossEngine *m_protossEngine;
 
-	virtual void StartEngine();
+	virtual bool StartEngine();
 	virtual void StopEngine();
 
 	CVector<EProtossCommand> m_bestBuildOrder;
@@ -60,6 +60,7 @@ protected:
 
 	virtual const CEngine *GetEngine() const { return m_protossEngine; }
 	virtual bool UpdateBestBuildOrder();
+	virtual void PrintBestGame(EOutputFormat format, CString &text) const;
 	virtual CDialog *GetTargetDlg(int index) { return m_waypointDlgs[index]; }
 };
 

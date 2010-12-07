@@ -33,6 +33,7 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 protected:
 	virtual void OnInitialUpdate();
+	void DDX_Combo(CDataExchange* pDX, int nIDC, int &value);
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 // Implementation
@@ -61,12 +62,14 @@ protected:
 	UINT m_updateTimer;
 	DWORD m_startTickCount;
 	double m_timeLimit;
+	int m_outputFormat;
 	CBrush m_completionBackgroundBrush;
+	bool m_redrawBuildOrder;
 
 	CNumberFormat m_numberFormatInt;
 	CNumberFormat m_numberFormatFloat;
 
-	virtual void StartEngine();
+	virtual bool StartEngine();
 	virtual void StopEngine();
 
 	CSettingsDlg *m_settingsDlg;
@@ -83,10 +86,14 @@ protected:
 
 	virtual const CEngine *GetEngine() const = 0;
 	virtual bool UpdateBestBuildOrder() = 0;
+	virtual void PrintBestGame(EOutputFormat format, CString &text) const = 0;
 	virtual CDialog *GetTargetDlg(int index) = 0;
+
+	void PrintOutput();
 
 public:
 	afx_msg void OnTcnSelchangeTabPages(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnCbnSelchangeComboOutputformat();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 
 	CFont m_font;

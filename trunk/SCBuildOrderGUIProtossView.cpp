@@ -40,6 +40,7 @@ CSCBuildOrderGUIProtossView::CSCBuildOrderGUIProtossView()
 CSCBuildOrderGUIProtossView::~CSCBuildOrderGUIProtossView()
 {
 	StopEngine();
+	delete m_protossEngine;
 
 	while(m_waypointDlgs.size() > 0)
 		delete m_waypointDlgs.pop();
@@ -104,10 +105,11 @@ CSCBuildOrderGUIDoc* CSCBuildOrderGUIProtossView::GetDocument() const // non-deb
 #endif //_DEBUG
 
 // CSCBuildOrderGUIProtossView message handlers
-void CSCBuildOrderGUIProtossView::StartEngine()
+bool CSCBuildOrderGUIProtossView::StartEngine()
 {
-	CSCBuildOrderGUIView::StartEngine();
+	m_settingsDlg->UpdateData(TRUE);
 
+	delete m_protossEngine;
 	m_protossEngine = new CProtossEngine(m_settingsDlg->GetTimeLimit());
 	bool waypointAdded = false;
 	for(size_t i=0; i < m_waypointDlgs.size(); i++)
@@ -123,7 +125,7 @@ void CSCBuildOrderGUIProtossView::StartEngine()
 		delete m_protossEngine;
 		m_protossEngine = 0;
 		MessageBox(L"No waypoints to be added.  Please enter target details.");
-		return;
+		return false;
 	}
 
 	InitEngine(m_protossEngine);
@@ -141,6 +143,8 @@ void CSCBuildOrderGUIProtossView::StartEngine()
 	}
 
 	m_protossEngine->Start();
+
+	return CSCBuildOrderGUIView::StartEngine();
 }
 
 void CSCBuildOrderGUIProtossView::StopEngine()
@@ -148,11 +152,7 @@ void CSCBuildOrderGUIProtossView::StopEngine()
 	CSCBuildOrderGUIView::StopEngine();
 
 	if(m_protossEngine)
-	{
 		m_protossEngine->Stop();
-		delete m_protossEngine;
-		m_protossEngine = 0;
-	}
 }
 
 bool CSCBuildOrderGUIProtossView::UpdateBestBuildOrder()
@@ -166,6 +166,14 @@ bool CSCBuildOrderGUIProtossView::UpdateBestBuildOrder()
 	}
 
 	return false;
+}
+
+void CSCBuildOrderGUIProtossView::PrintBestGame(EOutputFormat format, CString &text) const
+{
+	if(!m_protossEngine)
+		return;
+
+	m_protossEngine->PrintGame(format, m_bestBuildOrder, text);
 }
 
 void CSCBuildOrderGUIProtossView::SetTargetDlgPositions(const CRect &rect)

@@ -40,6 +40,7 @@ CSCBuildOrderGUITerranView::CSCBuildOrderGUITerranView()
 CSCBuildOrderGUITerranView::~CSCBuildOrderGUITerranView()
 {
 	StopEngine();
+	delete m_terranEngine;
 
 	while(m_waypointDlgs.size() > 0)
 		delete m_waypointDlgs.pop();
@@ -104,10 +105,11 @@ CSCBuildOrderGUIDoc* CSCBuildOrderGUITerranView::GetDocument() const // non-debu
 #endif //_DEBUG
 
 // CSCBuildOrderGUITerranView message handlers
-void CSCBuildOrderGUITerranView::StartEngine()
+bool CSCBuildOrderGUITerranView::StartEngine()
 {
-	CSCBuildOrderGUIView::StartEngine();
+	m_settingsDlg->UpdateData(TRUE);
 
+	delete m_terranEngine;
 	m_terranEngine = new CTerranEngine(m_settingsDlg->GetTimeLimit());
 	bool waypointAdded = false;
 	for(size_t i=0; i < m_waypointDlgs.size(); i++)
@@ -123,7 +125,7 @@ void CSCBuildOrderGUITerranView::StartEngine()
 		delete m_terranEngine;
 		m_terranEngine = 0;
 		MessageBox(L"No waypoints to be added.  Please enter target details.");
-		return;
+		return false;
 	}
 
 	InitEngine(m_terranEngine);
@@ -141,6 +143,8 @@ void CSCBuildOrderGUITerranView::StartEngine()
 	}
 
 	m_terranEngine->Start();
+
+	return CSCBuildOrderGUIView::StartEngine();
 }
 
 void CSCBuildOrderGUITerranView::StopEngine()
@@ -166,6 +170,14 @@ bool CSCBuildOrderGUITerranView::UpdateBestBuildOrder()
 	}
 
 	return false;
+}
+
+void CSCBuildOrderGUITerranView::PrintBestGame(EOutputFormat format, CString &text) const
+{
+	if(!m_terranEngine)
+		return;
+
+	m_terranEngine->PrintGame(format, m_bestBuildOrder, text);
 }
 
 void CSCBuildOrderGUITerranView::SetTargetDlgPositions(const CRect &rect)

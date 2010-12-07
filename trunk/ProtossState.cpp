@@ -2206,7 +2206,8 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 	case eProtossCommandBuildPylon:
 		return 0 < m_probesOnMinerals + m_probesOnGas + m_probeUnderConstruction;
 	case eProtossCommandBuildAssimilator:
-		return 0 < m_probesOnMinerals + m_probesOnGas + m_probeUnderConstruction;
+		return 0 < m_probesOnMinerals + m_probesOnGas + m_probeUnderConstruction
+			&& m_assimilatorCount + m_assimilatorUnderConstruction < 2 * (m_nexusCount + m_nexusUnderConstruction);
 	case eProtossCommandBuildGateway:
 		return 0 < m_nexusCount + m_nexusUnderConstruction
 			&& 0 < m_pylonCount + m_pylonUnderConstruction
@@ -2346,9 +2347,6 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 	case eProtossCommandChronoTemplarArchives:
 		return 0 < m_nexusCount
 			&& 0 < m_templarArchivesCount + m_templarArchivesUnderConstruction;
-	case eProtossCommandChronoDarkShrine:
-		return 0 < m_nexusCount
-			&& 0 < m_darkShrineCount + m_darkShrineUnderConstruction;
 	case eProtossCommandChronoRoboticsFacility:
 		return 0 < m_nexusCount
 			&& 0 < m_roboticsFacilityCount + m_roboticsFacilityUnderConstruction;
@@ -2361,16 +2359,6 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 	case eProtossCommandChronoFleetBeacon:
 		return 0 < m_nexusCount
 			&& 0 < m_fleetBeaconCount + m_fleetBeaconUnderConstruction;
-
-	case eProtossCommandMoveProbeToGas:
-		return 0 < m_nexusCount + m_nexusUnderConstruction
-			&& 0 < m_assimilatorCount + m_assimilatorUnderConstruction
-			&& 0 < m_probesOnMinerals + m_probeUnderConstruction
-			&& m_probesOnGas < CGameCalcs::GasWorkerLimit(m_nexusCount + m_nexusUnderConstruction, m_assimilatorCount + m_assimilatorUnderConstruction);
-	case eProtossCommandMoveProbeToMinerals:
-		return 0 < m_nexusCount + m_nexusUnderConstruction
-			&& 0 < m_probesOnGas
-			&& m_probesOnMinerals < CGameCalcs::MineralWorkerLimit(m_nexusCount + m_nexusUnderConstruction);
 
 	case eProtossCommandResearchGroundWeapons1:
 		return 0 < m_forgeCount + m_forgeUnderConstruction
@@ -2461,6 +2449,15 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 		return 0 < m_fleetBeaconCount + m_fleetBeaconUnderConstruction
 			&& !m_researchGravitonCatapultCompleted && !m_researchGravitonCatapultUnderConstruction;
 
+	case eProtossCommandMoveProbeToGas:
+		return 0 < m_nexusCount + m_nexusUnderConstruction
+			&& 0 < m_probesOnMinerals + m_probeUnderConstruction
+			&& m_probesOnGas < CGameCalcs::GasWorkerLimit(m_nexusCount + m_nexusUnderConstruction, m_assimilatorCount + m_assimilatorUnderConstruction);
+	case eProtossCommandMoveProbeToMinerals:
+		return 0 < m_nexusCount + m_nexusUnderConstruction
+			&& 0 < m_probesOnGas
+			&& m_probesOnMinerals < CGameCalcs::MineralWorkerLimit(m_nexusCount + m_nexusUnderConstruction);
+
 	default:
 		return true;
 	}
@@ -2475,7 +2472,8 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 	case eProtossCommandBuildPylon:
 		return 0 < m_probesOnMinerals + m_probesOnGas;
 	case eProtossCommandBuildAssimilator:
-		return 0 < m_probesOnMinerals + m_probesOnGas;
+		return 0 < m_probesOnMinerals + m_probesOnGas
+			&& m_assimilatorCount + m_assimilatorUnderConstruction < 2 * m_nexusCount;
 	case eProtossCommandBuildGateway:
 		return 0 < m_nexusCount
 			&& 0 < m_pylonCount
@@ -2615,9 +2613,6 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 	case eProtossCommandChronoTemplarArchives:
 		return 0 < m_nexusCount
 			&& m_templarArchivesChronoCount < m_templarArchivesCount;
-	case eProtossCommandChronoDarkShrine:
-		return 0 < m_nexusCount
-			&& m_darkShrineChronoCount < m_darkShrineCount;
 	case eProtossCommandChronoRoboticsFacility:
 		return 0 < m_nexusCount
 			&& m_roboticsFacilityChronoCount < m_roboticsFacilityCount;
@@ -2630,15 +2625,6 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 	case eProtossCommandChronoFleetBeacon:
 		return 0 < m_nexusCount
 			&& m_fleetBeaconChronoCount < m_fleetBeaconCount;
-
-	case eProtossCommandMoveProbeToGas:
-		return 0 < m_nexusCount
-			&& 0 < m_assimilatorCount
-			&& 0 < m_probesOnMinerals;
-	case eProtossCommandMoveProbeToMinerals:
-		return 0 < m_nexusCount
-			&& 0 < m_assimilatorCount
-			&& 0 < m_probesOnGas;
 
 	case eProtossCommandResearchGroundWeapons1:
 		return m_forgeInUse < m_forgeCount;
@@ -2712,6 +2698,15 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 		return m_fleetBeaconInUse < m_fleetBeaconCount;
 	case eProtossCommandResearchGravitonCatapult:
 		return m_fleetBeaconInUse < m_fleetBeaconCount;
+
+	case eProtossCommandMoveProbeToGas:
+		return 0 < m_nexusCount
+			&& 0 < m_probesOnMinerals
+			&& m_probesOnGas < CGameCalcs::GasWorkerLimit(m_nexusCount, m_assimilatorCount);
+	case eProtossCommandMoveProbeToMinerals:
+		return 0 < m_nexusCount
+			&& 0 < m_probesOnGas
+			&& m_probesOnMinerals < CGameCalcs::MineralWorkerLimit(m_nexusCount);
 
 	default:
 		return true;
@@ -2938,7 +2933,6 @@ void CProtossState::GetCost(CResourceCost &cost, EProtossCommand command)
 	case eProtossCommandChronoCyberneticsCore:
 	case eProtossCommandChronoTwilightCouncil:
 	case eProtossCommandChronoTemplarArchives:
-	case eProtossCommandChronoDarkShrine:
 	case eProtossCommandChronoRoboticsFacility:
 	case eProtossCommandChronoRoboticsBay:
 	case eProtossCommandChronoStargate:

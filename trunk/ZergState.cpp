@@ -20,6 +20,7 @@ CZergState::CZergState()
 	{
 		m_queenEnergy[i] = 0;
 		m_larvaCount[i] = 0;
+		m_larvaCapDelay[i] = 15;
 		m_baseSpawningLarvae[i] = false;
 	}
 }
@@ -639,26 +640,31 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 	case CZergEvent::eSpawnQueenLarvae4:
 		{
 			size_t *larvaCount;
+			double *larvaCapDelay;
 			CZergEvent::EEvent spawnEvent;
 			switch(entry->GetData().event())
 			{
 			case CZergEvent::eSpawnQueenLarvae1:
 				larvaCount = &m_larvaCount[0];
+				larvaCapDelay = &m_larvaCapDelay[0];
 				spawnEvent = CZergEvent::eSpawnLarva1;
 				m_baseSpawningLarvae[0] = false;
 				break;
 			case CZergEvent::eSpawnQueenLarvae2:
 				larvaCount = &m_larvaCount[1];
+				larvaCapDelay = &m_larvaCapDelay[1];
 				spawnEvent = CZergEvent::eSpawnLarva2;
 				m_baseSpawningLarvae[1] = false;
 				break;
 			case CZergEvent::eSpawnQueenLarvae3:
 				larvaCount = &m_larvaCount[2];
+				larvaCapDelay = &m_larvaCapDelay[2];
 				spawnEvent = CZergEvent::eSpawnLarva3;
 				m_baseSpawningLarvae[2] = false;
 				break;
 			case CZergEvent::eSpawnQueenLarvae4:
 				larvaCount = &m_larvaCount[3];
+				larvaCapDelay = &m_larvaCapDelay[3];
 				spawnEvent = CZergEvent::eSpawnLarva4;
 				m_baseSpawningLarvae[3] = false;
 				break;
@@ -692,6 +698,8 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 						prevEntry->SetNext(lastEntry->GetNext());
 					else // Must be first entry
 						events = lastEntry->GetNext();
+
+					*larvaCapDelay = lastEntry->GetData().time() - time;
 
 					delete lastEntry;
 				}
@@ -934,7 +942,8 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 	case eZergCommandBuildHatchery:
 		return 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
 	case eZergCommandBuildExtractor:
-		return 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
+		return 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction
+			&& m_extractorCount + m_extractorUnderConstruction < 2 * (m_baseCount + m_hatcheryUnderConstruction);
 	case eZergCommandBuildSpawningPool:
 		return 0 < m_baseCount
 			&& 2 <= m_dronesOnMinerals + m_dronesOnGas + m_droneUnderConstruction;
@@ -1125,7 +1134,6 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 
 	case eZergCommandMoveDroneToGas:
 		return 0 < m_baseCount + m_hatcheryUnderConstruction
-			&& 0 < m_extractorCount + m_extractorUnderConstruction
 			&& 0 < m_dronesOnMinerals + m_droneUnderConstruction
 			&& m_dronesOnGas < CGameCalcs::GasWorkerLimit(m_baseCount + m_hatcheryUnderConstruction, m_extractorCount + m_extractorUnderConstruction);
 	case eZergCommandMoveDroneToMinerals:
@@ -1334,12 +1342,12 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 
 	case eZergCommandMoveDroneToGas:
 		return 0 < m_baseCount
-			&& 0 < m_extractorCount
-			&& 0 < m_dronesOnMinerals;
+			&& 0 < m_dronesOnMinerals
+			&& m_dronesOnGas < CGameCalcs::GasWorkerLimit(m_baseCount, m_extractorCount);
 	case eZergCommandMoveDroneToMinerals:
 		return 0 < m_baseCount
-			&& 0 < m_extractorCount
-			&& 0 < m_dronesOnGas;
+			&& 0 < m_dronesOnGas
+			&& m_dronesOnMinerals < CGameCalcs::MineralWorkerLimit(m_baseCount);
 
 	default:
 		return true;
@@ -1640,25 +1648,37 @@ void CZergState::ConsumeLarva(double &time, CLinkedList<CZergEvent> *&events)
 	{
 		m_larvaCount[0]--;
 		if(m_larvaCount[0] == 2)
-			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva1, time + 15));
+		{
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva1, time + m_larvaCapDelay[0]));
+			m_larvaCapDelay[0] = 15;
+		}
 	}
 	else if(m_larvaCount[1] > 0)
 	{
 		m_larvaCount[1]--;
 		if(m_larvaCount[1] == 2)
-			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva2, time + 15));
+		{
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva2, time + m_larvaCapDelay[1]));
+			m_larvaCapDelay[1] = 15;
+		}
 	}
 	else if(m_larvaCount[2] > 0)
 	{
 		m_larvaCount[2]--;
 		if(m_larvaCount[2] == 2)
-			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva3, time + 15));
+		{
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva3, time + m_larvaCapDelay[2]));
+			m_larvaCapDelay[2] = 15;
+		}
 	}
 	else if(m_larvaCount[3] > 0)
 	{
 		m_larvaCount[3]--;
 		if(m_larvaCount[3] == 2)
-			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva4, time + 15));
+		{
+			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva4, time + m_larvaCapDelay[3]));
+			m_larvaCapDelay[3] = 15;
+		}
 	}
 }
 

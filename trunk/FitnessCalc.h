@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "Vector.h"
 #include "FitnessValue.h"
+#include "OutputFormat.h"
 
 template <typename TTarget, typename TState, typename TCommand, typename TEvent>
 class CFitnessCalc
@@ -30,7 +31,7 @@ public:
 	bool ValidateAndCalculateFitness(CVector<TCommand> &value, CFitnessValue &fitness) const;
 	bool SatisfiesTarget(const CVector<TCommand> &value) const { return false; }
 
-	void PrintGame(CString &output, const CVector<TCommand> &value) const;
+	void PrintGame(EOutputFormat format, CString &output, const CVector<TCommand> &value) const;
 
 protected:
 	double m_timeLimit;
@@ -242,7 +243,7 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 }
 
 template <typename TTarget, typename TState, typename TCommand, typename TEvent>
-void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(CString &output, const CVector<TCommand> &value) const
+void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat format, CString &output, const CVector<TCommand> &value) const
 {
 	double time = 2.0; // Assume it takes 2 secs to start building/mining anything
 	TState state;
@@ -253,6 +254,13 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(CString &output,
 	const TEvent *customEvent = m_customEvents.data();
 	for(size_t i=0; i < m_customEvents.size(); i++, customEvent++)
 		state.AddEvent(events, *customEvent);
+
+	switch(format)
+	{
+	case eOutputFormatHaploid:
+		output.AppendFormat(L"Please check out Haploid's build order tester for details: http://sc2calc.org/build_order/\r\n\r\n# Startup mining delay = %d seconds\r\n# Startup build delay = %d seconds\r\n", (int)time, (int)time);
+		break;
+	}
 
 	size_t cmdIndex = 0;
 	const TCommand *command = value.data();
@@ -307,6 +315,21 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(CString &output,
 						if(events->GetData().time() > m_timeLimit)
 							break;
 
+						state.ProgressTime(time, events->GetData().time() - time);
+
+						if(DisplayEvent(format,events->GetData().event()))
+						{
+							switch(format)
+							{
+							case eOutputFormatFull:
+								output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
+								state.PrintSummary(output);
+								output.Append(L" - ");
+								break;
+							}
+							output.AppendFormat(L"(%s)\r\n", tostring(format, events->GetData().event()));
+						}
+
 						state.ProcessEvent(time, events);
 
 						if((*waypoint)->m_target.satisfiesTarget(state))
@@ -350,9 +373,26 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(CString &output,
 			if(bSatisfied || !bHaveCost || !bHaveStateRequirements)
 				break;
 
-			output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
-			state.PrintSummary(output);
-			output.AppendFormat(L" - %s\r\n", tostring(*command));
+			if(DisplayCommand(format, *command))
+			{
+				switch(format)
+				{
+				case eOutputFormatSimple:
+				case eOutputFormatHaploid:
+				case eOutputFormatYABOT:
+				case eOutputFormatSC2Gears:
+					output.AppendFormat(L"%d ", (int)(state.m_supply));
+					break;
+
+				case eOutputFormatDetailed:
+				case eOutputFormatFull:
+					output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
+					state.PrintSummary(output);
+					output.Append(L" - ");
+					break;
+				}
+				output.AppendFormat(L"%s\r\n", tostring(format, *command));
+			}
 
 			state.SpendResources(cost);
 			state.ExecuteCommand(time, (*waypoint)->m_targetTime, *command, events);
@@ -380,6 +420,21 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(CString &output,
 
 				if(events->GetData().time() > m_timeLimit)
 					break;
+
+				state.ProgressTime(time, events->GetData().time() - time);
+
+				if(DisplayEvent(format,events->GetData().event()))
+				{
+					switch(format)
+					{
+					case eOutputFormatFull:
+						output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
+						state.PrintSummary(output);
+						output.Append(L" - ");
+						break;
+					}
+					output.AppendFormat(L"(%s)\r\n", tostring(format, events->GetData().event()));
+				}
 
 				state.ProcessEvent(time, events);
 

@@ -202,7 +202,6 @@ public:
 	bool m_researchPersonalCloakingCompleted;
 	bool m_researchInfernalPreIgniterCompleted;
 	bool m_researchSiegeTechCompleted;
-	bool m_researchDurableMaterialsCompleted;
 	bool m_research250mmStrikeCannonsCompleted;
 	bool m_researchVehicleWeapons1Completed;
 	bool m_researchVehicleWeapons2Completed;
@@ -216,6 +215,7 @@ public:
 	bool m_researchShipPlating1Completed;
 	bool m_researchShipPlating2Completed;
 	bool m_researchShipPlating3Completed;
+	bool m_researchDurableMaterialsCompleted;
 	bool m_researchCorvidReactorCompleted;
 	bool m_researchCaduceusReactorCompleted;
 	bool m_researchSeekerMissileCompleted;
@@ -240,7 +240,6 @@ public:
 	bool m_researchPersonalCloakingUnderConstruction;
 	bool m_researchInfernalPreIgniterUnderConstruction;
 	bool m_researchSiegeTechUnderConstruction;
-	bool m_researchDurableMaterialsUnderConstruction;
 	bool m_research250mmStrikeCannonsUnderConstruction;
 	bool m_researchVehicleWeapons1UnderConstruction;
 	bool m_researchVehicleWeapons2UnderConstruction;
@@ -254,6 +253,7 @@ public:
 	bool m_researchShipPlating1UnderConstruction;
 	bool m_researchShipPlating2UnderConstruction;
 	bool m_researchShipPlating3UnderConstruction;
+	bool m_researchDurableMaterialsUnderConstruction;
 	bool m_researchCorvidReactorUnderConstruction;
 	bool m_researchCaduceusReactorUnderConstruction;
 	bool m_researchSeekerMissileUnderConstruction;
