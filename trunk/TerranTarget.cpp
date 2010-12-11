@@ -618,7 +618,7 @@ void CTerranTarget::AddRequirements()
 
 	if(m_factoryCount == 0
 		&& (m_armoryCount > 0 || m_starportCount > 0
-			|| m_hellionCount > 0 || m_siegeTankCount > 0 || m_thorCount > 0
+			|| m_hellionCount > 0 || m_siegeTankCount > 0 || m_thorCount > 0 || m_ghostAcademyNukeCount > 0
 			|| m_researchNitroPacksCompleted || m_researchInfernalPreIgniterCompleted || m_researchSiegeTechCompleted || m_research250mmStrikeCannonsCompleted))
 		m_factoryCount++;
 
@@ -639,7 +639,7 @@ void CTerranTarget::AddRequirements()
 		m_researchInfantryArmor1Completed = true;
 
 	if(m_engineeringBayCount == 0
-		&& (m_missileTurretCount > 0 || m_sensorTowerCount > 0
+		&& (m_planetaryFortressCount > 0 || m_missileTurretCount > 0 || m_sensorTowerCount > 0
 			|| m_researchInfantryWeapons1Completed || m_researchInfantryArmor1Completed || m_researchBuildingArmorCompleted || m_researchHiSecAutoTrackingCompleted || m_researchNeoSteelFrameCompleted))
 		m_engineeringBayCount++;
 
