@@ -18,9 +18,9 @@ CZergState::CZergState()
 {
 	for(size_t i=0; i < 4; i++)
 	{
-		m_queenEnergy[i] = 0;
+		m_queenEnergy[i] = 0.0;
 		m_larvaCount[i] = 0;
-		m_larvaCapDelay[i] = 15;
+		m_larvaCapDelay[i] = 15.0;
 		m_baseSpawningLarvae[i] = false;
 	}
 }
@@ -32,7 +32,7 @@ CZergState::~CZergState()
 void CZergState::SetInitialState()
 {
 	memset(this, 0, sizeof(CZergState));
-	m_minerals = 50;
+	m_minerals = 50.0;
 	m_baseCount = 1;
 	m_hatcheryCount = 1;
 	m_droneCount = 6;
@@ -40,6 +40,7 @@ void CZergState::SetInitialState()
 	m_overlordCount = 1;
 	m_larvaTotalCount = 3;
 	m_larvaCount[0] = 3;
+	m_larvaCapDelay[0] = 15.0;
 
 	RecalculateSupply();
 	RecalculateSupplyCap();
@@ -615,24 +616,32 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 		m_larvaCount[0]++;
 		if(m_larvaCount[0] < 3)
 			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva1, time + 15));
+		else
+			m_larvaCapDelay[0] = 15.0;
 		break;
 	case CZergEvent::eSpawnLarva2:
 		m_larvaTotalCount++;
 		m_larvaCount[1]++;
 		if(m_larvaCount[1] < 3)
 			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva2, time + 15));
+		else
+			m_larvaCapDelay[1] = 15.0;
 		break;
 	case CZergEvent::eSpawnLarva3:
 		m_larvaTotalCount++;
 		m_larvaCount[2]++;
 		if(m_larvaCount[2] < 3)
 			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva3, time + 15));
+		else
+			m_larvaCapDelay[2] = 15.0;
 		break;
 	case CZergEvent::eSpawnLarva4:
 		m_larvaTotalCount++;
 		m_larvaCount[3]++;
 		if(m_larvaCount[3] < 3)
 			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva4, time + 15));
+		else
+			m_larvaCapDelay[3] = 15.0;
 		break;
 	case CZergEvent::eSpawnQueenLarvae1:
 	case CZergEvent::eSpawnQueenLarvae2:
@@ -1650,7 +1659,7 @@ void CZergState::ConsumeLarva(double &time, CLinkedList<CZergEvent> *&events)
 		if(m_larvaCount[0] == 2)
 		{
 			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva1, time + m_larvaCapDelay[0]));
-			m_larvaCapDelay[0] = 15;
+			m_larvaCapDelay[0] = 15.0;
 		}
 	}
 	else if(m_larvaCount[1] > 0)
@@ -1659,7 +1668,7 @@ void CZergState::ConsumeLarva(double &time, CLinkedList<CZergEvent> *&events)
 		if(m_larvaCount[1] == 2)
 		{
 			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva2, time + m_larvaCapDelay[1]));
-			m_larvaCapDelay[1] = 15;
+			m_larvaCapDelay[1] = 15.0;
 		}
 	}
 	else if(m_larvaCount[2] > 0)
@@ -1668,7 +1677,7 @@ void CZergState::ConsumeLarva(double &time, CLinkedList<CZergEvent> *&events)
 		if(m_larvaCount[2] == 2)
 		{
 			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva3, time + m_larvaCapDelay[2]));
-			m_larvaCapDelay[2] = 15;
+			m_larvaCapDelay[2] = 15.0;
 		}
 	}
 	else if(m_larvaCount[3] > 0)
@@ -1677,7 +1686,7 @@ void CZergState::ConsumeLarva(double &time, CLinkedList<CZergEvent> *&events)
 		if(m_larvaCount[3] == 2)
 		{
 			AddEvent(events, CZergEvent(CZergEvent::eSpawnLarva4, time + m_larvaCapDelay[3]));
-			m_larvaCapDelay[3] = 15;
+			m_larvaCapDelay[3] = 15.0;
 		}
 	}
 }

@@ -1419,7 +1419,8 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 		return 0 < m_ghostAcademyCount + m_ghostAcademyUnderConstruction
 			&& !m_researchPersonalCloakingCompleted && !m_researchPersonalCloakingUnderConstruction;
 	case eTerranCommandArmNuke:
-		return m_ghostAcademyNukeCount + m_ghostAcademyNukeUnderConstruction < m_ghostAcademyCount + m_ghostAcademyUnderConstruction;
+		return 0 < m_factoryCount + m_factoryUnderConstruction
+			&& m_ghostAcademyNukeCount + m_ghostAcademyNukeUnderConstruction < m_ghostAcademyCount + m_ghostAcademyUnderConstruction;
 	case eTerranCommandResearchInfernalPreIgniter:
 		return 0 < m_factoryTechLabCount + m_factoryTechLabUnderConstruction
 			&& !m_researchInfernalPreIgniterCompleted && !m_researchInfernalPreIgniterUnderConstruction;
@@ -1736,7 +1737,8 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 	case eTerranCommandResearchPersonalCloaking:
 		return m_ghostAcademyInUse < m_ghostAcademyCount;
 	case eTerranCommandArmNuke:
-		return m_ghostAcademyNukeCount + m_ghostAcademyInUse < m_ghostAcademyCount;
+		return 0 < m_factoryCount
+			&& m_ghostAcademyNukeCount + m_ghostAcademyInUse < m_ghostAcademyCount;
 	case eTerranCommandResearchInfernalPreIgniter:
 		return m_factoryTechLabResearchInUse < m_factoryTechLabCount;
 	case eTerranCommandResearchSiegeTech:
