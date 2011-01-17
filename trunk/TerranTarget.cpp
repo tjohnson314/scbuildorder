@@ -644,7 +644,7 @@ void CTerranTarget::AddRequirements()
 		m_engineeringBayCount++;
 
 	if(m_barracksCount == 0
-		&& (m_techLabCount > 0 || m_reactorCount > 0 || m_engineeringBayCount > 0 || m_orbitalCommandCount > 0 || m_ghostAcademyCount > 0 || m_factoryCount > 0
+		&& (m_techLabCount > 0 || m_reactorCount > 0 || m_orbitalCommandCount > 0 || m_ghostAcademyCount > 0 || m_factoryCount > 0
 			|| m_marineCount > 0 || m_marauderCount > 0 || m_reaperCount > 0))
 		m_barracksCount++;
 
@@ -774,22 +774,72 @@ void CTerranTarget::BuildAlphabet(CVector<ETerranCommand> &alphabet) const
 	if(m_fusionCoreCount > 0)
 		alphabet.push_back(eTerranCommandBuildFusionCore);
 
+
+	if(m_techLabCount > 0 || m_reactorCount > 0)
+	{
+		alphabet.push_back(eTerranCommandLiftBarracksNaked);
+		alphabet.push_back(eTerranCommandLandBarracksNaked);
+
+		if(m_factoryCount > 0)
+		{
+			alphabet.push_back(eTerranCommandLiftFactoryNaked);
+			alphabet.push_back(eTerranCommandLandFactoryNaked);
+		}
+
+		if(m_starportCount > 0)
+		{
+			alphabet.push_back(eTerranCommandLiftStarportNaked);
+			alphabet.push_back(eTerranCommandLandStarportNaked);
+		}
+	}
+
 	if(m_techLabCount > 0)
 	{
 		alphabet.push_back(eTerranCommandBuildBarracksTechLab);
+		alphabet.push_back(eTerranCommandBuildBarracksOnTechLab); // TODO: Should test if anything actually needs a barracks tech lab
+		alphabet.push_back(eTerranCommandLiftBarracksTechLab);
+		alphabet.push_back(eTerranCommandLandBarracksTechLab);
+
 		if(m_factoryCount > 0)
+		{
 			alphabet.push_back(eTerranCommandBuildFactoryTechLab);
+			alphabet.push_back(eTerranCommandBuildFactoryOnTechLab); // TODO: Should test if anything actually needs a factory tech lab
+			alphabet.push_back(eTerranCommandLiftFactoryTechLab);
+			alphabet.push_back(eTerranCommandLandFactoryTechLab);
+		}
 		if(m_starportCount > 0)
+		{
 			alphabet.push_back(eTerranCommandBuildStarportTechLab);
+			alphabet.push_back(eTerranCommandBuildStarportOnTechLab); // TODO: Should test if anything actually needs a starport tech lab
+			alphabet.push_back(eTerranCommandLiftStarportTechLab);
+			alphabet.push_back(eTerranCommandLandStarportTechLab);
+		}
 	}
 
-	if(m_reactorCount > 0 || m_marineCount >= 2 || m_hellionCount >= 2 || m_vikingCount >= 2 || m_medivacCount >= 2)
+	if(m_reactorCount > 0 || m_marineCount >= 2 || m_hellionCount >= 2 || m_vikingCount + m_medivacCount >= 2)
 	{
 		alphabet.push_back(eTerranCommandBuildBarracksReactor);
+		if(m_marineCount >= 2)
+			alphabet.push_back(eTerranCommandBuildBarracksOnReactor);
+		alphabet.push_back(eTerranCommandLiftBarracksReactor);
+		alphabet.push_back(eTerranCommandLandBarracksReactor);
+
 		if(m_factoryCount > 0)
+		{
 			alphabet.push_back(eTerranCommandBuildFactoryReactor);
+			if(m_hellionCount >= 2)
+				alphabet.push_back(eTerranCommandBuildFactoryOnReactor);
+			alphabet.push_back(eTerranCommandLiftFactoryReactor);
+			alphabet.push_back(eTerranCommandLandFactoryReactor);
+		}
 		if(m_starportCount > 0)
+		{
 			alphabet.push_back(eTerranCommandBuildStarportReactor);
+			if(m_vikingCount + m_medivacCount >= 2)
+				alphabet.push_back(eTerranCommandBuildStarportOnReactor);
+			alphabet.push_back(eTerranCommandLiftStarportReactor);
+			alphabet.push_back(eTerranCommandLandStarportReactor);
+		}
 	}
 
 	if(m_ghostAcademyNukeCount > 0)

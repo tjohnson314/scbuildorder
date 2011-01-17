@@ -88,23 +88,4 @@ enum EProtossCommand
 
 const WCHAR *tostring(EOutputFormat format, EProtossCommand command);
 
-inline bool DisplayCommand(EOutputFormat format, EProtossCommand command)
-{
-	switch(format)
-	{
-	case eOutputFormatSimple:
-		return eProtossCommandBuildProbe != command;
-	case eOutputFormatDetailed:
-		return true;
-	case eOutputFormatFull:
-		return true;
-	case eOutputFormatHaploid:
-		return eProtossCommandBuildProbe != command;
-	case eOutputFormatYABOT:
-		return eProtossCommandBuildProbe != command;
-	case eOutputFormatSC2Gears:
-		return eProtossCommandBuildProbe != command;
-	}
-
-	return false;
-}
+bool DisplayCommand(EOutputFormat format, EProtossCommand command);

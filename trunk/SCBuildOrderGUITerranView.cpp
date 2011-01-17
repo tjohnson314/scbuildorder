@@ -82,6 +82,62 @@ void CSCBuildOrderGUITerranView::AddTargetDlg()
 void CSCBuildOrderGUITerranView::OnInitialUpdate()
 {
 	CSCBuildOrderGUIView::OnInitialUpdate();
+
+/*
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandBuildRefinery);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSupplyDepot);
+	m_bestBuildOrder.push_back(eTerranCommandBuildBarracksNaked);
+	m_bestBuildOrder.push_back(eTerranCommandMoveSCVToGas);
+	m_bestBuildOrder.push_back(eTerranCommandMoveSCVToGas);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandMoveSCVToGas);
+	m_bestBuildOrder.push_back(eTerranCommandBuildFactoryNaked);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandBuildStarportNaked);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandBuildStarportTechLab);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandBuildBanshee);
+	m_bestBuildOrder.push_back(eTerranCommandBuildOrbitalCommand);
+
+	// 	5:38.63
+*/
+
+/*
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandBuildRefinery);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSupplyDepot);
+	m_bestBuildOrder.push_back(eTerranCommandBuildBarracksNaked);
+	m_bestBuildOrder.push_back(eTerranCommandMoveSCVToGas);
+	m_bestBuildOrder.push_back(eTerranCommandMoveSCVToGas);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandMoveSCVToGas);
+	m_bestBuildOrder.push_back(eTerranCommandBuildFactoryNaked);
+	m_bestBuildOrder.push_back(eTerranCommandBuildSCV);
+	m_bestBuildOrder.push_back(eTerranCommandBuildBarracksTechLab);
+	m_bestBuildOrder.push_back(eTerranCommandBuildStarportNaked);
+	m_bestBuildOrder.push_back(eTerranCommandLiftBarracksTechLab);
+	m_bestBuildOrder.push_back(eTerranCommandLiftStarportNaked);
+	m_bestBuildOrder.push_back(eTerranCommandLandStarportTechLab);
+	m_bestBuildOrder.push_back(eTerranCommandBuildBanshee);
+
+	CTerranTarget target;
+	target.m_bansheeCount++;
+
+	m_terranEngine = new CTerranEngine(1200);
+	m_terranEngine->AddWaypoint(target, 1200);
+
+	InitEngine(m_terranEngine);
+
+	CString strOutput;
+	m_terranEngine->PrintGame(eOutputFormatDetailed, m_bestBuildOrder, strOutput);
+	GetDlgItem(IDC_EDIT_OUTPUT)->SetWindowTextW(strOutput);
+*/
 }
 
 // CSCBuildOrderGUIView diagnostics

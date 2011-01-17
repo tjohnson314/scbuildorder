@@ -26,6 +26,9 @@ public:
 
 	bool HasBuildingStateRequirements(double time, EZergCommand command) const;
 	bool HasBuildingRequirements(double time, EZergCommand command) const;
+	EZergCommand GetPrerequisitCommand(EZergCommand command) const;
+	EZergCommand GetNewCommand() const { return eZergCommandNone; }
+	EZergCommand GetReplacementCommand(EZergCommand command) const { return eZergCommandNone; }
 
 	bool HasResources(const CResourceCost &cost) const;
 

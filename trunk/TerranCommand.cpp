@@ -7,7 +7,6 @@ const WCHAR *tostring(EOutputFormat format, ETerranCommand command)
 	{
 	case eOutputFormatSimple:
 	case eOutputFormatHaploid:
-	case eOutputFormatYABOT:
 	case eOutputFormatSC2Gears:
 		switch(command)
 		{
@@ -492,7 +491,274 @@ const WCHAR *tostring(EOutputFormat format, ETerranCommand command)
 			return L"Move SCV To Minerals";
 		}
 		break;
+
+	case eOutputFormatYABOT:
+		switch(command)
+		{
+		case eTerranCommandBuildCommandCenter:
+			return L"0 3 0";
+		case eTerranCommandBuildRefinery:
+			return L"0 12 0";
+		case eTerranCommandBuildSupplyDepot:
+			return L"0 15 0";
+		case eTerranCommandBuildBarracksNaked:
+		case eTerranCommandBuildBarracksOnTechLab:
+		case eTerranCommandBuildBarracksOnReactor:
+			return L"0 1 0";
+		case eTerranCommandBuildOrbitalCommand:
+			return L"2 0 0";
+		case eTerranCommandBuildEngineeringBay:
+			return L"0 4 0";
+		case eTerranCommandBuildBunker:
+			return L"0 2 0";
+		case eTerranCommandBuildMissileTurret:
+			return L"0 8 0";
+		case eTerranCommandBuildSensorTower:
+			return L"0 13 0";
+		case eTerranCommandBuildPlanetaryFortress:
+			return L"2 1 0";
+		case eTerranCommandBuildGhostAcademy:
+			return L"0 7 0";
+		case eTerranCommandBuildFactoryNaked:
+		case eTerranCommandBuildFactoryOnTechLab:
+		case eTerranCommandBuildFactoryOnReactor:
+			return L"0 5 0";
+		case eTerranCommandBuildArmory:
+			return L"0 0 0";
+		case eTerranCommandBuildStarportNaked:
+		case eTerranCommandBuildStarportOnTechLab:
+		case eTerranCommandBuildStarportOnReactor:
+			return L"0 14 0";
+		case eTerranCommandBuildFusionCore:
+			return L"0 6 0";
+
+		case eTerranCommandBuildBarracksTechLab:
+		case eTerranCommandBuildFactoryTechLab:
+		case eTerranCommandBuildStarportTechLab:
+			return L"0 16 0";
+		case eTerranCommandBuildBarracksReactor:
+		case eTerranCommandBuildFactoryReactor:
+		case eTerranCommandBuildStarportReactor:
+			return L"0 9 0";
+
+		case eTerranCommandLiftBarracksTechLab:
+		case eTerranCommandLiftBarracksReactor:
+		case eTerranCommandLiftBarracksNaked:
+		case eTerranCommandLiftFactoryTechLab:
+		case eTerranCommandLiftFactoryReactor:
+		case eTerranCommandLiftFactoryNaked:
+		case eTerranCommandLiftStarportTechLab:
+		case eTerranCommandLiftStarportReactor:
+		case eTerranCommandLiftStarportNaked:
+			return L"";
+
+		case eTerranCommandLandBarracksTechLab:
+		case eTerranCommandLandBarracksReactor:
+		case eTerranCommandLandBarracksNaked:
+		case eTerranCommandLandFactoryTechLab:
+		case eTerranCommandLandFactoryReactor:
+		case eTerranCommandLandFactoryNaked:
+		case eTerranCommandLandStarportTechLab:
+		case eTerranCommandLandStarportReactor:
+		case eTerranCommandLandStarportNaked:
+			return L"";
+
+		case eTerranCommandBuildSCV:
+			return L"1 9 0";
+		case eTerranCommandBuildMarine:
+		case eTerranCommandBuildMarineNaked:
+		case eTerranCommandBuildMarineReactor:
+		case eTerranCommandBuildMarineTechLab:
+			return L"1 5 0";
+		case eTerranCommandBuildMarauder:
+			return L"1 4 0";
+		case eTerranCommandBuildReaper:
+			return L"1 8 0";
+		case eTerranCommandBuildGhost:
+			return L"1 2 0";
+		case eTerranCommandBuildHellion:
+		case eTerranCommandBuildHellionNaked:
+		case eTerranCommandBuildHellionReactor:
+		case eTerranCommandBuildHellionTechLab:
+			return L"1 3 0";
+		case eTerranCommandBuildSiegeTank:
+			return L"1 10 0";
+		case eTerranCommandBuildThor:
+			return L"1 11 0";
+		case eTerranCommandBuildViking:
+		case eTerranCommandBuildVikingNaked:
+		case eTerranCommandBuildVikingReactor:
+		case eTerranCommandBuildVikingTechLab:
+			return L"1 12 0";
+		case eTerranCommandBuildMedivac:
+		case eTerranCommandBuildMedivacNaked:
+		case eTerranCommandBuildMedivacReactor:
+		case eTerranCommandBuildMedivacTechLab:
+			return L"1 6 0";
+		case eTerranCommandBuildRaven:
+			return L"1 7 0";
+		case eTerranCommandBuildBanshee:
+			return L"1 0 0";
+		case eTerranCommandBuildBattleCruiser:
+			return L"1 1 0";
+
+		case eTerranCommandCalldownMULE:
+			return L"";
+		case eTerranCommandCalldownExtraSupplies:
+			return L"";
+		case eTerranCommandScannerSweep:
+			return L"";
+
+		case eTerranCommandResearchStimpack:
+			return L"3 11 0";
+		case eTerranCommandResearchCombatShield:
+			return L"3 16 0";
+		case eTerranCommandResearchNitroPacks:
+			return L"3 17 0";
+		case eTerranCommandResearchConcussiveShells:
+			return L"3 15 0";
+		case eTerranCommandResearchInfantryWeapons1:
+			return L"3 2 0";
+		case eTerranCommandResearchInfantryWeapons2:
+			return L"3 2 0";
+		case eTerranCommandResearchInfantryWeapons3:
+			return L"3 2 0";
+		case eTerranCommandResearchInfantryArmor1:
+			return L"3 1 0";
+		case eTerranCommandResearchInfantryArmor2:
+			return L"3 1 0";
+		case eTerranCommandResearchInfantryArmor3:
+			return L"3 1 0";
+		case eTerranCommandResearchBuildingArmor:
+			return L"3 0 0";
+		case eTerranCommandResearchHiSecAutoTracking:
+			return L"";
+		case eTerranCommandResearchNeoSteelFrame:
+			return L"3 14 0";
+		case eTerranCommandResearchMoebiusReactor:
+			return L"3 46 0";
+		case eTerranCommandResearchPersonalCloaking:
+			return L"3 9 0";
+		case eTerranCommandArmNuke:
+			return L"";
+		case eTerranCommandResearchInfernalPreIgniter:
+			return L"3 10 0";
+		case eTerranCommandResearchSiegeTech:
+			return L"3 13 0";
+		case eTerranCommandResearch250mmStrikeCannons:
+			return L"3 7 0";
+		case eTerranCommandResearchVehicleWeapons1:
+			return L"3 6 0";
+		case eTerranCommandResearchVehicleWeapons2:
+			return L"3 6 0";
+		case eTerranCommandResearchVehicleWeapons3:
+			return L"3 6 0";
+		case eTerranCommandResearchVehiclePlating1:
+			return L"3 5 0";
+		case eTerranCommandResearchVehiclePlating2:
+			return L"3 5 0";
+		case eTerranCommandResearchVehiclePlating3:
+			return L"3 5 0";
+		case eTerranCommandResearchShipWeapons1:
+			return L"3 4 0";
+		case eTerranCommandResearchShipWeapons2:
+			return L"3 4 0";
+		case eTerranCommandResearchShipWeapons3:
+			return L"3 4 0";
+		case eTerranCommandResearchShipPlating1:
+			return L"3 3 0";
+		case eTerranCommandResearchShipPlating2:
+			return L"3 3 0";
+		case eTerranCommandResearchShipPlating3:
+			return L"3 3 0";
+		case eTerranCommandResearchDurableMaterials:
+			return L"";
+		case eTerranCommandResearchCorvidReactor:
+			return L"";
+		case eTerranCommandResearchCaduceusReactor:
+			return L"";
+		case eTerranCommandResearchSeekerMissile:
+			return L"";
+		case eTerranCommandResearchCloakingField:
+			return L"3 8 0";
+		case eTerranCommandResearchBehemothReactor:
+			return L"";
+		case eTerranCommandResearchWeaponRefit:
+			return L"";
+
+		case eTerranCommandMoveSCVToGas:
+			return L"";
+		case eTerranCommandMoveSCVToMinerals:
+			return L"";
+		}
+		break;
+
 	}
 	
 	return L"";
+}
+
+bool DisplayCommand(EOutputFormat format, ETerranCommand command)
+{
+	switch(format)
+	{
+	case eOutputFormatSimple:
+		return eTerranCommandBuildSCV != command;
+	case eOutputFormatDetailed:
+		return true;
+	case eOutputFormatFull:
+		return true;
+	case eOutputFormatHaploid:
+		return eTerranCommandBuildSCV != command;
+	case eOutputFormatYABOT:
+		switch(command)
+		{
+		case eTerranCommandLiftBarracksTechLab:
+		case eTerranCommandLiftBarracksReactor:
+		case eTerranCommandLiftBarracksNaked:
+		case eTerranCommandLiftFactoryTechLab:
+		case eTerranCommandLiftFactoryReactor:
+		case eTerranCommandLiftFactoryNaked:
+		case eTerranCommandLiftStarportTechLab:
+		case eTerranCommandLiftStarportReactor:
+		case eTerranCommandLiftStarportNaked:
+
+		case eTerranCommandLandBarracksTechLab:
+		case eTerranCommandLandBarracksReactor:
+		case eTerranCommandLandBarracksNaked:
+		case eTerranCommandLandFactoryTechLab:
+		case eTerranCommandLandFactoryReactor:
+		case eTerranCommandLandFactoryNaked:
+		case eTerranCommandLandStarportTechLab:
+		case eTerranCommandLandStarportReactor:
+		case eTerranCommandLandStarportNaked:
+
+		case eTerranCommandBuildSCV:
+		case eTerranCommandCalldownMULE:
+		case eTerranCommandCalldownExtraSupplies:
+		case eTerranCommandScannerSweep:
+
+		case eTerranCommandResearchNitroPacks:
+		case eTerranCommandArmNuke:
+		case eTerranCommandResearchHiSecAutoTracking:
+		case eTerranCommandResearchDurableMaterials:
+		case eTerranCommandResearchCorvidReactor:
+		case eTerranCommandResearchCaduceusReactor:
+		case eTerranCommandResearchSeekerMissile:
+		case eTerranCommandResearchBehemothReactor:
+		case eTerranCommandResearchWeaponRefit:
+
+		case eTerranCommandMoveSCVToGas:
+		case eTerranCommandMoveSCVToMinerals:
+			return false;
+
+		default:
+			return true;
+		}
+
+	case eOutputFormatSC2Gears:
+		return eTerranCommandBuildSCV != command;
+	}
+
+	return false;
 }

@@ -9,3 +9,6 @@ enum EOutputFormat
 	, eOutputFormatYABOT
 	, eOutputFormatSC2Gears
 };
+
+template <typename TCommand>
+void GetInitialYABOTOutput(CString &output);

@@ -28,6 +28,9 @@ public:
 
 	bool HasBuildingStateRequirements(double time, ETerranCommand command) const;
 	bool HasBuildingRequirements(double time, ETerranCommand command) const;
+	ETerranCommand GetPrerequisitCommand(ETerranCommand command) const;
+	ETerranCommand GetNewCommand() const { return eTerranCommandNone; }
+	ETerranCommand GetReplacementCommand(ETerranCommand command) const { return eTerranCommandNone; }
 
 	bool HasResources(const CResourceCost &cost) const;
 
@@ -129,9 +132,6 @@ public:
 	size_t m_starportInUse;
 	size_t m_fusionCoreInUse;
 
-	size_t m_techLabAvailable;
-	size_t m_reactorAvailable;
-
 	size_t m_barracksTechLabInUse;
 	size_t m_barracksReactorInUse;
 	size_t m_factoryTechLabInUse;
@@ -142,6 +142,20 @@ public:
 	size_t m_barracksTechLabResearchInUse;
 	size_t m_factoryTechLabResearchInUse;
 	size_t m_starportTechLabResearchInUse;
+
+	size_t m_barracksLiftingOff;
+	size_t m_factoryLiftingOff;
+	size_t m_starportLiftingOff;
+
+	size_t m_barracksReadyToLand;
+	size_t m_factoryReadyToLand;
+	size_t m_starportReadyToLand;
+
+	size_t m_techLabBecomingAvailable;
+	size_t m_reactorBecomingAvailable;
+
+	size_t m_techLabAvailable;
+	size_t m_reactorAvailable;
 
 	size_t m_ghostAcademyNukeCount;
 	size_t m_ghostAcademyNukeUnderConstruction;

@@ -39,6 +39,24 @@ public:
 			, eSpawnStarportTechLab
 			, eSpawnStarportReactor
 
+			// Building States
+			, eBarracksReadyToLand
+			, eFactoryReadyToLand
+			, eStarportReadyToLand
+
+			, eTechLabAvailable
+			, eReactorAvailable
+
+			, eBarracksLandedNaked
+			, eBarracksLandedOnTechLab
+			, eBarracksLandedOnReactor
+			, eFactoryLandedNaked
+			, eFactoryLandedOnTechLab
+			, eFactoryLandedOnReactor
+			, eStarportLandedNaked
+			, eStarportLandedOnTechLab
+			, eStarportLandedOnReactor
+
 			// Units
 			, eSpawnSCV
 			, eSpawnMULE

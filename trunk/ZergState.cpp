@@ -424,19 +424,49 @@ void CZergState::ExecuteCommand(double &time, double timeLimit, EZergCommand com
 		m_banelingNestInUse++;
 		m_researchCentrifugalHooksUnderConstruction = true;
 		break;
-	case eZergCommandResearchBurrow:
-		AddEvent(events, CZergEvent(CZergEvent::eResearchBurrowComplete, time + 100));
+	case eZergCommandResearchBurrowAtHatchery:
+		AddEvent(events, CZergEvent(CZergEvent::eResearchBurrowCompleteAtHatchery, time + 100));
+		m_hatcheryInUse++;
+		m_researchBurrowUnderConstruction = true;
+		break;
+	case eZergCommandResearchBurrowAtLair:
+		AddEvent(events, CZergEvent(CZergEvent::eResearchBurrowCompleteAtLair, time + 100));
 		m_lairInUse++;
 		m_researchBurrowUnderConstruction = true;
 		break;
-	case eZergCommandResearchPneumaticCarapace:
-		AddEvent(events, CZergEvent(CZergEvent::eResearchPneumaticCarapaceComplete, time + 60));
+	case eZergCommandResearchBurrowAtHive:
+		AddEvent(events, CZergEvent(CZergEvent::eResearchBurrowCompleteAtHive, time + 100));
+		m_hiveInUse++;
+		m_researchBurrowUnderConstruction = true;
+		break;
+	case eZergCommandResearchPneumaticCarapaceAtHatchery:
+		AddEvent(events, CZergEvent(CZergEvent::eResearchPneumaticCarapaceCompleteAtHatchery, time + 60));
+		m_hatcheryInUse++;
+		m_researchPneumaticCarapaceUnderConstruction = true;
+		break;
+	case eZergCommandResearchPneumaticCarapaceAtLair:
+		AddEvent(events, CZergEvent(CZergEvent::eResearchPneumaticCarapaceCompleteAtLair, time + 60));
 		m_lairInUse++;
 		m_researchPneumaticCarapaceUnderConstruction = true;
 		break;
-	case eZergCommandResearchVentralSacs:
-		AddEvent(events, CZergEvent(CZergEvent::eResearchVentralSacsComplete, time + 130));
+	case eZergCommandResearchPneumaticCarapaceAtHive:
+		AddEvent(events, CZergEvent(CZergEvent::eResearchPneumaticCarapaceCompleteAtHive, time + 60));
+		m_hiveInUse++;
+		m_researchPneumaticCarapaceUnderConstruction = true;
+		break;
+	case eZergCommandResearchVentralSacsAtHatchery:
+		AddEvent(events, CZergEvent(CZergEvent::eResearchVentralSacsCompleteAtHatchery, time + 130));
+		m_hatcheryInUse++;
+		m_researchVentralSacsUnderConstruction = true;
+		break;
+	case eZergCommandResearchVentralSacsAtLair:
+		AddEvent(events, CZergEvent(CZergEvent::eResearchVentralSacsCompleteAtLair, time + 130));
 		m_lairInUse++;
+		m_researchVentralSacsUnderConstruction = true;
+		break;
+	case eZergCommandResearchVentralSacsAtHive:
+		AddEvent(events, CZergEvent(CZergEvent::eResearchVentralSacsCompleteAtHive, time + 130));
+		m_hiveInUse++;
 		m_researchVentralSacsUnderConstruction = true;
 		break;
 	case eZergCommandResearchGroovedSpines:
@@ -853,17 +883,47 @@ void CZergState::ProcessEvent(double &time, CLinkedList<CZergEvent> *&events)
 		m_researchCentrifugalHooksUnderConstruction = false;
 		m_banelingNestInUse--;
 		break;
-	case CZergEvent::eResearchBurrowComplete:
+	case CZergEvent::eResearchBurrowCompleteAtHatchery:
+		m_researchBurrowCompleted = true;
+		m_researchBurrowUnderConstruction = false;
+		m_hatcheryInUse--;
+		break;
+	case CZergEvent::eResearchBurrowCompleteAtLair:
+		m_researchBurrowCompleted = true;
+		m_researchBurrowUnderConstruction = false;
+		m_lairInUse--;
+		break;
+	case CZergEvent::eResearchBurrowCompleteAtHive:
 		m_researchBurrowCompleted = true;
 		m_researchBurrowUnderConstruction = false;
 		m_hiveInUse--;
 		break;
-	case CZergEvent::eResearchPneumaticCarapaceComplete:
+	case CZergEvent::eResearchPneumaticCarapaceCompleteAtHatchery:
+		m_researchPneumaticCarapaceCompleted = true;
+		m_researchPneumaticCarapaceUnderConstruction = false;
+		m_hatcheryInUse--;
+		break;
+	case CZergEvent::eResearchPneumaticCarapaceCompleteAtLair:
+		m_researchPneumaticCarapaceCompleted = true;
+		m_researchPneumaticCarapaceUnderConstruction = false;
+		m_lairInUse--;
+		break;
+	case CZergEvent::eResearchPneumaticCarapaceCompleteAtHive:
 		m_researchPneumaticCarapaceCompleted = true;
 		m_researchPneumaticCarapaceUnderConstruction = false;
 		m_hiveInUse--;
 		break;
-	case CZergEvent::eResearchVentralSacsComplete:
+	case CZergEvent::eResearchVentralSacsCompleteAtHatchery:
+		m_researchVentralSacsCompleted = true;
+		m_researchVentralSacsUnderConstruction = false;
+		m_hatcheryInUse--;
+		break;
+	case CZergEvent::eResearchVentralSacsCompleteAtLair:
+		m_researchVentralSacsCompleted = true;
+		m_researchVentralSacsUnderConstruction = false;
+		m_lairInUse--;
+		break;
+	case CZergEvent::eResearchVentralSacsCompleteAtHive:
 		m_researchVentralSacsCompleted = true;
 		m_researchVentralSacsUnderConstruction = false;
 		m_hiveInUse--;
@@ -1106,12 +1166,27 @@ bool CZergState::HasBuildingRequirements(double time, EZergCommand command) cons
 	case eZergCommandResearchCentrifugalHooks:
 		return 0 < m_banelingNestCount + m_banelingNestUnderConstruction
 			&& 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount;
-	case eZergCommandResearchBurrow:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount;
-	case eZergCommandResearchPneumaticCarapace:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount;
-	case eZergCommandResearchVentralSacs:
-		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount;
+	case eZergCommandResearchBurrowAtHatchery:
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount
+			&& 0 < m_hatcheryCount;
+	case eZergCommandResearchBurrowAtLair:
+		return 0 < m_lairCount + m_lairUnderConstruction;
+	case eZergCommandResearchBurrowAtHive:
+		return 0 < m_hiveCount + m_hiveUnderConstruction;
+	case eZergCommandResearchPneumaticCarapaceAtHatchery:
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount
+			&& 0 < m_hatcheryCount;
+	case eZergCommandResearchPneumaticCarapaceAtLair:
+		return 0 < m_lairCount + m_lairUnderConstruction;
+	case eZergCommandResearchPneumaticCarapaceAtHive:
+		return 0 < m_hiveCount + m_hiveUnderConstruction;
+	case eZergCommandResearchVentralSacsAtHatchery:
+		return 0 < m_lairCount + m_lairUnderConstruction + m_hiveCount
+			&& 0 < m_hatcheryCount;
+	case eZergCommandResearchVentralSacsAtLair:
+		return 0 < m_lairCount + m_lairUnderConstruction;
+	case eZergCommandResearchVentralSacsAtHive:
+		return 0 < m_hiveCount + m_hiveUnderConstruction;
 	case eZergCommandResearchGroovedSpines:
 		return 0 < m_hydraliskDenCount + m_hydraliskDenUnderConstruction;
 	case eZergCommandResearchPathogenGlands:
@@ -1314,12 +1389,27 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 	case eZergCommandResearchCentrifugalHooks:
 		return m_banelingNestInUse < m_banelingNestCount
 			&& 0 < m_lairCount + m_hiveCount;
-	case eZergCommandResearchBurrow:
-		return (m_lairInUse < m_lairCount || m_hiveInUse < m_hiveCount);
-	case eZergCommandResearchPneumaticCarapace:
-		return (m_lairInUse < m_lairCount || m_hiveInUse < m_hiveCount);
-	case eZergCommandResearchVentralSacs:
-		return (m_lairInUse < m_lairCount || m_hiveInUse < m_hiveCount);
+	case eZergCommandResearchBurrowAtHatchery:
+		return 0 < m_lairCount + m_hiveCount
+			&& m_hatcheryInUse < m_hatcheryCount;
+	case eZergCommandResearchBurrowAtLair:
+		return m_lairInUse < m_lairCount;
+	case eZergCommandResearchBurrowAtHive:
+		return m_hiveInUse < m_hiveCount;
+	case eZergCommandResearchPneumaticCarapaceAtHatchery:
+		return 0 < m_lairCount + m_hiveCount
+			&& m_hatcheryInUse < m_hatcheryCount;
+	case eZergCommandResearchPneumaticCarapaceAtLair:
+		return m_lairInUse < m_lairCount;
+	case eZergCommandResearchPneumaticCarapaceAtHive:
+		return m_hiveInUse < m_hiveCount;
+	case eZergCommandResearchVentralSacsAtHatchery:
+		return 0 < m_lairCount + m_hiveCount
+			&& m_hatcheryInUse < m_hatcheryCount;
+	case eZergCommandResearchVentralSacsAtLair:
+		return m_lairInUse < m_lairCount;
+	case eZergCommandResearchVentralSacsAtHive:
+		return m_hiveInUse < m_hiveCount;
 	case eZergCommandResearchGroovedSpines:
 		return m_hydraliskDenInUse < m_hydraliskDenCount;
 	case eZergCommandResearchPathogenGlands:
@@ -1361,6 +1451,11 @@ bool CZergState::HasBuildingStateRequirements(double time, EZergCommand command)
 	default:
 		return true;
 	}
+}
+
+EZergCommand CZergState::GetPrerequisitCommand(EZergCommand command) const
+{
+	return eZergCommandNone;
 }
 
 void CZergState::GetCost(CResourceCost &cost, EZergCommand command)
@@ -1541,15 +1636,21 @@ void CZergState::GetCost(CResourceCost &cost, EZergCommand command)
 		cost.m_minerals = 150;
 		cost.m_gas = 150;
 		break;
-	case eZergCommandResearchBurrow:
+	case eZergCommandResearchBurrowAtHatchery:
+	case eZergCommandResearchBurrowAtLair:
+	case eZergCommandResearchBurrowAtHive:
 		cost.m_minerals = 100;
 		cost.m_gas = 100;
 		break;
-	case eZergCommandResearchPneumaticCarapace:
+	case eZergCommandResearchPneumaticCarapaceAtHatchery:
+	case eZergCommandResearchPneumaticCarapaceAtLair:
+	case eZergCommandResearchPneumaticCarapaceAtHive:
 		cost.m_minerals = 100;
 		cost.m_gas = 100;
 		break;
-	case eZergCommandResearchVentralSacs:
+	case eZergCommandResearchVentralSacsAtHatchery:
+	case eZergCommandResearchVentralSacsAtLair:
+	case eZergCommandResearchVentralSacsAtHive:
 		cost.m_minerals = 200;
 		cost.m_gas = 200;
 		break;

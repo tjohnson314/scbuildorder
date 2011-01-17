@@ -71,7 +71,7 @@ void CProtossStateDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_THERMALLANCE, m_protossTarget.m_researchExtendedThermalLanceCompleted);
 	DDX_Text(pDX, IDC_EDIT_STARGATECOUNT, m_protossTarget.m_stargateCount);
 	DDX_Text(pDX, IDC_EDIT_FLEETBEACONCOUNT, m_protossTarget.m_fleetBeaconCount);
-	DDX_Check(pDX, IDC_CHECK_FLUXVANES, m_protossTarget.m_researchFluxVanesCompleted);
+//	DDX_Check(pDX, IDC_CHECK_FLUXVANES, m_protossTarget.m_researchFluxVanesCompleted);
 	DDX_Check(pDX, IDC_CHECK_GRAVITONCATAPULT, m_protossTarget.m_researchGravitonCatapultCompleted);
 	DDX_Text(pDX, IDC_EDIT_PROBECOUNT, m_protossTarget.m_probeCount);
 	DDX_Check(pDX, IDC_CHECK_CONSTANTPROBEPRODUCTION, m_protossTarget.m_constantProbeProduction);

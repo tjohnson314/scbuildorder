@@ -65,9 +65,15 @@ enum EZergCommand
 	, eZergCommandResearchGlialReconstitution
 	, eZergCommandResearchTunnelingClaws
 	, eZergCommandResearchCentrifugalHooks
-	, eZergCommandResearchBurrow
-	, eZergCommandResearchPneumaticCarapace
-	, eZergCommandResearchVentralSacs
+	, eZergCommandResearchBurrowAtHatchery
+	, eZergCommandResearchBurrowAtLair
+	, eZergCommandResearchBurrowAtHive
+	, eZergCommandResearchPneumaticCarapaceAtHatchery
+	, eZergCommandResearchPneumaticCarapaceAtLair
+	, eZergCommandResearchPneumaticCarapaceAtHive
+	, eZergCommandResearchVentralSacsAtHatchery
+	, eZergCommandResearchVentralSacsAtLair
+	, eZergCommandResearchVentralSacsAtHive
 	, eZergCommandResearchGroovedSpines
 	, eZergCommandResearchPathogenGlands
 	, eZergCommandResearchNeuralParasite
@@ -85,23 +91,4 @@ enum EZergCommand
 
 const WCHAR *tostring(EOutputFormat format, EZergCommand command);
 
-inline bool DisplayCommand(EOutputFormat format, EZergCommand command)
-{
-	switch(format)
-	{
-	case eOutputFormatSimple:
-		return eZergCommandBuildDrone != command;
-	case eOutputFormatDetailed:
-		return true;
-	case eOutputFormatFull:
-		return true;
-	case eOutputFormatHaploid:
-		return eZergCommandBuildDrone != command;
-	case eOutputFormatYABOT:
-		return eZergCommandBuildDrone != command;
-	case eOutputFormatSC2Gears:
-		return eZergCommandBuildDrone != command;
-	}
-
-	return false;
-}
+bool DisplayCommand(EOutputFormat format, EZergCommand command);

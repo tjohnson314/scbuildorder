@@ -401,7 +401,7 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnObserver, time + 40));
 		m_roboticsFacilityInUse++;
 		m_observerUnderConstruction++;
-		m_supply += 2;
+		m_supply += 1;
 		break;
 	case eProtossCommandBuildImmortal:
 		if(m_roboticsFacilityChronoAvailable > 0)
@@ -431,10 +431,10 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 		if(m_stargateChronoAvailable > 0)
 		{
 			m_stargateChronoAvailable--;
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoPhoenix, time + 45 * CHRONOBOOST_GAIN));
+			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnChronoPhoenix, time + 35 * CHRONOBOOST_GAIN));
 		}
 		else
-			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnPhoenix, time + 45));
+			AddEvent(events, CProtossEvent(CProtossEvent::eSpawnPhoenix, time + 35));
 		m_stargateInUse++;
 		m_phoenixUnderConstruction++;
 		m_supply += 2;
@@ -1221,10 +1221,10 @@ void CProtossState::ExecuteCommand(double &time, double timeLimit, EProtossComma
 		if(m_cyberneticsCoreChronoAvailable > 0)
 		{
 			m_cyberneticsCoreChronoAvailable--;
-			AddEvent(events, CProtossEvent(CProtossEvent::eResearchChronoHallucinationComplete, time + 110 * CHRONOBOOST_GAIN));
+			AddEvent(events, CProtossEvent(CProtossEvent::eResearchChronoHallucinationComplete, time + 80 * CHRONOBOOST_GAIN));
 		}
 		else
-			AddEvent(events, CProtossEvent(CProtossEvent::eResearchHallucinationComplete, time + 110));
+			AddEvent(events, CProtossEvent(CProtossEvent::eResearchHallucinationComplete, time + 80));
 		m_cyberneticsCoreInUse++;
 		m_researchHallucinationUnderConstruction = true;
 		break;
@@ -2298,7 +2298,7 @@ bool CProtossState::HasBuildingRequirements(double time, EProtossCommand command
 	case eProtossCommandBuildObserver:
 		return 0 < m_roboticsFacilityCount + m_roboticsFacilityUnderConstruction
 			&& 0 < m_pylonCount + m_pylonUnderConstruction
-			&& m_supply + 2 <= m_supplyCapUnderConstruction;
+			&& m_supply + 1 <= m_supplyCapUnderConstruction;
 	case eProtossCommandBuildImmortal:
 		return 0 < m_roboticsFacilityCount + m_roboticsFacilityUnderConstruction
 			&& 0 < m_pylonCount + m_pylonUnderConstruction
@@ -2564,7 +2564,7 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 	case eProtossCommandBuildObserver:
 		return m_roboticsFacilityInUse < m_roboticsFacilityCount
 			&& 0 < m_pylonCount
-			&& m_supply + 2 <= m_supplyCap;
+			&& m_supply + 1 <= m_supplyCap;
 	case eProtossCommandBuildImmortal:
 		return m_roboticsFacilityInUse < m_roboticsFacilityCount
 			&& 0 < m_pylonCount
@@ -2713,6 +2713,49 @@ bool CProtossState::HasBuildingStateRequirements(double time, EProtossCommand co
 	}
 }
 
+/*
+EProtossCommand CProtossState::GetPrerequisitCommand(EProtossCommand command) const
+{
+	switch(command)
+	{
+	case eProtossCommandBuildGateway:
+		if(0 == m_pylonCount + m_pylonUnderConstruction)
+			return eProtossCommandBuildPylon;
+		break;
+	case eProtossCommandBuildCyberneticsCore:
+		if(0 == m_gatewayCount + m_gatewayUnderConstruction)
+			return eProtossCommandBuildGateway;
+		break;
+	case eProtossCommandResearchWarpGateTransformation:
+		if(0 == m_cyberneticsCoreCount + m_cyberneticsCoreUnderConstruction)
+			return eProtossCommandBuildCyberneticsCore;
+		break;
+	case eProtossCommandConvertGatewayToWarpGate:
+		if(!m_researchWarpGateTransformationCompleted && !m_researchWarpGateTransformationUnderConstruction)
+			return eProtossCommandResearchWarpGateTransformation;
+		break;
+	}
+
+	return eProtossCommandNone;
+}
+*/
+
+EProtossCommand CProtossState::GetNewCommand() const
+{
+	if(m_researchWarpGateTransformationCompleted && m_gatewayInUse < m_gatewayCount - m_warpGateCount)
+		return eProtossCommandConvertGatewayToWarpGate;
+
+	return eProtossCommandNone;
+}
+
+EProtossCommand CProtossState::GetReplacementCommand(EProtossCommand command) const
+{
+	if(command == eProtossCommandChronoGateway && 0 == m_gatewayCount - m_warpGateCount && 0 < m_warpGateCount)
+		return eProtossCommandChronoWarpGate;
+
+	return eProtossCommandNone;
+}
+
 void CProtossState::GetCost(CResourceCost &cost, EProtossCommand command)
 {
 	switch(command)
@@ -2793,8 +2836,8 @@ void CProtossState::GetCost(CResourceCost &cost, EProtossCommand command)
 		cost.m_minerals = 200;
 		break;
 	case eProtossCommandBuildObserver:
-		cost.m_minerals = 50;
-		cost.m_gas = 100;
+		cost.m_minerals = 25;
+		cost.m_gas = 75;
 		break;
 	case eProtossCommandBuildImmortal:
 		cost.m_minerals = 250;
@@ -2953,7 +2996,7 @@ void CProtossState::RecalculateSupply()
 		+ 2 * (m_darkTemplarCount + m_darkTemplarUnderConstruction)
 		+ 4 * (m_archonCount + m_archonUnderConstruction)
 		+ 2 * (m_warpPrismCount + m_warpPrismUnderConstruction)
-		+ 2 * (m_observerCount + m_observerUnderConstruction)
+		+ 1 * (m_observerCount + m_observerUnderConstruction)
 		+ 4 * (m_immortalCount + m_immortalUnderConstruction)
 		+ 6 * (m_colossusCount + m_colossusUnderConstruction)
 		+ 2 * (m_phoenixCount + m_phoenixUnderConstruction)
