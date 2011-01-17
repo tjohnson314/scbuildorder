@@ -89,16 +89,53 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 	{
 		bSatisfied = false;
 
-		for(; cmdIndex < value.size(); cmdIndex++, command++)
+		while(cmdIndex < value.size())
 		{
-			if(!state.HasBuildingRequirements(time, *command))
-				break; // No junk DNA :P
+			bool bNewCommandAdded = false;
+
+			bool bHaveBuildingRequirements = state.HasBuildingRequirements(time, *command);
+			while(!bHaveBuildingRequirements)
+			{
+				TCommand newCommand = state.GetPrerequisitCommand(*command);
+				if(newCommand)
+				{
+					bNewCommandAdded = true;
+					value.insert(cmdIndex, newCommand);
+					command = &value.data()[cmdIndex]; // array might have been reallocated
+					bHaveBuildingRequirements = state.HasBuildingRequirements(time, *command);
+					continue;
+				}
+
+/*				newCommand = state.GetReplacementCommand(*command);
+				if(newCommand)
+				{
+					bNewCommandAdded = true;
+					value[cmdIndex] = newCommand;
+					bHaveBuildingRequirements = state.HasBuildingRequirements(time, *command);
+					continue;
+				}
+*/
+				break;
+			}
+
+			if(!bHaveBuildingRequirements)
+			{
+				if(bNewCommandAdded)
+					break;
+
+/*				// Delete the command
+				value.erase(cmdIndex);
+				continue;
+*/
+				break;
+			}
 
 			TState::CResourceCost cost;
 			state.GetCost(cost, *command);
 
 			bool bHaveCost = state.HasResources(cost);
 			bool bHaveStateRequirements = state.HasBuildingStateRequirements(time, *command);
+			bool bHaveNewCommand = false;
 
 			while(!bHaveCost || !bHaveStateRequirements)
 			{
@@ -139,6 +176,15 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 							break;
 						}
 
+						TCommand newCommand = state.GetNewCommand();
+						if(newCommand && newCommand != *command)
+						{
+							bHaveNewCommand = true;
+							value.insert(cmdIndex, newCommand);
+							command = &value.data()[cmdIndex]; // array might have been reallocated
+							break;
+						}
+
 						bHaveStateRequirements = state.HasBuildingStateRequirements(time, *command);
 						if(bHaveStateRequirements)
 							bHaveCost = state.HasResources(cost);
@@ -168,6 +214,9 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 				}
 			}
 
+			if(bHaveNewCommand)
+				continue; // 
+
 			if(bSatisfied || !bHaveCost || !bHaveStateRequirements)
 				break;
 
@@ -178,6 +227,16 @@ bool CFitnessCalc<TTarget, TState, TCommand, TEvent>::ValidateAndCalculateFitnes
 			{
 				bSatisfied = true;
 				break;
+			}
+
+			cmdIndex++;
+			command++;
+
+			TCommand newCommand = state.GetNewCommand();
+			if(newCommand && newCommand != *command)
+			{
+				value.insert(cmdIndex, newCommand);
+				command = &value.data()[cmdIndex]; // array might have been reallocated
 			}
 		}
 
@@ -257,6 +316,9 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat fo
 
 	switch(format)
 	{
+	case eOutputFormatYABOT:
+		GetInitialYABOTOutput<TCommand>(output);
+		break;
 	case eOutputFormatHaploid:
 		output.AppendFormat(L"Please check out Haploid's build order tester for details: http://sc2calc.org/build_order/\r\n\r\n# Startup mining delay = %d seconds\r\n# Startup build delay = %d seconds\r\n", (int)time, (int)time);
 		break;
@@ -306,10 +368,17 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat fo
 						{
 							bRanOutOfTime = true;
 
-							output.AppendFormat(L"\r\nWaypoint %d %s:\r\n", i + 1, bSatisfied ? L"satisfied" : L"failed");
-							output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
-							state.PrintDetails(output);
-							output.Append(L"\r\n");
+							switch(format)
+							{
+							case eOutputFormatSimple:
+							case eOutputFormatDetailed:
+							case eOutputFormatFull:
+								output.AppendFormat(L"\r\nWaypoint %d %s:\r\n", i + 1, bSatisfied ? L"satisfied" : L"failed");
+								output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
+								state.PrintDetails(output);
+								output.Append(L"\r\n");
+								break;
+							}
 						}
 
 						if(events->GetData().time() > m_timeLimit)
@@ -317,7 +386,7 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat fo
 
 						state.ProgressTime(time, events->GetData().time() - time);
 
-						if(DisplayEvent(format,events->GetData().event()))
+						if(DisplayEvent(format, events->GetData().event()))
 						{
 							switch(format)
 							{
@@ -354,10 +423,17 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat fo
 					{
 						bRanOutOfTime = true;
 
-						output.AppendFormat(L"\r\nWaypoint %d %s:\r\n", i + 1, bSatisfied ? L"satisfied" : L"failed");
-						output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
-						state.PrintDetails(output);
-						output.Append(L"\r\n");
+						switch(format)
+						{
+						case eOutputFormatSimple:
+						case eOutputFormatDetailed:
+						case eOutputFormatFull:
+							output.AppendFormat(L"\r\nWaypoint %d %s:\r\n", i + 1, bSatisfied ? L"satisfied" : L"failed");
+							output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
+							state.PrintDetails(output);
+							output.Append(L"\r\n");
+							break;
+						}
 					}
 
 					if(time + resourceWaitTime > m_timeLimit)
@@ -377,9 +453,12 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat fo
 			{
 				switch(format)
 				{
+				case eOutputFormatYABOT:
+					output.AppendFormat(L"%d %d %d %d 1 ", (int)(state.m_supply), (int)(state.m_minerals), (int)(state.m_gas), (int)time);
+					break;
+
 				case eOutputFormatSimple:
 				case eOutputFormatHaploid:
-				case eOutputFormatYABOT:
 				case eOutputFormatSC2Gears:
 					output.AppendFormat(L"%d ", (int)(state.m_supply));
 					break;
@@ -391,7 +470,16 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat fo
 					output.Append(L" - ");
 					break;
 				}
-				output.AppendFormat(L"%s\r\n", tostring(format, *command));
+				output.AppendFormat(L"%s", tostring(format, *command));
+				switch(format)
+				{
+				case eOutputFormatYABOT:
+					output.Append(L" | ");
+					break;
+				default:
+					output.Append(L"\r\n");
+					break;
+				}
 			}
 
 			state.SpendResources(cost);
@@ -412,10 +500,17 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat fo
 				{
 					bRanOutOfTime = true;
 
-					output.AppendFormat(L"\r\nWaypoint %d %s:\r\n", i + 1, bSatisfied ? L"satisfied" : L"failed");
-					output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
-					state.PrintDetails(output);
-					output.Append(L"\r\n");
+					switch(format)
+					{
+					case eOutputFormatSimple:
+					case eOutputFormatDetailed:
+					case eOutputFormatFull:
+						output.AppendFormat(L"\r\nWaypoint %d %s:\r\n", i + 1, bSatisfied ? L"satisfied" : L"failed");
+						output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
+						state.PrintDetails(output);
+						output.Append(L"\r\n");
+						break;
+					}
 				}
 
 				if(events->GetData().time() > m_timeLimit)
@@ -446,10 +541,17 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat fo
 			}
 		}
 
-		output.AppendFormat(L"\r\nWaypoint %d %s:\r\n", i + 1, bSatisfied ? L"satisfied" : L"failed");
-		output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
-		state.PrintDetails(output);
-		output.Append(L"\r\n");
+		switch(format)
+		{
+		case eOutputFormatSimple:
+		case eOutputFormatDetailed:
+		case eOutputFormatFull:
+			output.AppendFormat(L"\r\nWaypoint %d %s:\r\n", i + 1, bSatisfied ? L"satisfied" : L"failed");
+			output.AppendFormat(L"%2d:%05.2f: ", (int)(time/60) - 60*(int)(time/3600), time - 60*(int)(time/60));
+			state.PrintDetails(output);
+			output.Append(L"\r\n");
+			break;
+		}
 	}
 
 	while(events)
@@ -457,5 +559,12 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat fo
 		CLinkedList<TEvent> *event = events;
 		events = events->GetNext();
 		delete event;
+	}
+
+	switch(format)
+	{
+	case eOutputFormatYABOT:
+		output.AppendFormat(L" [/s]\"/>\r\n        </Key>");
+		break;
 	}
 }

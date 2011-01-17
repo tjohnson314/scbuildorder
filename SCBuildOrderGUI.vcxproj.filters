@@ -316,6 +316,9 @@
     <ClCompile Include="ZergEvent.cpp">
       <Filter>Zerg</Filter>
     </ClCompile>
+    <ClCompile Include="OutputFormat.cpp">
+      <Filter>GameSimulation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SCBuildOrderGUI.rc">

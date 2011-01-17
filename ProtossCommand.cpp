@@ -7,7 +7,6 @@ const WCHAR *tostring(EOutputFormat format, EProtossCommand command)
 	{
 	case eOutputFormatSimple:
 	case eOutputFormatHaploid:
-	case eOutputFormatYABOT:
 	case eOutputFormatSC2Gears:
 		switch(command)
 		{
@@ -312,7 +311,194 @@ const WCHAR *tostring(EOutputFormat format, EProtossCommand command)
 			return L"Move Probe To Minerals";
 		}
 		break;
+
+	case eOutputFormatYABOT:
+		// YABOT format codes provided by Turtle36 - thanks!!
+		switch(command)
+		{
+		case eProtossCommandBuildNexus:
+			return L"0 25 0";
+		case eProtossCommandBuildPylon:
+			return L"0 27 0";
+		case eProtossCommandBuildAssimilator:
+			return L"0 19 0";
+		case eProtossCommandBuildGateway:
+			return L"0 24 0";
+		case eProtossCommandConvertGatewayToWarpGate:
+			return L"2 2 0";
+		case eProtossCommandBuildForge:
+			return L"0 23 0";
+		case eProtossCommandBuildPhotonCannon:
+			return L"0 26 0";
+		case eProtossCommandBuildCyberneticsCore:
+			return L"0 20 0";
+		case eProtossCommandBuildTwilightCouncil:
+			return L"0 32 0";
+		case eProtossCommandBuildTemplarArchives:
+			return L"0 31 0";
+		case eProtossCommandBuildDarkShrine:
+			return L"0 21 0";
+		case eProtossCommandBuildRoboticsFacility:
+			return L"0 29 0";
+		case eProtossCommandBuildRoboticsBay:
+			return L"0 28 0";
+		case eProtossCommandBuildStargate:
+			return L"0 30 0";
+		case eProtossCommandBuildFleetBeacon:
+			return L"0 22 0";
+
+		case eProtossCommandBuildProbe:
+			return L"1 22 0";
+		case eProtossCommandBuildZealot:
+			return L"1 26 0";
+		case eProtossCommandBuildStalker:
+			return L"1 24 0";
+		case eProtossCommandBuildSentry:
+			return L"1 23 0";
+		case eProtossCommandBuildHighTemplar:
+			return L"1 17 0";
+		case eProtossCommandBuildDarkTemplar:
+			return L"1 16 0";
+		case eProtossCommandBuildArchon2HT:
+		case eProtossCommandBuildArchon1HT1DT:
+		case eProtossCommandBuildArchon2DT:
+			return L"1 13 0";
+		case eProtossCommandBuildWarpPrism:
+			return L"1 39 0";
+		case eProtossCommandBuildObserver:
+			return L"1 20 0";
+		case eProtossCommandBuildImmortal:
+			return L"1 18 0";
+		case eProtossCommandBuildColossus:
+			return L"1 15 0";
+		case eProtossCommandBuildPhoenix:
+			return L"1 21 0";
+		case eProtossCommandBuildVoidRay:
+			return L"1 25 0";
+		case eProtossCommandBuildCarrier:
+			return L"1 14 0";
+		case eProtossCommandBuildMothership:
+			return L"1 19 0";
+
+		case eProtossCommandChronoNexus:
+		case eProtossCommandChronoGateway:
+		case eProtossCommandChronoWarpGate:
+		case eProtossCommandChronoForge:
+		case eProtossCommandChronoCyberneticsCore:
+		case eProtossCommandChronoTwilightCouncil:
+		case eProtossCommandChronoTemplarArchives:
+		case eProtossCommandChronoRoboticsFacility:
+		case eProtossCommandChronoRoboticsBay:
+		case eProtossCommandChronoStargate:
+		case eProtossCommandChronoFleetBeacon:
+			return L"";
+
+		case eProtossCommandResearchGroundWeapons1:
+			return L"3 19 0";
+		case eProtossCommandResearchGroundWeapons2:
+			return L"3 19 0";
+		case eProtossCommandResearchGroundWeapons3:
+			return L"3 19 0";
+		case eProtossCommandResearchGroundArmor1:
+			return L"3 18 0";
+		case eProtossCommandResearchGroundArmor2:
+			return L"3 18 0";
+		case eProtossCommandResearchGroundArmor3:
+			return L"3 18 0";
+		case eProtossCommandResearchShields1:
+			return L"3 22 0";
+		case eProtossCommandResearchShields2:
+			return L"3 22 0";
+		case eProtossCommandResearchShields3:
+			return L"3 22 0";
+		case eProtossCommandResearchAirWeapons1:
+			return L"3 21 0";
+		case eProtossCommandResearchAirWeapons2:
+			return L"3 21 0";
+		case eProtossCommandResearchAirWeapons3:
+			return L"3 21 0";
+		case eProtossCommandResearchAirArmor1:
+			return L"3 20 0";
+		case eProtossCommandResearchAirArmor2:
+			return L"3 20 0";
+		case eProtossCommandResearchAirArmor3:
+			return L"3 20 0";
+		case eProtossCommandResearchWarpGateTransformation:
+			return L"3 26 0";
+		case eProtossCommandResearchHallucination:
+			return L"3 23 0";
+		case eProtossCommandResearchCharge:
+			return L"3 27 0";
+		case eProtossCommandResearchBlink:
+			return L"3 25 0";
+		case eProtossCommandResearchPsionicStorm:
+			return L"3 24 0";
+		case eProtossCommandResearchKhaydarinAmulet:
+			return L"3 48 0";
+		case eProtossCommandResearchGraviticDrive:
+			return L"";
+		case eProtossCommandResearchGraviticBoosters:
+			return L"";
+		case eProtossCommandResearchExtendedThermalLance:
+			return L"3 47 0";
+		case eProtossCommandResearchFluxVanes:
+			return L"";
+		case eProtossCommandResearchGravitonCatapult:
+			return L"";
+
+		case eProtossCommandMoveProbeToGas:
+		case eProtossCommandMoveProbeToMinerals:
+			return L"";
+		}
+		break;
+
 	}
 	
 	return L"";
+}
+
+bool DisplayCommand(EOutputFormat format, EProtossCommand command)
+{
+	switch(format)
+	{
+	case eOutputFormatSimple:
+		return eProtossCommandBuildProbe != command;
+	case eOutputFormatDetailed:
+		return true;
+	case eOutputFormatFull:
+		return true;
+	case eOutputFormatHaploid:
+		return eProtossCommandBuildProbe != command;
+	case eOutputFormatYABOT:
+		switch(command)
+		{
+		case eProtossCommandBuildProbe:
+		case eProtossCommandMoveProbeToGas:
+		case eProtossCommandMoveProbeToMinerals:
+
+		case eProtossCommandChronoNexus:
+		case eProtossCommandChronoGateway:
+		case eProtossCommandChronoWarpGate:
+		case eProtossCommandChronoForge:
+		case eProtossCommandChronoCyberneticsCore:
+		case eProtossCommandChronoTwilightCouncil:
+		case eProtossCommandChronoTemplarArchives:
+		case eProtossCommandChronoRoboticsFacility:
+		case eProtossCommandChronoRoboticsBay:
+		case eProtossCommandChronoStargate:
+		case eProtossCommandChronoFleetBeacon:
+
+		case eProtossCommandResearchGraviticDrive:
+		case eProtossCommandResearchGraviticBoosters:
+		case eProtossCommandResearchFluxVanes:
+		case eProtossCommandResearchGravitonCatapult:
+			return false;
+		}
+
+		return true;
+	case eOutputFormatSC2Gears:
+		return eProtossCommandBuildProbe != command;
+	}
+
+	return false;
 }

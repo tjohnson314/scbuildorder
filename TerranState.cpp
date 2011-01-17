@@ -9,7 +9,8 @@ CTerranState::CTerranState()
 , m_techLabCount(0), m_reactorCount(0), m_barracksTechLabCount(0), m_barracksReactorCount(0), m_factoryTechLabCount(0), m_factoryReactorCount(0), m_starportTechLabCount(0), m_starportReactorCount(0)
 , m_commandCenterUnderConstruction(0), m_refineryUnderConstruction(0), m_barracksUnderConstruction(0), m_orbitalCommandUnderConstruction(0), m_engineeringBayUnderConstruction(0), m_bunkerUnderConstruction(0), m_missileTurretUnderConstruction(0), m_sensorTowerUnderConstruction(0), m_planetaryFortressUnderConstruction(0), m_ghostAcademyUnderConstruction(0), m_factoryUnderConstruction(0), m_armoryUnderConstruction(0), m_starportUnderConstruction(0), m_fusionCoreUnderConstruction(0), m_commandCentreIdleTime(0.0)
 , m_commandCenterInUse(0), m_barracksInUse(0), m_orbitalCommandInUse(0), m_engineeringBayInUse(0), m_bunkerInUse(0), m_missileTurretInUse(0), m_sensorTowerInUse(0), m_planetaryFortressInUse(0), m_ghostAcademyInUse(0), m_factoryInUse(0), m_armoryInUse(0), m_starportInUse(0), m_fusionCoreInUse(0)
-, m_techLabAvailable(0), m_reactorAvailable(0), m_barracksTechLabInUse(0), m_barracksReactorInUse(0), m_factoryTechLabInUse(0), m_factoryReactorInUse(0), m_starportTechLabInUse(0), m_starportReactorInUse(0)
+, m_barracksTechLabInUse(0), m_barracksReactorInUse(0), m_factoryTechLabInUse(0), m_factoryReactorInUse(0), m_starportTechLabInUse(0), m_starportReactorInUse(0)
+, m_barracksLiftingOff(0), m_factoryLiftingOff(0), m_starportLiftingOff(0), m_barracksReadyToLand(0), m_factoryReadyToLand(0), m_starportReadyToLand(0), m_techLabBecomingAvailable(0), m_reactorBecomingAvailable(0), m_techLabAvailable(0), m_reactorAvailable(0)
 , m_barracksTechLabUnderConstruction(0), m_barracksReactorUnderConstruction(0), m_factoryTechLabUnderConstruction(0), m_factoryReactorUnderConstruction(0), m_starportTechLabUnderConstruction(0), m_starportReactorUnderConstruction(0)
 , m_ghostAcademyNukeCount(0), m_ghostAcademyNukeUnderConstruction(0)
 , m_scvCount(0), m_muleCount(0), m_marineCount(0), m_marauderCount(0), m_reaperCount(0), m_ghostCount(0), m_hellionCount(0), m_siegeTankCount(0), m_thorCount(0), m_vikingCount(0), m_medivacCount(0), m_ravenCount(0), m_bansheeCount(0), m_battleCruiserCount(0)
@@ -243,6 +244,119 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnStarportTechLab, time + 25));
 		m_starportTechLabUnderConstruction++;
 		m_starportInUse++;
+		break;
+
+	case eTerranCommandLiftBarracksNaked:
+		AddEvent(events, CTerranEvent(CTerranEvent::eBarracksReadyToLand, time + 6)); // Includes lift off & flying time
+		m_barracksInUse++;
+		m_barracksLiftingOff++;
+		break;
+	case eTerranCommandLiftBarracksTechLab:
+		AddEvent(events, CTerranEvent(CTerranEvent::eTechLabAvailable, time + 2));
+		AddEvent(events, CTerranEvent(CTerranEvent::eBarracksReadyToLand, time + 6)); // Includes lift off & flying time
+		m_barracksTechLabCount--;
+		m_barracksInUse++;
+		m_barracksLiftingOff++;
+		m_techLabBecomingAvailable++;
+		break;
+	case eTerranCommandLiftBarracksReactor:
+		AddEvent(events, CTerranEvent(CTerranEvent::eReactorAvailable, time + 2));
+		AddEvent(events, CTerranEvent(CTerranEvent::eBarracksReadyToLand, time + 6)); // Includes lift off & flying time
+		m_barracksReactorCount--;
+		m_barracksInUse++;
+		m_barracksLiftingOff++;
+		m_reactorBecomingAvailable++;
+		break;
+	case eTerranCommandLiftFactoryNaked:
+		AddEvent(events, CTerranEvent(CTerranEvent::eFactoryReadyToLand, time + 6)); // Includes lift off & flying time
+		m_factoryInUse++;
+		m_factoryLiftingOff++;
+		break;
+	case eTerranCommandLiftFactoryTechLab:
+		AddEvent(events, CTerranEvent(CTerranEvent::eTechLabAvailable, time + 2));
+		AddEvent(events, CTerranEvent(CTerranEvent::eFactoryReadyToLand, time + 6)); // Includes lift off & flying time
+		m_factoryTechLabCount--;
+		m_factoryInUse++;
+		m_factoryLiftingOff++;
+		m_techLabBecomingAvailable++;
+		break;
+	case eTerranCommandLiftFactoryReactor:
+		AddEvent(events, CTerranEvent(CTerranEvent::eReactorAvailable, time + 2));
+		AddEvent(events, CTerranEvent(CTerranEvent::eFactoryReadyToLand, time + 6)); // Includes lift off & flying time
+		m_factoryReactorCount--;
+		m_factoryInUse++;
+		m_factoryLiftingOff++;
+		m_reactorBecomingAvailable++;
+		break;
+	case eTerranCommandLiftStarportNaked:
+		AddEvent(events, CTerranEvent(CTerranEvent::eStarportReadyToLand, time + 6)); // Includes lift off & flying time
+		m_starportInUse++;
+		m_starportLiftingOff++;
+		break;
+	case eTerranCommandLiftStarportTechLab:
+		AddEvent(events, CTerranEvent(CTerranEvent::eTechLabAvailable, time + 2));
+		AddEvent(events, CTerranEvent(CTerranEvent::eStarportReadyToLand, time + 6)); // Includes lift off & flying time
+		m_starportTechLabCount--;
+		m_starportInUse++;
+		m_starportLiftingOff++;
+		m_techLabBecomingAvailable++;
+		break;
+	case eTerranCommandLiftStarportReactor:
+		AddEvent(events, CTerranEvent(CTerranEvent::eReactorAvailable, time + 2));
+		AddEvent(events, CTerranEvent(CTerranEvent::eStarportReadyToLand, time + 6)); // Includes lift off & flying time
+		m_starportReactorCount--;
+		m_starportInUse++;
+		m_starportLiftingOff++;
+		m_reactorBecomingAvailable++;
+		break;
+
+	case eTerranCommandLandBarracksNaked:
+		AddEvent(events, CTerranEvent(CTerranEvent::eBarracksLandedNaked, time + 2));
+		m_barracksReadyToLand--;
+		break;
+	case eTerranCommandLandBarracksTechLab:
+		AddEvent(events, CTerranEvent(CTerranEvent::eBarracksLandedOnTechLab, time + 2));
+		m_barracksTechLabUnderConstruction++;
+		m_barracksReadyToLand--;
+		m_techLabAvailable--;
+		break;
+	case eTerranCommandLandBarracksReactor:
+		AddEvent(events, CTerranEvent(CTerranEvent::eBarracksLandedOnReactor, time + 2));
+		m_barracksReactorUnderConstruction++;
+		m_barracksReadyToLand--;
+		m_reactorAvailable--;
+		break;
+	case eTerranCommandLandFactoryNaked:
+		AddEvent(events, CTerranEvent(CTerranEvent::eFactoryLandedNaked, time + 2));
+		m_factoryReadyToLand--;
+		break;
+	case eTerranCommandLandFactoryTechLab:
+		AddEvent(events, CTerranEvent(CTerranEvent::eFactoryLandedOnTechLab, time + 2));
+		m_factoryTechLabUnderConstruction++;
+		m_factoryReadyToLand--;
+		m_techLabAvailable--;
+		break;
+	case eTerranCommandLandFactoryReactor:
+		AddEvent(events, CTerranEvent(CTerranEvent::eFactoryLandedOnReactor, time + 2));
+		m_factoryReactorUnderConstruction++;
+		m_factoryReadyToLand--;
+		m_reactorAvailable--;
+		break;
+	case eTerranCommandLandStarportNaked:
+		AddEvent(events, CTerranEvent(CTerranEvent::eStarportLandedNaked, time + 2));
+		m_starportReadyToLand--;
+		break;
+	case eTerranCommandLandStarportTechLab:
+		AddEvent(events, CTerranEvent(CTerranEvent::eStarportLandedOnTechLab, time + 2));
+		m_starportTechLabUnderConstruction++;
+		m_starportReadyToLand--;
+		m_techLabAvailable--;
+		break;
+	case eTerranCommandLandStarportReactor:
+		AddEvent(events, CTerranEvent(CTerranEvent::eStarportLandedOnReactor, time + 2));
+		m_starportReactorUnderConstruction++;
+		m_starportReadyToLand--;
+		m_reactorAvailable--;
 		break;
 
 	case eTerranCommandBuildSCV:
@@ -842,6 +956,65 @@ void CTerranState::ProcessEvent(double &time, CLinkedList<CTerranEvent> *&events
 		m_reactorCount++;
 		break;
 
+	case CTerranEvent::eBarracksReadyToLand:
+		m_barracksReadyToLand++;
+		break;
+	case CTerranEvent::eFactoryReadyToLand:
+		m_factoryReadyToLand++;
+		break;
+	case CTerranEvent::eStarportReadyToLand:
+		m_starportReadyToLand++;
+		break;
+
+	case CTerranEvent::eTechLabAvailable:
+		m_techLabBecomingAvailable--;
+		m_techLabAvailable++;
+		break;
+	case CTerranEvent::eReactorAvailable:
+		m_reactorBecomingAvailable--;
+		m_reactorAvailable++;
+		break;
+
+	case CTerranEvent::eBarracksLandedNaked:
+		m_barracksInUse--;
+		break;
+	case CTerranEvent::eBarracksLandedOnTechLab:
+		m_barracksTechLabUnderConstruction--;
+		m_barracksTechLabCount++;
+		m_barracksInUse--;
+		break;
+	case CTerranEvent::eBarracksLandedOnReactor:
+		m_barracksReactorUnderConstruction--;
+		m_barracksReactorCount++;
+		m_barracksInUse--;
+		break;
+	case CTerranEvent::eFactoryLandedNaked:
+		m_factoryInUse--;
+		break;
+	case CTerranEvent::eFactoryLandedOnTechLab:
+		m_factoryTechLabUnderConstruction--;
+		m_factoryTechLabCount++;
+		m_factoryInUse--;
+		break;
+	case CTerranEvent::eFactoryLandedOnReactor:
+		m_factoryReactorUnderConstruction--;
+		m_factoryReactorCount++;
+		m_factoryInUse--;
+		break;
+	case CTerranEvent::eStarportLandedNaked:
+		m_starportInUse--;
+		break;
+	case CTerranEvent::eStarportLandedOnTechLab:
+		m_starportTechLabUnderConstruction--;
+		m_starportTechLabCount++;
+		m_starportInUse--;
+		break;
+	case CTerranEvent::eStarportLandedOnReactor:
+		m_starportReactorUnderConstruction--;
+		m_starportReactorCount++;
+		m_starportInUse--;
+		break;
+
 	case CTerranEvent::eSCVStartMiningMinerals:
 		m_scvsOnMinerals++;
 		RecalculateMineralIncomeRate();
@@ -1202,16 +1375,16 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 	case eTerranCommandBuildBarracksOnTechLab:
 		return 0 < m_supplyDepotCount + m_supplyDepotUnderConstruction
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction
-			&& 0 < m_techLabAvailable;
+			&& 0 < m_techLabAvailable + m_techLabBecomingAvailable;
 	case eTerranCommandBuildBarracksOnReactor:
 		return 0 < m_supplyDepotCount + m_supplyDepotUnderConstruction
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction
-			&& 0 < m_reactorAvailable;
+			&& 0 < m_reactorAvailable + m_reactorBecomingAvailable;
 	case eTerranCommandBuildOrbitalCommand:
 		return 0 < m_barracksCount + m_barracksUnderConstruction
 			&& m_orbitalCommandCount + m_orbitalCommandUnderConstruction + m_planetaryFortressCount + m_planetaryFortressUnderConstruction < m_commandCenterCount + m_commandCenterUnderConstruction;
 	case eTerranCommandBuildEngineeringBay:
-		return 0 < m_barracksCount + m_barracksUnderConstruction
+		return 0 < m_commandCenterCount + m_commandCenterUnderConstruction
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
 	case eTerranCommandBuildBunker:
 		return 0 < m_barracksCount + m_barracksUnderConstruction
@@ -1235,11 +1408,11 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 	case eTerranCommandBuildFactoryOnTechLab:
 		return 0 < m_barracksCount + m_barracksUnderConstruction
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction
-			&& 0 < m_techLabAvailable;
+			&& 0 < m_techLabAvailable + m_techLabBecomingAvailable;
 	case eTerranCommandBuildFactoryOnReactor:
 		return 0 < m_barracksCount + m_barracksUnderConstruction
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction
-			&& 0 < m_reactorAvailable;
+			&& 0 < m_reactorAvailable + m_reactorBecomingAvailable;
 	case eTerranCommandBuildArmory:
 		return 0 < m_factoryCount + m_factoryUnderConstruction
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
@@ -1249,33 +1422,71 @@ bool CTerranState::HasBuildingRequirements(double time, ETerranCommand command) 
 	case eTerranCommandBuildStarportOnTechLab:
 		return 0 < m_factoryCount + m_factoryUnderConstruction
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction
-			&& 0 < m_techLabAvailable;
+			&& 0 < m_techLabAvailable + m_techLabBecomingAvailable;
 	case eTerranCommandBuildStarportOnReactor:
 		return 0 < m_factoryCount + m_factoryUnderConstruction
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction
-			&& 0 < m_reactorAvailable;
+			&& 0 < m_reactorAvailable + m_reactorBecomingAvailable;
 	case eTerranCommandBuildFusionCore:
 		return 0 < m_starportCount + m_starportUnderConstruction
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
 
 	case eTerranCommandBuildBarracksTechLab:
-		return 0 < m_barracksCount + m_barracksUnderConstruction - m_barracksTechLabCount - m_barracksTechLabUnderConstruction - m_barracksReactorCount - m_barracksReactorUnderConstruction
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
+		return 0 < m_barracksCount + m_barracksUnderConstruction - m_barracksTechLabCount - m_barracksTechLabUnderConstruction - m_barracksReactorCount - m_barracksReactorUnderConstruction;
 	case eTerranCommandBuildBarracksReactor:
-		return 0 < m_barracksCount + m_barracksUnderConstruction - m_barracksTechLabCount - m_barracksTechLabUnderConstruction - m_barracksReactorCount - m_barracksReactorUnderConstruction
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
+		return 0 < m_barracksCount + m_barracksUnderConstruction - m_barracksTechLabCount - m_barracksTechLabUnderConstruction - m_barracksReactorCount - m_barracksReactorUnderConstruction;
 	case eTerranCommandBuildFactoryTechLab:
-		return 0 < m_factoryCount + m_factoryUnderConstruction - m_factoryTechLabCount - m_factoryTechLabUnderConstruction - m_factoryReactorCount - m_factoryReactorUnderConstruction
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
+		return 0 < m_factoryCount + m_factoryUnderConstruction - m_factoryTechLabCount - m_factoryTechLabUnderConstruction - m_factoryReactorCount - m_factoryReactorUnderConstruction;
 	case eTerranCommandBuildFactoryReactor:
-		return 0 < m_factoryCount + m_factoryUnderConstruction - m_factoryTechLabCount - m_factoryTechLabUnderConstruction - m_factoryReactorCount - m_factoryReactorUnderConstruction
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
+		return 0 < m_factoryCount + m_factoryUnderConstruction - m_factoryTechLabCount - m_factoryTechLabUnderConstruction - m_factoryReactorCount - m_factoryReactorUnderConstruction;
 	case eTerranCommandBuildStarportTechLab:
-		return 0 < m_starportCount + m_starportUnderConstruction - m_starportTechLabCount - m_starportTechLabUnderConstruction - m_starportReactorCount - m_starportReactorUnderConstruction
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
+		return 0 < m_starportCount + m_starportUnderConstruction - m_starportTechLabCount - m_starportTechLabUnderConstruction - m_starportReactorCount - m_starportReactorUnderConstruction;
 	case eTerranCommandBuildStarportReactor:
-		return 0 < m_starportCount + m_starportUnderConstruction - m_starportTechLabCount - m_starportTechLabUnderConstruction - m_starportReactorCount - m_starportReactorUnderConstruction
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas + m_scvUnderConstruction;
+		return 0 < m_starportCount + m_starportUnderConstruction - m_starportTechLabCount - m_starportTechLabUnderConstruction - m_starportReactorCount - m_starportReactorUnderConstruction;
+
+	case eTerranCommandLiftBarracksTechLab:
+		return 0 < m_barracksTechLabCount - m_barracksTechLabUnderConstruction;
+	case eTerranCommandLiftBarracksReactor:
+		return 0 < m_barracksReactorCount - m_barracksReactorUnderConstruction;
+	case eTerranCommandLiftBarracksNaked:
+		return 0 < m_barracksCount + m_barracksUnderConstruction - m_barracksTechLabCount - m_barracksTechLabUnderConstruction - m_barracksReactorCount - m_barracksReactorUnderConstruction;
+	case eTerranCommandLiftFactoryTechLab:
+		return 0 < m_factoryTechLabCount - m_factoryTechLabUnderConstruction;
+	case eTerranCommandLiftFactoryReactor:
+		return 0 < m_factoryReactorCount - m_factoryReactorUnderConstruction;
+	case eTerranCommandLiftFactoryNaked:
+		return 0 < m_factoryCount + m_factoryUnderConstruction - m_factoryTechLabCount - m_factoryTechLabUnderConstruction - m_factoryReactorCount - m_factoryReactorUnderConstruction;
+	case eTerranCommandLiftStarportTechLab:
+		return 0 < m_starportTechLabCount - m_starportTechLabUnderConstruction;
+	case eTerranCommandLiftStarportReactor:
+		return 0 < m_starportReactorCount - m_starportReactorUnderConstruction;
+	case eTerranCommandLiftStarportNaked:
+		return 0 < m_starportCount + m_starportUnderConstruction - m_starportTechLabCount - m_starportTechLabUnderConstruction - m_starportReactorCount - m_starportReactorUnderConstruction;
+
+	case eTerranCommandLandBarracksTechLab:
+		return 0 < m_barracksReadyToLand + m_barracksLiftingOff
+			&& 0 < m_techLabAvailable + m_techLabBecomingAvailable;
+	case eTerranCommandLandBarracksReactor:
+		return 0 < m_barracksReadyToLand + m_barracksLiftingOff
+			&& 0 < m_reactorAvailable + m_reactorBecomingAvailable;
+	case eTerranCommandLandBarracksNaked:
+		return 0 < m_barracksReadyToLand + m_barracksLiftingOff;
+	case eTerranCommandLandFactoryTechLab:
+		return 0 < m_factoryReadyToLand + m_factoryLiftingOff
+			&& 0 < m_techLabAvailable + m_techLabBecomingAvailable;
+	case eTerranCommandLandFactoryReactor:
+		return 0 < m_factoryReadyToLand + m_factoryLiftingOff
+			&& 0 < m_reactorAvailable + m_reactorBecomingAvailable;
+	case eTerranCommandLandFactoryNaked:
+		return 0 < m_factoryReadyToLand + m_factoryLiftingOff;
+	case eTerranCommandLandStarportTechLab:
+		return 0 < m_starportReadyToLand + m_starportLiftingOff
+			&& 0 < m_techLabAvailable + m_techLabBecomingAvailable;
+	case eTerranCommandLandStarportReactor:
+		return 0 < m_starportReadyToLand + m_starportLiftingOff
+			&& 0 < m_reactorAvailable + m_reactorBecomingAvailable;
+	case eTerranCommandLandStarportNaked:
+		return 0 < m_starportReadyToLand + m_starportLiftingOff;
 
 	case eTerranCommandBuildSCV:
 		return 0 < m_commandCenterCount + m_commandCenterUnderConstruction
@@ -1536,7 +1747,7 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 			&& m_orbitalCommandCount + m_orbitalCommandUnderConstruction + m_planetaryFortressCount + m_planetaryFortressUnderConstruction < m_commandCenterCount
 			&& m_commandCenterInUse < m_commandCenterCount - m_orbitalCommandCount - m_planetaryFortressCount;
 	case eTerranCommandBuildEngineeringBay:
-		return 0 < m_barracksCount
+		return 0 < m_commandCenterCount
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas;
 	case eTerranCommandBuildBunker:
 		return 0 < m_barracksCount
@@ -1584,23 +1795,64 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 			&& 2 <= m_scvsOnMinerals + m_scvsOnGas;
 
 	case eTerranCommandBuildBarracksTechLab:
-		return m_barracksInUse < m_barracksCount - m_barracksTechLabCount - m_barracksReactorCount
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas;
+		return m_barracksInUse < m_barracksCount - m_barracksTechLabCount - m_barracksReactorCount;
 	case eTerranCommandBuildBarracksReactor:
-		return m_barracksInUse < m_barracksCount - m_barracksTechLabCount - m_barracksReactorCount
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas;
+		return m_barracksInUse < m_barracksCount - m_barracksTechLabCount - m_barracksReactorCount;
 	case eTerranCommandBuildFactoryTechLab:
-		return m_factoryInUse < m_factoryCount - m_factoryTechLabCount - m_factoryReactorCount
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas;
+		return m_factoryInUse < m_factoryCount - m_factoryTechLabCount - m_factoryReactorCount;
 	case eTerranCommandBuildFactoryReactor:
-		return m_factoryInUse < m_factoryCount - m_factoryTechLabCount - m_factoryReactorCount
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas;
+		return m_factoryInUse < m_factoryCount - m_factoryTechLabCount - m_factoryReactorCount;
 	case eTerranCommandBuildStarportTechLab:
-		return m_starportInUse < m_starportCount - m_starportTechLabCount - m_starportReactorCount
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas;
+		return m_starportInUse < m_starportCount - m_starportTechLabCount - m_starportReactorCount;
 	case eTerranCommandBuildStarportReactor:
-		return m_starportInUse < m_starportCount - m_starportTechLabCount - m_starportReactorCount
-			&& 2 <= m_scvsOnMinerals + m_scvsOnGas;
+		return m_starportInUse < m_starportCount - m_starportTechLabCount - m_starportReactorCount;
+
+	case eTerranCommandLiftBarracksTechLab:
+		return m_barracksTechLabInUse < m_barracksTechLabCount
+			&& m_barracksTechLabResearchInUse < m_barracksTechLabCount;
+	case eTerranCommandLiftBarracksReactor:
+		return m_barracksReactorInUse + 1 < 2 * m_barracksReactorCount;
+	case eTerranCommandLiftBarracksNaked:
+		return m_barracksInUse < m_barracksCount + m_barracksTechLabCount - m_barracksReactorCount;
+	case eTerranCommandLiftFactoryTechLab:
+		return m_factoryTechLabInUse < m_factoryTechLabCount
+			&& m_factoryTechLabResearchInUse < m_factoryTechLabCount;
+	case eTerranCommandLiftFactoryReactor:
+		return m_factoryReactorInUse + 1 < 2 * m_factoryReactorCount;
+	case eTerranCommandLiftFactoryNaked:
+		return m_factoryInUse < m_factoryCount + m_factoryTechLabCount - m_factoryReactorCount;
+	case eTerranCommandLiftStarportTechLab:
+		return m_starportTechLabInUse < m_starportTechLabCount
+			&& m_starportTechLabResearchInUse < m_starportTechLabCount;
+	case eTerranCommandLiftStarportReactor:
+		return m_starportReactorInUse + 1 < 2 * m_starportReactorCount;
+	case eTerranCommandLiftStarportNaked:
+		return m_starportInUse < m_starportCount + m_starportTechLabCount - m_starportReactorCount;
+
+	case eTerranCommandLandBarracksTechLab:
+		return 0 < m_barracksReadyToLand
+			&& 0 < m_techLabAvailable;
+	case eTerranCommandLandBarracksReactor:
+		return 0 < m_barracksReadyToLand
+			&& 0 < m_reactorAvailable;
+	case eTerranCommandLandBarracksNaked:
+		return 0 < m_barracksReadyToLand;
+	case eTerranCommandLandFactoryTechLab:
+		return 0 < m_factoryReadyToLand
+			&& 0 < m_techLabAvailable;
+	case eTerranCommandLandFactoryReactor:
+		return 0 < m_factoryReadyToLand
+			&& 0 < m_reactorAvailable;
+	case eTerranCommandLandFactoryNaked:
+		return 0 < m_factoryReadyToLand;
+	case eTerranCommandLandStarportTechLab:
+		return 0 < m_starportReadyToLand
+			&& 0 < m_techLabAvailable;
+	case eTerranCommandLandStarportReactor:
+		return 0 < m_starportReadyToLand
+			&& 0 < m_reactorAvailable;
+	case eTerranCommandLandStarportNaked:
+		return 0 < m_starportReadyToLand;
 
 	case eTerranCommandBuildSCV:
 		return m_commandCenterInUse < m_commandCenterCount
@@ -1804,6 +2056,220 @@ bool CTerranState::HasBuildingStateRequirements(double time, ETerranCommand comm
 	default:
 		return true;
 	}
+}
+
+ETerranCommand CTerranState::GetPrerequisitCommand(ETerranCommand command) const
+{
+	switch(command)
+	{
+	case eTerranCommandBuildBarracksNaked:
+		if(0 == m_supplyDepotCount + m_supplyDepotUnderConstruction)
+			return eTerranCommandBuildSupplyDepot;
+		break;
+	case eTerranCommandBuildBarracksOnTechLab:
+		if(0 == m_supplyDepotCount + m_supplyDepotUnderConstruction)
+			return eTerranCommandBuildSupplyDepot;
+		else if(0 == m_techLabAvailable + m_techLabBecomingAvailable)
+		{
+			if(0 < m_factoryTechLabCount)
+				return eTerranCommandLiftFactoryTechLab;
+			else if(0 < m_starportTechLabCount)
+				return eTerranCommandLiftStarportTechLab;
+		}
+		break;
+	case eTerranCommandBuildBarracksOnReactor:
+		if(0 == m_barracksCount + m_barracksUnderConstruction)
+			return eTerranCommandBuildBarracksNaked;
+		else if(0 == m_reactorAvailable + m_reactorBecomingAvailable)
+		{
+			if(0 < m_factoryReactorCount)
+				return eTerranCommandLiftFactoryReactor;
+			else if(0 < m_starportTechLabCount)
+				return eTerranCommandLiftStarportReactor;
+		}
+		break;
+	case eTerranCommandBuildBarracksTechLab:
+		if(0 == m_barracksCount + m_barracksUnderConstruction)
+			return eTerranCommandBuildBarracksNaked;
+		break;
+	case eTerranCommandBuildBarracksReactor:
+		if(0 == m_barracksCount + m_barracksUnderConstruction)
+			return eTerranCommandBuildBarracksNaked;
+		break;
+	case eTerranCommandLiftBarracksNaked:
+		if(0 == m_barracksCount + m_barracksUnderConstruction)
+			return eTerranCommandBuildBarracksNaked;
+		break;
+	case eTerranCommandLiftBarracksTechLab:
+		if(0 == m_barracksTechLabCount + m_barracksTechLabUnderConstruction)
+			return eTerranCommandBuildBarracksTechLab;
+		break;
+	case eTerranCommandLiftBarracksReactor:
+		if(0 == m_barracksReactorCount + m_barracksReactorUnderConstruction)
+			return eTerranCommandBuildBarracksReactor;
+		break;
+	case eTerranCommandBuildFactoryNaked:
+		if(0 == m_barracksCount + m_barracksUnderConstruction)
+			return eTerranCommandBuildBarracksNaked;
+		break;
+	case eTerranCommandBuildFactoryOnTechLab:
+		if(0 == m_barracksCount + m_barracksUnderConstruction)
+			return eTerranCommandBuildBarracksNaked;
+		else if(0 == m_techLabAvailable + m_techLabBecomingAvailable)
+		{
+			if(0 < m_barracksTechLabCount)
+				return eTerranCommandLiftBarracksTechLab;
+			else if(0 < m_starportTechLabCount)
+				return eTerranCommandLiftStarportTechLab;
+			else
+				return eTerranCommandBuildBarracksTechLab;
+		}
+		break;
+	case eTerranCommandBuildFactoryOnReactor:
+		if(0 == m_barracksCount + m_barracksUnderConstruction)
+			return eTerranCommandBuildBarracksNaked;
+		else if(0 == m_reactorAvailable + m_reactorBecomingAvailable)
+		{
+			if(0 < m_barracksReactorCount)
+				return eTerranCommandLiftBarracksReactor;
+			else if(0 < m_starportTechLabCount)
+				return eTerranCommandLiftStarportReactor;
+			else
+				return eTerranCommandBuildBarracksReactor;
+		}
+		break;
+	case eTerranCommandBuildFactoryTechLab:
+		if(0 == m_factoryCount + m_factoryUnderConstruction)
+			return eTerranCommandBuildFactoryNaked;
+		break;
+	case eTerranCommandBuildFactoryReactor:
+		if(0 == m_factoryCount + m_factoryUnderConstruction)
+			return eTerranCommandBuildFactoryNaked;
+		break;
+	case eTerranCommandLiftFactoryNaked:
+		if(0 == m_factoryCount + m_factoryUnderConstruction)
+			return eTerranCommandBuildFactoryNaked;
+		break;
+	case eTerranCommandLiftFactoryTechLab:
+		if(0 == m_factoryTechLabCount + m_factoryTechLabUnderConstruction)
+			return eTerranCommandBuildFactoryTechLab;
+		break;
+	case eTerranCommandLiftFactoryReactor:
+		if(0 == m_factoryReactorCount + m_factoryReactorUnderConstruction)
+			return eTerranCommandBuildFactoryReactor;
+		break;
+	case eTerranCommandLandFactoryTechLab:
+		if(0 == m_factoryReadyToLand + m_factoryLiftingOff)
+		{
+			if(0 < m_factoryCount - m_factoryTechLabCount - m_factoryTechLabUnderConstruction - m_factoryReactorCount - m_factoryReactorUnderConstruction)
+				return eTerranCommandLiftFactoryNaked;
+			else if(0 < m_factoryReactorCount + m_factoryTechLabUnderConstruction)
+				return eTerranCommandLiftFactoryReactor;
+			else
+				return eTerranCommandBuildFactoryNaked; // No point lifting a factory off a tech lab in order to land it on a tech lab
+		}
+		else if(0 == m_techLabAvailable + m_techLabBecomingAvailable)
+		{
+			if(0 < m_barracksTechLabCount)
+				return eTerranCommandLiftBarracksTechLab;
+			else if(0 < m_starportTechLabCount)
+				return eTerranCommandLiftStarportTechLab;
+			else
+				return eTerranCommandBuildBarracksTechLab;
+		}
+		break;
+	case eTerranCommandLandFactoryReactor:
+		if(0 == m_factoryReadyToLand + m_factoryLiftingOff)
+		{
+			if(0 < m_factoryCount - m_factoryReactorCount - m_factoryReactorUnderConstruction - m_factoryReactorCount - m_factoryReactorUnderConstruction)
+				return eTerranCommandLiftFactoryNaked;
+			else if(0 < m_factoryReactorCount + m_factoryReactorUnderConstruction)
+				return eTerranCommandLiftFactoryReactor;
+			else
+				return eTerranCommandBuildFactoryNaked; // No point lifting a factory off a tech lab in order to land it on a tech lab
+		}
+		else if(0 == m_reactorAvailable + m_reactorBecomingAvailable)
+		{
+			if(0 < m_barracksReactorCount)
+				return eTerranCommandLiftBarracksReactor;
+			else if(0 < m_starportReactorCount)
+				return eTerranCommandLiftStarportReactor;
+			else
+				return eTerranCommandBuildBarracksReactor;
+		}
+		break;
+	case eTerranCommandBuildStarportNaked:
+		if(0 == m_factoryCount + m_factoryUnderConstruction)
+			return eTerranCommandBuildFactoryNaked;
+		break;
+	case eTerranCommandBuildStarportOnTechLab:
+		if(0 == m_factoryCount + m_factoryUnderConstruction)
+			return eTerranCommandBuildFactoryNaked;
+		else if(0 == m_techLabAvailable + m_techLabBecomingAvailable)
+		{
+			if(0 < m_barracksTechLabCount)
+				return eTerranCommandLiftBarracksTechLab;
+			else if(0 < m_factoryTechLabCount)
+				return eTerranCommandLiftFactoryTechLab;
+			else
+				return eTerranCommandBuildBarracksTechLab;
+		}
+		break;
+	case eTerranCommandBuildStarportOnReactor:
+		if(0 == m_factoryCount + m_factoryUnderConstruction)
+			return eTerranCommandBuildFactoryNaked;
+		else if(0 == m_techLabAvailable + m_techLabBecomingAvailable)
+		{
+			if(0 < m_barracksReactorCount)
+				return eTerranCommandLiftBarracksReactor;
+			else if(0 < m_factoryReactorCount)
+				return eTerranCommandLiftFactoryReactor;
+			else
+				return eTerranCommandBuildBarracksReactor;
+		}
+		break;
+	case eTerranCommandBuildStarportTechLab:
+		if(0 == m_starportCount + m_starportUnderConstruction)
+			return eTerranCommandBuildStarportNaked;
+		break;
+	case eTerranCommandBuildStarportReactor:
+		if(0 == m_starportCount + m_starportUnderConstruction)
+			return eTerranCommandBuildStarportNaked;
+		break;
+	case eTerranCommandLiftStarportNaked:
+		if(0 == m_starportCount + m_starportUnderConstruction)
+			return eTerranCommandBuildStarportNaked;
+		break;
+	case eTerranCommandLiftStarportTechLab:
+		if(0 == m_starportTechLabCount + m_starportTechLabUnderConstruction)
+			return eTerranCommandBuildStarportTechLab;
+		break;
+	case eTerranCommandLiftStarportReactor:
+		if(0 == m_starportReactorCount + m_starportReactorUnderConstruction)
+			return eTerranCommandBuildStarportReactor;
+		break;
+	case eTerranCommandLandStarportTechLab:
+		if(0 == m_starportReadyToLand + m_starportLiftingOff)
+		{
+			if(0 < m_starportCount - m_starportTechLabCount - m_starportTechLabUnderConstruction - m_starportReactorCount - m_starportReactorUnderConstruction)
+				return eTerranCommandLiftStarportNaked;
+			else if(0 < m_starportReactorCount + m_starportTechLabUnderConstruction)
+				return eTerranCommandLiftStarportReactor;
+			else
+				return eTerranCommandBuildStarportNaked; // No point lifting a starport off a tech lab in order to land it on a tech lab
+		}
+		else if(0 == m_techLabAvailable + m_techLabBecomingAvailable)
+		{
+			if(0 < m_barracksTechLabCount)
+				return eTerranCommandLiftBarracksTechLab;
+			else if(0 < m_factoryTechLabCount)
+				return eTerranCommandLiftFactoryTechLab;
+			else
+				return eTerranCommandBuildBarracksTechLab;
+		}
+		break;
+	}
+	return eTerranCommandNone;
 }
 
 void CTerranState::GetCost(CResourceCost &cost, ETerranCommand command)

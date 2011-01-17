@@ -15,9 +15,11 @@ const WCHAR *tostring(EOutputFormat format, CTerranEvent::EEvent event)
 	case CTerranEvent::eSpawnSupplyDepotExtraSupplies:
 		return L"Supply Depot Extra Supplied Landed";
 	case CTerranEvent::eSpawnBarracksNaked:
+		return L"Barracks Completed (Naked)";
 	case CTerranEvent::eSpawnBarracksOnTechLab:
+		return L"Barracks Completed (On Tech Lab)";
 	case CTerranEvent::eSpawnBarracksOnReactor:
-		return L"Barracks Completed";
+		return L"Barracks Completed (On Reactor)";
 	case CTerranEvent::eSpawnOrbitalCommand:
 		return L"Orbital Command Completed";
 	case CTerranEvent::eSpawnEngineeringBay:
@@ -33,15 +35,19 @@ const WCHAR *tostring(EOutputFormat format, CTerranEvent::EEvent event)
 	case CTerranEvent::eSpawnGhostAcademy:
 		return L"Ghost Academy Completed";
 	case CTerranEvent::eSpawnFactoryNaked:
+		return L"Factory Completed (Naked)";
 	case CTerranEvent::eSpawnFactoryOnTechLab:
+		return L"Factory Completed (On Tech Lab)";
 	case CTerranEvent::eSpawnFactoryOnReactor:
-		return L"Factory Completed";
+		return L"Factory Completed (On Reactor)";
 	case CTerranEvent::eSpawnArmory:
 		return L"Armory Completed";
 	case CTerranEvent::eSpawnStarportNaked:
+		return L"Starport Completed (Naked)";
 	case CTerranEvent::eSpawnStarportOnTechLab:
+		return L"Starport Completed (On Tech Lab)";
 	case CTerranEvent::eSpawnStarportOnReactor:
-		return L"Starport Completed";
+		return L"Starport Completed (On Reactor)";
 	case CTerranEvent::eSpawnFusionCore:
 		return L"Fusion Core Completed";
 
@@ -57,6 +63,38 @@ const WCHAR *tostring(EOutputFormat format, CTerranEvent::EEvent event)
 		return L"Starport Tech Lab Completed";
 	case CTerranEvent::eSpawnStarportReactor:
 		return L"Starport Reactor Completed";
+
+	// Building States
+	case CTerranEvent::eBarracksReadyToLand:
+		return L"Barracks Ready To Land";
+	case CTerranEvent::eFactoryReadyToLand:
+		return L"Factory Ready To Land";
+	case CTerranEvent::eStarportReadyToLand:
+		return L"Starport Ready To Land";
+
+	case CTerranEvent::eTechLabAvailable:
+		return L"Tech Lab Available";
+	case CTerranEvent::eReactorAvailable:
+		return L"Reactor Available";
+
+	case CTerranEvent::eBarracksLandedNaked:
+		return L"Barracks Landed (Naked)";
+	case CTerranEvent::eBarracksLandedOnTechLab:
+		return L"Barracks Landed (On Tech Lab)";
+	case CTerranEvent::eBarracksLandedOnReactor:
+		return L"Barracks Landed (On Reactor)";
+	case CTerranEvent::eFactoryLandedNaked:
+		return L"Factory Landed (Naked)";
+	case CTerranEvent::eFactoryLandedOnTechLab:
+		return L"Factory Landed (On Tech Lab)";
+	case CTerranEvent::eFactoryLandedOnReactor:
+		return L"Factory Landed (On Reactor)";
+	case CTerranEvent::eStarportLandedNaked:
+		return L"Starport Landed (Naked)";
+	case CTerranEvent::eStarportLandedOnTechLab:
+		return L"Starport Landed (On Tech Lab)";
+	case CTerranEvent::eStarportLandedOnReactor:
+		return L"Starport Landed (On Reactor)";
 
 	// Units
 	case CTerranEvent::eSpawnSCV:

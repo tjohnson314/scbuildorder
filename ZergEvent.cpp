@@ -111,11 +111,17 @@ const WCHAR *tostring(EOutputFormat format, CZergEvent::EEvent event)
 		return L"Tunneling Claws Completed";
 	case CZergEvent::eResearchCentrifugalHooksComplete:
 		return L"Centrifugal Hooks Completed";
-	case CZergEvent::eResearchBurrowComplete:
+	case CZergEvent::eResearchBurrowCompleteAtHatchery:
+	case CZergEvent::eResearchBurrowCompleteAtLair:
+	case CZergEvent::eResearchBurrowCompleteAtHive:
 		return L"Burrow Completed";
-	case CZergEvent::eResearchPneumaticCarapaceComplete:
+	case CZergEvent::eResearchPneumaticCarapaceCompleteAtHatchery:
+	case CZergEvent::eResearchPneumaticCarapaceCompleteAtLair:
+	case CZergEvent::eResearchPneumaticCarapaceCompleteAtHive:
 		return L"Pneumatic Carapace Completed";
-	case CZergEvent::eResearchVentralSacsComplete:
+	case CZergEvent::eResearchVentralSacsCompleteAtHatchery:
+	case CZergEvent::eResearchVentralSacsCompleteAtLair:
+	case CZergEvent::eResearchVentralSacsCompleteAtHive:
 		return L"Ventral Sacs Completed";
 	case CZergEvent::eResearchGroovedSpinesComplete:
 		return L"Grooved Spines Completed";

@@ -175,6 +175,7 @@
     <ClCompile Include="MemoryPool.cpp" />
     <ClCompile Include="MemoryPoolManager.cpp" />
     <ClCompile Include="NumberFormat.cpp" />
+    <ClCompile Include="OutputFormat.cpp" />
     <ClCompile Include="ProtossCommand.cpp" />
     <ClCompile Include="ProtossEvent.cpp" />
     <ClCompile Include="ProtossState.cpp" />

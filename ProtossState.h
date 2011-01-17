@@ -26,6 +26,9 @@ public:
 
 	bool HasBuildingStateRequirements(double time, EProtossCommand command) const;
 	bool HasBuildingRequirements(double time, EProtossCommand command) const;
+	EProtossCommand GetPrerequisitCommand(EProtossCommand command) const { return eProtossCommandNone; }
+	EProtossCommand GetNewCommand() const;
+	EProtossCommand GetReplacementCommand(EProtossCommand command) const;
 
 	bool HasResources(const CResourceCost &cost) const;
 

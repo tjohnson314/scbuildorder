@@ -68,9 +68,15 @@ public:
 		, eResearchGlialReconstitutionComplete
 		, eResearchTunnelingClawsComplete
 		, eResearchCentrifugalHooksComplete
-		, eResearchBurrowComplete
-		, eResearchPneumaticCarapaceComplete
-		, eResearchVentralSacsComplete
+		, eResearchBurrowCompleteAtHatchery
+		, eResearchBurrowCompleteAtLair
+		, eResearchBurrowCompleteAtHive
+		, eResearchPneumaticCarapaceCompleteAtHatchery
+		, eResearchPneumaticCarapaceCompleteAtLair
+		, eResearchPneumaticCarapaceCompleteAtHive
+		, eResearchVentralSacsCompleteAtHatchery
+		, eResearchVentralSacsCompleteAtLair
+		, eResearchVentralSacsCompleteAtHive
 		, eResearchGroovedSpinesComplete
 		, eResearchPathogenGlandsComplete
 		, eResearchNeuralParasiteComplete

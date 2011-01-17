@@ -7,7 +7,6 @@ const WCHAR *tostring(EOutputFormat format, EZergCommand command)
 	{
 	case eOutputFormatSimple:
 	case eOutputFormatHaploid:
-	case eOutputFormatYABOT:
 	case eOutputFormatSC2Gears:
 		switch(command)
 		{
@@ -112,11 +111,17 @@ const WCHAR *tostring(EOutputFormat format, EZergCommand command)
 			return L"Tunneling Claws";
 		case eZergCommandResearchCentrifugalHooks:
 			return L"Centrifugal Hooks";
-		case eZergCommandResearchBurrow:
+		case eZergCommandResearchBurrowAtHatchery:
+		case eZergCommandResearchBurrowAtLair:
+		case eZergCommandResearchBurrowAtHive:
 			return L"Burrow";
-		case eZergCommandResearchPneumaticCarapace:
+		case eZergCommandResearchPneumaticCarapaceAtHatchery:
+		case eZergCommandResearchPneumaticCarapaceAtLair:
+		case eZergCommandResearchPneumaticCarapaceAtHive:
 			return L"Pneumatic Carapace";
-		case eZergCommandResearchVentralSacs:
+		case eZergCommandResearchVentralSacsAtHatchery:
+		case eZergCommandResearchVentralSacsAtLair:
+		case eZergCommandResearchVentralSacsAtHive:
 			return L"Ventral Sacs";
 		case eZergCommandResearchGroovedSpines:
 			return L"Grooved Spines";
@@ -252,12 +257,24 @@ const WCHAR *tostring(EOutputFormat format, EZergCommand command)
 			return L"Research Tunneling Claws";
 		case eZergCommandResearchCentrifugalHooks:
 			return L"Research Centrifugal Hooks";
-		case eZergCommandResearchBurrow:
-			return L"Research Burrow";
-		case eZergCommandResearchPneumaticCarapace:
-			return L"Research Pneumatic Carapace";
-		case eZergCommandResearchVentralSacs:
-			return L"Research Ventral Sacs";
+		case eZergCommandResearchBurrowAtHatchery:
+			return L"Research Burrow (at Hatchery)";
+		case eZergCommandResearchBurrowAtLair:
+			return L"Research Burrow (at Lair)";
+		case eZergCommandResearchBurrowAtHive:
+			return L"Research Burrow (at Hive)";
+		case eZergCommandResearchPneumaticCarapaceAtHatchery:
+			return L"Research Pneumatic Carapace (at Hatchery)";
+		case eZergCommandResearchPneumaticCarapaceAtLair:
+			return L"Research Pneumatic Carapace (at Lair)";
+		case eZergCommandResearchPneumaticCarapaceAtHive:
+			return L"Research Pneumatic Carapace (at Hive)";
+		case eZergCommandResearchVentralSacsAtHatchery:
+			return L"Research Ventral Sacs (at Hatchery)";
+		case eZergCommandResearchVentralSacsAtLair:
+			return L"Research Ventral Sacs (at Lair)";
+		case eZergCommandResearchVentralSacsAtHive:
+			return L"Research Ventral Sacs (at Hive)";
 		case eZergCommandResearchGroovedSpines:
 			return L"Research Grooved Spines";
 		case eZergCommandResearchPathogenGlands:
@@ -285,7 +302,180 @@ const WCHAR *tostring(EOutputFormat format, EZergCommand command)
 			return L"Move Drone To Minerals";
 		}
 		break;
+
+	case eOutputFormatYABOT:
+		switch(command)
+		{
+		case eZergCommandBuildHatchery:
+			return L"0 36 0";
+		case eZergCommandBuildExtractor:
+			return L"0 35 0";
+		case eZergCommandBuildSpawningPool:
+			return L"0 41 0";
+		case eZergCommandExpandCreepTumor:
+			return L"0 46 0";
+		case eZergCommandBuildEvolutionChamber:
+			return L"0 34 0";
+		case eZergCommandBuildSpineCrawler:
+			return L"0 42 0";
+		case eZergCommandBuildSporeCrawler:
+			return L"0 44 0";
+		case eZergCommandBuildRoachWarren:
+			return L"0 40 0";
+		case eZergCommandBuildLair:
+			return L"2 3 0";
+		case eZergCommandBuildHydraliskDen:
+			return L"0 37 0";
+		case eZergCommandBuildBanelingNest:
+			return L"0 33 0";
+		case eZergCommandBuildSpire:
+			return L"0 43 0";
+		case eZergCommandBuildInfestationPit:
+			return L"0 38 0";
+		case eZergCommandBuildNydusNetwork:
+			return L"0 39 0";
+		case eZergCommandBuildHive:
+			return L"2 4 0";
+		case eZergCommandBuildUltraliskCavern:
+			return L"0 45 0";
+		case eZergCommandBuildGreaterSpire:
+			return L"2 5 0";
+
+		case eZergCommandCancelExtractor:
+			return L"0 35 1";
+
+		case eZergCommandBuildDrone:
+			return L"1 28 0";
+		case eZergCommandBuildOverlord:
+			return L"1 31 0";
+		case eZergCommandBuildQueen:
+			return L"1 32 0";
+		case eZergCommandBuildZergling:
+			return L"1 35 0";
+		case eZergCommandBuildRoach:
+			return L"1 33 0";
+		case eZergCommandBuildBaneling:
+			return L"2 7 0";
+		case eZergCommandBuildHydralisk:
+			return L"1 29 0";
+		case eZergCommandBuildOverseer:
+			return L"2 8 0";
+		case eZergCommandBuildInfestor:
+			return L"1 38 0";
+		case eZergCommandBuildMutalisk:
+			return L"1 30 0";
+		case eZergCommandBuildCorruptor:
+			return L"1 27 0";
+		case eZergCommandBuildUltralisk:
+			return L"1 34 0";
+		case eZergCommandBuildBroodlord:
+			return L"2 6 0";
+
+		case eZergCommandExtractorTrickDrone:
+			return L"0 35 1";
+
+		case eZergCommandQueenSpawnCreepTumor:
+			return L"1 46 0";
+		case eZergCommandQueenSpawnLarvae:
+			return L"";
+
+		case eZergCommandResearchAdrenalGlands:
+			return L"3 41 0";
+		case eZergCommandResearchMetabolicBoost:
+			return L"3 42 0";
+		case eZergCommandResearchMeleeAttacks1:
+			return L"3 29 0";
+		case eZergCommandResearchMeleeAttacks2:
+			return L"3 29 0";
+		case eZergCommandResearchMeleeAttacks3:
+			return L"3 29 0";
+		case eZergCommandResearchGroundCarapace1:
+			return L"3 28 0";
+		case eZergCommandResearchGroundCarapace2:
+			return L"3 28 0";
+		case eZergCommandResearchGroundCarapace3:
+			return L"3 28 0";
+		case eZergCommandResearchMissileAttacks1:
+			return L"3 32 0";
+		case eZergCommandResearchMissileAttacks2:
+			return L"3 32 0";
+		case eZergCommandResearchMissileAttacks3:
+			return L"3 32 0";
+		case eZergCommandResearchGlialReconstitution:
+			return L"3 36 0";
+		case eZergCommandResearchTunnelingClaws:
+			return L"3 38 0";
+		case eZergCommandResearchCentrifugalHooks:
+			return L"3 45 0";
+		case eZergCommandResearchBurrowAtHatchery:
+		case eZergCommandResearchBurrowAtLair:
+		case eZergCommandResearchBurrowAtHive:
+			return L"3 44 0";
+		case eZergCommandResearchPneumaticCarapaceAtHatchery:
+		case eZergCommandResearchPneumaticCarapaceAtLair:
+		case eZergCommandResearchPneumaticCarapaceAtHive:
+			return L"3 34 0";
+		case eZergCommandResearchVentralSacsAtHatchery:
+		case eZergCommandResearchVentralSacsAtLair:
+		case eZergCommandResearchVentralSacsAtHive:
+			return L"3 35 0";
+		case eZergCommandResearchGroovedSpines:
+			return L"3 33 0";
+		case eZergCommandResearchPathogenGlands:
+			return L"3 50 0";
+		case eZergCommandResearchNeuralParasite:
+			return L"3 49 0";
+		case eZergCommandResearchFlyerAttacks1:
+			return L"3 31 0";
+		case eZergCommandResearchFlyerAttacks2:
+			return L"3 31 0";
+		case eZergCommandResearchFlyerAttacks3:
+			return L"3 31 0";
+		case eZergCommandResearchFlyerCarapace1:
+			return L"3 30 0";
+		case eZergCommandResearchFlyerCarapace2:
+			return L"3 30 0";
+		case eZergCommandResearchFlyerCarapace3:
+			return L"3 30 0";
+		case eZergCommandResearchChitinousPlating:
+			return L"3 40 0";
+
+		case eZergCommandMoveDroneToGas:
+			return L"";
+		case eZergCommandMoveDroneToMinerals:
+			return L"";
+		}
+		break;
 	}
 	
 	return L"";
+}
+
+bool DisplayCommand(EOutputFormat format, EZergCommand command)
+{
+	switch(format)
+	{
+	case eOutputFormatSimple:
+		return eZergCommandBuildDrone != command;
+	case eOutputFormatDetailed:
+		return true;
+	case eOutputFormatFull:
+		return true;
+	case eOutputFormatHaploid:
+		return eZergCommandBuildDrone != command;
+	case eOutputFormatYABOT:
+		switch(command)
+		{
+		case eZergCommandQueenSpawnLarvae:
+		case eZergCommandBuildDrone:
+		case eZergCommandMoveDroneToGas:
+		case eZergCommandMoveDroneToMinerals:
+			return false;
+		}
+		return true;
+	case eOutputFormatSC2Gears:
+		return eZergCommandBuildDrone != command;
+	}
+
+	return false;
 }

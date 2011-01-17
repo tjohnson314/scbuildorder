@@ -730,13 +730,33 @@ void CProtossTarget::BuildAlphabet(CVector<EProtossCommand> &alphabet) const
 		alphabet.push_back(eProtossCommandMoveProbeToGas);
 		alphabet.push_back(eProtossCommandMoveProbeToMinerals);
 	}
-	if(m_gatewayCount > 0 || m_warpGateCount > 0)
+	if(m_zealotCount > 0 || m_stalkerCount > 0 || m_sentryCount > 0 || m_highTemplarCount > 0 || m_darkTemplarCount > 0 || m_archonCount > 0)
 	{
 		alphabet.push_back(eProtossCommandBuildGateway);
 		alphabet.push_back(eProtossCommandChronoGateway);
+		alphabet.push_back(eProtossCommandBuildCyberneticsCore);
+		alphabet.push_back(eProtossCommandChronoCyberneticsCore);
+		alphabet.push_back(eProtossCommandResearchWarpGateTransformation);
 		alphabet.push_back(eProtossCommandConvertGatewayToWarpGate);
 		alphabet.push_back(eProtossCommandChronoWarpGate);
 	}
+	else
+	{
+		if(m_gatewayCount > 0)
+			alphabet.push_back(eProtossCommandBuildGateway);
+		if(m_warpGateCount > 0)
+		{
+			alphabet.push_back(eProtossCommandChronoGateway);
+			alphabet.push_back(eProtossCommandConvertGatewayToWarpGate);
+		}
+		if(m_cyberneticsCoreCount > 0)
+			alphabet.push_back(eProtossCommandBuildCyberneticsCore);
+		if(m_researchAirArmor1Completed || m_researchAirWeapons1Completed || m_researchHallucinationCompleted || m_researchWarpGateTransformationCompleted)
+			alphabet.push_back(eProtossCommandChronoCyberneticsCore);
+		if(m_researchWarpGateTransformationCompleted)
+			alphabet.push_back(eProtossCommandResearchWarpGateTransformation);
+	}
+
 	if(m_forgeCount > 0)
 	{
 		alphabet.push_back(eProtossCommandBuildForge);
@@ -744,11 +764,6 @@ void CProtossTarget::BuildAlphabet(CVector<EProtossCommand> &alphabet) const
 	}
 	if(m_photonCannonCount > 0)
 		alphabet.push_back(eProtossCommandBuildPhotonCannon);
-	if(m_cyberneticsCoreCount > 0)
-	{
-		alphabet.push_back(eProtossCommandBuildCyberneticsCore);
-		alphabet.push_back(eProtossCommandChronoCyberneticsCore);
-	}
 	if(m_twilightCouncilCount > 0)
 	{
 		alphabet.push_back(eProtossCommandBuildTwilightCouncil);
@@ -846,8 +861,6 @@ void CProtossTarget::BuildAlphabet(CVector<EProtossCommand> &alphabet) const
 		alphabet.push_back(eProtossCommandResearchAirArmor2);
 	if(m_researchAirArmor3Completed)
 		alphabet.push_back(eProtossCommandResearchAirArmor3);
-	if(m_researchWarpGateTransformationCompleted)
-		alphabet.push_back(eProtossCommandResearchWarpGateTransformation);
 	if(m_researchHallucinationCompleted)
 		alphabet.push_back(eProtossCommandResearchHallucination);
 	if(m_researchChargeCompleted)

@@ -186,7 +186,7 @@ void CSCBuildOrderGUIView::OnInitialUpdate()
 	nIndex = pCmbOutputFormat->AddString(L"Detailed");	pCmbOutputFormat->SetItemData(nIndex, eOutputFormatDetailed);
 	nIndex = pCmbOutputFormat->AddString(L"Full");		pCmbOutputFormat->SetItemData(nIndex, eOutputFormatFull);
 	//nIndex = pCmbOutputFormat->AddString(L"Haploid");	pCmbOutputFormat->SetItemData(nIndex, eOutputFormatHaploid);
-	//nIndex = pCmbOutputFormat->AddString(L"YABOT");		pCmbOutputFormat->SetItemData(nIndex, eOutputFormatYABOT);
+	nIndex = pCmbOutputFormat->AddString(L"YABOT");		pCmbOutputFormat->SetItemData(nIndex, eOutputFormatYABOT);
 	//nIndex = pCmbOutputFormat->AddString(L"SC2Gears");	pCmbOutputFormat->SetItemData(nIndex, eOutputFormatSC2Gears);
 
 	m_font.CreatePointFont(90, _T("Courier"));

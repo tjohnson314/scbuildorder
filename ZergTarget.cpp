@@ -568,8 +568,8 @@ void CZergTarget::AddRequirements()
 		m_researchFlyerCarapace1Completed = true;
 
 	if(m_spireCount == 0
-		&& (m_greaterSpireCount > 0
-			|| m_mutaliskCount > 0 || m_corruptorCount > 0
+		&& m_greaterSpireCount == 0 // if we need a greater spire then we don't need a spire as well
+		&& (m_mutaliskCount > 0 || m_corruptorCount > 0
 			|| m_researchFlyerAttacks1Completed || m_researchFlyerCarapace1Completed))
 		m_spireCount++;
 
@@ -731,7 +731,7 @@ void CZergTarget::BuildAlphabet(CVector<EZergCommand> &alphabet) const
 		alphabet.push_back(eZergCommandBuildHydraliskDen);
 	if(m_banelingNestCount > 0)
 		alphabet.push_back(eZergCommandBuildBanelingNest);
-	if(m_spireCount > 0)
+	if(m_spireCount > 0 || m_greaterSpireCount > 0)
 		alphabet.push_back(eZergCommandBuildSpire);
 	if(m_infestationPitCount > 0)
 		alphabet.push_back(eZergCommandBuildInfestationPit);
@@ -801,11 +801,26 @@ void CZergTarget::BuildAlphabet(CVector<EZergCommand> &alphabet) const
 	if(m_researchCentrifugalHooksCompleted)
 		alphabet.push_back(eZergCommandResearchCentrifugalHooks);
 	if(m_researchBurrowCompleted)
-		alphabet.push_back(eZergCommandResearchBurrow);
+	{
+		alphabet.push_back(eZergCommandResearchBurrowAtHatchery);
+		alphabet.push_back(eZergCommandResearchBurrowAtLair);
+		if(0 < m_hiveCount)
+			alphabet.push_back(eZergCommandResearchBurrowAtHive);
+	}
 	if(m_researchPneumaticCarapaceCompleted)
-		alphabet.push_back(eZergCommandResearchPneumaticCarapace);
+	{
+		alphabet.push_back(eZergCommandResearchPneumaticCarapaceAtHatchery);
+		alphabet.push_back(eZergCommandResearchPneumaticCarapaceAtLair);
+		if(0 < m_hiveCount)
+			alphabet.push_back(eZergCommandResearchPneumaticCarapaceAtHive);
+	}
 	if(m_researchVentralSacsCompleted)
-		alphabet.push_back(eZergCommandResearchVentralSacs);
+	{
+		alphabet.push_back(eZergCommandResearchVentralSacsAtHatchery);
+		alphabet.push_back(eZergCommandResearchVentralSacsAtLair);
+		if(0 < m_hiveCount)
+			alphabet.push_back(eZergCommandResearchVentralSacsAtHive);
+	}
 	if(m_researchGroovedSpinesCompleted)
 		alphabet.push_back(eZergCommandResearchGroovedSpines);
 	if(m_researchPathogenGlandsCompleted)
