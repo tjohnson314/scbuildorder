@@ -62,7 +62,6 @@ void CProtossStateDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_BLINK, m_protossTarget.m_researchBlinkCompleted);
 	DDX_Text(pDX, IDC_EDIT_TEMPLARARCHIVESCOUNT, m_protossTarget.m_templarArchivesCount);
 	DDX_Check(pDX, IDC_CHECK_PSIONICSTORM, m_protossTarget.m_researchPsionicStormCompleted);
-	DDX_Check(pDX, IDC_CHECK_KHAYDARINAMULET, m_protossTarget.m_researchKhaydarinAmuletCompleted);
 	DDX_Text(pDX, IDC_EDIT_DARKSHRINECOUNT, m_protossTarget.m_darkShrineCount);
 	DDX_Text(pDX, IDC_EDIT_ROBOTICSFACILITYCOUNT, m_protossTarget.m_roboticsFacilityCount);
 	DDX_Text(pDX, IDC_EDIT_ROBOTICSBAYCOUNT, m_protossTarget.m_roboticsBayCount);

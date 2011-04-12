@@ -6,15 +6,15 @@
 
 template<> void GetInitialYABOTOutput<EProtossCommand>(CString &output)
 {
-	output.AppendFormat(L"        <Key name=\"BuildOrder1\">\r\n            <Value string=\"100 [i] scbuidlorderresult | 7 | SCBuildOrder | Build order developed by SCBuildOder [/i] [s] ");
+	output.AppendFormat(L"100 [i] scbuildorderresult | 7 | SCBuildOrder | Build order developed by SCBuildOrder [/i] [s] ");
 }
 
 template<> void GetInitialYABOTOutput<ETerranCommand>(CString &output)
 {
-	output.AppendFormat(L"        <Key name=\"BuildOrder1\">\r\n            <Value string=\"100 [i] scbuidlorderresult | 3 | SCBuildOrder | Build order developed by SCBuildOder [/i] [s] ");
+	output.AppendFormat(L"100 [i] scbuildorderresult | 3 | SCBuildOrder | Build order developed by SCBuildOrder [/i] [s] ");
 }
 
 template<> void GetInitialYABOTOutput<EZergCommand>(CString &output)
 {
-	output.AppendFormat(L"        <Key name=\"BuildOrder1\">\r\n            <Value string=\"100 [i] scbuidlorderresult | 11 | SCBuildOrder | Build order developed by SCBuildOder [/i] [s] ");
+	output.AppendFormat(L"100 [i] scbuildorderresult | 11 | SCBuildOrder | Build order developed by SCBuildOrder [/i] [s] ");
 }

@@ -533,13 +533,17 @@ const WCHAR *tostring(EOutputFormat format, ETerranCommand command)
 			return L"0 6 0";
 
 		case eTerranCommandBuildBarracksTechLab:
-		case eTerranCommandBuildFactoryTechLab:
-		case eTerranCommandBuildStarportTechLab:
 			return L"0 16 0";
+		case eTerranCommandBuildFactoryTechLab:
+			return L"0 17 0";
+		case eTerranCommandBuildStarportTechLab:
+			return L"0 18 0";
 		case eTerranCommandBuildBarracksReactor:
-		case eTerranCommandBuildFactoryReactor:
-		case eTerranCommandBuildStarportReactor:
 			return L"0 9 0";
+		case eTerranCommandBuildFactoryReactor:
+			return L"0 10 0";
+		case eTerranCommandBuildStarportReactor:
+			return L"0 11 0";
 
 		case eTerranCommandLiftBarracksTechLab:
 		case eTerranCommandLiftBarracksReactor:

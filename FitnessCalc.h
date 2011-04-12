@@ -564,7 +564,7 @@ void CFitnessCalc<TTarget, TState, TCommand, TEvent>::PrintGame(EOutputFormat fo
 	switch(format)
 	{
 	case eOutputFormatYABOT:
-		output.AppendFormat(L" [/s]\"/>\r\n        </Key>");
+		output.AppendFormat(L" [/s]");
 		break;
 	}
 }

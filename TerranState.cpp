@@ -20,6 +20,7 @@ CTerranState::CTerranState()
 , m_scvsOnMinerals(0), m_scvsOnGas(0), m_scannerSweepCount(0)
 , m_supply(0), m_supplyCap(0), m_supplyCapUnderConstruction(0)
 , m_mineralIncomeRate(0), m_gasIncomeRate(0)
+, m_lastBarracksLiftCommand(eTerranCommandNone), m_lastFactoryLiftCommand(eTerranCommandNone), m_lastStarportLiftCommand(eTerranCommandNone)
 {
 	for(size_t i=0; i < MAX_ORBITALCOMMAND_ENERGYTRACKING; i++)
 		m_orbitalCommandEnergy[i] = 0;
@@ -143,7 +144,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		break;
 	case eTerranCommandBuildBunker:
 		UseSCVForBuilding(5, time, events);
-		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnBunker, time + 35));
+		AddEvent(events, CTerranEvent(CTerranEvent::eSpawnBunker, time + 40));
 		m_bunkerUnderConstruction++;
 		break;
 	case eTerranCommandBuildMissileTurret:
@@ -250,6 +251,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		AddEvent(events, CTerranEvent(CTerranEvent::eBarracksReadyToLand, time + 6)); // Includes lift off & flying time
 		m_barracksInUse++;
 		m_barracksLiftingOff++;
+		m_lastBarracksLiftCommand = eTerranCommandLiftBarracksNaked;
 		break;
 	case eTerranCommandLiftBarracksTechLab:
 		AddEvent(events, CTerranEvent(CTerranEvent::eTechLabAvailable, time + 2));
@@ -258,6 +260,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		m_barracksInUse++;
 		m_barracksLiftingOff++;
 		m_techLabBecomingAvailable++;
+		m_lastBarracksLiftCommand = eTerranCommandLiftBarracksTechLab;
 		break;
 	case eTerranCommandLiftBarracksReactor:
 		AddEvent(events, CTerranEvent(CTerranEvent::eReactorAvailable, time + 2));
@@ -266,6 +269,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		m_barracksInUse++;
 		m_barracksLiftingOff++;
 		m_reactorBecomingAvailable++;
+		m_lastBarracksLiftCommand = eTerranCommandLiftBarracksReactor;
 		break;
 	case eTerranCommandLiftFactoryNaked:
 		AddEvent(events, CTerranEvent(CTerranEvent::eFactoryReadyToLand, time + 6)); // Includes lift off & flying time
@@ -576,7 +580,7 @@ void CTerranState::ExecuteCommand(double &time, double timeLimit, ETerranCommand
 		break;
 
 	case eTerranCommandResearchStimpack:
-		AddEvent(events, CTerranEvent(CTerranEvent::eResearchStimpackComplete, time + 140));
+		AddEvent(events, CTerranEvent(CTerranEvent::eResearchStimpackComplete, time + 170));
 		m_researchStimpackUnderConstruction = true;
 		m_barracksTechLabResearchInUse++;
 		break;
