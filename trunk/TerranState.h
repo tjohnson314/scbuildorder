@@ -283,4 +283,9 @@ public:
 	// Income Rates
 	double m_mineralIncomeRate;
 	double m_gasIncomeRate;
+
+	// Prevent pointless lift & lands
+	ETerranCommand m_lastBarracksLiftCommand;
+	ETerranCommand m_lastFactoryLiftCommand;
+	ETerranCommand m_lastStarportLiftCommand;
 };
